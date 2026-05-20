@@ -67,7 +67,7 @@
     "@faker-js/faker": "^10.4.0",
     "@mui/icons-material": "^9.0.1",
     "@mui/material": "^9.0.1",
-    "@mui/x-date-pickers": "^7.23.3",
+    "@mui/x-date-pickers": "^9.2.0",
     "@rollup/plugin-typescript": "^12.3.0",
     "@size-limit/preset-small-lib": "^12.1.0",
     "@storybook/addon-a11y": "^10.4.0",
@@ -103,8 +103,8 @@
   "peerDependencies": {
     "@emotion/react": ">=11.13",
     "@emotion/styled": ">=11.13",
-    "@mui/icons-material": ">=6",
-    "@mui/material": ">=6",
+    "@mui/icons-material": ">=9",
+    "@mui/material": ">=9",
     "@mui/x-date-pickers": ">=7.15",
     "react": ">=18.0",
     "react-dom": ">=18.0"
