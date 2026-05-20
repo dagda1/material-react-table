@@ -1,13 +1,7 @@
 import { type DragEvent, memo, useMemo, useRef } from 'react';
 import { type VirtualItem } from '@tanstack/react-virtual';
 import TableRow, { type TableRowProps } from '@mui/material/TableRow';
-import {
-  type Theme,
-  alpha,
-  darken,
-  lighten,
-  useTheme,
-} from '@mui/material/styles';
+import { alpha, darken, lighten, type Theme, useTheme } from '@mui/material/styles';
 import { MRT_TableBodyCell, Memo_MRT_TableBodyCell } from './MRT_TableBodyCell';
 import { MRT_TableDetailPanel } from './MRT_TableDetailPanel';
 import {

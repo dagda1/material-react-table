@@ -1,8 +1,7 @@
 import { type CSSProperties } from 'react';
 import { type TableCellProps } from '@mui/material/TableCell';
 import { type TooltipProps } from '@mui/material/Tooltip';
-import { alpha, darken, lighten } from '@mui/material/styles';
-import { type Theme } from '@mui/material/styles';
+import { alpha, darken, lighten, type Theme } from '@mui/material/styles';
 import {
   type MRT_Column,
   type MRT_Header,
@@ -66,11 +65,8 @@ export const getCommonPinnedCellStyles = <TData extends MRT_RowData>({
     '&[data-pinned="true"]': {
       '&:before': {
         backgroundColor: alpha(
-          darken(
-            baseBackgroundColor,
-            theme.palette.mode === 'dark' ? 0.05 : 0.01,
-          ),
-          0.97,
+          darken(baseBackgroundColor, theme.palette.mode === 'dark' ? 0.05 : 0.01),
+          0.97
         ),
         boxShadow: column
           ? isPinned === 'left' && column.getIsLastColumn(isPinned)

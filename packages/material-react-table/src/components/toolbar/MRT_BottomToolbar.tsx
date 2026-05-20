@@ -1,5 +1,5 @@
-import Box, { type BoxProps } from '@mui/material/Box';
 import { alpha } from '@mui/material/styles';
+import Box, { type BoxProps } from '@mui/material/Box';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { MRT_LinearProgressBar } from './MRT_LinearProgressBar';
 import { MRT_TablePagination } from './MRT_TablePagination';
@@ -56,10 +56,7 @@ export const MRT_BottomToolbar = <TData extends MRT_RowData>({
       sx={(theme) => ({
         ...getCommonToolbarStyles({ table, theme }),
         bottom: isFullScreen ? '0' : undefined,
-        boxShadow: `0 1px 2px -1px ${alpha(
-          theme.palette.grey[700],
-          0.5,
-        )} inset`,
+        boxShadow: `0 1px 2px -1px ${alpha(theme.palette.grey[700], 0.5)} inset`,
         left: 0,
         position: isFullScreen ? 'fixed' : 'relative',
         right: 0,

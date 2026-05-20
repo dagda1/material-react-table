@@ -1,8 +1,8 @@
+import { alpha } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import CircularProgress, {
   type CircularProgressProps,
 } from '@mui/material/CircularProgress';
-import { alpha } from '@mui/material/styles';
 import { type MRT_RowData, type MRT_TableInstance } from '../../types';
 import { parseFromValuesOrFunc } from '../../utils/utils';
 
