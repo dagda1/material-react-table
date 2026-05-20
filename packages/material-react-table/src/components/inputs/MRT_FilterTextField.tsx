@@ -9,6 +9,7 @@ import {
 } from 'react';
 import Autocomplete, {
   AutocompleteInputChangeReason,
+  type AutocompleteRenderInputParams,
 } from '@mui/material/Autocomplete';
 import Box from '@mui/material/Box';
 import Checkbox from '@mui/material/Checkbox';
@@ -32,6 +33,7 @@ import {
   getColumnFilterInfo,
   useDropdownOptions,
 } from '../../utils/column.utils';
+import { getTextFieldSlotProps } from '../../utils/slotProps.utils';
 import { getValueAndLabel, parseFromValuesOrFunc } from '../../utils/utils';
 import { MRT_FilterOptionMenu } from '../menus/MRT_FilterOptionMenu';
 
@@ -463,29 +465,38 @@ export const MRT_FilterTextField = <TData extends MRT_RowData>({
           inputValue={filterValue as string}
           onInputChange={handleAutocompleteInputChange}
           {...autocompleteProps}
-          renderInput={(builtinTextFieldProps: TextFieldProps) => (
-            <TextField
-              {...commonTextFieldProps}
-              {...builtinTextFieldProps}
-              slotProps={{
-                ...builtinTextFieldProps.slotProps,
-                ...commonTextFieldProps.slotProps,
-                input: {
-                  ...builtinTextFieldProps.InputProps,
-                  ...builtinTextFieldProps.slotProps?.input,
-                  startAdornment:
-                    //@ts-expect-error
-                    commonTextFieldProps?.slotProps?.input?.startAdornment,
-                },
-                htmlInput: {
-                  ...builtinTextFieldProps.inputProps,
-                  ...builtinTextFieldProps.slotProps?.htmlInput,
-                  ...commonTextFieldProps?.slotProps?.htmlInput,
-                },
-              }}
-              onClick={(e: MouseEvent<HTMLInputElement>) => e.stopPropagation()}
-            />
-          )}
+          renderInput={(params: AutocompleteRenderInputParams) => {
+            const commonInput = getTextFieldSlotProps(
+              commonTextFieldProps.slotProps,
+            ).input;
+            const commonHtmlInput = getTextFieldSlotProps(
+              commonTextFieldProps.slotProps,
+            ).htmlInput;
+            return (
+              <TextField
+                {...commonTextFieldProps}
+                disabled={params.disabled}
+                fullWidth={params.fullWidth}
+                id={params.id}
+                size={params.size}
+                slotProps={{
+                  ...commonTextFieldProps.slotProps,
+                  input: {
+                    ...params.slotProps.input,
+                    startAdornment: commonInput?.startAdornment,
+                  },
+                  htmlInput: {
+                    ...params.slotProps.htmlInput,
+                    ...commonHtmlInput,
+                  },
+                  inputLabel: params.slotProps.inputLabel,
+                }}
+                onClick={(e: MouseEvent<HTMLInputElement>) =>
+                  e.stopPropagation()
+                }
+              />
+            );
+          }}
           value={autocompleteValue}
         />
       ) : (

@@ -12,6 +12,7 @@ import {
   type MRT_RowData,
   type MRT_TableInstance,
 } from '../../types';
+import { getTextFieldSlotProps } from '../../utils/slotProps.utils';
 import { getValueAndLabel, parseFromValuesOrFunc } from '../../utils/utils';
 
 export interface MRT_EditCellTextFieldProps<TData extends MRT_RowData>
@@ -104,6 +105,8 @@ export const MRT_EditCellTextField = <TData extends MRT_RowData>({
     return <>{columnDef.Edit?.({ cell, column, row, table })}</>;
   }
 
+  const consumerSlots = getTextFieldSlotProps(textFieldProps.slotProps);
+
   return (
     <TextField
       disabled={parseFromValuesOrFunc(columnDef.enableEditing, row) === false}
@@ -139,26 +142,19 @@ export const MRT_EditCellTextField = <TData extends MRT_RowData>({
       value={value ?? ''}
       variant="standard"
       {...textFieldProps}
-      InputProps={{
-        ...(textFieldProps.variant !== 'outlined'
-          ? { disableUnderline: editDisplayMode === 'table' }
-          : {}),
-        ...textFieldProps.InputProps,
-        sx: (theme) => ({
-          mb: 0,
-          ...(parseFromValuesOrFunc(
-            textFieldProps?.InputProps?.sx,
-            theme,
-          ) as any),
-        }),
-      }}
-      SelectProps={{
-        MenuProps: { disableScrollLock: true },
-        ...textFieldProps.SelectProps,
-      }}
-      inputProps={{
-        autoComplete: 'off',
-        ...textFieldProps.inputProps,
+      slotProps={{
+        htmlInput: { autoComplete: 'off', ...consumerSlots.htmlInput },
+        input: {
+          ...(textFieldProps.variant !== 'outlined'
+            ? { disableUnderline: editDisplayMode === 'table' }
+            : {}),
+          ...consumerSlots.input,
+          sx: { mb: 0, ...consumerSlots.input?.sx },
+        },
+        select: {
+          MenuProps: { disableScrollLock: true },
+          ...consumerSlots.select,
+        },
       }}
       onBlur={handleBlur}
       onChange={handleChange}

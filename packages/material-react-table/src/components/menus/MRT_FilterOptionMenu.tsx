@@ -240,10 +240,12 @@ export const MRT_FilterOptionMenu = <TData extends MRT_RowData>({
 
   return (
     <Menu
-      MenuListProps={{
-        dense: density === 'compact',
-        sx: {
-          backgroundColor: menuBackgroundColor,
+      slotProps={{
+        list: {
+          dense: density === 'compact',
+          sx: {
+            backgroundColor: menuBackgroundColor,
+          },
         },
       }}
       anchorEl={anchorEl}
