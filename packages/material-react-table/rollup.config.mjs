@@ -34,6 +34,9 @@ export default [
       external(),
       typescript({
         rootDir: './src',
+        declaration: true,
+        declarationDir: './dist/types',
+        emitDeclarationOnly: false,
       }),
     ],
   },
