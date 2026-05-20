@@ -1,16 +1,18 @@
-import { useState } from 'react';
+import { faker } from '@faker-js/faker';
 import Add from '@mui/icons-material/Add';
 import Button from '@mui/material/Button';
 import IconButton from '@mui/material/IconButton';
+import MenuItem from "@mui/material/MenuItem";
+import Select from "@mui/material/Select";
+import { type Meta } from '@storybook/react';
+import { useState } from 'react';
+
 import {
-  type MRT_TableOptions,
-  MaterialReactTable,
   createRow,
-  MRT_Row,
+  MaterialReactTable,
+  type MRT_Row,
+  type MRT_TableOptions,
 } from '../../src';
-import { faker } from '@faker-js/faker';
-import { type Meta } from '@storybook/react-vite';
-import { MenuItem, Select } from '@mui/material';
 
 const meta: Meta = {
   title: 'Features/Creating Examples',
@@ -373,13 +375,13 @@ export const CreateWithCustomEditCell = () => {
         },
         {
           accessorKey: 'state',
-          header: 'State',
           Edit: ({ cell }) => (
             <Select value={cell.getValue<string>()}>
               <MenuItem value="Alabama">Alabama</MenuItem>
               <MenuItem value="Alaska">Alaska</MenuItem>
             </Select>
           ),
+          header: 'State',
         },
         {
           accessorKey: 'phoneNumber',
@@ -387,18 +389,18 @@ export const CreateWithCustomEditCell = () => {
           header: 'Phone Number',
         },
       ]}
-      state={{ creatingRow }}
-      onCreatingRowChange={setCreatingRow}
       createDisplayMode="row"
       data={tableData}
       editDisplayMode="row"
       enableEditing={(row) => row.id === creatingRow?.id}
+      onCreatingRowChange={setCreatingRow}
       onCreatingRowSave={() => {}}
       onEditingRowSave={handleSaveRow}
       positionCreatingRow="top"
       renderTopToolbarCustomActions={({ table }) => (
         <Button onClick={() => table.setCreatingRow(true)}>Add</Button>
       )}
+      state={{ creatingRow }}
     />
   );
 };

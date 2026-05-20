@@ -3,6 +3,7 @@ import TableSortLabel, {
   type TableSortLabelProps,
 } from '@mui/material/TableSortLabel';
 import Tooltip from '@mui/material/Tooltip';
+
 import {
   type MRT_Header,
   type MRT_RowData,
@@ -59,6 +60,9 @@ export const MRT_TableHeadCellSortLabel = <TData extends MRT_RowData>({
         overlap="circular"
       >
         <TableSortLabel
+          active
+          aria-label={sortTooltip}
+          direction={direction}
           IconComponent={
             !isSorted
               ? (props) => (
@@ -72,9 +76,6 @@ export const MRT_TableHeadCellSortLabel = <TData extends MRT_RowData>({
                 )
               : ArrowDownwardIcon
           }
-          active
-          aria-label={sortTooltip}
-          direction={direction}
           onClick={(e) => {
             e.stopPropagation();
             header.column.getToggleSortingHandler()?.(e);

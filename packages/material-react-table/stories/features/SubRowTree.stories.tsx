@@ -1,8 +1,9 @@
-import { ThemeProvider, useTheme } from '@mui/material/styles';
-import { type MRT_ColumnDef, MaterialReactTable } from '../../src';
-import { MRT_Localization_HE } from '../../src/locales/he';
 import { faker } from '@faker-js/faker';
-import { type Meta } from '@storybook/react-vite';
+import { ThemeProvider, useTheme } from '@mui/material/styles';
+import { type Meta } from '@storybook/react';
+
+import { MaterialReactTable, type MRT_ColumnDef } from '../../src';
+import { MRT_Localization_HE } from '../../src/locales/he';
 
 const meta: Meta = {
   title: 'Features/Sub Row Tree Examples',

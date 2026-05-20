@@ -1,4 +1,5 @@
 import Collapse, { type CollapseProps } from '@mui/material/Collapse';
+
 import {
   type MRT_Header,
   type MRT_RowData,

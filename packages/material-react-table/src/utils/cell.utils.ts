@@ -1,6 +1,6 @@
 import {
-  MRT_Header,
   type MRT_Cell,
+  type MRT_Header,
   type MRT_RowData,
   type MRT_TableInstance,
 } from '../types';
@@ -72,11 +72,11 @@ export const cellKeyboardShortcuts = <TData extends MRT_RowData = MRT_RowData>({
   table,
 }: {
   cell?: MRT_Cell<TData>;
-  header?: MRT_Header<TData>;
   cellElements?: Array<HTMLTableCellElement>;
   cellValue?: string;
   containerElement?: HTMLTableElement;
   event: React.KeyboardEvent<HTMLTableCellElement>;
+  header?: MRT_Header<TData>;
   parentElement?: HTMLTableRowElement;
   table: MRT_TableInstance<TData>;
 }) => {
@@ -86,14 +86,14 @@ export const cellKeyboardShortcuts = <TData extends MRT_RowData = MRT_RowData>({
 
   if (cellValue && isWinCtrlMacMeta(event) && event.key === 'c') {
     navigator.clipboard.writeText(cellValue);
-  } else if (['Enter', ' '].includes(event.key)) {
+  } else if ([' ', 'Enter'].includes(event.key)) {
     if (cell?.column?.id === 'mrt-row-select') {
       event.preventDefault();
       getMRT_RowSelectionHandler({
         row: cell.row,
-        table,
         //@ts-expect-error
         staticRowIndex: +event.target.getAttribute('data-index'),
+        table,
       })(event as any);
     } else if (
       header?.column?.id === 'mrt-row-select' &&
@@ -138,14 +138,14 @@ export const cellKeyboardShortcuts = <TData extends MRT_RowData = MRT_RowData>({
     }
   } else if (
     [
-      'ArrowRight',
-      'ArrowLeft',
-      'ArrowUp',
       'ArrowDown',
-      'Home',
+      'ArrowLeft',
+      'ArrowRight',
+      'ArrowUp',
       'End',
-      'PageUp',
+      'Home',
       'PageDown',
+      'PageUp',
     ].includes(event.key)
   ) {
     event.preventDefault();
@@ -189,7 +189,7 @@ export const cellKeyboardShortcuts = <TData extends MRT_RowData = MRT_RowData>({
 
     const findAdjacentCell = (
       columnIndex: number,
-      searchDirection: 'f' | 'b',
+      searchDirection: 'b' | 'f',
     ) => {
       const searchArray =
         searchDirection === 'f'
@@ -201,29 +201,29 @@ export const cellKeyboardShortcuts = <TData extends MRT_RowData = MRT_RowData>({
     };
 
     switch (event.key) {
-      case 'ArrowRight':
-        nextCell = findAdjacentCell(currentIndex + 1, 'f');
+      case 'ArrowDown':
+        nextCell = findAdjacentCell(currentIndex, 'f');
         break;
       case 'ArrowLeft':
         nextCell = findAdjacentCell(currentIndex - 1, 'b');
         break;
+      case 'ArrowRight':
+        nextCell = findAdjacentCell(currentIndex + 1, 'f');
+        break;
       case 'ArrowUp':
         nextCell = findAdjacentCell(currentIndex, 'b');
-        break;
-      case 'ArrowDown':
-        nextCell = findAdjacentCell(currentIndex, 'f');
-        break;
-      case 'Home':
-        nextCell = findEdgeCell(isWinCtrlMacMeta(event) ? 'f' : 'c', 'f');
         break;
       case 'End':
         nextCell = findEdgeCell(isWinCtrlMacMeta(event) ? 'l' : 'c', 'l');
         break;
-      case 'PageUp':
-        nextCell = findBottomTopCell(currentIndex, 't');
+      case 'Home':
+        nextCell = findEdgeCell(isWinCtrlMacMeta(event) ? 'f' : 'c', 'f');
         break;
       case 'PageDown':
         nextCell = findBottomTopCell(currentIndex, 'b');
+        break;
+      case 'PageUp':
+        nextCell = findBottomTopCell(currentIndex, 't');
         break;
     }
 

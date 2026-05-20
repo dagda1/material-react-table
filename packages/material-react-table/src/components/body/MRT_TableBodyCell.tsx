@@ -1,30 +1,31 @@
+import Skeleton from '@mui/material/Skeleton';
+import { useTheme } from '@mui/material/styles';
+import TableCell, { type TableCellProps } from '@mui/material/TableCell';
 import {
   type DragEvent,
+  memo,
   type MouseEvent,
   type RefObject,
-  memo,
   useEffect,
   useMemo,
   useState,
 } from 'react';
-import Skeleton from '@mui/material/Skeleton';
-import TableCell, { type TableCellProps } from '@mui/material/TableCell';
-import { useTheme } from '@mui/material/styles';
-import { MRT_TableBodyCellValue } from './MRT_TableBodyCellValue';
+
 import {
   type MRT_Cell,
   type MRT_RowData,
   type MRT_TableInstance,
 } from '../../types';
 import {
-  isCellEditable,
   cellKeyboardShortcuts,
+  isCellEditable,
   openEditingCell,
 } from '../../utils/cell.utils';
 import { getCommonMRTCellStyles } from '../../utils/style.utils';
 import { parseFromValuesOrFunc } from '../../utils/utils';
 import { MRT_CopyButton } from '../buttons/MRT_CopyButton';
 import { MRT_EditCellTextField } from '../inputs/MRT_EditCellTextField';
+import { MRT_TableBodyCellValue } from './MRT_TableBodyCellValue';
 
 export interface MRT_TableBodyCellProps<TData extends MRT_RowData>
   extends TableCellProps {
@@ -195,9 +196,9 @@ export const MRT_TableBodyCell = <TData extends MRT_RowData>({
 
   const cellValueProps = {
     cell,
-    table,
     staticColumnIndex,
     staticRowIndex,
+    table,
   };
 
   const handleDoubleClick = (event: MouseEvent<HTMLTableCellElement>) => {
@@ -249,11 +250,11 @@ export const MRT_TableBodyCell = <TData extends MRT_RowData>({
       data-pinned={!!isColumnPinned || undefined}
       tabIndex={enableKeyboardShortcuts ? 0 : undefined}
       {...tableCellProps}
-      onKeyDown={handleKeyDown}
       onContextMenu={handleContextMenu}
       onDoubleClick={handleDoubleClick}
       onDragEnter={handleDragEnter}
       onDragOver={handleDragOver}
+      onKeyDown={handleKeyDown}
       sx={(theme) => ({
         '&:hover': {
           outline:

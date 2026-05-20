@@ -1,12 +1,13 @@
+import MenuItem from '@mui/material/MenuItem';
+import TextField from '@mui/material/TextField';
+import { type TextFieldProps } from '@mui/material/TextField';
 import {
   type ChangeEvent,
   type FocusEvent,
   type KeyboardEvent,
   useState,
 } from 'react';
-import MenuItem from '@mui/material/MenuItem';
-import TextField from '@mui/material/TextField';
-import { type TextFieldProps } from '@mui/material/TextField';
+
 import {
   type MRT_Cell,
   type MRT_RowData,
@@ -142,6 +143,15 @@ export const MRT_EditCellTextField = <TData extends MRT_RowData>({
       value={value ?? ''}
       variant="standard"
       {...textFieldProps}
+      onBlur={handleBlur}
+      onChange={handleChange}
+      onClick={(e) => {
+        e.stopPropagation();
+        textFieldProps?.onClick?.(e);
+      }}
+      onCompositionEnd={() => setCompletesComposition(true)}
+      onCompositionStart={() => setCompletesComposition(false)}
+      onKeyDown={handleEnterKeyDown}
       slotProps={{
         htmlInput: { autoComplete: 'off', ...consumerSlots.htmlInput },
         input: {
@@ -156,15 +166,6 @@ export const MRT_EditCellTextField = <TData extends MRT_RowData>({
           ...consumerSlots.select,
         },
       }}
-      onBlur={handleBlur}
-      onChange={handleChange}
-      onClick={(e) => {
-        e.stopPropagation();
-        textFieldProps?.onClick?.(e);
-      }}
-      onKeyDown={handleEnterKeyDown}
-      onCompositionStart={() => setCompletesComposition(false)}
-      onCompositionEnd={() => setCompletesComposition(true)}
     >
       {textFieldProps.children ??
         selectOptions?.map((option) => {

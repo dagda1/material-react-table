@@ -1,10 +1,11 @@
+import { faker } from '@faker-js/faker';
+import { type Meta } from '@storybook/react';
+
 import {
-  type MRT_ColumnDef,
   MaterialReactTable,
+  type MRT_ColumnDef,
   useMaterialReactTable,
 } from '../../src';
-import { faker } from '@faker-js/faker';
-import { type Meta } from '@storybook/react-vite';
 
 const meta: Meta = {
   title: 'Features/Click to Copy Examples',

@@ -1,3 +1,9 @@
+import Box from '@mui/material/Box';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import MenuItem, { type MenuItemProps } from '@mui/material/MenuItem';
+import Switch from '@mui/material/Switch';
+import Tooltip from '@mui/material/Tooltip';
+import Typography from '@mui/material/Typography';
 import {
   type Dispatch,
   type DragEvent,
@@ -5,12 +11,7 @@ import {
   useRef,
   useState,
 } from 'react';
-import Box from '@mui/material/Box';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import MenuItem, { type MenuItemProps } from '@mui/material/MenuItem';
-import Switch from '@mui/material/Switch';
-import Tooltip from '@mui/material/Tooltip';
-import Typography from '@mui/material/Typography';
+
 import {
   type MRT_Column,
   type MRT_RowData,
@@ -160,14 +161,6 @@ export const MRT_ShowHideColumnsMenuItems = <TData extends MRT_RowData>({
           {enableHiding ? (
             <FormControlLabel
               checked={switchChecked}
-              slotProps={{
-                typography: {
-                  sx: {
-                    mb: 0,
-                    opacity: columnDefType !== 'display' ? 1 : 0.5,
-                  },
-                },
-              }}
               control={
                 <Tooltip
                   {...getCommonTooltipProps()}
@@ -179,6 +172,14 @@ export const MRT_ShowHideColumnsMenuItems = <TData extends MRT_RowData>({
               disabled={!column.getCanHide()}
               label={columnDef.header}
               onChange={() => handleToggleColumnHidden(column)}
+              slotProps={{
+                typography: {
+                  sx: {
+                    mb: 0,
+                    opacity: columnDefType !== 'display' ? 1 : 0.5,
+                  },
+                },
+              }}
             />
           ) : (
             <Typography sx={{ alignSelf: 'center' }}>

@@ -1,11 +1,12 @@
+import { faker } from '@faker-js/faker';
+import { type Meta } from '@storybook/react';
 import { useState } from 'react';
+
 import {
+  MaterialReactTable,
   type MRT_ColumnDef,
   type MRT_Row,
-  MaterialReactTable,
 } from '../../src';
-import { faker } from '@faker-js/faker';
-import { type Meta } from '@storybook/react-vite';
 
 const meta: Meta = {
   title: 'Features/Row Ordering Examples',
@@ -94,7 +95,7 @@ export const RowOrderingEnabled = () => {
 export const RowOrderingWithSelect = () => {
   const [data, setData] = useState(() => initData);
   const [draggingRow, setDraggingRow] = useState<MRT_Row<Person> | null>(null);
-  const [hoveredRow, setHoveredRow] = useState<Partial<MRT_Row<Person>> | null>(
+  const [hoveredRow, setHoveredRow] = useState<null | Partial<MRT_Row<Person>>>(
     null,
   );
 
@@ -132,7 +133,7 @@ export const RowOrderingWithSelect = () => {
 export const RowOrderingWithPinning = () => {
   const [data, setData] = useState(() => initData);
   const [draggingRow, setDraggingRow] = useState<MRT_Row<Person> | null>(null);
-  const [hoveredRow, setHoveredRow] = useState<Partial<MRT_Row<Person>> | null>(
+  const [hoveredRow, setHoveredRow] = useState<null | Partial<MRT_Row<Person>>>(
     null,
   );
 
@@ -169,7 +170,7 @@ export const RowOrderingWithPinning = () => {
 export const RowAndColumnOrdering = () => {
   const [data, setData] = useState(() => initData);
   const [draggingRow, setDraggingRow] = useState<MRT_Row<Person> | null>(null);
-  const [hoveredRow, setHoveredRow] = useState<Partial<MRT_Row<Person>> | null>(
+  const [hoveredRow, setHoveredRow] = useState<null | Partial<MRT_Row<Person>>>(
     null,
   );
 

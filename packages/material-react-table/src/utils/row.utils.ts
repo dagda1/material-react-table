@@ -1,4 +1,5 @@
 import { type ChangeEvent, type MouseEvent } from 'react';
+
 import { rankGlobalFuzzy } from '../fns/sortingFns';
 import {
   type MRT_Row,

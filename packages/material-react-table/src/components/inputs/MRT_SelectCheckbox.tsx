@@ -1,8 +1,9 @@
-import { type MouseEvent } from 'react';
 import Checkbox, { type CheckboxProps } from '@mui/material/Checkbox';
 import Radio, { type RadioProps } from '@mui/material/Radio';
-import Tooltip from '@mui/material/Tooltip';
 import { type Theme } from '@mui/material/styles';
+import Tooltip from '@mui/material/Tooltip';
+import { type MouseEvent } from 'react';
+
 import {
   type MRT_Row,
   type MRT_RowData,
@@ -81,6 +82,11 @@ export const MRT_SelectCheckbox = <TData extends MRT_RowData>({
     checked: isChecked,
     disabled:
       isLoading || (row && !row.getCanSelect()) || row?.id === 'mrt-row-create',
+    onChange: (event) => {
+      event.stopPropagation();
+      selectAll ? onSelectAllChange(event) : onSelectionChange!(event);
+    },
+    size: (density === 'compact' ? 'small' : 'medium') as 'medium' | 'small',
     slotProps: {
       input: {
         'aria-label': selectAll
@@ -88,11 +94,6 @@ export const MRT_SelectCheckbox = <TData extends MRT_RowData>({
           : localization.toggleSelectRow,
       },
     },
-    onChange: (event) => {
-      event.stopPropagation();
-      selectAll ? onSelectAllChange(event) : onSelectionChange!(event);
-    },
-    size: (density === 'compact' ? 'small' : 'medium') as 'medium' | 'small',
     ...checkboxProps,
     onClick: (e: MouseEvent<HTMLButtonElement>) => {
       e.stopPropagation();

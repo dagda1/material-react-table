@@ -1,4 +1,3 @@
-import { Fragment, useMemo } from 'react';
 import Alert, { type AlertProps } from '@mui/material/Alert';
 import AlertTitle from '@mui/material/AlertTitle';
 import Box from '@mui/material/Box';
@@ -6,6 +5,8 @@ import Button from '@mui/material/Button';
 import Chip from '@mui/material/Chip';
 import Collapse from '@mui/material/Collapse';
 import Stack from '@mui/material/Stack';
+import { Fragment, useMemo } from 'react';
+
 import { type MRT_RowData, type MRT_TableInstance } from '../../types';
 import { getMRT_SelectAllHandler } from '../../utils/row.utils';
 import { parseFromValuesOrFunc } from '../../utils/utils';
@@ -23,8 +24,8 @@ export const MRT_ToolbarAlertBanner = <TData extends MRT_RowData>({
   ...rest
 }: MRT_ToolbarAlertBannerProps<TData>) => {
   const {
-    getFilteredSelectedRowModel,
     getCoreRowModel,
+    getFilteredSelectedRowModel,
     getState,
     options: {
       enableRowSelection,

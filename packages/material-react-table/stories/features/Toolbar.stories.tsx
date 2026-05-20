@@ -1,3 +1,4 @@
+import { faker } from '@faker-js/faker';
 import AddBoxIcon from '@mui/icons-material/AddBox';
 import DeleteIcon from '@mui/icons-material/Delete';
 import Box from '@mui/material/Box';
@@ -5,13 +6,13 @@ import Button from '@mui/material/Button';
 import IconButton from '@mui/material/IconButton';
 import Tooltip from '@mui/material/Tooltip';
 import Typography from '@mui/material/Typography';
+import { type Meta } from '@storybook/react';
+
 import {
+  MaterialReactTable,
   type MRT_ColumnDef,
   MRT_ToggleFullScreenButton,
-  MaterialReactTable,
 } from '../../src';
-import { faker } from '@faker-js/faker';
-import { type Meta } from '@storybook/react-vite';
 
 const meta: Meta = {
   title: 'Features/Toolbar Examples',

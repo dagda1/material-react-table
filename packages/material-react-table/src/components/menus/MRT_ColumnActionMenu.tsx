@@ -1,12 +1,13 @@
-import { type MouseEvent, useState } from 'react';
 import Menu, { type MenuProps } from '@mui/material/Menu';
-import { MRT_ActionMenuItem } from './MRT_ActionMenuItem';
-import { MRT_FilterOptionMenu } from './MRT_FilterOptionMenu';
+import { type MouseEvent, useState } from 'react';
+
 import {
   type MRT_Header,
   type MRT_RowData,
   type MRT_TableInstance,
 } from '../../types';
+import { MRT_ActionMenuItem } from './MRT_ActionMenuItem';
+import { MRT_FilterOptionMenu } from './MRT_FilterOptionMenu';
 
 export interface MRT_ColumnActionMenuProps<TData extends MRT_RowData>
   extends Partial<MenuProps> {
@@ -320,6 +321,10 @@ export const MRT_ColumnActionMenu = <TData extends MRT_RowData>({
 
   return (
     <Menu
+      anchorEl={anchorEl}
+      disableScrollLock
+      onClose={() => setAnchorEl(null)}
+      open={!!anchorEl}
       slotProps={{
         list: {
           dense: density === 'compact',
@@ -328,10 +333,6 @@ export const MRT_ColumnActionMenu = <TData extends MRT_RowData>({
           },
         },
       }}
-      anchorEl={anchorEl}
-      disableScrollLock
-      onClose={() => setAnchorEl(null)}
-      open={!!anchorEl}
       {...rest}
     >
       {columnDef.renderColumnActionsMenuItems?.({

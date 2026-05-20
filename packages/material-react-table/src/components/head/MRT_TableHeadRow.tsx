@@ -1,6 +1,6 @@
 import { alpha } from '@mui/material/styles';
 import TableRow, { type TableRowProps } from '@mui/material/TableRow';
-import { MRT_TableHeadCell } from './MRT_TableHeadCell';
+
 import {
   type MRT_ColumnVirtualizer,
   type MRT_Header,
@@ -10,6 +10,7 @@ import {
   type MRT_VirtualItem,
 } from '../../types';
 import { parseFromValuesOrFunc } from '../../utils/utils';
+import { MRT_TableHeadCell } from './MRT_TableHeadCell';
 
 export interface MRT_TableHeadRowProps<TData extends MRT_RowData>
   extends TableRowProps {

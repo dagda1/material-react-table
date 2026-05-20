@@ -1,9 +1,10 @@
-import { useState } from 'react';
+import { faker } from '@faker-js/faker';
 import Button from '@mui/material/Button';
 import Stack from '@mui/material/Stack';
-import { type MRT_ColumnDef, MaterialReactTable } from '../../src';
-import { faker } from '@faker-js/faker';
-import { type Meta } from '@storybook/react-vite';
+import { type Meta } from '@storybook/react';
+import { useState } from 'react';
+
+import { MaterialReactTable, type MRT_ColumnDef } from '../../src';
 
 const meta: Meta = {
   title: 'Features/Virtualization',

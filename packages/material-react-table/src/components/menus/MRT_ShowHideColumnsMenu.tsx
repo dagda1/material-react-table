@@ -1,9 +1,9 @@
-import { useMemo, useState } from 'react';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Divider from '@mui/material/Divider';
 import Menu, { type MenuProps } from '@mui/material/Menu';
-import { MRT_ShowHideColumnsMenuItems } from './MRT_ShowHideColumnsMenuItems';
+import { useMemo, useState } from 'react';
+
 import {
   type MRT_Column,
   type MRT_RowData,
@@ -11,6 +11,7 @@ import {
   type MRT_VisibilityState
 } from '../../types';
 import { getDefaultColumnOrderIds } from '../../utils/displayColumn.utils';
+import { MRT_ShowHideColumnsMenuItems } from './MRT_ShowHideColumnsMenuItems';
 
 export interface MRT_ShowHideColumnsMenuProps<TData extends MRT_RowData>
   extends Partial<MenuProps> {
@@ -103,6 +104,10 @@ export const MRT_ShowHideColumnsMenu = <TData extends MRT_RowData>({
 
   return (
     <Menu
+      anchorEl={anchorEl}
+      disableScrollLock
+      onClose={() => setAnchorEl(null)}
+      open={!!anchorEl}
       slotProps={{
         list: {
           dense: density === 'compact',
@@ -111,10 +116,6 @@ export const MRT_ShowHideColumnsMenu = <TData extends MRT_RowData>({
           },
         },
       }}
-      anchorEl={anchorEl}
-      disableScrollLock
-      onClose={() => setAnchorEl(null)}
-      open={!!anchorEl}
       {...rest}
     >
       <Box
@@ -135,12 +136,12 @@ export const MRT_ShowHideColumnsMenu = <TData extends MRT_RowData>({
         )}
         {enableColumnOrdering && (
           <Button
+            disabled={!hasColumnOrderChanged}
             onClick={() =>
               table.setColumnOrder(
                 getDefaultColumnOrderIds(table.options, true),
               )
             }
-            disabled={!hasColumnOrderChanged}
           >
             {localization.resetOrder}
           </Button>

@@ -1,5 +1,6 @@
 import Box from '@mui/material/Box';
 import Divider, { type DividerProps } from '@mui/material/Divider';
+
 import {
   type MRT_Header,
   type MRT_RowData,

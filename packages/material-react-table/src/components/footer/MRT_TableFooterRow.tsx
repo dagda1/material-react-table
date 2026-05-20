@@ -1,5 +1,5 @@
 import TableRow, { type TableRowProps } from '@mui/material/TableRow';
-import { MRT_TableFooterCell } from './MRT_TableFooterCell';
+
 import {
   type MRT_ColumnVirtualizer,
   type MRT_Header,
@@ -9,6 +9,7 @@ import {
   type MRT_VirtualItem,
 } from '../../types';
 import { parseFromValuesOrFunc } from '../../utils/utils';
+import { MRT_TableFooterCell } from './MRT_TableFooterCell';
 
 export interface MRT_TableFooterRowProps<TData extends MRT_RowData>
   extends TableRowProps {

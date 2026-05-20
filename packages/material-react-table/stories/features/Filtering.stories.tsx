@@ -1,15 +1,16 @@
-import { useEffect, useState } from 'react';
+import { faker } from '@faker-js/faker';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import MenuItem from '@mui/material/MenuItem';
 import TextField from '@mui/material/TextField';
+import { type Meta } from '@storybook/react';
+import { useEffect, useState } from 'react';
+
 import {
+  MaterialReactTable,
   type MRT_ColumnDef,
   type MRT_ColumnFiltersState,
-  MaterialReactTable,
 } from '../../src';
-import { faker } from '@faker-js/faker';
-import { type Meta } from '@storybook/react-vite';
 
 const meta: Meta = {
   title: 'Features/Filtering Examples',
@@ -19,8 +20,8 @@ export default meta;
 
 const columns: MRT_ColumnDef<(typeof data)[0]>[] = [
   {
-    Cell: ({ cell }) => (cell.getValue() ? 'Yes' : 'No'),
     accessorKey: 'isActive',
+    Cell: ({ cell }) => (cell.getValue() ? 'Yes' : 'No'),
     header: 'Is Active',
     size: 110,
   },
@@ -38,8 +39,8 @@ const columns: MRT_ColumnDef<(typeof data)[0]>[] = [
     header: 'Age',
   },
   {
-    Cell: ({ cell }) => cell.getValue<Date>().toLocaleDateString(), //transform data to readable format for cell render
     accessorFn: (row) => new Date(row.birthDate), //transform data before processing so sorting works
+    Cell: ({ cell }) => cell.getValue<Date>().toLocaleDateString(), //transform data to readable format for cell render
     filterFn: 'lessThan',
     filterVariant: 'date',
     header: 'Birth Date',
@@ -128,8 +129,8 @@ export const FilterFnAndFilterVariants = () => (
   <MaterialReactTable
     columns={[
       {
-        Cell: ({ cell }) => (cell.getValue() === 'true' ? 'Yes' : 'No'),
         accessorFn: (originalRow) => (originalRow.isActive ? 'true' : 'false'),
+        Cell: ({ cell }) => (cell.getValue() === 'true' ? 'Yes' : 'No'),
         filterVariant: 'checkbox',
         header: 'Is Active',
         id: 'isActive',
@@ -151,30 +152,30 @@ export const FilterFnAndFilterVariants = () => (
         header: 'Age',
       },
       {
-        Cell: ({ cell }) => cell.getValue<Date>().toLocaleDateString(), //transform data to readable format for cell render
         accessorFn: (row) => new Date(row.birthDate), //transform data before processing so sorting works
+        Cell: ({ cell }) => cell.getValue<Date>().toLocaleDateString(), //transform data to readable format for cell render
         filterFn: 'lessThan',
         filterVariant: 'date',
         header: 'Birth Date',
         id: 'birthDate',
       },
       {
-        Cell: ({ cell }) => cell.getValue<Date>().toLocaleDateString(), //transform data to readable format for cell render
         accessorFn: (row) => new Date(row.hireDate), //transform data before processing so sorting works
+        Cell: ({ cell }) => cell.getValue<Date>().toLocaleDateString(), //transform data to readable format for cell render
         filterVariant: 'date-range',
         header: 'Hire Date',
         id: 'hireDate',
       },
       {
-        Cell: ({ cell }) => cell.getValue<Date>().toLocaleString(), //transform data to readable format for cell render
         accessorFn: (row) => new Date(row.arrivalTime), //transform data before processing so sorting works
+        Cell: ({ cell }) => cell.getValue<Date>().toLocaleString(), //transform data to readable format for cell render
         filterVariant: 'datetime-range',
         header: 'Arrival time',
         id: 'arrivalTime',
       },
       {
-        Cell: ({ cell }) => cell.getValue<Date>().toLocaleString(), //transform data to readable format for cell render
         accessorFn: (row) => new Date(row.departureTime), //transform data before processing so sorting works
+        Cell: ({ cell }) => cell.getValue<Date>().toLocaleString(), //transform data to readable format for cell render
         filterVariant: 'time-range',
         header: 'Departure Time',
         id: 'departureTime',
@@ -266,8 +267,8 @@ export const FilteringChangeModeEnabled = () => (
         header: 'Age',
       },
       {
-        Cell: ({ cell }) => cell.getValue<Date>().toLocaleDateString(), //transform data to readable format for cell render
         accessorFn: (row) => new Date(row.birthDate), //transform data before processing so sorting works
+        Cell: ({ cell }) => cell.getValue<Date>().toLocaleDateString(), //transform data to readable format for cell render
         filterVariant: 'date',
         header: 'Birth Date',
         id: 'birthDate',
@@ -544,6 +545,7 @@ export const CustomFilterComponent = () => (
         header: 'Age',
       },
       {
+        accessorKey: 'gender',
         Filter: ({ header }) => (
           <TextField
             fullWidth
@@ -563,7 +565,6 @@ export const CustomFilterComponent = () => (
             <MenuItem value="Other">Other</MenuItem>
           </TextField>
         ),
-        accessorKey: 'gender',
         filterFn: (row, _columnIds, filterValue) =>
           row.getValue<string>('gender').toLowerCase() ===
           filterValue.toLowerCase(),

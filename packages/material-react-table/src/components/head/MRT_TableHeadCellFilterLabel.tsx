@@ -1,10 +1,10 @@
-import { type MouseEvent, useState } from 'react';
 import Box from '@mui/material/Box';
 import Grow from '@mui/material/Grow';
 import IconButton, { type IconButtonProps } from '@mui/material/IconButton';
 import Popover from '@mui/material/Popover';
 import Tooltip from '@mui/material/Tooltip';
-import { MRT_TableHeadCellFilterContainer } from './MRT_TableHeadCellFilterContainer';
+import { type MouseEvent, useState } from 'react';
+
 import {
   type MRT_Header,
   type MRT_RowData,
@@ -15,6 +15,7 @@ import {
   useDropdownOptions,
 } from '../../utils/column.utils';
 import { getValueAndLabel, parseFromValuesOrFunc } from '../../utils/utils';
+import { MRT_TableHeadCellFilterContainer } from './MRT_TableHeadCellFilterContainer';
 
 export interface MRT_TableHeadCellFilterLabelProps<TData extends MRT_RowData>
   extends IconButtonProps {

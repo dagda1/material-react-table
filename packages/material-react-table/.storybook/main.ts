@@ -1,8 +1,8 @@
-// This file has been automatically migrated to valid ESM format by Storybook.
-import { createRequire } from "node:module";
 import type { StorybookConfig } from '@storybook/react-vite';
 
-import { join, dirname } from 'path';
+// This file has been automatically migrated to valid ESM format by Storybook.
+import { createRequire } from "node:module";
+import { dirname, join } from 'path';
 
 const require = createRequire(import.meta.url);
 
@@ -14,11 +14,6 @@ function getAbsolutePath(value: string): any {
   return dirname(require.resolve(join(value, 'package.json')));
 }
 const config: StorybookConfig = {
-  stories: [
-    '../stories/**/*.mdx',
-    '../stories/**/*.stories.@(js|jsx|mjs|ts|tsx)',
-  ],
-
   addons: [
     getAbsolutePath('@storybook/addon-links'),
     getAbsolutePath('@storybook/addon-a11y'),
@@ -30,6 +25,11 @@ const config: StorybookConfig = {
     name: getAbsolutePath('@storybook/react-vite'),
     options: {},
   },
+
+  stories: [
+    '../stories/**/*.mdx',
+    '../stories/**/*.stories.@(js|jsx|mjs|ts|tsx)',
+  ],
 
   typescript: {
     reactDocgen: 'react-docgen-typescript',

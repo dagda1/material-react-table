@@ -1,8 +1,9 @@
-import { type DragEvent, useEffect } from 'react';
-import { alpha } from '@mui/material/styles';
 import Box, { type BoxProps } from '@mui/material/Box';
 import Fade from '@mui/material/Fade';
+import { alpha } from '@mui/material/styles';
 import Typography from '@mui/material/Typography';
+import { type DragEvent, useEffect } from 'react';
+
 import { type MRT_RowData, type MRT_TableInstance } from '../../types';
 import { parseFromValuesOrFunc } from '../../utils/utils';
 

@@ -1,5 +1,6 @@
 import Box from '@mui/material/Box';
 import { type IconButtonProps } from '@mui/material/IconButton';
+
 import {
   type MRT_Row,
   type MRT_RowData,

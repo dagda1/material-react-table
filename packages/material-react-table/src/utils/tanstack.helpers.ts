@@ -1,9 +1,10 @@
-import { type ReactNode, type JSX } from 'react';
 import {
   createRow as _createRow,
   flexRender as _flexRender,
   type Renderable,
 } from '@tanstack/react-table';
+import { type JSX, type ReactNode } from 'react';
+
 import {
   type MRT_ColumnHelper,
   type MRT_DisplayColumnDef,

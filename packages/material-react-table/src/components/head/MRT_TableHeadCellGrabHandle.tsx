@@ -1,5 +1,6 @@
-import { type DragEvent, type RefObject } from 'react';
 import { type IconButtonProps } from '@mui/material/IconButton';
+import { type DragEvent, type RefObject } from 'react';
+
 import {
   type MRT_Column,
   type MRT_RowData,

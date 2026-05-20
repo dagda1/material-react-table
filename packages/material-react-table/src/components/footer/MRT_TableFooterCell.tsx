@@ -1,13 +1,14 @@
-import TableCell, { type TableCellProps } from '@mui/material/TableCell';
 import { useTheme } from '@mui/material/styles';
+import TableCell, { type TableCellProps } from '@mui/material/TableCell';
+
 import {
   type MRT_Header,
   type MRT_RowData,
   type MRT_TableInstance,
 } from '../../types';
+import { cellKeyboardShortcuts } from '../../utils/cell.utils';
 import { getCommonMRTCellStyles } from '../../utils/style.utils';
 import { parseFromValuesOrFunc } from '../../utils/utils';
-import { cellKeyboardShortcuts } from '../../utils/cell.utils';
 
 export interface MRT_TableFooterCellProps<TData extends MRT_RowData>
   extends TableCellProps {
@@ -27,8 +28,8 @@ export const MRT_TableFooterCell = <TData extends MRT_RowData>({
     getState,
     options: {
       enableColumnPinning,
-      muiTableFooterCellProps,
       enableKeyboardShortcuts,
+      muiTableFooterCellProps,
     },
   } = table;
   const { density } = getState();
@@ -51,8 +52,8 @@ export const MRT_TableFooterCell = <TData extends MRT_RowData>({
   const handleKeyDown = (event: React.KeyboardEvent<HTMLTableCellElement>) => {
     tableCellProps?.onKeyDown?.(event);
     cellKeyboardShortcuts({
-      event,
       cellValue: footer.column.columnDef.footer,
+      event,
       table,
     });
   };

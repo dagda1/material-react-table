@@ -1,6 +1,7 @@
-import { type MRT_ColumnDef, MaterialReactTable } from '../../src';
 import { faker } from '@faker-js/faker';
-import { type Meta } from '@storybook/react-vite';
+import { type Meta } from '@storybook/react';
+
+import { MaterialReactTable, type MRT_ColumnDef } from '../../src';
 
 const meta: Meta = {
   title: 'Styling/Row Height Examples',

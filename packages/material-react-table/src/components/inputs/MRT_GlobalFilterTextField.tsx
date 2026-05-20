@@ -1,3 +1,9 @@
+import Collapse from '@mui/material/Collapse';
+import IconButton from '@mui/material/IconButton';
+import InputAdornment from '@mui/material/InputAdornment';
+import TextField, { type TextFieldProps } from '@mui/material/TextField';
+import Tooltip from '@mui/material/Tooltip';
+import { debounce } from '@mui/material/utils';
 import {
   type ChangeEvent,
   type MouseEvent,
@@ -6,12 +12,7 @@ import {
   useRef,
   useState,
 } from 'react';
-import Collapse from '@mui/material/Collapse';
-import IconButton from '@mui/material/IconButton';
-import InputAdornment from '@mui/material/InputAdornment';
-import TextField, { type TextFieldProps } from '@mui/material/TextField';
-import Tooltip from '@mui/material/Tooltip';
-import { debounce } from '@mui/material/utils';
+
 import { type MRT_RowData, type MRT_TableInstance } from '../../types';
 import { getTextFieldSlotProps } from '../../utils/slotProps.utils';
 import { parseFromValuesOrFunc } from '../../utils/utils';
@@ -102,6 +103,12 @@ export const MRT_GlobalFilterTextField = <TData extends MRT_RowData>({
         value={searchValue ?? ''}
         variant="outlined"
         {...textFieldProps}
+        inputRef={(inputRef) => {
+          searchInputRef.current = inputRef;
+          if (textFieldProps?.inputRef) {
+            textFieldProps.inputRef = inputRef;
+          }
+        }}
         slotProps={{
           htmlInput: { autoComplete: 'off', ...consumerSlots.htmlInput },
           input: {
@@ -140,12 +147,6 @@ export const MRT_GlobalFilterTextField = <TData extends MRT_RowData>({
             ...consumerSlots.input,
             sx: { mb: 0, ...consumerSlots.input?.sx },
           },
-        }}
-        inputRef={(inputRef) => {
-          searchInputRef.current = inputRef;
-          if (textFieldProps?.inputRef) {
-            textFieldProps.inputRef = inputRef;
-          }
         }}
       />
       <MRT_FilterOptionMenu

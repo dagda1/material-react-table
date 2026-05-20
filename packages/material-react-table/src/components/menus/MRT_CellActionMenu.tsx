@@ -1,8 +1,9 @@
 import Menu, { type MenuProps } from '@mui/material/Menu';
-import { MRT_ActionMenuItem } from './MRT_ActionMenuItem';
+
 import { type MRT_RowData, type MRT_TableInstance } from '../../types';
 import { openEditingCell } from '../../utils/cell.utils';
 import { parseFromValuesOrFunc } from '../../utils/utils';
+import { MRT_ActionMenuItem } from './MRT_ActionMenuItem';
 
 export interface MRT_CellActionMenuProps<TData extends MRT_RowData>
   extends Partial<MenuProps> {
@@ -84,6 +85,11 @@ export const MRT_CellActionMenu = <TData extends MRT_RowData>({
   return (
     (!!menuItems?.length || !!internalMenuItems?.length) && (
       <Menu
+        anchorEl={actionCellRef.current}
+        disableScrollLock
+        onClick={(event) => event.stopPropagation()}
+        onClose={handleClose}
+        open={!!cell}
         slotProps={{
           list: {
             dense: density === 'compact',
@@ -92,11 +98,6 @@ export const MRT_CellActionMenu = <TData extends MRT_RowData>({
             },
           },
         }}
-        anchorEl={actionCellRef.current}
-        disableScrollLock
-        onClick={(event) => event.stopPropagation()}
-        onClose={handleClose}
-        open={!!cell}
         transformOrigin={{ horizontal: -100, vertical: 8 }}
         {...rest}
       >

@@ -1,9 +1,9 @@
-import pkg from './package.json' with { type: 'json' };
 import typescript from '@rollup/plugin-typescript';
-import copy from 'rollup-plugin-copy';
 import del from 'rollup-plugin-delete';
 import dts from 'rollup-plugin-dts';
 import external from 'rollup-plugin-peer-deps-external';
+
+import pkg from './package.json' with { type: 'json' };
 
 export default [
   {
@@ -33,10 +33,10 @@ export default [
     plugins: [
       external(),
       typescript({
-        rootDir: './src',
         declaration: true,
         declarationDir: './dist/types',
         emitDeclarationOnly: false,
+        rootDir: './src',
       }),
     ],
   },

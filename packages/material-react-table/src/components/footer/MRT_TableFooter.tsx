@@ -1,11 +1,12 @@
 import TableFooter, { type TableFooterProps } from '@mui/material/TableFooter';
-import { MRT_TableFooterRow } from './MRT_TableFooterRow';
+
 import {
   type MRT_ColumnVirtualizer,
   type MRT_RowData,
   type MRT_TableInstance,
 } from '../../types';
 import { parseFromValuesOrFunc } from '../../utils/utils';
+import { MRT_TableFooterRow } from './MRT_TableFooterRow';
 
 export interface MRT_TableFooterProps<TData extends MRT_RowData>
   extends TableFooterProps {

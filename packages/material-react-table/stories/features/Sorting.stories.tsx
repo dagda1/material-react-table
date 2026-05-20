@@ -1,11 +1,12 @@
+import { faker } from '@faker-js/faker';
+import { type Meta } from '@storybook/react';
 import { useState } from 'react';
+
 import {
+  MaterialReactTable,
   type MRT_ColumnDef,
   type MRT_SortingState,
-  MaterialReactTable,
 } from '../../src';
-import { faker } from '@faker-js/faker';
-import { type Meta } from '@storybook/react-vite';
 
 const meta: Meta = {
   title: 'Features/Sorting Examples',

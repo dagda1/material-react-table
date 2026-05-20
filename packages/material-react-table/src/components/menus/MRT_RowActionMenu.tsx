@@ -1,12 +1,13 @@
-import { ReactNode, useMemo, type MouseEvent } from 'react';
 import Menu, { type MenuProps } from '@mui/material/Menu';
-import { MRT_ActionMenuItem } from './MRT_ActionMenuItem';
+import { type MouseEvent, type ReactNode, useMemo } from 'react';
+
 import {
   type MRT_Row,
   type MRT_RowData,
   type MRT_TableInstance,
 } from '../../types';
 import { parseFromValuesOrFunc } from '../../utils/utils';
+import { MRT_ActionMenuItem } from './MRT_ActionMenuItem';
 
 export interface MRT_RowActionMenuProps<TData extends MRT_RowData>
   extends Partial<MenuProps> {
@@ -45,8 +46,8 @@ export const MRT_RowActionMenu = <TData extends MRT_RowData>({
     const editItem = parseFromValuesOrFunc(enableEditing, row) &&
       ['modal', 'row'].includes(editDisplayMode!) && (
         <MRT_ActionMenuItem
-          key={'edit'}
           icon={<EditIcon />}
+          key={'edit'}
           label={localization.edit}
           onClick={handleEdit}
           table={table}
@@ -67,6 +68,11 @@ export const MRT_RowActionMenu = <TData extends MRT_RowData>({
 
   return (
     <Menu
+      anchorEl={anchorEl}
+      disableScrollLock
+      onClick={(event) => event.stopPropagation()}
+      onClose={() => setAnchorEl(null)}
+      open={!!anchorEl}
       slotProps={{
         list: {
           dense: density === 'compact',
@@ -75,11 +81,6 @@ export const MRT_RowActionMenu = <TData extends MRT_RowData>({
           },
         },
       }}
-      anchorEl={anchorEl}
-      disableScrollLock
-      onClick={(event) => event.stopPropagation()}
-      onClose={() => setAnchorEl(null)}
-      open={!!anchorEl}
       {...rest}
     >
       {menuItems}

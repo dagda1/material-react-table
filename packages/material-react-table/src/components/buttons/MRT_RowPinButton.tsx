@@ -1,7 +1,8 @@
-import { type MouseEvent, useState } from 'react';
-import { type RowPinningPosition } from '@tanstack/react-table';
 import IconButton, { type IconButtonProps } from '@mui/material/IconButton';
 import Tooltip from '@mui/material/Tooltip';
+import { type RowPinningPosition } from '@tanstack/react-table';
+import { type MouseEvent, useState } from 'react';
+
 import {
   type MRT_Row,
   type MRT_RowData,

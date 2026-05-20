@@ -5,10 +5,11 @@ import MenuItem from '@mui/material/MenuItem';
 import Pagination, { type PaginationProps } from '@mui/material/Pagination';
 import PaginationItem from '@mui/material/PaginationItem';
 import Select, { type SelectProps } from '@mui/material/Select';
+import { useTheme } from '@mui/material/styles';
 import Tooltip from '@mui/material/Tooltip';
 import Typography from '@mui/material/Typography';
-import { useTheme } from '@mui/material/styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
+
 import { type MRT_RowData, type MRT_TableInstance } from '../../types';
 import { flipIconStyles, getCommonTooltipProps } from '../../utils/style.utils';
 import { parseFromValuesOrFunc } from '../../utils/utils';
@@ -18,9 +19,9 @@ const defaultRowsPerPage = [5, 10, 15, 20, 25, 30, 50, 100];
 export interface MRT_TablePaginationProps<TData extends MRT_RowData>
   extends Partial<
     PaginationProps & {
-      SelectProps?: Partial<SelectProps>;
       disabled?: boolean;
-      rowsPerPageOptions?: { label: string; value: number }[] | number[];
+      rowsPerPageOptions?: number[] | { label: string; value: number }[];
+      SelectProps?: Partial<SelectProps>;
       showRowsPerPage?: boolean;
     }
   > {
@@ -65,9 +66,9 @@ export const MRT_TablePagination = <TData extends MRT_RowData>({
   const lastRowIndex = Math.min(pageIndex * pageSize + pageSize, totalRowCount);
 
   const {
-    SelectProps = {},
     disabled = false,
     rowsPerPageOptions = defaultRowsPerPage,
+    SelectProps = {},
     showFirstButton = showFirstLastPageButtons,
     showLastButton = showFirstLastPageButtons,
     showRowsPerPage = true,
@@ -109,14 +110,14 @@ export const MRT_TablePagination = <TData extends MRT_RowData>({
             {localization.rowsPerPage}
           </InputLabel>
           <Select
-            MenuProps={{ disableScrollLock: true }}
-            disableUnderline
             disabled={disabled}
+            disableUnderline
             inputProps={{
               'aria-label': localization.rowsPerPage,
               id: `mrt-rows-per-page-${id}`,
             }}
             label={localization.rowsPerPage}
+            MenuProps={{ disableScrollLock: true }}
             onChange={(event) =>
               table.setPageSize(+(event.target.value as any))
             }

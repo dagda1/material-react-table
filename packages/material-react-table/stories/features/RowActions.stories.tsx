@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { faker } from '@faker-js/faker';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import DeleteIcon from '@mui/icons-material/Delete';
 import Edit from '@mui/icons-material/Edit';
@@ -6,9 +6,10 @@ import ShareIcon from '@mui/icons-material/Share';
 import Button from '@mui/material/Button';
 import IconButton from '@mui/material/IconButton';
 import MenuItem from '@mui/material/MenuItem';
-import { type MRT_ColumnDef, MaterialReactTable } from '../../src';
-import { faker } from '@faker-js/faker';
-import { type Meta } from '@storybook/react-vite';
+import { type Meta } from '@storybook/react';
+import { useState } from 'react';
+
+import { MaterialReactTable, type MRT_ColumnDef } from '../../src';
 
 const meta: Meta = {
   title: 'Features/Row Actions Examples',

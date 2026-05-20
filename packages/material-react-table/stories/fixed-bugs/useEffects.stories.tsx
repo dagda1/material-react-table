@@ -1,16 +1,17 @@
-import { useEffect, useMemo, useState } from 'react';
+import { faker } from '@faker-js/faker';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import MenuItem from '@mui/material/MenuItem';
+import { type Meta } from '@storybook/react';
+import { type Updater } from '@tanstack/react-table';
+import { useEffect, useMemo, useState } from 'react';
+
 import {
+  MaterialReactTable,
   type MRT_ColumnDef,
   type MRT_ColumnFiltersState,
-  MRT_PaginationState,
-  MaterialReactTable,
+  type MRT_PaginationState,
 } from '../../src';
-import { faker } from '@faker-js/faker';
-import { type Meta } from '@storybook/react-vite';
-import { Updater } from '@tanstack/react-table';
 
 const meta: Meta = {
   title: 'Fixed Bugs/useEffects',
@@ -356,10 +357,10 @@ export const PreventUnnecessaryPaginationChangeByOutOfBoundsCheck = () => {
     <MaterialReactTable
       columns={columns}
       data={[]}
-      manualPagination={true}
-      rowCount={0}
       enablePagination
+      manualPagination={true}
       onPaginationChange={handlePaginationChange}
+      rowCount={0}
       state={{ pagination }}
     />
   );

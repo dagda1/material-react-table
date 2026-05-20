@@ -1,13 +1,14 @@
-import { useState } from 'react';
+import { faker } from '@faker-js/faker';
 import Button from '@mui/material/Button';
 import MenuItem from '@mui/material/MenuItem';
+import { type Meta } from '@storybook/react';
+import { useState } from 'react';
+
 import {
+  MaterialReactTable,
   type MRT_Cell,
   type MRT_TableOptions,
-  MaterialReactTable,
 } from '../../src';
-import { faker } from '@faker-js/faker';
-import { type Meta } from '@storybook/react-vite';
 
 const meta: Meta = {
   title: 'Features/Editing Examples',

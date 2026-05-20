@@ -1,7 +1,8 @@
-import Typography from '@mui/material/Typography';
-import { type MRT_ColumnDef, MaterialReactTable } from '../../src';
 import { faker } from '@faker-js/faker';
-import { type Meta } from '@storybook/react-vite';
+import Typography from '@mui/material/Typography';
+import { type Meta } from '@storybook/react';
+
+import { MaterialReactTable, type MRT_ColumnDef } from '../../src';
 
 const meta: Meta = {
   title: 'Styling/Custom Table Body Examples',

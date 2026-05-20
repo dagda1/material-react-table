@@ -1,6 +1,7 @@
-import { MaterialReactTable } from '../../src';
 import { faker } from '@faker-js/faker';
-import { type Meta } from '@storybook/react-vite';
+import { type Meta } from '@storybook/react';
+
+import { MaterialReactTable } from '../../src';
 
 const meta: Meta = {
   title: 'Styling/Custom Column Widths',

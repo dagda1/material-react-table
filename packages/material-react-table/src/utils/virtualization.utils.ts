@@ -1,4 +1,4 @@
-import { type Range, defaultRangeExtractor } from '@tanstack/react-virtual';
+import { defaultRangeExtractor, type Range } from '@tanstack/react-virtual';
 
 /**
  * When scroll, the `draggingRow` or `draggingColumn` can be removed from document because of virtualization,

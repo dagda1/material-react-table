@@ -1,5 +1,5 @@
 import TableHead, { type TableHeadProps } from '@mui/material/TableHead';
-import { MRT_TableHeadRow } from './MRT_TableHeadRow';
+
 import {
   type MRT_ColumnVirtualizer,
   type MRT_RowData,
@@ -7,6 +7,7 @@ import {
 } from '../../types';
 import { parseFromValuesOrFunc } from '../../utils/utils';
 import { MRT_ToolbarAlertBanner } from '../toolbar/MRT_ToolbarAlertBanner';
+import { MRT_TableHeadRow } from './MRT_TableHeadRow';
 
 export interface MRT_TableHeadProps<TData extends MRT_RowData>
   extends TableHeadProps {

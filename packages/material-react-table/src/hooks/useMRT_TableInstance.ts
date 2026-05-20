@@ -1,5 +1,6 @@
-import { useMemo, useRef, useState } from 'react';
 import { useReactTable } from '@tanstack/react-table';
+import { useMemo, useRef, useState } from 'react';
+
 import {
   type MRT_Cell,
   type MRT_Column,
@@ -133,10 +134,10 @@ export const useMRT_TableInstance = <TData extends MRT_RowData>(
   const [grouping, onGroupingChange] = useState<MRT_GroupingState>(
     initialState.grouping ?? [],
   );
-  const [hoveredColumn, setHoveredColumn] = useState<Partial<
+  const [hoveredColumn, setHoveredColumn] = useState<null | Partial<
     MRT_Column<TData>
-  > | null>(initialState.hoveredColumn ?? null);
-  const [hoveredRow, setHoveredRow] = useState<Partial<MRT_Row<TData>> | null>(
+  >>(initialState.hoveredColumn ?? null);
+  const [hoveredRow, setHoveredRow] = useState<null | Partial<MRT_Row<TData>>>(
     initialState.hoveredRow ?? null,
   );
   const [isFullScreen, setIsFullScreen] = useState<boolean>(

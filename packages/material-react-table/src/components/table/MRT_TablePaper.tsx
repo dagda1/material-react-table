@@ -1,10 +1,11 @@
 import Paper, { type PaperProps } from '@mui/material/Paper';
 import { useTheme } from '@mui/material/styles';
-import { MRT_TableContainer } from './MRT_TableContainer';
+
 import { type MRT_RowData, type MRT_TableInstance } from '../../types';
 import { parseFromValuesOrFunc } from '../../utils/utils';
 import { MRT_BottomToolbar } from '../toolbar/MRT_BottomToolbar';
 import { MRT_TopToolbar } from '../toolbar/MRT_TopToolbar';
+import { MRT_TableContainer } from './MRT_TableContainer';
 
 export interface MRT_TablePaperProps<TData extends MRT_RowData>
   extends PaperProps {

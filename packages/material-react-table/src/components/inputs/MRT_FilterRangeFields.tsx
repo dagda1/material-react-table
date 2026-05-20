@@ -1,11 +1,12 @@
 import Box, { type BoxProps } from '@mui/material/Box';
-import { MRT_FilterTextField } from './MRT_FilterTextField';
+
 import {
   type MRT_Header,
   type MRT_RowData,
   type MRT_TableInstance,
 } from '../../types';
 import { parseFromValuesOrFunc } from '../../utils/utils';
+import { MRT_FilterTextField } from './MRT_FilterTextField';
 
 export interface MRT_FilterRangeFieldsProps<TData extends MRT_RowData>
   extends BoxProps {

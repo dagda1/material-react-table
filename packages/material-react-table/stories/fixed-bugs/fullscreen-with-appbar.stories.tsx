@@ -1,9 +1,13 @@
-import { AppBar, Box, CssBaseline, Toolbar } from '@mui/material';
-import { type Meta } from '@storybook/react-vite';
+import AppBar from "@mui/material/AppBar";
+import Box from "@mui/material/Box";
+import CssBaseline from "@mui/material/CssBaseline";
+import Toolbar from "@mui/material/Toolbar";
+import { type Meta } from '@storybook/react';
+
 import {
   MaterialReactTable,
-  useMaterialReactTable,
   type MRT_ColumnDef,
+  useMaterialReactTable,
 } from '../../src';
 
 const meta: Meta = {
@@ -14,60 +18,60 @@ export default meta;
 
 //example data type
 type Person = {
+  address: string;
+  city: string;
   name: {
     firstName: string;
     lastName: string;
   };
-  address: string;
-  city: string;
   state: string;
 };
 
 //nested data is ok, see accessorKeys in ColumnDef below
 const data: Person[] = [
   {
+    address: '261 Erdman Ford',
+    city: 'East Daphne',
     name: {
       firstName: 'John',
       lastName: 'Doe',
     },
-    address: '261 Erdman Ford',
-    city: 'East Daphne',
     state: 'Kentucky',
   },
   {
+    address: '769 Dominic Grove',
+    city: 'Columbus',
     name: {
       firstName: 'Jane',
       lastName: 'Doe',
     },
-    address: '769 Dominic Grove',
-    city: 'Columbus',
     state: 'Ohio',
   },
   {
+    address: '566 Brakus Inlet',
+    city: 'South Linda',
     name: {
       firstName: 'Joe',
       lastName: 'Doe',
     },
-    address: '566 Brakus Inlet',
-    city: 'South Linda',
     state: 'West Virginia',
   },
   {
+    address: '722 Emie Stream',
+    city: 'Lincoln',
     name: {
       firstName: 'Kevin',
       lastName: 'Vandy',
     },
-    address: '722 Emie Stream',
-    city: 'Lincoln',
     state: 'Nebraska',
   },
   {
+    address: '32188 Larkin Turnpike',
+    city: 'Omaha',
     name: {
       firstName: 'Joshua',
       lastName: 'Rolluffs',
     },
-    address: '32188 Larkin Turnpike',
-    city: 'Omaha',
     state: 'Nebraska',
   },
 ];

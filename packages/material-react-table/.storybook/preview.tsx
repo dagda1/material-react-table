@@ -1,13 +1,13 @@
-import React, { useEffect, useState } from 'react';
-import { addons } from 'storybook/preview-api';
-import { Preview } from '@storybook/react-vite';
-import { useDarkMode, DARK_MODE_EVENT_NAME } from 'storybook-dark-mode';
+import CssBaseline from "@mui/material/CssBaseline";
+import Link from '@mui/material/Link';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import Typography from '@mui/material/Typography';
-import Link from '@mui/material/Link';
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import { CssBaseline } from '@mui/material';
+import { type Preview } from '@storybook/react-vite';
+import React, { useEffect, useState } from 'react';
+import { DARK_MODE_EVENT_NAME, useDarkMode } from 'storybook-dark-mode';
+import { addons } from 'storybook/preview-api';
 
 const channel = addons.getChannel();
 
@@ -20,20 +20,6 @@ const darkTheme = createTheme({
 });
 
 const preview: Preview = {
-  parameters: {
-    actions: { argTypesRegex: '^on[A-Z].*' },
-
-    controls: {
-      matchers: {
-        color: /(background|color)$/i,
-        date: /Date$/,
-      },
-    },
-
-    docs: {
-      codePanel: true
-    }
-  },
   decorators: [
     (Story, context) => {
       const [isDark, setDark] = useState(true);
@@ -69,26 +55,26 @@ const preview: Preview = {
           <LocalizationProvider dateAdapter={AdapterDayjs}>
             <Typography
               sx={{
-                pb: '0.5rem',
                 color: useDarkMode() ? '#fff' : '#666',
+                pb: '0.5rem',
               }}
               variant="subtitle2"
             >
               Looking for the main docs site? Click{' '}
               <Link
                 href="https://www.material-react-table.com"
-                target="_blank"
                 rel="noopener"
+                target="_blank"
               >
                 here.
               </Link>
             </Typography>
             <Typography
-              variant="subtitle2"
               sx={{
-                pb: '1rem',
                 color: useDarkMode() ? '#fff' : '#666',
+                pb: '1rem',
               }}
+              variant="subtitle2"
             >
               View Source code for these examples in the code tab below or{' '}
               <Link
@@ -104,6 +90,20 @@ const preview: Preview = {
       );
     },
   ],
+  parameters: {
+    actions: { argTypesRegex: '^on[A-Z].*' },
+
+    controls: {
+      matchers: {
+        color: /(background|color)$/i,
+        date: /Date$/,
+      },
+    },
+
+    docs: {
+      codePanel: true
+    }
+  },
 };
 
 export default preview;

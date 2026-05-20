@@ -1,6 +1,7 @@
-import { type MRT_ColumnDef, MaterialReactTable } from '../../src';
 import { faker } from '@faker-js/faker';
-import { type Meta } from '@storybook/react-vite';
+import { type Meta } from '@storybook/react';
+
+import { MaterialReactTable, type MRT_ColumnDef } from '../../src';
 
 const meta: Meta = {
   title: 'Fixed Bugs/Data Types',
@@ -40,8 +41,8 @@ const columns: MRT_ColumnDef<Person>[] = [
     header: 'State',
   },
   {
-    Cell: ({ cell }) => cell.getValue<string[]>().join(', '),
     accessorKey: 'states',
+    Cell: ({ cell }) => cell.getValue<string[]>().join(', '),
     header: 'States',
   },
 ];

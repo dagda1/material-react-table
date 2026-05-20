@@ -1,6 +1,6 @@
-import { useMemo } from 'react';
 import Menu, { type MenuProps } from '@mui/material/Menu';
-import { MRT_ActionMenuItem } from './MRT_ActionMenuItem';
+import { useMemo } from 'react';
+
 import {
   type MRT_FilterOption,
   type MRT_Header,
@@ -9,6 +9,7 @@ import {
   type MRT_RowData,
   type MRT_TableInstance,
 } from '../../types';
+import { MRT_ActionMenuItem } from './MRT_ActionMenuItem';
 
 export const mrtFilterOptions = (
   localization: MRT_Localization,
@@ -240,6 +241,11 @@ export const MRT_FilterOptionMenu = <TData extends MRT_RowData>({
 
   return (
     <Menu
+      anchorEl={anchorEl}
+      anchorOrigin={{ horizontal: 'right', vertical: 'center' }}
+      disableScrollLock
+      onClose={() => setAnchorEl(null)}
+      open={!!anchorEl}
       slotProps={{
         list: {
           dense: density === 'compact',
@@ -248,11 +254,6 @@ export const MRT_FilterOptionMenu = <TData extends MRT_RowData>({
           },
         },
       }}
-      anchorEl={anchorEl}
-      anchorOrigin={{ horizontal: 'right', vertical: 'center' }}
-      disableScrollLock
-      onClose={() => setAnchorEl(null)}
-      open={!!anchorEl}
       {...rest}
     >
       {(header && column && columnDef
