@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { addons } from '@storybook/preview-api';
-import { Preview } from '@storybook/react';
+import { addons } from 'storybook/preview-api';
+import { Preview } from '@storybook/react-vite';
 import { useDarkMode, DARK_MODE_EVENT_NAME } from 'storybook-dark-mode';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import Typography from '@mui/material/Typography';
@@ -22,12 +22,17 @@ const darkTheme = createTheme({
 const preview: Preview = {
   parameters: {
     actions: { argTypesRegex: '^on[A-Z].*' },
+
     controls: {
       matchers: {
         color: /(background|color)$/i,
         date: /Date$/,
       },
     },
+
+    docs: {
+      codePanel: true
+    }
   },
   decorators: [
     (Story, context) => {
