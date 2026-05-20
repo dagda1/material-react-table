@@ -16,7 +16,8 @@
     "start": "turbo run start --parallel",
     "storybook": "turbo run storybook",
     "storybook:build": "turbo run storybook:build",
-    "storybook:dev": "turbo run storybook"
+    "storybook:dev": "turbo run storybook",
+    "test": "turbo run test"
   },
   "devDependencies": {
     "prettier": "^3.8.3",

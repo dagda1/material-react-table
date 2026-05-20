@@ -56,6 +56,8 @@
     "lib:dev": "rollup -c rollup.config.mjs --watch",
     "lint": "eslint .",
     "size": "size-limit",
+    "test": "vitest run",
+    "test:watch": "vitest",
     "storybook": "storybook dev -p 6006",
     "storybook:build": "storybook build",
     "storybook:dev": "storybook dev -p 6006",

@@ -1,8 +1,8 @@
-import { render, screen, within } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { describe, expect, test } from 'vitest';
 
-import { MaterialReactTable } from './components/table/MaterialReactTable';
+import { MaterialReactTable } from './components/MaterialReactTable';
 import { type MRT_ColumnDef } from './types';
 
 interface Person {
@@ -42,13 +42,15 @@ describe('MaterialReactTable smoke', () => {
 
     render(<MaterialReactTable columns={columns} data={data} />);
 
-    const nameHeader = screen.getByRole('columnheader', { name: /name/i });
-    const sortButton = within(nameHeader).getByRole('button');
+    const [sortButton] = screen.getAllByRole('button', {
+      name: /sort by name/i,
+    });
 
     await user.click(sortButton);
 
-    const rows = screen.getAllByRole('row');
-    const firstDataRow = rows[1];
-    expect(within(firstDataRow).getByText('Aaron')).toBeInTheDocument();
+    const firstBodyRow = document.querySelector<HTMLTableRowElement>(
+      'tr[data-index="0"]',
+    );
+    expect(firstBodyRow?.textContent).toContain('Aaron');
   });
 });

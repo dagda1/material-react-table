@@ -49,6 +49,9 @@
     },
     "storybook:dev": {
       "cache": false
+    },
+    "test": {
+      "outputs": []
     }
   }
 }
