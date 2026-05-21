@@ -1,8 +1,6 @@
-import Badge from '@mui/material/Badge';
-import TableSortLabel, {
-  type TableSortLabelProps,
-} from '@mui/material/TableSortLabel';
-import Tooltip from '@mui/material/Tooltip';
+import { Badge } from '@mui/material';
+import { TableSortLabel, type TableSortLabelProps } from '@mui/material';
+import { Tooltip } from '@mui/material';
 
 import {
   type MRT_Header,

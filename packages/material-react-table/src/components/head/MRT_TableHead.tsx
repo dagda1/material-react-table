@@ -1,4 +1,4 @@
-import TableHead, { type TableHeadProps } from '@mui/material/TableHead';
+import { TableHead, type TableHeadProps } from '@mui/material';
 
 import {
   type MRT_ColumnVirtualizer,

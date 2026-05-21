@@ -1,5 +1,5 @@
+import { TableRow, type TableRowProps } from '@mui/material';
 import { alpha } from '@mui/material/styles';
-import TableRow, { type TableRowProps } from '@mui/material/TableRow';
 
 import {
   type MRT_ColumnVirtualizer,

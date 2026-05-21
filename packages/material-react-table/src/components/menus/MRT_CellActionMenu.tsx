@@ -1,4 +1,4 @@
-import Menu, { type MenuProps } from '@mui/material/Menu';
+import { Menu, type MenuProps } from '@mui/material';
 
 import { type MRT_RowData, type MRT_TableInstance } from '../../types';
 import { openEditingCell } from '../../utils/cell.utils';

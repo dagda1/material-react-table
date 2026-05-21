@@ -1,8 +1,8 @@
-import Box from '@mui/material/Box';
-import Grow from '@mui/material/Grow';
-import IconButton, { type IconButtonProps } from '@mui/material/IconButton';
-import Popover from '@mui/material/Popover';
-import Tooltip from '@mui/material/Tooltip';
+import { Box } from '@mui/material';
+import { Grow } from '@mui/material';
+import { IconButton, type IconButtonProps } from '@mui/material';
+import { Popover } from '@mui/material';
+import { Tooltip } from '@mui/material';
 import { type MouseEvent, useState } from 'react';
 
 import {

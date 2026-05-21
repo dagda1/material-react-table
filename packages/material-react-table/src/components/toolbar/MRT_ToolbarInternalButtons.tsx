@@ -1,4 +1,4 @@
-import Box, { type BoxProps } from '@mui/material/Box';
+import { Box, type BoxProps } from '@mui/material';
 
 import { type MRT_RowData, type MRT_TableInstance } from '../../types';
 import { parseFromValuesOrFunc } from '../../utils/utils';

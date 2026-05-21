@@ -1,10 +1,10 @@
-import Alert, { type AlertProps } from '@mui/material/Alert';
-import AlertTitle from '@mui/material/AlertTitle';
-import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
-import Chip from '@mui/material/Chip';
-import Collapse from '@mui/material/Collapse';
-import Stack from '@mui/material/Stack';
+import { Alert, type AlertProps } from '@mui/material';
+import { AlertTitle } from '@mui/material';
+import { Box } from '@mui/material';
+import { Button } from '@mui/material';
+import { Chip } from '@mui/material';
+import { Collapse } from '@mui/material';
+import { Stack } from '@mui/material';
 import { Fragment, useMemo } from 'react';
 
 import { type MRT_RowData, type MRT_TableInstance } from '../../types';

@@ -1,8 +1,8 @@
-import Collapse from '@mui/material/Collapse';
-import IconButton from '@mui/material/IconButton';
-import InputAdornment from '@mui/material/InputAdornment';
-import TextField, { type TextFieldProps } from '@mui/material/TextField';
-import Tooltip from '@mui/material/Tooltip';
+import { Collapse } from '@mui/material';
+import { IconButton } from '@mui/material';
+import { InputAdornment } from '@mui/material';
+import { TextField, type TextFieldProps } from '@mui/material';
+import { Tooltip } from '@mui/material';
 import { debounce } from '@mui/material/utils';
 import {
   type ChangeEvent,

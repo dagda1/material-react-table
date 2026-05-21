@@ -53,7 +53,7 @@ export default [
       '@typescript-eslint/no-non-null-asserted-optional-chain': 'off',
       '@typescript-eslint/no-unused-expressions': 'off',
       '@typescript-eslint/no-unused-vars': 'off',
-      'mui-path-imports/mui-path-imports': 'warn',
+      'mui-path-imports/mui-path-imports': 'off',
       'no-undef': 'off',
       'no-unused-expressions': 'off',
       'no-useless-assignment': 'off',

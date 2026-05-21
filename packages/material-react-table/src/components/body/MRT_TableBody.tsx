@@ -1,5 +1,5 @@
-import TableBody, { type TableBodyProps } from '@mui/material/TableBody';
-import Typography from '@mui/material/Typography';
+import { TableBody, type TableBodyProps } from '@mui/material';
+import { Typography } from '@mui/material';
 import { type VirtualItem } from '@tanstack/react-virtual';
 import { memo, useMemo } from 'react';
 

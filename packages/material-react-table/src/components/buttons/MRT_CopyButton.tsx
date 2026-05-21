@@ -1,5 +1,5 @@
-import Button, { type ButtonProps } from '@mui/material/Button';
-import Tooltip from '@mui/material/Tooltip';
+import { Button, type ButtonProps } from '@mui/material';
+import { Tooltip } from '@mui/material';
 import { type MouseEvent, useState } from 'react';
 
 import {

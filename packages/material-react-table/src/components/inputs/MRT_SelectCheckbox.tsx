@@ -1,7 +1,7 @@
-import Checkbox, { type CheckboxProps } from '@mui/material/Checkbox';
-import Radio, { type RadioProps } from '@mui/material/Radio';
+import { Checkbox, type CheckboxProps } from '@mui/material';
+import { Radio, type RadioProps } from '@mui/material';
+import { Tooltip } from '@mui/material';
 import { type Theme } from '@mui/material/styles';
-import Tooltip from '@mui/material/Tooltip';
 import { type MouseEvent } from 'react';
 
 import {

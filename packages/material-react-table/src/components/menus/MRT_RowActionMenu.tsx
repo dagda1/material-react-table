@@ -1,4 +1,4 @@
-import Menu, { type MenuProps } from '@mui/material/Menu';
+import { Menu, type MenuProps } from '@mui/material';
 import { type MouseEvent, type ReactNode, useMemo } from 'react';
 
 import {

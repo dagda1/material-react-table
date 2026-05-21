@@ -1,5 +1,5 @@
+import { TableCell, type TableCellProps } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
-import TableCell, { type TableCellProps } from '@mui/material/TableCell';
 
 import {
   type MRT_Header,

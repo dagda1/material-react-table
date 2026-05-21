@@ -1,6 +1,4 @@
-import TableContainer, {
-  type TableContainerProps,
-} from '@mui/material/TableContainer';
+import { TableContainer, type TableContainerProps } from '@mui/material';
 import { useEffect, useLayoutEffect, useState } from 'react';
 
 import { type MRT_RowData, type MRT_TableInstance } from '../../types';

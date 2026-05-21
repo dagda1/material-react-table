@@ -1,4 +1,4 @@
-import Collapse, { type CollapseProps } from '@mui/material/Collapse';
+import { Collapse, type CollapseProps } from '@mui/material';
 
 import {
   type MRT_Header,

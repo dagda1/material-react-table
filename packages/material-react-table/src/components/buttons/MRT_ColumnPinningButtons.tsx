@@ -1,6 +1,6 @@
-import Box, { type BoxProps } from '@mui/material/Box';
-import IconButton from '@mui/material/IconButton';
-import Tooltip from '@mui/material/Tooltip';
+import { Box, type BoxProps } from '@mui/material';
+import { IconButton } from '@mui/material';
+import { Tooltip } from '@mui/material';
 
 import {
   type MRT_Column,

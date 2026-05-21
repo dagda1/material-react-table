@@ -1,6 +1,6 @@
-import FormHelperText from '@mui/material/FormHelperText';
-import Slider, { type SliderProps } from '@mui/material/Slider';
-import Stack from '@mui/material/Stack';
+import { FormHelperText } from '@mui/material';
+import { Slider, type SliderProps } from '@mui/material';
+import { Stack } from '@mui/material';
 import { useEffect, useRef, useState } from 'react';
 
 import {

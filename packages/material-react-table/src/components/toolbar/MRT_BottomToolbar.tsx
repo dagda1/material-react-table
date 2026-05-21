@@ -1,4 +1,4 @@
-import Box, { type BoxProps } from '@mui/material/Box';
+import { Box, type BoxProps } from '@mui/material';
 import { alpha } from '@mui/material/styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
 

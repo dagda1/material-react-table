@@ -1,5 +1,5 @@
-import Box from '@mui/material/Box';
-import Divider, { type DividerProps } from '@mui/material/Divider';
+import { Box } from '@mui/material';
+import { Divider, type DividerProps } from '@mui/material';
 
 import {
   type MRT_Header,

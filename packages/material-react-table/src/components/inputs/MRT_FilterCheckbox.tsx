@@ -1,6 +1,6 @@
-import Checkbox, { type CheckboxProps } from '@mui/material/Checkbox';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Tooltip from '@mui/material/Tooltip';
+import { Checkbox, type CheckboxProps } from '@mui/material';
+import { FormControlLabel } from '@mui/material';
+import { Tooltip } from '@mui/material';
 
 import {
   type MRT_Column,

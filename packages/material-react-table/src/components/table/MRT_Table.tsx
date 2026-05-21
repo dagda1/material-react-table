@@ -1,4 +1,4 @@
-import Table, { type TableProps } from '@mui/material/Table';
+import { Table, type TableProps } from '@mui/material';
 import { useMemo } from 'react';
 
 import { useMRT_ColumnVirtualizer } from '../../hooks/useMRT_ColumnVirtualizer';

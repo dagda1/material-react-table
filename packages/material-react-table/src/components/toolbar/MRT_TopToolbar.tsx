@@ -1,4 +1,4 @@
-import Box from '@mui/material/Box';
+import { Box } from '@mui/material';
 import useMediaQuery from '@mui/material/useMediaQuery';
 
 import { type MRT_RowData, type MRT_TableInstance } from '../../types';

@@ -1,7 +1,5 @@
-import Collapse from '@mui/material/Collapse';
-import LinearProgress, {
-  type LinearProgressProps,
-} from '@mui/material/LinearProgress';
+import { Collapse } from '@mui/material';
+import { LinearProgress, type LinearProgressProps } from '@mui/material';
 
 import { type MRT_RowData, type MRT_TableInstance } from '../../types';
 import { parseFromValuesOrFunc } from '../../utils/utils';

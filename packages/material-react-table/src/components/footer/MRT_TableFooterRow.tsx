@@ -1,4 +1,4 @@
-import TableRow, { type TableRowProps } from '@mui/material/TableRow';
+import { TableRow, type TableRowProps } from '@mui/material';
 
 import {
   type MRT_ColumnVirtualizer,

@@ -1,7 +1,7 @@
-import Box from '@mui/material/Box';
+import { Box } from '@mui/material';
+import { TableCell, type TableCellProps } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
 import { type Theme } from '@mui/material/styles';
-import TableCell, { type TableCellProps } from '@mui/material/TableCell';
 import { type DragEvent, useCallback, useMemo } from 'react';
 
 import {

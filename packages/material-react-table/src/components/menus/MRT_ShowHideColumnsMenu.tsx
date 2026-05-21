@@ -1,7 +1,7 @@
-import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
-import Divider from '@mui/material/Divider';
-import Menu, { type MenuProps } from '@mui/material/Menu';
+import { Box } from '@mui/material';
+import { Button } from '@mui/material';
+import { Divider } from '@mui/material';
+import { Menu, type MenuProps } from '@mui/material';
 import { useMemo, useState } from 'react';
 
 import {

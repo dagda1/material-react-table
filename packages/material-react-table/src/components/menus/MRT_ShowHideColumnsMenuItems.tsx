@@ -1,9 +1,9 @@
-import Box from '@mui/material/Box';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import MenuItem, { type MenuItemProps } from '@mui/material/MenuItem';
-import Switch from '@mui/material/Switch';
-import Tooltip from '@mui/material/Tooltip';
-import Typography from '@mui/material/Typography';
+import { Box } from '@mui/material';
+import { FormControlLabel } from '@mui/material';
+import { MenuItem, type MenuItemProps } from '@mui/material';
+import { Switch } from '@mui/material';
+import { Tooltip } from '@mui/material';
+import { Typography } from '@mui/material';
 import {
   type Dispatch,
   type DragEvent,

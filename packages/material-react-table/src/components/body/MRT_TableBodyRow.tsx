@@ -1,5 +1,5 @@
+import { TableRow, type TableRowProps } from '@mui/material';
 import { alpha, darken, lighten, type Theme, useTheme } from '@mui/material/styles';
-import TableRow, { type TableRowProps } from '@mui/material/TableRow';
 import { type VirtualItem } from '@tanstack/react-virtual';
 import { type DragEvent, memo, useMemo, useRef } from 'react';
 

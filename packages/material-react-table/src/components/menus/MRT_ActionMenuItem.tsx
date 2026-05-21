@@ -1,7 +1,7 @@
-import Box from '@mui/material/Box';
-import IconButton from '@mui/material/IconButton';
-import ListItemIcon from '@mui/material/ListItemIcon';
-import MenuItem, { type MenuItemProps } from '@mui/material/MenuItem';
+import { Box } from '@mui/material';
+import { IconButton } from '@mui/material';
+import { ListItemIcon } from '@mui/material';
+import { MenuItem, type MenuItemProps } from '@mui/material';
 import { type ReactNode } from 'react';
 
 import { type MRT_RowData, type MRT_TableInstance } from '../../types';

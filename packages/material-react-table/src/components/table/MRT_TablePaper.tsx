@@ -1,4 +1,4 @@
-import Paper, { type PaperProps } from '@mui/material/Paper';
+import { Paper, type PaperProps } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
 
 import { type MRT_RowData, type MRT_TableInstance } from '../../types';

@@ -1,4 +1,4 @@
-import Box from '@mui/material/Box';
+import { Box } from '@mui/material';
 import highlightWords from 'highlight-words';
 import { type ReactNode, type RefObject } from 'react';
 

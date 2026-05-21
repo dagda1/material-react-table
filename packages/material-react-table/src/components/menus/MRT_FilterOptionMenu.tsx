@@ -1,4 +1,4 @@
-import Menu, { type MenuProps } from '@mui/material/Menu';
+import { Menu, type MenuProps } from '@mui/material';
 import { useMemo } from 'react';
 
 import {

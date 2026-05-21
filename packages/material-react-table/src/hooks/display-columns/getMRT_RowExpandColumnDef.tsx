@@ -1,5 +1,5 @@
-import Stack from '@mui/material/Stack';
-import Tooltip from '@mui/material/Tooltip';
+import { Stack } from '@mui/material';
+import { Tooltip } from '@mui/material';
 import { type ReactNode } from 'react';
 
 import { MRT_ExpandAllButton } from '../../components/buttons/MRT_ExpandAllButton';

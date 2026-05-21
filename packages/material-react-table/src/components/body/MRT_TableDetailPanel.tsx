@@ -1,6 +1,6 @@
-import Collapse from '@mui/material/Collapse';
-import TableCell, { type TableCellProps } from '@mui/material/TableCell';
-import TableRow from '@mui/material/TableRow';
+import { Collapse } from '@mui/material';
+import { TableCell, type TableCellProps } from '@mui/material';
+import { TableRow } from '@mui/material';
 import { type RefObject } from 'react';
 
 import {

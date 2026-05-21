@@ -1,4 +1,4 @@
-import TableFooter, { type TableFooterProps } from '@mui/material/TableFooter';
+import { TableFooter, type TableFooterProps } from '@mui/material';
 
 import {
   type MRT_ColumnVirtualizer,

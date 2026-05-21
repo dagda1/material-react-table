@@ -1,4 +1,4 @@
-import Box from '@mui/material/Box';
+import { Box } from '@mui/material';
 import { type IconButtonProps } from '@mui/material/IconButton';
 
 import {
