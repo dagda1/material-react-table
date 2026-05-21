@@ -2,8 +2,14 @@
   "version": "4.0.0",
   "license": "MIT",
   "name": "@cutting/material-react-table",
-  "description": "A fully featured Material UI V6 implementation of TanStack React Table V8, written from the ground up in TypeScript.",
-  "author": "KevinVandy",
+  "description": "Maintenance fork of material-react-table updated for Material UI v9. A fully featured Material UI implementation of TanStack React Table V8.",
+  "author": "Paul Cowan <paul.cowan@cutting.scot>",
+  "contributors": [
+    {
+      "name": "Kevin Vandy",
+      "url": "https://github.com/KevinVandy"
+    }
+  ],
   "keywords": [
     "react-table",
     "material-ui",
@@ -13,15 +19,14 @@
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/KevinVandy/material-react-table"
+    "url": "https://github.com/dagda1/material-react-table"
   },
-  "funding": {
-    "type": "github",
-    "url": "https://github.com/sponsors/kevinvandy"
-  },
-  "homepage": "https://www.material-react-table.com/",
+  "homepage": "https://github.com/dagda1/material-react-table#readme",
   "bugs": {
-    "url": "https://github.com/KevinVandy/material-react-table/issues"
+    "url": "https://github.com/dagda1/material-react-table/issues"
+  },
+  "publishConfig": {
+    "access": "public"
   },
   "sideEffects": false,
   "main": "dist/index.js",
@@ -58,6 +63,7 @@
     "size": "size-limit",
     "test": "vitest run",
     "test:watch": "vitest",
+    "prepublishOnly": "pnpm lib:build && pnpm test",
     "storybook": "storybook dev -p 6006",
     "storybook:build": "storybook build",
     "storybook:dev": "storybook dev -p 6006",
@@ -116,8 +122,8 @@
     "@mui/icons-material": ">=9",
     "@mui/material": ">=9",
     "@mui/x-date-pickers": ">=9.2",
-    "react": ">=18.0",
-    "react-dom": ">=18.0"
+    "react": ">=19.0",
+    "react-dom": ">=19.0"
   },
   "dependencies": {
     "@tanstack/match-sorter-utils": "8.19.4",

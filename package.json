@@ -17,7 +17,8 @@
     "storybook": "turbo run storybook",
     "storybook:build": "turbo run storybook:build",
     "storybook:dev": "turbo run storybook",
-    "test": "turbo run test"
+    "test": "turbo run test",
+    "release": "pnpm --filter @cutting/material-react-table publish"
   },
   "devDependencies": {
     "prettier": "^3.8.3",
