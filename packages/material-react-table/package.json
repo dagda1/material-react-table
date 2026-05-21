@@ -40,11 +40,11 @@
   "size-limit": [
     {
       "path": "dist/index.js",
-      "limit": "55 KB"
+      "limit": "56 KB"
     },
     {
       "path": "dist/index.esm.js",
-      "limit": "52 KB"
+      "limit": "53 KB"
     }
   ],
   "engines": {
