@@ -1,5 +1,5 @@
 {
-  "version": "4.0.1",
+  "version": "4.0.2",
   "license": "MIT",
   "name": "@cutting/material-react-table",
   "description": "Maintenance fork of material-react-table updated for Material UI v9. A fully featured Material UI implementation of TanStack React Table V8.",
