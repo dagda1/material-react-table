@@ -1,5 +1,4 @@
-import { Box } from '@mui/material';
-import useMediaQuery from '@mui/material/useMediaQuery';
+import { Box, useMediaQuery } from '@mui/material';
 
 import { type MRT_RowData, type MRT_TableInstance } from '../../types';
 import { getCommonToolbarStyles } from '../../utils/style.utils';

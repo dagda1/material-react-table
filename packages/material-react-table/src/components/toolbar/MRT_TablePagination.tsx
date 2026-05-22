@@ -1,4 +1,4 @@
-import { Box } from '@mui/material';
+import { Box, useMediaQuery } from '@mui/material';
 import { IconButton } from '@mui/material';
 import { InputLabel } from '@mui/material';
 import { MenuItem } from '@mui/material';
@@ -8,7 +8,6 @@ import { Select, type SelectProps } from '@mui/material';
 import { Tooltip } from '@mui/material';
 import { Typography } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
-import useMediaQuery from '@mui/material/useMediaQuery';
 
 import { type MRT_RowData, type MRT_TableInstance } from '../../types';
 import { flipIconStyles, getCommonTooltipProps } from '../../utils/style.utils';
