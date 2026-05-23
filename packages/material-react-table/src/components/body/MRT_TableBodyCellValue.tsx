@@ -1,5 +1,4 @@
 import { Box } from '@mui/material';
-import highlightWords from 'highlight-words';
 import { type ReactNode, type RefObject } from 'react';
 
 import {
@@ -7,6 +6,7 @@ import {
   type MRT_RowData,
   type MRT_TableInstance,
 } from '../../types';
+import { highlightWords } from '../../utils/highlight.utils';
 
 const allowedTypes = ['string', 'number'];
 
@@ -78,7 +78,7 @@ export const MRT_TableBodyCellValue = <TData extends MRT_RowData>({
         allowedTypes.includes(typeof globalFilter) &&
         column.getCanGlobalFilter()))
   ) {
-    const chunks = highlightWords?.({
+    const chunks = highlightWords({
       matchExactly:
         (filterValue ? columnDef._filterFn : globalFilterFn) !== 'fuzzy',
       query: (filterValue ?? globalFilter ?? '').toString(),

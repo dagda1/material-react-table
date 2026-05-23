@@ -53,4 +53,23 @@ describe('MaterialReactTable smoke', () => {
     );
     expect(firstBodyRow?.textContent).toContain('Aaron');
   });
+
+  test('wraps matching text in a highlight span when global filter is active', () => {
+    render(
+      <MaterialReactTable
+        columns={columns}
+        data={data}
+        enableFilterMatchHighlighting
+        enableGlobalFilter
+        initialState={{ globalFilter: 'Sar', showGlobalFilter: true }}
+      />,
+    );
+
+    const highlightWrapper = screen.getByRole('note', { name: 'Sara' });
+    expect(highlightWrapper).toBeInTheDocument();
+
+    const matchSpans = highlightWrapper.querySelectorAll('span');
+    expect(matchSpans.length).toBeGreaterThan(1);
+    expect(highlightWrapper.textContent).toBe('Sara');
+  });
 });
