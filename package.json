@@ -21,8 +21,8 @@
     "release": "pnpm --filter @cutting/material-react-table publish --no-git-checks"
   },
   "devDependencies": {
-    "prettier": "^3.8.3",
-    "turbo": "2.9.14"
+    "prettier": "^3.8.4",
+    "turbo": "2.9.18"
   },
   "engines": {
     "node": ">=24.0.0"

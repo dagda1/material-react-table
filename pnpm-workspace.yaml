@@ -1,13 +1,10 @@
 packages:
   - "packages/*"
 
+minimumReleaseAge: 0
+
 allowBuilds:
   core-js: false
+  core-js-pure: true
   esbuild: false
   unrs-resolver: false
-
-minimumReleaseAgeExclude:
-  - '@types/node@25.9.1'
-  - '@types/react@19.2.15'
-  - '@mui/x-date-pickers@9.3.0'
-  - vite@8.0.14
