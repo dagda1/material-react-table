@@ -21,16 +21,16 @@
     "release": "pnpm --filter @cutting/material-react-table publish --no-git-checks"
   },
   "devDependencies": {
-    "prettier": "^3.8.4",
-    "turbo": "2.9.18"
+    "prettier": "^3.9.5",
+    "turbo": "2.10.5"
   },
   "engines": {
-    "node": ">=24.0.0"
+    "node": ">=22.0.0"
   },
-  "packageManager": "pnpm@11.2.0",
+  "packageManager": "pnpm@11.15.1",
   "volta": {
-    "node": "24.11.0",
-    "npm": "11.12.1",
-    "pnpm": "11.2.0"
+    "node": "22.22.1",
+    "npm": "11.12.0",
+    "pnpm": "11.15.1"
   }
 }

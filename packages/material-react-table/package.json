@@ -1,5 +1,5 @@
 {
-  "version": "4.0.5",
+  "version": "4.1.0",
   "license": "MIT",
   "name": "@cutting/material-react-table",
   "description": "Maintenance fork of material-react-table updated for Material UI v9. A fully featured Material UI implementation of TanStack React Table V8.",
@@ -30,8 +30,8 @@
   },
   "sideEffects": false,
   "main": "dist/index.js",
-  "module": "dist/index.esm.js",
-  "typings": "dist/index.d.ts",
+  "module": "dist/index.mjs",
+  "types": "dist/index.d.ts",
   "files": [
     "dist",
     "locales",
@@ -43,12 +43,12 @@
       "limit": "56 KB"
     },
     {
-      "path": "dist/index.esm.js",
+      "path": "dist/index.mjs",
       "limit": "53 KB"
     }
   ],
   "engines": {
-    "node": ">=24"
+    "node": ">=22"
   },
   "scripts": {
     "build": "pnpm lib:build",
@@ -57,8 +57,8 @@
     "dev": "pnpm lib:dev",
     "lib:build": "pnpm build-lib && pnpm build-locales",
     "lib:build-locales": "node build-locales.mjs",
-    "lib:build-lib": "rm -rf dist && rollup -c rollup.config.mjs && size-limit",
-    "lib:dev": "rollup -c rollup.config.mjs --watch",
+    "lib:build-lib": "tsdown && size-limit",
+    "lib:dev": "tsdown --watch",
     "lint": "eslint .",
     "size": "size-limit",
     "test": "vitest run",
@@ -72,49 +72,45 @@
   "devDependencies": {
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.1",
-    "@eslint/eslintrc": "^3.3.5",
+    "@eslint/eslintrc": "^3.3.6",
     "@eslint/js": "^10.0.1",
     "@faker-js/faker": "^10.5.0",
-    "@mui/icons-material": "^9.1.1",
-    "@mui/material": "^9.1.1",
-    "@mui/x-date-pickers": "^9.6.0",
-    "@rollup/plugin-typescript": "^12.3.0",
+    "@mui/icons-material": "^9.2.0",
+    "@mui/material": "^9.2.0",
+    "@mui/x-date-pickers": "^9.10.0",
     "@size-limit/preset-small-lib": "^12.1.0",
-    "@storybook/addon-a11y": "^10.4.6",
-    "@storybook/addon-docs": "^10.4.6",
-    "@storybook/addon-links": "^10.4.6",
-    "@storybook/react-vite": "^10.4.6",
+    "@storybook/addon-a11y": "^10.5.2",
+    "@storybook/addon-docs": "^10.5.2",
+    "@storybook/addon-links": "^10.5.2",
+    "@storybook/react-vite": "^10.5.2",
     "@testing-library/jest-dom": "^6.9.1",
     "@testing-library/react": "^16.3.2",
     "@testing-library/user-event": "^14.6.1",
-    "@types/node": "^26.0.0",
+    "@types/node": "^26.1.1",
     "@types/react": "^19.2.17",
     "@types/react-dom": "^19.2.3",
-    "@typescript-eslint/eslint-plugin": "^8.61.1",
-    "@typescript-eslint/parser": "^8.61.1",
-    "@vitejs/plugin-react": "^6.0.2",
+    "@typescript-eslint/eslint-plugin": "^8.64.0",
+    "@typescript-eslint/parser": "^8.64.0",
+    "@vitejs/plugin-react": "^6.0.3",
     "dayjs": "^1.11.21",
-    "eslint": "^10.5.0",
+    "eslint": "^10.7.0",
     "eslint-plugin-mui-path-imports": "^0.0.15",
-    "eslint-plugin-perfectionist": "^5.9.1",
-    "eslint-plugin-storybook": "^10.4.6",
-    "globals": "^17.6.0",
+    "eslint-plugin-perfectionist": "^5.10.0",
+    "eslint-plugin-storybook": "^10.5.2",
+    "globals": "^17.7.0",
     "jsdom": "^29.1.1",
     "react": "^19.2.7",
     "react-dom": "^19.2.7",
     "react-is": "^19.2.7",
-    "rollup": "^4.62.0",
-    "rollup-plugin-copy": "^3.5.0",
-    "rollup-plugin-delete": "^3.0.2",
-    "rollup-plugin-dts": "^6.4.1",
-    "rollup-plugin-peer-deps-external": "^2.2.4",
+    "rolldown": "^1.2.0",
     "size-limit": "^12.1.0",
-    "storybook": "^10.4.6",
+    "storybook": "^10.5.2",
     "storybook-dark-mode": "^5.0.0",
+    "tsdown": "^0.22.12",
     "tslib": "^2.8.1",
     "typescript": "6.0.3",
-    "vite": "^8.0.16",
-    "vitest": "^4.1.9"
+    "vite": "^8.1.5",
+    "vitest": "^4.1.10"
   },
   "peerDependencies": {
     "@emotion/react": ">=11.13",
@@ -128,7 +124,30 @@
   "dependencies": {
     "@tanstack/match-sorter-utils": "8.19.4",
     "@tanstack/react-table": "8.21.3",
-    "@tanstack/react-virtual": "3.14.3",
+    "@tanstack/react-virtual": "3.14.6",
     "highlight-words": "2.0.0"
+  },
+  "exports": {
+    ".": {
+      "import": {
+        "types": "./dist/index.d.mts",
+        "default": "./dist/index.mjs"
+      },
+      "require": {
+        "types": "./dist/index.d.ts",
+        "default": "./dist/index.js"
+      }
+    },
+    "./locales/*": {
+      "import": {
+        "types": "./locales/*/index.d.mts",
+        "default": "./locales/*/index.mjs"
+      },
+      "require": {
+        "types": "./locales/*/index.d.ts",
+        "default": "./locales/*/index.js"
+      }
+    },
+    "./package.json": "./package.json"
   }
 }

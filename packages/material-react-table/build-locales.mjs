@@ -1,7 +1,6 @@
 /* eslint-disable */
-import typescript from '@rollup/plugin-typescript';
 import fs from 'fs';
-import { rollup } from 'rollup';
+import { rolldown } from 'rolldown';
 
 const supportedLocales = [
   'ar',
@@ -45,16 +44,9 @@ const supportedLocales = [
 ];
 
 async function build(locale) {
-  const bundle = await rollup({
+  const bundle = await rolldown({
     input: `./src/locales/${locale}.ts`,
-    plugins: [
-      typescript({
-        declaration: false,
-        declarationDir: undefined,
-        rootDir: './src',
-        sourceMap: false,
-      }),
-    ],
+    platform: 'neutral',
   });
 
   await bundle.write({
@@ -64,7 +56,7 @@ async function build(locale) {
   });
 
   await bundle.write({
-    file: `./locales/${locale}/index.esm.js`,
+    file: `./locales/${locale}/index.mjs`,
     format: 'esm',
     sourcemap: false,
   });
@@ -79,7 +71,7 @@ export declare const MRT_Localization_${locale
     if (err) console.log(err);
   });
 
-  await fs.writeFile(`./locales/${locale}/index.esm.d.ts`, typeFile, (err) => {
+  await fs.writeFile(`./locales/${locale}/index.d.mts`, typeFile, (err) => {
     if (err) console.log(err);
   });
 
@@ -88,7 +80,7 @@ export declare const MRT_Localization_${locale
     JSON.stringify(
       {
         main: 'index.js',
-        module: 'index.esm.js',
+        module: 'index.mjs',
         sideEffects: false,
         types: 'index.d.ts',
       },
@@ -104,6 +96,7 @@ export declare const MRT_Localization_${locale
 }
 
 async function run() {
+  fs.rmSync('./locales', { force: true, recursive: true });
   for (const locale of supportedLocales) {
     await build(locale);
   }
