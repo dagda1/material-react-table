@@ -8,5 +8,6 @@ export default defineConfig({
   outDir: './dist',
   platform: 'neutral',
   sourcemap: true,
+  target: 'es2022',
   treeshake: true,
 });
