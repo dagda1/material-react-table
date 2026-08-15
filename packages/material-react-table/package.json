@@ -125,6 +125,7 @@
     "@tanstack/match-sorter-utils": "9.1.2",
     "@tanstack/react-table": "9.1.2",
     "@tanstack/react-virtual": "3.14.9",
+    "@tanstack/table-core": "9.1.2",
     "highlight-words": "2.0.0"
   },
   "exports": {

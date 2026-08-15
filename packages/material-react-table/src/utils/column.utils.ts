@@ -1,4 +1,3 @@
-import { type LegacyRow } from '@tanstack/react-table/legacy';
 import { useMemo } from 'react';
 
 import {
@@ -10,6 +9,7 @@ import {
   type MRT_DefinedTableOptions,
   type MRT_FilterOption,
   type MRT_Header,
+  type MRT_Row,
   type MRT_RowData,
   type MRT_TableInstance,
 } from '../types';
@@ -68,8 +68,8 @@ export const prepareColumns = <TData extends MRT_RowData>({
         const aggFns = columnDef.aggregationFn as string[];
         columnDef.aggregationFn = (
           columnId: string,
-          leafRows: LegacyRow<TData>[],
-          childRows: LegacyRow<TData>[],
+          leafRows: MRT_Row<TData>[],
+          childRows: MRT_Row<TData>[],
         ) =>
           aggFns.map((fn) =>
             aggregationFns[fn]?.(columnId, leafRows, childRows),

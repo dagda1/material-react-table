@@ -30,7 +30,6 @@ import {
 } from '@mui/x-date-pickers';
 import {
   type AccessorFn,
-  type AggregationFnDef,
   type ColumnFiltersState,
   type ColumnOrderState,
   type ColumnPinningState,
@@ -79,6 +78,24 @@ import { type MRT_SortingFns } from './fns/sortingFns';
 import { type MRT_Icons } from './icons';
 
 export type { MRT_Icons };
+
+/**
+ * TanStack Table v9 closed the `FilterFns`, `SortFns` and `AggregationFns`
+ * interfaces. MRT looks these up by name at runtime so users can register their
+ * own, which needs the index signatures v8 shipped with.
+ */
+declare module '@tanstack/table-core' {
+  interface AggregationFns {
+    [key: string]: any;
+  }
+  interface FilterFns {
+    [key: string]: any;
+  }
+  interface SortFns {
+    [key: string]: any;
+  }
+}
+
 export type DropdownOption =
   | string
   | {
@@ -90,8 +107,17 @@ export type LiteralUnion<T extends U, U = string> =
   | (Record<never, never> & U)
   | T;
 
+/**
+ * v9 replaced the callable `AggregationFn` with `AggregationFnDef`, which is a
+ * def wrapper rather than a function. MRT calls these itself in
+ * `prepareColumns`, so it keeps the v8 callable shape.
+ */
 export type MRT_AggregationFn<TData extends MRT_RowData> =
-  | AggregationFnDef<StockFeatures, TData>
+  | ((
+      columnId: string,
+      leafRows: MRT_Row<TData>[],
+      childRows: MRT_Row<TData>[],
+    ) => any)
   | MRT_AggregationOption;
 
 export type MRT_AggregationOption = keyof typeof MRT_AggregationFns & string;
