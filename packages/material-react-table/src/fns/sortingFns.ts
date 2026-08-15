@@ -1,11 +1,12 @@
 import { compareItems, type RankingInfo } from '@tanstack/match-sorter-utils';
-import { type Row, sortingFns } from '@tanstack/react-table';
+import { sortFns } from '@tanstack/react-table';
+import { type LegacyRow } from '@tanstack/react-table/legacy';
 
 import { type MRT_Row, type MRT_RowData } from '../types';
 
 const fuzzy = <TData extends MRT_RowData>(
-  rowA: Row<TData>,
-  rowB: Row<TData>,
+  rowA: LegacyRow<TData>,
+  rowB: LegacyRow<TData>,
   columnId: string,
 ) => {
   let dir = 0;
@@ -17,12 +18,12 @@ const fuzzy = <TData extends MRT_RowData>(
   }
   // Provide a fallback for when the item ranks are equal
   return dir === 0
-    ? sortingFns.alphanumeric(rowA as Row<any>, rowB as Row<any>, columnId)
+    ? sortFns.alphanumeric(rowA as LegacyRow<any>, rowB as LegacyRow<any>, columnId)
     : dir;
 };
 
 export const MRT_SortingFns = {
-  ...sortingFns,
+  ...sortFns,
   fuzzy,
 };
 

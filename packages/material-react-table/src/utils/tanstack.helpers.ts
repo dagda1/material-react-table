@@ -1,5 +1,5 @@
 import {
-  createRow as _createRow,
+  constructRow as _constructRow,
   flexRender as _flexRender,
   type Renderable,
 } from '@tanstack/react-table';
@@ -48,7 +48,7 @@ export const createRow = <TData extends MRT_RowData>(
   subRows?: MRT_Row<TData>[],
   parentId?: string,
 ): MRT_Row<TData> =>
-  _createRow(
+  _constructRow(
     table as any,
     'mrt-row-create',
     originalRow ??

@@ -9,7 +9,7 @@ import {
   getGroupedRowModel,
   getPaginationRowModel,
   getSortedRowModel,
-} from '@tanstack/react-table';
+} from '@tanstack/react-table/legacy';
 import { useId, useMemo } from 'react';
 
 import { MRT_AggregationFns } from '../fns/aggregationFns';
@@ -112,7 +112,7 @@ export const useMRT_TableOptions: <TData extends MRT_RowData>(
   rowNumberDisplayMode = 'static',
   rowPinningDisplayMode = 'sticky',
   selectAllMode = 'page',
-  sortingFns,
+  sortFns,
   ...rest
 }: MRT_TableOptions<TData>) => {
   const theme = useTheme();
@@ -131,7 +131,7 @@ export const useMRT_TableOptions: <TData extends MRT_RowData>(
     [],
   );
   filterFns = useMemo(() => ({ ...MRT_FilterFns, ...filterFns }), []);
-  sortingFns = useMemo(() => ({ ...MRT_SortingFns, ...sortingFns }), []);
+  sortFns = useMemo(() => ({ ...MRT_SortingFns, ...sortFns }), []);
   defaultColumn = useMemo(
     () => ({ ...MRT_DefaultColumn, ...defaultColumn }),
     [defaultColumn],
@@ -265,7 +265,7 @@ export const useMRT_TableOptions: <TData extends MRT_RowData>(
     rowNumberDisplayMode,
     rowPinningDisplayMode,
     selectAllMode,
-    sortingFns,
+    sortFns,
     ...rest,
   } as MRT_DefinedTableOptions<TData>;
 };

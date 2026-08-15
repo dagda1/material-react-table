@@ -1,4 +1,4 @@
-import { type Row } from '@tanstack/react-table';
+import { type LegacyRow } from '@tanstack/react-table/legacy';
 import { useMemo } from 'react';
 
 import {
@@ -47,7 +47,7 @@ export const prepareColumns = <TData extends MRT_RowData>({
     aggregationFns = {},
     defaultDisplayColumn,
     filterFns = {},
-    sortingFns = {},
+    sortFns = {},
     state: { columnFilterFns = {} } = {},
   } = tableOptions;
   return columnDefs.map((columnDef) => {
@@ -68,8 +68,8 @@ export const prepareColumns = <TData extends MRT_RowData>({
         const aggFns = columnDef.aggregationFn as string[];
         columnDef.aggregationFn = (
           columnId: string,
-          leafRows: Row<TData>[],
-          childRows: Row<TData>[],
+          leafRows: LegacyRow<TData>[],
+          childRows: LegacyRow<TData>[],
         ) =>
           aggFns.map((fn) =>
             aggregationFns[fn]?.(columnId, leafRows, childRows),
@@ -84,10 +84,9 @@ export const prepareColumns = <TData extends MRT_RowData>({
           columnFilterFns[columnDef.id];
       }
 
-      //assign sortingFns
-      if (Object.keys(sortingFns).includes(columnDef.sortingFn as string)) {
-        // @ts-expect-error
-        columnDef.sortingFn = sortingFns[columnDef.sortingFn];
+      //assign sortFns
+      if (Object.keys(sortFns).includes(columnDef.sortFn as string)) {
+        columnDef.sortFn = sortFns[columnDef.sortFn as string];
       }
     } else if (columnDef.columnDefType === 'display') {
       columnDef = {

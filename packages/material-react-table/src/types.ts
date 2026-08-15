@@ -30,34 +30,37 @@ import {
 } from '@mui/x-date-pickers';
 import {
   type AccessorFn,
-  type AggregationFn,
-  type Cell,
-  type Column,
-  type ColumnDef,
+  type AggregationFnDef,
   type ColumnFiltersState,
   type ColumnOrderState,
   type ColumnPinningState,
-  type ColumnSizingInfoState,
   type ColumnSizingState,
+  type ColumnVisibilityState,
   type DeepKeys,
   type DeepValue,
   type ExpandedState,
   type FilterFn,
   type GroupingState,
-  type Header,
-  type HeaderGroup,
   type OnChangeFn,
   type PaginationState,
-  type Row,
   type RowSelectionState,
-  type SortingFn,
+  type SortFn,
   type SortingState,
-  type Table,
-  type TableOptions,
+  type StockFeatures,
   type TableState,
+  type TableState_ColumnResizing,
   type Updater,
-  type VisibilityState,
 } from '@tanstack/react-table';
+import {
+  type LegacyCell,
+  type LegacyColumn,
+  type LegacyColumnDef,
+  type LegacyHeader,
+  type LegacyHeaderGroup,
+  type LegacyRow,
+  type LegacyTable,
+  type LegacyTableOptions,
+} from '@tanstack/react-table/legacy';
 import {
   type VirtualItem,
   type Virtualizer,
@@ -88,13 +91,13 @@ export type LiteralUnion<T extends U, U = string> =
   | T;
 
 export type MRT_AggregationFn<TData extends MRT_RowData> =
-  | AggregationFn<TData>
+  | AggregationFnDef<StockFeatures, TData>
   | MRT_AggregationOption;
 
 export type MRT_AggregationOption = keyof typeof MRT_AggregationFns & string;
 
 export type MRT_Cell<TData extends MRT_RowData, TValue = unknown> = Omit<
-  Cell<TData, TValue>,
+  LegacyCell<TData, TValue>,
   'column' | 'row'
 > & {
   column: MRT_Column<TData, TValue>;
@@ -102,7 +105,7 @@ export type MRT_Cell<TData extends MRT_RowData, TValue = unknown> = Omit<
 };
 
 export type MRT_Column<TData extends MRT_RowData, TValue = unknown> = Omit<
-  Column<TData, TValue>,
+  LegacyColumn<TData, TValue>,
   'columnDef' | 'columns' | 'filterFn' | 'footer' | 'header'
 > & {
   columnDef: MRT_DefinedColumnDef<TData, TValue>;
@@ -114,7 +117,7 @@ export type MRT_Column<TData extends MRT_RowData, TValue = unknown> = Omit<
 
 export interface MRT_ColumnDef<TData extends MRT_RowData, TValue = unknown>
   extends Omit<
-    ColumnDef<TData, TValue>,
+    LegacyColumnDef<TData, TValue>,
     | 'accessorKey'
     | 'aggregatedCell'
     | 'aggregationFn'
@@ -124,7 +127,7 @@ export interface MRT_ColumnDef<TData extends MRT_RowData, TValue = unknown>
     | 'footer'
     | 'header'
     | 'id'
-    | 'sortingFn'
+    | 'sortFn'
   > {
   /**
    * Either an `accessorKey` or a combination of an `accessorFn` and `id` are required for a data column definition.
@@ -387,7 +390,7 @@ export interface MRT_ColumnDef<TData extends MRT_RowData, TValue = unknown>
     onSelectFilterMode: (filterMode: MRT_FilterOption) => void;
     table: MRT_TableInstance<TData>;
   }) => ReactNode[];
-  sortingFn?: MRT_SortingFn<TData>;
+  sortFn?: MRT_SortingFn<TData>;
   visibleInShowHideMenu?: boolean;
 }
 
@@ -410,7 +413,8 @@ export type MRT_ColumnHelper<TData extends MRT_RowData> = {
 };
 export type MRT_ColumnOrderState = ColumnOrderState;
 export type MRT_ColumnPinningState = ColumnPinningState;
-export type MRT_ColumnSizingInfoState = ColumnSizingInfoState;
+export type MRT_ColumnSizingInfoState =
+  TableState_ColumnResizing['columnResizing'];
 export type MRT_ColumnSizingState = ColumnSizingState;
 export type MRT_ColumnVirtualizer<
   TScrollElement extends Element | Window = HTMLDivElement,
@@ -453,7 +457,7 @@ export type MRT_DisplayColumnIds =
 export type MRT_ExpandedState = ExpandedState;
 
 export type MRT_FilterFn<TData extends MRT_RowData> =
-  | FilterFn<TData>
+  | FilterFn<StockFeatures, TData>
   | MRT_FilterOption;
 
 export type MRT_FilterOption = LiteralUnion<
@@ -468,14 +472,14 @@ export type MRT_GroupColumnDef<TData extends MRT_RowData> =
 export type MRT_GroupingState = GroupingState;
 
 export type MRT_Header<TData extends MRT_RowData> = Omit<
-  Header<TData, unknown>,
+  LegacyHeader<TData, unknown>,
   'column'
 > & {
   column: MRT_Column<TData>;
 };
 
 export type MRT_HeaderGroup<TData extends MRT_RowData> = Omit<
-  HeaderGroup<TData>,
+  LegacyHeaderGroup<TData>,
   'headers'
 > & {
   headers: MRT_Header<TData>[];
@@ -587,7 +591,7 @@ export interface MRT_Localization {
 export type MRT_PaginationState = PaginationState;
 
 export type MRT_Row<TData extends MRT_RowData> = Omit<
-  Row<TData>,
+  LegacyRow<TData>,
   | '_valuesCache'
   | 'getAllCells'
   | 'getParentRow'
@@ -624,7 +628,7 @@ export type MRT_RowVirtualizer<
 
 export type MRT_SortingFn<TData extends MRT_RowData> =
   | MRT_SortingOption
-  | SortingFn<TData>;
+  | SortFn<StockFeatures, TData>;
 
 export type MRT_SortingOption = LiteralUnion<
   keyof typeof MRT_SortingFns & string
@@ -638,7 +642,7 @@ export type MRT_StatefulTableOptions<TData extends MRT_RowData> =
       MRT_TableState<TData>,
       | 'columnFilterFns'
       | 'columnOrder'
-      | 'columnSizingInfo'
+      | 'columnResizing'
       | 'creatingRow'
       | 'density'
       | 'draggingColumn'
@@ -659,7 +663,7 @@ export type MRT_StatefulTableOptions<TData extends MRT_RowData> =
   };
 
 export type MRT_TableInstance<TData extends MRT_RowData> = Omit<
-  Table<TData>,
+  LegacyTable<TData>,
   | 'getAllColumns'
   | 'getAllFlatColumns'
   | 'getAllLeafColumns'
@@ -748,7 +752,7 @@ export type MRT_TableInstance<TData extends MRT_RowData> = Omit<
  */
 export interface MRT_TableOptions<TData extends MRT_RowData>
   extends Omit<
-    Partial<TableOptions<TData>>,
+    Partial<LegacyTableOptions<TData>>,
     | 'columns'
     | 'data'
     | 'defaultColumn'
@@ -1238,7 +1242,7 @@ export interface MRT_TableOptions<TData extends MRT_RowData>
   state?: Partial<MRT_TableState<TData>>;
 }
 
-export interface MRT_TableState<TData extends MRT_RowData> extends TableState {
+export interface MRT_TableState<TData extends MRT_RowData> extends TableState<StockFeatures> {
   actionCell?: MRT_Cell<TData> | null;
   columnFilterFns: MRT_ColumnFilterFnsState;
   creatingRow: MRT_Row<TData> | null;
@@ -1281,7 +1285,7 @@ export type MRT_VirtualizerOptions<
   TItemElement extends Element = Element,
 > = VirtualizerOptions<TScrollElement, TItemElement>;
 
-export type MRT_VisibilityState = VisibilityState;
+export type MRT_VisibilityState = ColumnVisibilityState;
 
 export type Prettify<T> = unknown & { [K in keyof T]: T[K] };
 

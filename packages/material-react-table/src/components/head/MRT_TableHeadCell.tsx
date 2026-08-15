@@ -57,7 +57,7 @@ export const MRT_TableHeadCell = <TData extends MRT_RowData>({
     setHoveredColumn,
   } = table;
   const {
-    columnSizingInfo,
+    columnResizing,
     density,
     draggingColumn,
     grouping,
@@ -105,7 +105,7 @@ export const MRT_TableHeadCell = <TData extends MRT_RowData>({
 
   const draggingBorders = useMemo(() => {
     const showResizeBorder =
-      columnSizingInfo.isResizingColumn === column.id &&
+      columnResizing.isResizingColumn === column.id &&
       columnResizeMode === 'onChange' &&
       !header.subHeaders.length;
 
@@ -131,7 +131,7 @@ export const MRT_TableHeadCell = <TData extends MRT_RowData>({
       : undefined;
 
     return draggingBorders;
-  }, [draggingColumn, hoveredColumn, columnSizingInfo.isResizingColumn]);
+  }, [draggingColumn, hoveredColumn, columnResizing.isResizingColumn]);
 
   const handleDragEnter = (_e: DragEvent) => {
     if (enableGrouping && hoveredColumn?.id === 'drop-zone') {

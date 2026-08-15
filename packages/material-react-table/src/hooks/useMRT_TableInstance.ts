@@ -1,4 +1,4 @@
-import { useReactTable } from '@tanstack/react-table';
+import { useLegacyTable } from '@tanstack/react-table/legacy';
 import { useMemo, useRef, useState } from 'react';
 
 import {
@@ -110,9 +110,9 @@ export const useMRT_TableInstance = <TData extends MRT_RowData>(
   const [columnOrder, onColumnOrderChange] = useState<MRT_ColumnOrderState>(
     initialState.columnOrder ?? [],
   );
-  const [columnSizingInfo, onColumnSizingInfoChange] =
+  const [columnResizing, onColumnResizingChange] =
     useState<MRT_ColumnSizingInfoState>(
-      initialState.columnSizingInfo ?? ({} as MRT_ColumnSizingInfoState),
+      initialState.columnResizing ?? ({} as MRT_ColumnSizingInfoState),
     );
   const [density, setDensity] = useState<MRT_DensityState>(
     initialState?.density ?? 'comfortable',
@@ -163,7 +163,7 @@ export const useMRT_TableInstance = <TData extends MRT_RowData>(
     actionCell,
     columnFilterFns,
     columnOrder,
-    columnSizingInfo,
+    columnResizing,
     creatingRow,
     density,
     draggingColumn,
@@ -190,7 +190,7 @@ export const useMRT_TableInstance = <TData extends MRT_RowData>(
   //don't recompute columnDefs while resizing column or dragging column/row
   const columnDefsRef = useRef<MRT_ColumnDef<TData>[]>([]);
   statefulTableOptions.columns =
-    statefulTableOptions.state.columnSizingInfo.isResizingColumn ||
+    statefulTableOptions.state.columnResizing.isResizingColumn ||
     statefulTableOptions.state.draggingColumn ||
     statefulTableOptions.state.draggingRow
       ? columnDefsRef.current
@@ -249,9 +249,9 @@ export const useMRT_TableInstance = <TData extends MRT_RowData>(
   );
 
   //@ts-expect-error
-  const table = useReactTable({
+  const table = useLegacyTable({
     onColumnOrderChange,
-    onColumnSizingInfoChange,
+    onColumnResizingChange,
     onGroupingChange,
     onPaginationChange,
     ...statefulTableOptions,
