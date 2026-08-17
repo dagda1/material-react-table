@@ -2,7 +2,11 @@ import { faker } from '@faker-js/faker';
 import { type Meta } from '@storybook/react-vite';
 import { useState } from 'react';
 
-import { MaterialReactTable, type MRT_ColumnDef } from '../../src';
+import {
+  MaterialReactTable,
+  type MRT_ColumnDef,
+  type MRT_Row,
+} from '../../src';
 
 const meta: Meta = {
   title: 'Features/Search Examples',
@@ -80,8 +84,11 @@ export const CustomGlobalFilterFn = () => (
     columns={columns}
     data={data}
     filterFns={{
-      myCustomFilterFn: (row, id, filterValue) =>
-        row.getValue<string>(id).startsWith(filterValue),
+      myCustomFilterFn: (
+        row: MRT_Row<(typeof data)[0]>,
+        id: string,
+        filterValue: string,
+      ) => row.getValue<string>(id).startsWith(filterValue),
     }}
     globalFilterFn="myCustomFilterFn"
   />
@@ -163,9 +170,9 @@ export const CustomizeSearchTextBox = () => (
     data={data}
     initialState={{ showGlobalFilter: true }}
     muiSearchTextFieldProps={{
-      InputLabelProps: { shrink: true },
       label: 'Search',
       placeholder: 'Search 100 rows',
+      slotProps: { inputLabel: { shrink: true } },
       variant: 'outlined',
     }}
   />

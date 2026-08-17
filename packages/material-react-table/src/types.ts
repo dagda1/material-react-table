@@ -30,6 +30,7 @@ import {
 } from '@mui/x-date-pickers';
 import {
   type AccessorFn,
+  type AggregationFnDef,
   type ColumnFiltersState,
   type ColumnOrderState,
   type ColumnPinningState,
@@ -108,16 +109,11 @@ export type LiteralUnion<T extends U, U = string> =
   | T;
 
 /**
- * v9 replaced the callable `AggregationFn` with `AggregationFnDef`, which is a
- * def wrapper rather than a function. MRT calls these itself in
- * `prepareColumns`, so it keeps the v8 callable shape.
+ * v9 replaced the callable `AggregationFn` with `AggregationFnDef`, an object
+ * with an `aggregate` method that takes a single context argument.
  */
 export type MRT_AggregationFn<TData extends MRT_RowData> =
-  | ((
-      columnId: string,
-      leafRows: MRT_Row<TData>[],
-      childRows: MRT_Row<TData>[],
-    ) => any)
+  | AggregationFnDef<StockFeatures, TData, any, any>
   | MRT_AggregationOption;
 
 export type MRT_AggregationOption = keyof typeof MRT_AggregationFns & string;

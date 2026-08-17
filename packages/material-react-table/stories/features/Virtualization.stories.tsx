@@ -79,7 +79,7 @@ const longData = [...Array(5000)].map(() => ({
   city: faker.location.city(),
   country: faker.location.country(),
   email: faker.internet.email(),
-  favoriteColor: faker.internet.color(),
+  favoriteColor: faker.color.rgb(),
   favoriteQuote: faker.lorem.sentence(),
   firstName: faker.person.firstName(),
   lastName: faker.person.lastName(),
@@ -148,7 +148,7 @@ export const VirtualizationConditionallyWontToggle = () => {
       enableRowVirtualization={enabled}
       initialState={{ density: 'compact' }}
       renderTopToolbarCustomActions={() => (
-        <Stack alignItems="center" direction="row">
+        <Stack direction="row" sx={{ alignItems: 'center' }}>
           <Button onClick={() => setEnabled(!enabled)}>
             Toggle Virtualization
           </Button>

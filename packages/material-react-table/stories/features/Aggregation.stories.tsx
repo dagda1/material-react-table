@@ -226,10 +226,12 @@ export const MultiAggregationPerColumn = () => (
           </>
         ),
         //manually set multiple aggregation functions
-        aggregationFn: (columnId, leafRows: any, childRows: any) => [
-          MRT_AggregationFns.min(columnId, leafRows, childRows),
-          MRT_AggregationFns.max(columnId, leafRows, childRows),
-        ],
+        aggregationFn: {
+          aggregate: (context) => [
+            MRT_AggregationFns.min.aggregate(context),
+            MRT_AggregationFns.max.aggregate(context),
+          ],
+        },
         Footer: () => (
           <Stack>
             Average Age:

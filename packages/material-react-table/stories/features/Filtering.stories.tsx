@@ -10,6 +10,7 @@ import {
   MaterialReactTable,
   type MRT_ColumnDef,
   type MRT_ColumnFiltersState,
+  type MRT_Row,
 } from '../../src';
 
 const meta: Meta = {
@@ -517,7 +518,11 @@ export const CustomFilterFns = () => (
     ]}
     data={data}
     filterFns={{
-      customFn: (row, _columnIds, filterValue) => {
+      customFn: (
+        row: MRT_Row<(typeof data)[0]>,
+        _columnIds: string,
+        filterValue: string,
+      ) => {
         console.info('customFn', row, _columnIds, filterValue);
         return row
           .getValue<string>('state')

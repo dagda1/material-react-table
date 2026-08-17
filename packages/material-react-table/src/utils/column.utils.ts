@@ -9,7 +9,6 @@ import {
   type MRT_DefinedTableOptions,
   type MRT_FilterOption,
   type MRT_Header,
-  type MRT_Row,
   type MRT_RowData,
   type MRT_TableInstance,
 } from '../types';
@@ -66,14 +65,10 @@ export const prepareColumns = <TData extends MRT_RowData>({
       //assign aggregationFns if multiple aggregationFns are provided
       if (Array.isArray(columnDef.aggregationFn)) {
         const aggFns = columnDef.aggregationFn as string[];
-        columnDef.aggregationFn = (
-          columnId: string,
-          leafRows: MRT_Row<TData>[],
-          childRows: MRT_Row<TData>[],
-        ) =>
-          aggFns.map((fn) =>
-            aggregationFns[fn]?.(columnId, leafRows, childRows),
-          );
+        columnDef.aggregationFn = {
+          aggregate: (context) =>
+            aggFns.map((fn) => aggregationFns[fn]?.aggregate(context)),
+        };
       }
 
       //assign filterFns
