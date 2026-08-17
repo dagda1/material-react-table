@@ -13,7 +13,7 @@ export const useMRT_Effects = <TData extends MRT_RowData>(
 ) => {
   const {
     getIsSomeRowsPinned,
-    getPrePaginationRowModel,
+    getPrePaginatedRowModel,
     getState,
     options: { enablePagination, enableRowPinning, rowCount },
   } = table;
@@ -29,7 +29,7 @@ export const useMRT_Effects = <TData extends MRT_RowData>(
   } = getState();
 
   const totalColumnCount = table.options.columns.length;
-  const totalRowCount = rowCount ?? getPrePaginationRowModel().rows.length;
+  const totalRowCount = rowCount ?? getPrePaginatedRowModel().rows.length;
 
   const rerender = useReducer(() => ({}), {})[1];
   const initialBodyHeight = useRef<string>(null);

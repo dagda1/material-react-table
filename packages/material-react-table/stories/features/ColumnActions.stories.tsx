@@ -1,7 +1,7 @@
 import { faker } from '@faker-js/faker';
 import Divider from '@mui/material/Divider';
 import MenuItem from '@mui/material/MenuItem';
-import { type Meta } from '@storybook/react';
+import { type Meta } from '@storybook/react-vite';
 
 import { MaterialReactTable, type MRT_ColumnDef } from '../../src';
 

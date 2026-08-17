@@ -6,7 +6,7 @@ import ShareIcon from '@mui/icons-material/Share';
 import Button from '@mui/material/Button';
 import IconButton from '@mui/material/IconButton';
 import MenuItem from '@mui/material/MenuItem';
-import { type Meta } from '@storybook/react';
+import { type Meta } from '@storybook/react-vite';
 import { useState } from 'react';
 
 import { MaterialReactTable, type MRT_ColumnDef } from '../../src';

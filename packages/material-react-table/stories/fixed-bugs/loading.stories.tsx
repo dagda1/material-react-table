@@ -1,4 +1,4 @@
-import { type Meta } from '@storybook/react';
+import { type Meta } from '@storybook/react-vite';
 import { useMemo } from 'react';
 
 import { MaterialReactTable, type MRT_ColumnDef } from '../../src';

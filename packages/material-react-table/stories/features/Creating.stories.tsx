@@ -4,7 +4,7 @@ import Button from '@mui/material/Button';
 import IconButton from '@mui/material/IconButton';
 import MenuItem from "@mui/material/MenuItem";
 import Select from "@mui/material/Select";
-import { type Meta } from '@storybook/react';
+import { type Meta } from '@storybook/react-vite';
 import { useState } from 'react';
 
 import {

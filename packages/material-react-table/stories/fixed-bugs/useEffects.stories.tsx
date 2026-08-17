@@ -2,7 +2,7 @@ import { faker } from '@faker-js/faker';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import MenuItem from '@mui/material/MenuItem';
-import { type Meta } from '@storybook/react';
+import { type Meta } from '@storybook/react-vite';
 import { type Updater } from '@tanstack/react-table';
 import { useEffect, useMemo, useState } from 'react';
 

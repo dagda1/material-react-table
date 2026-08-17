@@ -1,7 +1,7 @@
 import { faker } from '@faker-js/faker';
 import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
-import { type Meta } from '@storybook/react';
+import { type Meta } from '@storybook/react-vite';
 
 import {
   MaterialReactTable,

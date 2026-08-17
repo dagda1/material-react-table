@@ -6,7 +6,7 @@ import Button from '@mui/material/Button';
 import IconButton from '@mui/material/IconButton';
 import Tooltip from '@mui/material/Tooltip';
 import Typography from '@mui/material/Typography';
-import { type Meta } from '@storybook/react';
+import { type Meta } from '@storybook/react-vite';
 
 import {
   MaterialReactTable,

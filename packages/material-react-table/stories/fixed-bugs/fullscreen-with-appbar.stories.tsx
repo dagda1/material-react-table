@@ -2,7 +2,7 @@ import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import CssBaseline from "@mui/material/CssBaseline";
 import Toolbar from "@mui/material/Toolbar";
-import { type Meta } from '@storybook/react';
+import { type Meta } from '@storybook/react-vite';
 
 import {
   MaterialReactTable,

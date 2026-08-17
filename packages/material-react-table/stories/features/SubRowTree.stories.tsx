@@ -1,6 +1,6 @@
 import { faker } from '@faker-js/faker';
 import { ThemeProvider, useTheme } from '@mui/material/styles';
-import { type Meta } from '@storybook/react';
+import { type Meta } from '@storybook/react-vite';
 
 import { MaterialReactTable, type MRT_ColumnDef } from '../../src';
 import { MRT_Localization_HE } from '../../src/locales/he';

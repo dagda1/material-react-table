@@ -705,7 +705,7 @@ export type MRT_TableInstance<TData extends MRT_RowData> = Omit<
   | 'getLeftLeafColumns'
   | 'getPaginationRowModel'
   | 'getPreFilteredRowModel'
-  | 'getPrePaginationRowModel'
+  | 'getPrePaginatedRowModel'
   | 'getRightLeafColumns'
   | 'getRowModel'
   | 'getSelectedRowModel'
@@ -728,7 +728,7 @@ export type MRT_TableInstance<TData extends MRT_RowData> = Omit<
   getLeftLeafColumns: () => MRT_Column<TData>[];
   getPaginationRowModel: () => MRT_RowModel<TData>;
   getPreFilteredRowModel: () => MRT_RowModel<TData>;
-  getPrePaginationRowModel: () => MRT_RowModel<TData>;
+  getPrePaginatedRowModel: () => MRT_RowModel<TData>;
   getRightLeafColumns: () => MRT_Column<TData>[];
   getRowModel: () => MRT_RowModel<TData>;
   getSelectedRowModel: () => MRT_RowModel<TData>;

@@ -1,128 +1,99 @@
 # TanStack Table v9 migration checklist
 
-Branch: `v4`. Pins: `@tanstack/react-table` 9.1.2, `@tanstack/match-sorter-utils` 9.1.2.
+Branch: `v4`. Pins: `@tanstack/react-table` 9.1.2, `@tanstack/match-sorter-utils` 9.1.2,
+`@tanstack/table-core` 9.1.2 (added as a direct dependency so MRT can augment its interfaces).
 
-Status: **43 errors in `src/`, 54 in `stories/`.** Nothing built, tested, or committed.
+Path chosen: **legacy shim**. MRT stays on `useLegacyTable` and the `Legacy*` types. The
+native v9 API (`useTable`, `tableFeatures()`, `table.state`) is a later, separate piece of work.
 
-Verify with:
+Status: typecheck clean, tests pass, build compiles. One thing fails.
 
 ```bash
 cd packages/material-react-table
-./node_modules/.bin/tsc --noEmit -p tsconfig.json
+./node_modules/.bin/tsc --noEmit -p tsconfig.json   # clean
+pnpm test                                            # 3 passed
+pnpm build                                           # compiles, size-limit fails
 ```
+
+---
+
+## Open
+
+- [ ] **Bundle size.** `dist/index.js` is 68.17 kB against a 56 kB limit; `dist/index.mjs` is
+      64.03 kB against 53 kB. About 12 kB of growth, because the bundle now carries the v9
+      feature system and the legacy compatibility layer together. Raising the limit in the
+      `size-limit` section of `package.json` is a judgement call, not a mechanical fix.
+
+- [ ] **Storybook 10.** 54 `TS2307` errors in `stories/**`: they import `type Meta` from
+      `@storybook/react`, which is not a dependency at any version here. Only
+      `@storybook/react-vite` is installed. Independent of TanStack.
+
+---
+
+## Breaking changes to MRT's public API
+
+Both were adopted rather than mapped at the boundary, because v4 is already a major and a
+translation layer would have to run in both directions.
+
+- Column pinning positions are `'start'` / `'end'`, not `'left'` / `'right'`. This covers
+  `column.pin()`, `column.getIsPinned()`, and the `columnPinning` state shape.
+- Column sort function options are `sortFn` (column) and `sortFns` (table), not `sortingFn`
+  and `sortingFns`.
 
 ---
 
 ## Done
 
-- [x] Row-model factories imported from `@tanstack/react-table/legacy` — `useMRT_TableOptions.ts`
-- [x] `useReactTable` → `useLegacyTable` — `useMRT_TableInstance.ts`
-- [x] `Row`/`Cell`/`Column`/`ColumnDef`/`Header`/`HeaderGroup`/`Table`/`TableOptions` → `Legacy*` — `types.ts`, `filterFns.ts`, `sortingFns.ts`, `column.utils.ts`
-- [x] `sortingFns` export → `sortFns`, `SortingFn` → `SortFn` — `sortingFns.ts`, `types.ts`
-- [x] `VisibilityState` → `ColumnVisibilityState` — `types.ts`
-- [x] `createRow` → `constructRow` — `tanstack.helpers.ts`
-- [x] `FilterFn` / `SortFn` / `AggregationFnDef` given the `StockFeatures` first type arg — `types.ts`
-- [x] `MRT_ColumnSizingInfoState` sourced from `TableState_ColumnResizing['columnResizing']` — `types.ts`
+Row models and base types:
 
-The `/legacy` shim covers row models and base entity generics only. Everything below is
-feature-level and the shim does not touch it.
+- [x] Row-model factories imported from `@tanstack/react-table/legacy`
+- [x] `useReactTable` → `useLegacyTable`
+- [x] `Row` / `Cell` / `Column` / `ColumnDef` / `Header` / `HeaderGroup` / `Table` /
+      `TableOptions` → `Legacy*`
+- [x] `createRow` → `constructRow`
+- [x] `getPrePaginationRowModel` → `getPrePaginatedRowModel`
 
----
+Renames:
 
-## 1. Column pinning: `left`/`right` → `start`/`end`
+- [x] `sortingFns` export → `sortFns`, `SortingFn` → `SortFn`
+- [x] `sortingFn` / `sortingFns` options → `sortFn` / `sortFns`
+- [x] `VisibilityState` → `ColumnVisibilityState`
+- [x] Column pinning `left` / `right` → `start` / `end` across `style.utils.ts`,
+      `MRT_TableHeadCellGrabHandle.tsx`, `MRT_ShowHideColumnsMenuItems.tsx`,
+      `MRT_ColumnActionMenu.tsx`, `MRT_ColumnPinningButtons.tsx`
+- [x] `getLeftVisibleLeafColumns` / `getRightVisibleLeafColumns` removed; derived in
+      `useMRT_ColumnVirtualizer.ts` from `getVisibleLeafColumns()` filtered by pinned state
+- [x] `columnSizingInfo` state slice → `columnResizing`, `setColumnSizingInfo` →
+      `setColumnResizing`, `onColumnSizingInfoChange` → `onColumnResizingChange`
 
-`ColumnPinningState` is now `{ start, end }`. `ColumnPinningPosition` is `'start' | 'end'`.
+Types:
 
-- [ ] `utils/style.utils.ts:73,75` — `pinned === 'left'` / `=== 'right'` comparisons
-- [ ] `utils/style.utils.ts:134,135,140,141` — `'left'`/`'right'` passed as a pinning position
-- [ ] `components/head/MRT_TableHeadCellGrabHandle.tsx:75` — updater destructures `{ left, right }`
-- [ ] `components/menus/MRT_ShowHideColumnsMenuItems.tsx:96` — updater destructures `{ left, right }`
-- [ ] `components/menus/MRT_ColumnActionMenu.tsx:98` — `pin()` arg typed `false | 'left' | 'right'`
-- [ ] `components/menus/MRT_ColumnActionMenu.tsx:253,261` — `'left'`/`'right'` comparisons
-- [ ] `components/buttons/MRT_ColumnPinningButtons.tsx:31` — `pin()` arg typed `false | 'left' | 'right'`
-
-Decide whether MRT's own public API keeps `'left'`/`'right'` and maps at the boundary, or
-adopts `'start'`/`'end'` as a v4 breaking change. This decision blocks all seven items.
-
-### 1a. Removed pinned-column getters
-
-- [ ] `hooks/useMRT_ColumnVirtualizer.ts:46,48` — `getLeftVisibleLeafColumns` /
-      `getRightVisibleLeafColumns` no longer exist. Derive from `getVisibleLeafColumns()`
-      filtered by pinned state. Lines 46,50,52 also lose their inferred param types as a
-      consequence (`TS7006`); they resolve once the getter is replaced.
+- [x] `FilterFn` / `SortFn` given the `StockFeatures` first type argument
+- [x] `MRT_ColumnSizingInfoState` sourced from `TableState_ColumnResizing['columnResizing']`
+- [x] `FilterFns` / `SortFns` / `AggregationFns` lost their index signatures in v9. Restored
+      by module augmentation of `@tanstack/table-core` in `types.ts`, so users can still
+      register fns by name. This is why `table-core` is now a direct dependency.
+- [x] `MRT_AggregationFn` no longer aliases `AggregationFnDef`, which is a def wrapper in v9
+      rather than a callable. It keeps the v8 callable shape because MRT invokes these
+      itself in `prepareColumns`.
 
 ---
 
-## 2. Column sizing: `columnSizingInfo` slice removed
+## Watch out
 
-Replaced by `columnResizing`. `setColumnSizingInfo` and `onColumnSizingInfoChange` are gone.
+`useMRT_TableInstance.ts` has a `@ts-expect-error` directly above the `useLegacyTable` call.
+It suppressed the `getPrePaginationRowModel` break, which only surfaced when the tests ran.
+Any further v9 rename reaching that call will also fail silently at compile time. The test
+suite is the only guard.
 
-- [ ] `types.ts:643` — `columnSizingInfo` still listed in the state-key union
-- [ ] `hooks/useMRT_TableInstance.ts:115,166,193` — state read, initial state, and derived value
-- [ ] `hooks/useMRT_TableInstance.ts:254` — `onColumnSizingInfoChange` → `onColumnSizingChange`
-- [ ] `components/head/MRT_TableHeadCellResizeHandle.tsx:25,45,58` — `setColumnSizingInfo` call
-- [ ] `components/menus/MRT_ColumnActionMenu.tsx:59,87` — `setColumnSizingInfo` call
-- [ ] `components/body/MRT_TableBodyCell.tsx:72` — state read
-- [ ] `components/head/MRT_TableHeadCell.tsx:60` — state read
-- [ ] `components/table/MRT_Table.tsx:34` — state read
-
-Confirm `columnResizing` carries the same fields MRT reads (`isResizingColumn`, deltas).
-Not yet verified.
-
----
-
-## 3. `sortingFns` table option removed
-
-The option is now `sortFns`. The exported fn map was already renamed; the option was not.
-
-- [ ] `hooks/useMRT_TableOptions.ts:115`
-- [ ] `utils/column.utils.ts:50`
-
----
-
-## 4. `FilterFns` / `AggregationFns` are closed types
-
-Both lost their index signature, so MRT's custom keys (`fuzzy`, `between`, etc.) no longer
-index. v9 expects module augmentation or `constructFilterFn` / `constructAggregationFn`.
-
-- [ ] `utils/column.utils.ts:82` — indexing `FilterFns` by `MRT_FilterOption`; `.fuzzy` missing
-- [ ] `utils/column.utils.ts:75` — indexing `AggregationFns` by string
-- [ ] `hooks/useMRT_TableInstance.ts:258` — indexing `FilterFns` by `MRT_FilterOption`
-- [ ] `utils/column.utils.ts:69` — MRT aggregation fns use the v8 positional signature;
-      `AggregationFnDef` has no call signature. `MRT_AggregationFn` is mapped wrong.
-- [ ] `utils/column.utils.ts:89` — `@ts-expect-error` now unused; remove once 82 is fixed
-- [ ] `fns/aggregationFns.ts` — spreads `aggregationFns`; untouched, needs review
-- [ ] `fns/filterFns.ts:182` — `MRT_FilterFns` spreads `filterFns` then adds custom keys
-
-Module augmentation of `FilterFns` / `AggregationFns` fixes most of this in one place.
-
----
-
-## 5. Storybook 10 (independent of TanStack)
-
-54 `TS2307` errors: stories import `type Meta` from `@storybook/react`, which is not a
-dependency at any version here. Only `@storybook/react-vite` is installed.
-
-- [ ] Repoint every `from '@storybook/react'` in `stories/**` to `'@storybook/react-vite'`
-
----
-
-## Unverified
-
-- [ ] `constructRow` call site still passes v8 positional args
-      (`table, 'mrt-row-create', originalRow, rowIndex, depth, subRows, parentId`) —
-      `utils/tanstack.helpers.ts:51`. Signature not checked against v9.
-- [ ] `@tanstack/match-sorter-utils` 9.1.2: `rankItem` / `rankings` / `compareItems` /
-      `RankingInfo` surface never checked for breaking changes.
-- [ ] `components/buttons/MRT_RowPinButton.tsx` — imports `RowPinningPosition`; still
-      exported by v9 core, but semantics not checked.
-- [ ] Runtime behaviour. The typecheck is the only signal used so far; no build, no tests.
-- [ ] `enablePinning` split into `enableColumnPinning` / `enableRowPinning` — no error yet,
-      so MRT may not surface it; confirm.
+Not checked: `@tanstack/match-sorter-utils` 9.1.2 for changes to `rankItem`, `rankings`,
+`compareItems` or `RankingInfo`. Nothing errored, but nothing verified it either.
 
 ---
 
 ## Reference
 
-- Upgrade 9.0.0 → 9.1.2 added infinite pagination page sizes (#6526) and four fixes,
-  including built-in fn names in the legacy column helper (#6521). No breaking changes.
+9.0.0 → 9.1.2 is 14 commits with no breaking changes: infinite pagination page sizes
+(#6526), built-in fn names in the legacy column helper (#6521), median aggregation skipping
+non-numeric values (#6523), sorted parent rows flattening ahead of sub-rows (#6529), and
+centralised no-op state guarding in `setStateSlice` (#6532).

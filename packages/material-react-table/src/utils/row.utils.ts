@@ -14,7 +14,7 @@ export const getMRT_Rows = <TData extends MRT_RowData>(
 ): MRT_Row<TData>[] => {
   const {
     getCenterRows,
-    getPrePaginationRowModel,
+    getPrePaginatedRowModel,
     getRowModel,
     getState,
     getTopRows,
@@ -36,12 +36,12 @@ export const getMRT_Rows = <TData extends MRT_RowData>(
     rows =
       !enableRowPinning || rowPinningDisplayMode?.includes('sticky')
         ? all
-          ? getPrePaginationRowModel().rows
+          ? getPrePaginatedRowModel().rows
           : getRowModel().rows
         : getCenterRows();
   } else {
     // fuzzy ranking adjustments
-    rows = getPrePaginationRowModel().rows.sort((a, b) =>
+    rows = getPrePaginatedRowModel().rows.sort((a, b) =>
       rankGlobalFuzzy(a, b),
     );
     if (enablePagination && !manualPagination && !all) {
