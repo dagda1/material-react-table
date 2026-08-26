@@ -6,7 +6,8 @@ Branch: `v4`. Pins: `@tanstack/react-table` 9.1.2, `@tanstack/match-sorter-utils
 Path chosen: **legacy shim**. MRT stays on `useLegacyTable` and the `Legacy*` types. The
 native v9 API (`useTable`, `tableFeatures()`, `table.state`) is a later, separate piece of work.
 
-Status: typecheck clean, tests pass, build compiles. One thing fails.
+Status: `src/` and `stories/` both typecheck clean, tests pass, build compiles. One thing
+fails.
 
 ```bash
 cd packages/material-react-table
@@ -14,6 +15,8 @@ cd packages/material-react-table
 pnpm test                                            # 3 passed
 pnpm build                                           # compiles, size-limit fails
 ```
+
+The migration is committed on `update-tanstack-9-1` in `43d635b50` and `8492692da`.
 
 ---
 
@@ -24,21 +27,25 @@ pnpm build                                           # compiles, size-limit fail
       feature system and the legacy compatibility layer together. Raising the limit in the
       `size-limit` section of `package.json` is a judgement call, not a mechanical fix.
 
-- [ ] **Storybook 10.** 54 `TS2307` errors in `stories/**`: they import `type Meta` from
-      `@storybook/react`, which is not a dependency at any version here. Only
-      `@storybook/react-vite` is installed. Independent of TanStack.
-
 ---
 
 ## Breaking changes to MRT's public API
 
-Both were adopted rather than mapped at the boundary, because v4 is already a major and a
+All three were adopted rather than mapped at the boundary, because v4 is already a major and a
 translation layer would have to run in both directions.
 
 - Column pinning positions are `'start'` / `'end'`, not `'left'` / `'right'`. This covers
-  `column.pin()`, `column.getIsPinned()`, and the `columnPinning` state shape.
+  `column.pin()`, `column.getIsPinned()`, and the `columnPinning` state shape. Both keys are
+  required in `columnPinning` state, so `{ start: [...] }` alone no longer typechecks.
 - Column sort function options are `sortFn` (column) and `sortFns` (table), not `sortingFn`
   and `sortingFns`.
+- Aggregation functions are `{ aggregate(context) }` objects, not
+  `(columnId, leafRows, childRows)` callables. `MRT_AggregationFn` is now
+  `AggregationFnDef<StockFeatures, TData>`.
+
+`MRT_RowSelectionState` is `Record<string, true>` in v9, so deselecting a row means deleting
+its key rather than setting it to `false`. That is TanStack's change, not MRT's, but it
+breaks any caller holding selection as `Record<string, boolean>`.
 
 ---
 
@@ -73,9 +80,35 @@ Types:
 - [x] `FilterFns` / `SortFns` / `AggregationFns` lost their index signatures in v9. Restored
       by module augmentation of `@tanstack/table-core` in `types.ts`, so users can still
       register fns by name. This is why `table-core` is now a direct dependency.
-- [x] `MRT_AggregationFn` no longer aliases `AggregationFnDef`, which is a def wrapper in v9
-      rather than a callable. It keeps the v8 callable shape because MRT invokes these
-      itself in `prepareColumns`.
+- [x] `MRT_AggregationFn` is `AggregationFnDef<StockFeatures, TData>`. The multi-fn array
+      path in `column.utils.ts` now builds `{ aggregate: (context) => ... }` and calls
+      `aggregationFns[fn]?.aggregate(context)`. The old callable shape compiled only because
+      the `AggregationFns` augmentation types its members `any`; it would have thrown at
+      runtime.
+
+Stories:
+
+- [x] `@storybook/react` → `@storybook/react-vite` across 54 files
+- [x] `columnPinning` initial state uses `start` / `end`, with both keys present
+- [x] `rowPinning` initial state includes `bottom`
+- [x] `sortingFn: 'fuzzy'` → `sortFn: 'fuzzy'`
+- [x] `MRT_AggregationFns.min(...)` → `MRT_AggregationFns.min.aggregate(context)`
+- [x] Custom `filterFns` callbacks annotated, since the `FilterFns` augmentation types them
+      `any` and their parameters were implicitly `any`
+- [x] Row selection state typed `MRT_RowSelectionState`; the toggle deletes the key
+
+Tests:
+
+- [x] `src/fns/filterFns.test.tsx` covers the fuzzy global filter end to end: `rankItem` and
+      the `rankings.MATCHES` threshold pick the matching rows, and `compareItems` puts the
+      better match first. A fourth case turns ranked results off, so the ordering assertion
+      proves ranking ran rather than source order surviving by accident.
+
+Not TanStack, fixed in passing because they blocked the typecheck:
+
+- [x] `faker.internet.color()` → `faker.color.rgb()` (faker 10)
+- [x] MUI 9 dropped system props: `<Stack alignItems>` and `<Box padding>` → `sx`
+- [x] MUI 9 `InputLabelProps` → `slotProps.inputLabel`
 
 ---
 
@@ -86,8 +119,9 @@ It suppressed the `getPrePaginationRowModel` break, which only surfaced when the
 Any further v9 rename reaching that call will also fail silently at compile time. The test
 suite is the only guard.
 
-Not checked: `@tanstack/match-sorter-utils` 9.1.2 for changes to `rankItem`, `rankings`,
-`compareItems` or `RankingInfo`. Nothing errored, but nothing verified it either.
+`@tanstack/match-sorter-utils` 9.1.2 is covered by `src/fns/filterFns.test.tsx`. Types alone
+would not have caught a behaviour change here, so the tests assert which rows survive the
+filter and in what order.
 
 ---
 
