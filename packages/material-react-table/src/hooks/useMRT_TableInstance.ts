@@ -1,4 +1,4 @@
-import { useLegacyTable } from '@tanstack/react-table/legacy';
+import { useTable } from '@tanstack/react-table';
 import { useMemo, useRef, useState } from 'react';
 
 import {
@@ -36,6 +36,7 @@ import {
   showRowSelectionColumn,
   showRowSpacerColumn,
 } from '../utils/displayColumn.utils';
+import { MRT_TableFeatures } from '../fns/tableFeatures';
 import { createRow } from '../utils/tanstack.helpers';
 import { getMRT_RowActionsColumnDef } from './display-columns/getMRT_RowActionsColumnDef';
 import { getMRT_RowDragColumnDef } from './display-columns/getMRT_RowDragColumnDef';
@@ -248,15 +249,15 @@ export const useMRT_TableInstance = <TData extends MRT_RowData>(
     ],
   );
 
-  //@ts-expect-error
-  const table = useLegacyTable({
+  const table = useTable({
     onColumnOrderChange,
     onColumnResizingChange,
     onGroupingChange,
     onPaginationChange,
     ...statefulTableOptions,
+    features: MRT_TableFeatures,
     globalFilterFn: statefulTableOptions.filterFns?.[globalFilterFn ?? 'fuzzy'],
-  }) as MRT_TableInstance<TData>;
+  }) as unknown as MRT_TableInstance<TData>;
 
   table.refs = {
     actionCellRef,

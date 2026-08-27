@@ -1,18 +1,20 @@
+import { rankings, rankItem } from '@tanstack/match-sorter-utils';
 import {
-  type RankingInfo,
-  rankings,
-  rankItem,
-} from '@tanstack/match-sorter-utils';
-import { filterFns } from '@tanstack/react-table';
-import { type LegacyRow } from '@tanstack/react-table/legacy';
+  filterFn_arrIncludes,
+  filterFn_arrIncludesAll,
+  filterFn_arrIncludesSome,
+  filterFn_inNumberRange,
+  type FilterMeta,
+  type Row,
+} from '@tanstack/react-table';
 
 import { type MRT_RowData } from '../types';
 
 const fuzzy = <TData extends MRT_RowData>(
-  row: LegacyRow<TData>,
+  row: Row<any, TData>,
   columnId: string,
   filterValue: number | string,
-  addMeta: (item: RankingInfo) => void,
+  addMeta?: (meta: FilterMeta) => void,
 ): boolean => {
   const itemRank = rankItem(
     row.getValue<null | number | string>(columnId),
@@ -21,14 +23,14 @@ const fuzzy = <TData extends MRT_RowData>(
       threshold: rankings.MATCHES,
     },
   );
-  addMeta(itemRank);
+  addMeta?.(itemRank);
   return itemRank.passed;
 };
 
 fuzzy.autoRemove = (val: any) => !val;
 
 const contains = <TData extends MRT_RowData>(
-  row: LegacyRow<TData>,
+  row: Row<any, TData>,
   id: string,
   filterValue: number | string,
 ): boolean =>
@@ -42,7 +44,7 @@ const contains = <TData extends MRT_RowData>(
 contains.autoRemove = (val: any) => !val;
 
 const startsWith = <TData extends MRT_RowData>(
-  row: LegacyRow<TData>,
+  row: Row<any, TData>,
   id: string,
   filterValue: number | string,
 ): boolean =>
@@ -56,7 +58,7 @@ const startsWith = <TData extends MRT_RowData>(
 startsWith.autoRemove = (val: any) => !val;
 
 const endsWith = <TData extends MRT_RowData>(
-  row: LegacyRow<TData>,
+  row: Row<any, TData>,
   id: string,
   filterValue: number | string,
 ): boolean =>
@@ -70,7 +72,7 @@ const endsWith = <TData extends MRT_RowData>(
 endsWith.autoRemove = (val: any) => !val;
 
 const equals = <TData extends MRT_RowData>(
-  row: LegacyRow<TData>,
+  row: Row<any, TData>,
   id: string,
   filterValue: number | string,
 ): boolean =>
@@ -80,7 +82,7 @@ const equals = <TData extends MRT_RowData>(
 equals.autoRemove = (val: any) => !val;
 
 const notEquals = <TData extends MRT_RowData>(
-  row: LegacyRow<TData>,
+  row: Row<any, TData>,
   id: string,
   filterValue: number | string,
 ): boolean =>
@@ -90,7 +92,7 @@ const notEquals = <TData extends MRT_RowData>(
 notEquals.autoRemove = (val: any) => !val;
 
 const greaterThan = <TData extends MRT_RowData>(
-  row: LegacyRow<TData>,
+  row: Row<any, TData>,
   id: string,
   filterValue: number | string,
 ): boolean =>
@@ -104,7 +106,7 @@ const greaterThan = <TData extends MRT_RowData>(
 greaterThan.autoRemove = (val: any) => !val;
 
 const greaterThanOrEqualTo = <TData extends MRT_RowData>(
-  row: LegacyRow<TData>,
+  row: Row<any, TData>,
   id: string,
   filterValue: number | string,
 ): boolean => equals(row, id, filterValue) || greaterThan(row, id, filterValue);
@@ -112,7 +114,7 @@ const greaterThanOrEqualTo = <TData extends MRT_RowData>(
 greaterThanOrEqualTo.autoRemove = (val: any) => !val;
 
 const lessThan = <TData extends MRT_RowData>(
-  row: LegacyRow<TData>,
+  row: Row<any, TData>,
   id: string,
   filterValue: number | string,
 ): boolean =>
@@ -126,7 +128,7 @@ const lessThan = <TData extends MRT_RowData>(
 lessThan.autoRemove = (val: any) => !val;
 
 const lessThanOrEqualTo = <TData extends MRT_RowData>(
-  row: LegacyRow<TData>,
+  row: Row<any, TData>,
   id: string,
   filterValue: number | string,
 ): boolean => equals(row, id, filterValue) || lessThan(row, id, filterValue);
@@ -134,7 +136,7 @@ const lessThanOrEqualTo = <TData extends MRT_RowData>(
 lessThanOrEqualTo.autoRemove = (val: any) => !val;
 
 const between = <TData extends MRT_RowData>(
-  row: LegacyRow<TData>,
+  row: Row<any, TData>,
   id: string,
   filterValues: [number | string, number | string],
 ): boolean =>
@@ -149,7 +151,7 @@ const between = <TData extends MRT_RowData>(
 between.autoRemove = (val: any) => !val;
 
 const betweenInclusive = <TData extends MRT_RowData>(
-  row: LegacyRow<TData>,
+  row: Row<any, TData>,
   id: string,
   filterValues: [number | string, number | string],
 ): boolean =>
@@ -164,7 +166,7 @@ const betweenInclusive = <TData extends MRT_RowData>(
 betweenInclusive.autoRemove = (val: any) => !val;
 
 const empty = <TData extends MRT_RowData>(
-  row: LegacyRow<TData>,
+  row: Row<any, TData>,
   id: string,
   _filterValue: number | string,
 ): boolean => !row.getValue<null | number | string>(id)?.toString().trim();
@@ -172,15 +174,20 @@ const empty = <TData extends MRT_RowData>(
 empty.autoRemove = (val: any) => !val;
 
 const notEmpty = <TData extends MRT_RowData>(
-  row: LegacyRow<TData>,
+  row: Row<any, TData>,
   id: string,
   _filterValue: number | string,
 ): boolean => !!row.getValue<null | number | string>(id)?.toString().trim();
 
 notEmpty.autoRemove = (val: any) => !val;
 
+// Only the built-ins MRT names itself. The rest of the v9 registry is either
+// overridden below or unreachable from MRT's filter option menus, and spreading
+// the whole registry ships every one of them.
 export const MRT_FilterFns = {
-  ...filterFns,
+  arrIncludes: filterFn_arrIncludes,
+  arrIncludesAll: filterFn_arrIncludesAll,
+  arrIncludesSome: filterFn_arrIncludesSome,
   between,
   betweenInclusive,
   contains,
@@ -190,6 +197,7 @@ export const MRT_FilterFns = {
   fuzzy,
   greaterThan,
   greaterThanOrEqualTo,
+  inNumberRange: filterFn_inNumberRange,
   lessThan,
   lessThanOrEqualTo,
   notEmpty,

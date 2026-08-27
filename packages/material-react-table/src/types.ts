@@ -51,16 +51,7 @@ import {
   type TableState_ColumnResizing,
   type Updater,
 } from '@tanstack/react-table';
-import {
-  type LegacyCell,
-  type LegacyColumn,
-  type LegacyColumnDef,
-  type LegacyHeader,
-  type LegacyHeaderGroup,
-  type LegacyRow,
-  type LegacyTable,
-  type LegacyTableOptions,
-} from '@tanstack/react-table/legacy';
+import { type MRT_TableFeatures } from './fns/tableFeatures';
 import {
   type VirtualItem,
   type Virtualizer,
@@ -119,7 +110,7 @@ export type MRT_AggregationFn<TData extends MRT_RowData> =
 export type MRT_AggregationOption = keyof typeof MRT_AggregationFns & string;
 
 export type MRT_Cell<TData extends MRT_RowData, TValue = unknown> = Omit<
-  LegacyCell<TData, TValue>,
+  Cell<MRT_TableFeatures, TData, TValue>,
   'column' | 'row'
 > & {
   column: MRT_Column<TData, TValue>;
@@ -127,7 +118,7 @@ export type MRT_Cell<TData extends MRT_RowData, TValue = unknown> = Omit<
 };
 
 export type MRT_Column<TData extends MRT_RowData, TValue = unknown> = Omit<
-  LegacyColumn<TData, TValue>,
+  Column<MRT_TableFeatures, TData, TValue>,
   'columnDef' | 'columns' | 'filterFn' | 'footer' | 'header'
 > & {
   columnDef: MRT_DefinedColumnDef<TData, TValue>;
@@ -139,7 +130,7 @@ export type MRT_Column<TData extends MRT_RowData, TValue = unknown> = Omit<
 
 export interface MRT_ColumnDef<TData extends MRT_RowData, TValue = unknown>
   extends Omit<
-    LegacyColumnDef<TData, TValue>,
+    ColumnDef<MRT_TableFeatures, TData, TValue>,
     | 'accessorKey'
     | 'aggregatedCell'
     | 'aggregationFn'
@@ -494,14 +485,14 @@ export type MRT_GroupColumnDef<TData extends MRT_RowData> =
 export type MRT_GroupingState = GroupingState;
 
 export type MRT_Header<TData extends MRT_RowData> = Omit<
-  LegacyHeader<TData, unknown>,
+  Header<MRT_TableFeatures, TData, unknown>,
   'column'
 > & {
   column: MRT_Column<TData>;
 };
 
 export type MRT_HeaderGroup<TData extends MRT_RowData> = Omit<
-  LegacyHeaderGroup<TData>,
+  HeaderGroup<MRT_TableFeatures, TData>,
   'headers'
 > & {
   headers: MRT_Header<TData>[];
@@ -613,7 +604,7 @@ export interface MRT_Localization {
 export type MRT_PaginationState = PaginationState;
 
 export type MRT_Row<TData extends MRT_RowData> = Omit<
-  LegacyRow<TData>,
+  Row<MRT_TableFeatures, TData>,
   | '_valuesCache'
   | 'getAllCells'
   | 'getParentRow'
@@ -685,7 +676,7 @@ export type MRT_StatefulTableOptions<TData extends MRT_RowData> =
   };
 
 export type MRT_TableInstance<TData extends MRT_RowData> = Omit<
-  LegacyTable<TData>,
+  Table<MRT_TableFeatures, TData>,
   | 'getAllColumns'
   | 'getAllFlatColumns'
   | 'getAllLeafColumns'
@@ -774,7 +765,7 @@ export type MRT_TableInstance<TData extends MRT_RowData> = Omit<
  */
 export interface MRT_TableOptions<TData extends MRT_RowData>
   extends Omit<
-    Partial<LegacyTableOptions<TData>>,
+    Partial<Omit<TableOptions<MRT_TableFeatures, TData>, 'features'>>,
     | 'columns'
     | 'data'
     | 'defaultColumn'

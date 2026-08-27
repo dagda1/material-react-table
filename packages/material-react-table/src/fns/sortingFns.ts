@@ -1,12 +1,17 @@
 import { compareItems, type RankingInfo } from '@tanstack/match-sorter-utils';
-import { sortFns } from '@tanstack/react-table';
-import { type LegacyRow } from '@tanstack/react-table/legacy';
+import {
+  sortFn_alphanumeric,
+  sortFn_basic,
+  sortFn_datetime,
+  sortFn_text,
+} from '@tanstack/react-table';
+import { type Row } from '@tanstack/react-table';
 
 import { type MRT_Row, type MRT_RowData } from '../types';
 
 const fuzzy = <TData extends MRT_RowData>(
-  rowA: LegacyRow<TData>,
-  rowB: LegacyRow<TData>,
+  rowA: Row<any, TData>,
+  rowB: Row<any, TData>,
   columnId: string,
 ) => {
   let dir = 0;
@@ -18,13 +23,18 @@ const fuzzy = <TData extends MRT_RowData>(
   }
   // Provide a fallback for when the item ranks are equal
   return dir === 0
-    ? sortFns.alphanumeric(rowA as LegacyRow<any>, rowB as LegacyRow<any>, columnId)
+    ? sortFn_alphanumeric(rowA, rowB, columnId)
     : dir;
 };
 
+// The case-sensitive variants are not offered anywhere in MRT's sorting UI, so
+// they are left out rather than spread in with the whole registry.
 export const MRT_SortingFns = {
-  ...sortFns,
+  alphanumeric: sortFn_alphanumeric,
+  basic: sortFn_basic,
+  datetime: sortFn_datetime,
   fuzzy,
+  text: sortFn_text,
 };
 
 export const rankGlobalFuzzy = <TData extends MRT_RowData>(
