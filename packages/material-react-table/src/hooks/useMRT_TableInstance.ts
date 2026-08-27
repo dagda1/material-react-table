@@ -1,4 +1,4 @@
-import { useTable } from '@tanstack/react-table';
+import { tableFeatures, useTable } from '@tanstack/react-table';
 import { useMemo, useRef, useState } from 'react';
 
 import {
@@ -189,7 +189,7 @@ export const useMRT_TableInstance = <TData extends MRT_RowData>(
     definedTableOptions as MRT_StatefulTableOptions<TData>;
 
   //don't recompute columnDefs while resizing column or dragging column/row
-  const columnDefsRef = useRef<MRT_ColumnDef<TData>[]>([]);
+  const columnDefsRef = useRef<ReadonlyArray<MRT_ColumnDef<TData>>>([]);
   statefulTableOptions.columns =
     statefulTableOptions.state.columnResizing.isResizingColumn ||
     statefulTableOptions.state.draggingColumn ||
@@ -249,69 +249,85 @@ export const useMRT_TableInstance = <TData extends MRT_RowData>(
     ],
   );
 
-  const table = useTable({
+  const [features] = useState<MRT_TableFeatures>(() =>
+    tableFeatures({
+      ...MRT_TableFeatures,
+      aggregationFns: {
+        ...MRT_TableFeatures.aggregationFns,
+        ...statefulTableOptions.aggregationFns,
+      },
+      filterFns: {
+        ...MRT_TableFeatures.filterFns,
+        ...statefulTableOptions.filterFns,
+      },
+      sortFns: {
+        ...MRT_TableFeatures.sortFns,
+        ...statefulTableOptions.sortFns,
+      },
+    }),
+  );
+
+  const tableOptions = {
     onColumnOrderChange,
     onColumnResizingChange,
     onGroupingChange,
     onPaginationChange,
     ...statefulTableOptions,
-    features: MRT_TableFeatures,
-    globalFilterFn: statefulTableOptions.filterFns?.[globalFilterFn ?? 'fuzzy'],
-  }) as unknown as MRT_TableInstance<TData>;
-
-  table.refs = {
-    actionCellRef,
-    bottomToolbarRef,
-    editInputRefs,
-    filterInputRefs,
-    lastSelectedRowId,
-    searchInputRef,
-    tableContainerRef,
-    tableFooterRef,
-    tableHeadCellRefs,
-    tableHeadRef,
-    tablePaperRef,
-    topToolbarRef,
+    features,
+    globalFilterFn: globalFilterFn ?? 'fuzzy',
   };
 
-  table.setActionCell =
-    statefulTableOptions.onActionCellChange ?? setActionCell;
-  table.setCreatingRow = (row: MRT_Updater<MRT_Row<TData> | null | true>) => {
-    let _row = row;
-    if (row === true) {
-      _row = createRow(table);
-    }
-    statefulTableOptions?.onCreatingRowChange?.(
-      _row as MRT_Row<TData> | null,
-    ) ?? _setCreatingRow(_row as MRT_Row<TData> | null);
-  };
-  table.setColumnFilterFns =
-    statefulTableOptions.onColumnFilterFnsChange ?? setColumnFilterFns;
-  table.setDensity = statefulTableOptions.onDensityChange ?? setDensity;
-  table.setDraggingColumn =
-    statefulTableOptions.onDraggingColumnChange ?? setDraggingColumn;
-  table.setDraggingRow =
-    statefulTableOptions.onDraggingRowChange ?? setDraggingRow;
-  table.setEditingCell =
-    statefulTableOptions.onEditingCellChange ?? setEditingCell;
-  table.setEditingRow =
-    statefulTableOptions.onEditingRowChange ?? setEditingRow;
-  table.setGlobalFilterFn =
-    statefulTableOptions.onGlobalFilterFnChange ?? setGlobalFilterFn;
-  table.setHoveredColumn =
-    statefulTableOptions.onHoveredColumnChange ?? setHoveredColumn;
-  table.setHoveredRow =
-    statefulTableOptions.onHoveredRowChange ?? setHoveredRow;
-  table.setIsFullScreen =
-    statefulTableOptions.onIsFullScreenChange ?? setIsFullScreen;
-  table.setShowAlertBanner =
-    statefulTableOptions.onShowAlertBannerChange ?? setShowAlertBanner;
-  table.setShowColumnFilters =
-    statefulTableOptions.onShowColumnFiltersChange ?? setShowColumnFilters;
-  table.setShowGlobalFilter =
-    statefulTableOptions.onShowGlobalFilterChange ?? setShowGlobalFilter;
-  table.setShowToolbarDropZone =
-    statefulTableOptions.onShowToolbarDropZoneChange ?? setShowToolbarDropZone;
+  const reactTable = useTable(tableOptions);
+
+  const table = Object.assign(reactTable, {
+    getState: () => reactTable.state,
+    getLeftLeafColumns: () => reactTable.getStartLeafColumns(),
+    getRightLeafColumns: () => reactTable.getEndLeafColumns(),
+    getPaginationRowModel: () => reactTable.getPaginatedRowModel(),
+    refs: {
+      actionCellRef,
+      bottomToolbarRef,
+      editInputRefs,
+      filterInputRefs,
+      lastSelectedRowId,
+      searchInputRef,
+      tableContainerRef,
+      tableFooterRef,
+      tableHeadCellRefs,
+      tableHeadRef,
+      tablePaperRef,
+      topToolbarRef,
+    },
+    setActionCell: statefulTableOptions.onActionCellChange ?? setActionCell,
+    setColumnFilterFns:
+      statefulTableOptions.onColumnFilterFnsChange ?? setColumnFilterFns,
+    setCreatingRow: (row: MRT_Updater<MRT_Row<TData> | null | true>) => {
+      const nextRow = row === true ? createRow(table) : row;
+      statefulTableOptions?.onCreatingRowChange?.(
+        nextRow as MRT_Row<TData> | null,
+      ) ?? _setCreatingRow(nextRow as MRT_Row<TData> | null);
+    },
+    setDensity: statefulTableOptions.onDensityChange ?? setDensity,
+    setDraggingColumn:
+      statefulTableOptions.onDraggingColumnChange ?? setDraggingColumn,
+    setDraggingRow: statefulTableOptions.onDraggingRowChange ?? setDraggingRow,
+    setEditingCell: statefulTableOptions.onEditingCellChange ?? setEditingCell,
+    setEditingRow: statefulTableOptions.onEditingRowChange ?? setEditingRow,
+    setGlobalFilterFn:
+      statefulTableOptions.onGlobalFilterFnChange ?? setGlobalFilterFn,
+    setHoveredColumn:
+      statefulTableOptions.onHoveredColumnChange ?? setHoveredColumn,
+    setHoveredRow: statefulTableOptions.onHoveredRowChange ?? setHoveredRow,
+    setIsFullScreen: statefulTableOptions.onIsFullScreenChange ?? setIsFullScreen,
+    setShowAlertBanner:
+      statefulTableOptions.onShowAlertBannerChange ?? setShowAlertBanner,
+    setShowColumnFilters:
+      statefulTableOptions.onShowColumnFiltersChange ?? setShowColumnFilters,
+    setShowGlobalFilter:
+      statefulTableOptions.onShowGlobalFilterChange ?? setShowGlobalFilter,
+    setShowToolbarDropZone:
+      statefulTableOptions.onShowToolbarDropZoneChange ?? setShowToolbarDropZone,
+  });
 
   useMRT_Effects(table);
 

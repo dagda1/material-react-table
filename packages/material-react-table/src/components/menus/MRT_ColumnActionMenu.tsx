@@ -6,6 +6,7 @@ import {
   type MRT_RowData,
   type MRT_TableInstance,
 } from '../../types';
+import { getDefaultColumnFilterFn } from '../../utils/column.utils';
 import { MRT_ActionMenuItem } from './MRT_ActionMenuItem';
 import { MRT_FilterOptionMenu } from './MRT_FilterOptionMenu';
 
@@ -108,7 +109,11 @@ export const MRT_ColumnActionMenu = <TData extends MRT_RowData>({
   const handleClearFilter = () => {
     column.setFilterValue(undefined);
     setAnchorEl(null);
-    if (['empty', 'notEmpty'].includes(columnDef._filterFn)) {
+    if (
+      ['empty', 'notEmpty'].includes(
+        columnDef._filterFn ?? getDefaultColumnFilterFn(columnDef),
+      )
+    ) {
       setColumnFilterFns((prev) => ({
         ...prev,
         [header.id]: allowedColumnFilterOptions?.[0] ?? 'fuzzy',

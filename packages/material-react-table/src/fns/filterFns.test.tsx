@@ -8,8 +8,6 @@ interface Person {
   name: string;
 }
 
-// 'Jonathan' is first so a change in row order proves ranking ran, and both
-// names pass the rankings.MATCHES threshold for the term 'john'.
 const data: Person[] = [
   { name: 'Jonathan' },
   { name: 'John' },

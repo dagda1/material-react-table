@@ -100,8 +100,8 @@ export const MRT_ToolbarAlertBanner = <TData extends MRT_RowData>({
           <Fragment key={`${index}-${columnId}`}>
             {index > 0 ? localization.thenBy : ''}
             <Chip
-              label={table.getColumn(columnId).columnDef.header}
-              onDelete={() => table.getColumn(columnId).toggleGrouping()}
+              label={table.getColumn(columnId)?.columnDef.header}
+              onDelete={() => table.getColumn(columnId)?.toggleGrouping()}
               {...chipProps}
             />
           </Fragment>

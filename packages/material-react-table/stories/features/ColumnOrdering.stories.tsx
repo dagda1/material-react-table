@@ -3,6 +3,7 @@ import { type Meta } from '@storybook/react-vite';
 import { useState } from 'react';
 
 import {
+  getColumnId,
   MaterialReactTable,
   type MRT_ColumnDef,
   type MRT_ColumnOrderState,
@@ -137,7 +138,7 @@ export const ColumnOrderingNoDragHandles = () => (
 
 export const ColumnOrderingStateManaged = () => {
   const [columnOrder, setColumnOrder] = useState<MRT_ColumnOrderState>(() =>
-    columns.map((c) => c.accessorKey as string),
+    columns.map((column) => getColumnId(column)),
   );
   return (
     <MaterialReactTable
@@ -154,7 +155,7 @@ export const ColumnOrderingStateManaged = () => {
 
 export const ColumnOrderingStateManagedCustom = () => {
   const [columnOrder, setColumnOrder] = useState<MRT_ColumnOrderState>(() => [
-    ...columns.map((c) => c.accessorKey as string),
+    ...columns.map((column) => getColumnId(column)),
     'mrt-row-select',
   ]);
   return (

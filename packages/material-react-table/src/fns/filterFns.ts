@@ -3,7 +3,11 @@ import {
   filterFn_arrIncludes,
   filterFn_arrIncludesAll,
   filterFn_arrIncludesSome,
+  filterFn_equalsString,
+  filterFn_equalsStringSensitive,
   filterFn_inNumberRange,
+  filterFn_includesString,
+  filterFn_includesStringSensitive,
   type FilterMeta,
   type Row,
 } from '@tanstack/react-table';
@@ -181,9 +185,6 @@ const notEmpty = <TData extends MRT_RowData>(
 
 notEmpty.autoRemove = (val: any) => !val;
 
-// Only the built-ins MRT names itself. The rest of the v9 registry is either
-// overridden below or unreachable from MRT's filter option menus, and spreading
-// the whole registry ships every one of them.
 export const MRT_FilterFns = {
   arrIncludes: filterFn_arrIncludes,
   arrIncludesAll: filterFn_arrIncludesAll,
@@ -195,8 +196,12 @@ export const MRT_FilterFns = {
   endsWith,
   equals,
   fuzzy,
+  equalsString: filterFn_equalsString,
+  equalsStringSensitive: filterFn_equalsStringSensitive,
   greaterThan,
   greaterThanOrEqualTo,
+  includesString: filterFn_includesString,
+  includesStringSensitive: filterFn_includesStringSensitive,
   inNumberRange: filterFn_inNumberRange,
   lessThan,
   lessThanOrEqualTo,

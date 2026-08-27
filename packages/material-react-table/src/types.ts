@@ -31,6 +31,10 @@ import {
 import {
   type AccessorFn,
   type AggregationFnDef,
+  type Cell,
+  type CellData,
+  type Column,
+  type ColumnDef,
   type ColumnFiltersState,
   type ColumnOrderState,
   type ColumnPinningState,
@@ -41,17 +45,23 @@ import {
   type ExpandedState,
   type FilterFn,
   type GroupingState,
+  type Header,
+  type HeaderGroup,
   type OnChangeFn,
   type PaginationState,
+  type ReactTable,
+  type Row,
+  type RowData,
   type RowSelectionState,
   type SortFn,
+  type TableFeature,
+  type TableFeatures,
   type SortingState,
-  type StockFeatures,
+  type TableOptions,
   type TableState,
   type TableState_ColumnResizing,
   type Updater,
 } from '@tanstack/react-table';
-import { type MRT_TableFeatures } from './fns/tableFeatures';
 import {
   type VirtualItem,
   type Virtualizer,
@@ -67,26 +77,10 @@ import {
 import { type MRT_AggregationFns } from './fns/aggregationFns';
 import { type MRT_FilterFns } from './fns/filterFns';
 import { type MRT_SortingFns } from './fns/sortingFns';
+import { type MRT_TableFeatures } from './fns/tableFeatures';
 import { type MRT_Icons } from './icons';
 
 export type { MRT_Icons };
-
-/**
- * TanStack Table v9 closed the `FilterFns`, `SortFns` and `AggregationFns`
- * interfaces. MRT looks these up by name at runtime so users can register their
- * own, which needs the index signatures v8 shipped with.
- */
-declare module '@tanstack/table-core' {
-  interface AggregationFns {
-    [key: string]: any;
-  }
-  interface FilterFns {
-    [key: string]: any;
-  }
-  interface SortFns {
-    [key: string]: any;
-  }
-}
 
 export type DropdownOption =
   | string
@@ -104,60 +98,108 @@ export type LiteralUnion<T extends U, U = string> =
  * with an `aggregate` method that takes a single context argument.
  */
 export type MRT_AggregationFn<TData extends MRT_RowData> =
-  | AggregationFnDef<StockFeatures, TData, any, any>
+  | AggregationFnDef<any, TData, any, any>
   | MRT_AggregationOption;
 
-export type MRT_AggregationOption = keyof typeof MRT_AggregationFns & string;
+export type MRT_AggregationOption =
+  | (keyof typeof MRT_AggregationFns & string)
+  | (string & {});
 
-export type MRT_Cell<TData extends MRT_RowData, TValue = unknown> = Omit<
-  Cell<MRT_TableFeatures, TData, TValue>,
-  'column' | 'row'
-> & {
-  column: MRT_Column<TData, TValue>;
-  row: MRT_Row<TData>;
-};
+export type MRT_Cell<
+  TData extends MRT_RowData,
+  TValue = unknown,
+> = Cell<MRT_TableFeatures, TData, TValue>;
 
-export type MRT_Column<TData extends MRT_RowData, TValue = unknown> = Omit<
-  Column<MRT_TableFeatures, TData, TValue>,
-  'columnDef' | 'columns' | 'filterFn' | 'footer' | 'header'
-> & {
-  columnDef: MRT_DefinedColumnDef<TData, TValue>;
-  columns?: MRT_Column<TData, TValue>[];
-  filterFn?: MRT_FilterFn<TData>;
-  footer: string;
-  header: string;
-};
+export type MRT_Column<
+  TData extends MRT_RowData,
+  TValue = unknown,
+> = Column<MRT_TableFeatures, TData, TValue>;
 
-export interface MRT_ColumnDef<TData extends MRT_RowData, TValue = unknown>
-  extends Omit<
-    ColumnDef<MRT_TableFeatures, TData, TValue>,
-    | 'accessorKey'
-    | 'aggregatedCell'
-    | 'aggregationFn'
-    | 'cell'
-    | 'columns'
-    | 'filterFn'
-    | 'footer'
-    | 'header'
-    | 'id'
-    | 'sortFn'
+declare module '@tanstack/table-core' {
+  interface Plugins {
+    mrtFeature: TableFeature;
+  }
+  interface ColumnDef_FeatureMap<
+    TFeatures extends TableFeatures,
+    TData extends RowData,
+    TValue extends CellData,
   > {
-  /**
-   * Either an `accessorKey` or a combination of an `accessorFn` and `id` are required for a data column definition.
-   * Specify a function here to point to the correct property in the data object.
-   *
-   * @example accessorFn: (row) => row.username
-   */
-  accessorFn?: (originalRow: TData) => TValue;
-  /**
-   * Either an `accessorKey` or a combination of an `accessorFn` and `id` are required for a data column definition.
-   * Specify which key in the row this column should use to access the correct data.
-   * Also supports Deep Key Dot Notation.
-   *
-   * @example accessorKey: 'username' //simple
-   * @example accessorKey: 'name.firstName' //deep key dot notation
-   */
-  accessorKey?: DeepKeys<TData> | (string & {});
+    mrtFeature: MRT_ColumnDefExtras<TData, TValue>;
+  }
+  interface TableOptions_FeatureMap<
+    TFeatures extends TableFeatures,
+    TData extends RowData,
+  > {
+    mrtFeature: MRT_TableOptionExtras<TData>;
+  }
+  interface TableState_FeatureMap {
+    mrtFeature: MRT_StateExtras;
+  }
+}
+
+interface MRT_TableOptionExtras<TData extends MRT_RowData> {
+  globalFilterFn?: MRT_FilterOption;
+  icons: MRT_Icons;
+  localization: MRT_Localization;
+  mrtTheme: Required<MRT_Theme>;
+  state: MRT_StatefulState<TData>;
+}
+
+export type MRT_StatefulState<TData extends MRT_RowData> = Pick<
+  MRT_TableState<TData>,
+  | 'columnFilterFns'
+  | 'columnOrder'
+  | 'columnResizing'
+  | 'creatingRow'
+  | 'density'
+  | 'draggingColumn'
+  | 'draggingRow'
+  | 'editingCell'
+  | 'editingRow'
+  | 'globalFilterFn'
+  | 'grouping'
+  | 'hoveredColumn'
+  | 'hoveredRow'
+  | 'isFullScreen'
+  | 'pagination'
+  | 'showAlertBanner'
+  | 'showColumnFilters'
+  | 'showGlobalFilter'
+  | 'showToolbarDropZone'
+> &
+  Partial<Pick<MRT_TableState<TData>, 'isLoading' | 'showSkeletons'>>;
+
+interface MRT_StateExtras {
+  actionCell?: Cell<MRT_TableFeatures, any> | null;
+  columnFilterFns: MRT_ColumnFilterFnsState;
+  creatingRow: null | Row<MRT_TableFeatures, any>;
+  density: MRT_DensityState;
+  draggingColumn: Column<MRT_TableFeatures, any> | null;
+  draggingRow: null | Row<MRT_TableFeatures, any>;
+  editingCell: Cell<MRT_TableFeatures, any> | null;
+  editingRow: null | Row<MRT_TableFeatures, any>;
+  globalFilterFn: MRT_FilterOption;
+  hoveredColumn: null | Partial<Column<MRT_TableFeatures, any>>;
+  hoveredRow: null | Partial<Row<MRT_TableFeatures, any>>;
+  isFullScreen: boolean;
+  isLoading: boolean;
+  isSaving: boolean;
+  showAlertBanner: boolean;
+  showColumnFilters: boolean;
+  showGlobalFilter: boolean;
+  showLoadingOverlay: boolean;
+  showProgressBars: boolean;
+  showSkeletons: boolean;
+  showToolbarDropZone: boolean;
+}
+
+export interface MRT_ColumnDefExtras<
+  TData extends MRT_RowData,
+  TValue = unknown,
+> {
+  _filterFn?: MRT_FilterOption;
+  footer?: string;
+  header: string;
   AggregatedCell?: (props: {
     cell: MRT_Cell<TData, TValue>;
     column: MRT_Column<TData, TValue>;
@@ -166,7 +208,6 @@ export interface MRT_ColumnDef<TData extends MRT_RowData, TValue = unknown>
     staticRowIndex?: number;
     table: MRT_TableInstance<TData>;
   }) => ReactNode;
-  aggregationFn?: Array<MRT_AggregationFn<TData>> | MRT_AggregationFn<TData>;
   Cell?: (props: {
     cell: MRT_Cell<TData, TValue>;
     column: MRT_Column<TData, TValue>;
@@ -189,7 +230,6 @@ export interface MRT_ColumnDef<TData extends MRT_RowData, TValue = unknown>
   columnFilterModeOptions?: Array<
     LiteralUnion<MRT_FilterOption & string>
   > | null;
-  columns?: MRT_ColumnDef<TData, TValue>[];
   Edit?: (props: {
     cell: MRT_Cell<TData, TValue>;
     column: MRT_Column<TData, TValue>;
@@ -221,7 +261,6 @@ export interface MRT_ColumnDef<TData extends MRT_RowData, TValue = unknown>
     rangeFilterIndex?: number;
     table: MRT_TableInstance<TData>;
   }) => ReactNode;
-  filterFn?: MRT_FilterFn<TData>;
   filterSelectOptions?: DropdownOption[];
   filterVariant?:
     | 'autocomplete'
@@ -237,10 +276,6 @@ export interface MRT_ColumnDef<TData extends MRT_RowData, TValue = unknown>
     | 'text'
     | 'time'
     | 'time-range';
-  /**
-   * footer must be a string. If you want custom JSX to render the footer, you can also specify a `Footer` option. (Capital F)
-   */
-  footer?: string;
   Footer?:
     | ((props: {
         column: MRT_Column<TData, TValue>;
@@ -260,10 +295,6 @@ export interface MRT_ColumnDef<TData extends MRT_RowData, TValue = unknown>
    * If `layoutMode` is `'grid'` or `'grid-no-grow'`, you can specify the flex grow value for individual columns to still grow and take up remaining space, or set to `false`/0 to not grow.
    */
   grow?: boolean | number;
-  /**
-   * header must be a string. If you want custom JSX to render the header, you can also specify a `Header` option. (Capital H)
-   */
-  header: string;
   Header?:
     | ((props: {
         column: MRT_Column<TData, TValue>;
@@ -271,16 +302,6 @@ export interface MRT_ColumnDef<TData extends MRT_RowData, TValue = unknown>
         table: MRT_TableInstance<TData>;
       }) => ReactNode)
     | ReactNode;
-  /**
-   * Either an `accessorKey` or a combination of an `accessorFn` and `id` are required for a data column definition.
-   *
-   * If you have also specified an `accessorFn`, MRT still needs to have a valid `id` to be able to identify the column uniquely.
-   *
-   * `id` defaults to the `accessorKey` or `header` if not specified.
-   *
-   * @default gets set to the same value as `accessorKey` by default
-   */
-  id?: LiteralUnion<keyof TData & string>;
   muiColumnActionsButtonProps?:
     | ((props: {
         column: MRT_Column<TData>;
@@ -403,9 +424,13 @@ export interface MRT_ColumnDef<TData extends MRT_RowData, TValue = unknown>
     onSelectFilterMode: (filterMode: MRT_FilterOption) => void;
     table: MRT_TableInstance<TData>;
   }) => ReactNode[];
-  sortFn?: MRT_SortingFn<TData>;
   visibleInShowHideMenu?: boolean;
 }
+
+export type MRT_ColumnDef<
+  TData extends MRT_RowData,
+  TValue = unknown,
+> = ColumnDef<MRT_TableFeatures, TData, TValue>;
 
 export type MRT_ColumnFilterFnsState = Record<string, MRT_FilterOption>;
 export type MRT_ColumnFiltersState = ColumnFiltersState;
@@ -470,7 +495,7 @@ export type MRT_DisplayColumnIds =
 export type MRT_ExpandedState = ExpandedState;
 
 export type MRT_FilterFn<TData extends MRT_RowData> =
-  | FilterFn<StockFeatures, TData>
+  | FilterFn<MRT_TableFeatures, TData>
   | MRT_FilterOption;
 
 export type MRT_FilterOption = LiteralUnion<
@@ -603,24 +628,7 @@ export interface MRT_Localization {
 
 export type MRT_PaginationState = PaginationState;
 
-export type MRT_Row<TData extends MRT_RowData> = Omit<
-  Row<MRT_TableFeatures, TData>,
-  | '_valuesCache'
-  | 'getAllCells'
-  | 'getParentRow'
-  | 'getParentRows'
-  | 'getRow'
-  | 'getVisibleCells'
-  | 'subRows'
-> & {
-  _valuesCache: Record<LiteralUnion<DeepKeys<TData> & string>, any>;
-  getAllCells: () => MRT_Cell<TData>[];
-  getParentRow: () => MRT_Row<TData> | null;
-  getParentRows: () => MRT_Row<TData>[];
-  getRow: () => MRT_Row<TData>;
-  getVisibleCells: () => MRT_Cell<TData>[];
-  subRows?: MRT_Row<TData>[];
-};
+export type MRT_Row<TData extends MRT_RowData> = Row<MRT_TableFeatures, TData>;
 
 export type MRT_RowData = Record<string, any>;
 
@@ -641,7 +649,7 @@ export type MRT_RowVirtualizer<
 
 export type MRT_SortingFn<TData extends MRT_RowData> =
   | MRT_SortingOption
-  | SortFn<StockFeatures, TData>;
+  | SortFn<MRT_TableFeatures, TData>;
 
 export type MRT_SortingOption = LiteralUnion<
   keyof typeof MRT_SortingFns & string
@@ -651,39 +659,17 @@ export type MRT_SortingState = SortingState;
 
 export type MRT_StatefulTableOptions<TData extends MRT_RowData> =
   MRT_DefinedTableOptions<TData> & {
-    state: Pick<
-      MRT_TableState<TData>,
-      | 'columnFilterFns'
-      | 'columnOrder'
-      | 'columnResizing'
-      | 'creatingRow'
-      | 'density'
-      | 'draggingColumn'
-      | 'draggingRow'
-      | 'editingCell'
-      | 'editingRow'
-      | 'globalFilterFn'
-      | 'grouping'
-      | 'hoveredColumn'
-      | 'hoveredRow'
-      | 'isFullScreen'
-      | 'pagination'
-      | 'showAlertBanner'
-      | 'showColumnFilters'
-      | 'showGlobalFilter'
-      | 'showToolbarDropZone'
-    >;
+    state: MRT_StatefulState<TData>;
   };
 
 export type MRT_TableInstance<TData extends MRT_RowData> = Omit<
-  Table<MRT_TableFeatures, TData>,
+  ReactTable<MRT_TableFeatures, TData>,
   | 'getAllColumns'
   | 'getAllFlatColumns'
   | 'getAllLeafColumns'
   | 'getBottomRows'
   | 'getCenterLeafColumns'
   | 'getCenterRows'
-  | 'getColumn'
   | 'getExpandedRowModel'
   | 'getFlatHeaders'
   | 'getFooterGroups'
@@ -706,7 +692,6 @@ export type MRT_TableInstance<TData extends MRT_RowData> = Omit<
   getBottomRows: () => MRT_Row<TData>[];
   getCenterLeafColumns: () => MRT_Column<TData>[];
   getCenterRows: () => MRT_Row<TData>[];
-  getColumn: (columnId: string) => MRT_Column<TData>;
   getExpandedRowModel: () => MRT_RowModel<TData>;
   getFlatHeaders: () => MRT_Header<TData>[];
   getFooterGroups: () => MRT_HeaderGroup<TData>[];
@@ -773,10 +758,18 @@ export interface MRT_TableOptions<TData extends MRT_RowData>
     | 'expandRowsFn'
     | 'getRowId'
     | 'globalFilterFn'
+    | 'icons'
     | 'initialState'
+    | 'localization'
+    | 'mrtTheme'
     | 'onStateChange'
     | 'state'
   > {
+  /**
+   * Custom aggregation functions, registered by name so column defs can select
+   * them with `aggregationFn: 'myFn'`.
+   */
+  aggregationFns?: Record<string, AggregationFnDef<any, TData, any, any>>;
   columnFilterDisplayMode?: 'custom' | 'popover' | 'subheader';
   columnFilterModeOptions?: Array<
     LiteralUnion<MRT_FilterOption & string>
@@ -791,7 +784,7 @@ export interface MRT_TableOptions<TData extends MRT_RowData>
    * See all Columns Options on the official docs site:
    * @link https://www.material-react-table.com/docs/api/column-options
    */
-  columns: MRT_ColumnDef<TData, any>[];
+  columns: ReadonlyArray<MRT_ColumnDef<TData, any>>;
   columnVirtualizerInstanceRef?: RefObject<MRT_ColumnVirtualizer | null>;
   columnVirtualizerOptions?:
     | ((props: {
@@ -805,7 +798,7 @@ export interface MRT_TableOptions<TData extends MRT_RowData>
    * See the usage guide for more info on creating columns and data:
    * @link https://www.material-react-table.com/docs/getting-started/usage
    */
-  data: TData[];
+  data: readonly TData[];
   /**
    * Instead of specifying a bunch of the same options for each column, you can just change an option in the `defaultColumn` table option to change a default option for all columns.
    */
@@ -854,10 +847,15 @@ export interface MRT_TableOptions<TData extends MRT_RowData>
   enableToolbarInternalActions?: boolean;
   enableTopToolbar?: boolean;
   expandRowsFn?: (dataRow: TData) => TData[];
+  /**
+   * Custom filter functions, registered by name so column defs can select them
+   * with `filterFn: 'myFn'` and `globalFilterFn` can name one.
+   */
+  filterFns?: Record<string, FilterFn<any, TData>>;
   getRowId?: (
     originalRow: TData,
     index: number,
-    parentRow: MRT_Row<TData>,
+    parentRow?: MRT_Row<TData>,
   ) => string;
   globalFilterFn?: MRT_FilterOption;
   globalFilterModeOptions?: MRT_FilterOption[] | null;
@@ -1250,12 +1248,27 @@ export interface MRT_TableOptions<TData extends MRT_RowData>
     | Partial<VirtualizerOptions<HTMLDivElement, HTMLTableRowElement>>;
   selectAllMode?: 'all' | 'page';
   /**
+   * Custom sort functions, registered by name so column defs can select them
+   * with `sortFn: 'myFn'`.
+   */
+  sortFns?: Record<string, SortFn<any, TData>>;
+  /**
    * Manage state externally any way you want, then pass it back into MRT.
    */
   state?: Partial<MRT_TableState<TData>>;
 }
 
-export interface MRT_TableState<TData extends MRT_RowData> extends TableState<StockFeatures> {
+export type MRT_TableState<TData extends MRT_RowData> = Omit<
+  TableState<MRT_TableFeatures>,
+  | 'actionCell'
+  | 'creatingRow'
+  | 'draggingColumn'
+  | 'draggingRow'
+  | 'editingCell'
+  | 'editingRow'
+  | 'hoveredColumn'
+  | 'hoveredRow'
+> & {
   actionCell?: MRT_Cell<TData> | null;
   columnFilterFns: MRT_ColumnFilterFnsState;
   creatingRow: MRT_Row<TData> | null;

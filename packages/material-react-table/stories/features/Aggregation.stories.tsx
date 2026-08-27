@@ -47,7 +47,7 @@ const columns = [
     AggregatedCell: ({ cell, table }) => (
       <>
         Max by{' '}
-        {table.getColumn(cell.row.groupingColumnId ?? '').columnDef.header}:{' '}
+        {table.getColumn(cell.row.groupingColumnId ?? '')?.columnDef.header}:{' '}
         <Box sx={{ color: 'success.main', fontWeight: 'bold' }}>
           {cell.getValue<number>()}
         </Box>
@@ -78,7 +78,7 @@ const columns = [
     AggregatedCell: ({ cell, table }) => (
       <>
         Average by{' '}
-        {table.getColumn(cell.row.groupingColumnId ?? '').columnDef.header}:{' '}
+        {table.getColumn(cell.row.groupingColumnId ?? '')?.columnDef.header}:{' '}
         <Box sx={{ color: 'success.main', fontWeight: 'bold' }}>
           {cell.getValue<number>()?.toLocaleString?.('en-US', {
             currency: 'USD',
@@ -211,14 +211,14 @@ export const MultiAggregationPerColumn = () => (
         AggregatedCell: ({ cell, table }) => (
           <>
             Min by{' '}
-            {table.getColumn(cell.row.groupingColumnId ?? '').columnDef.header}:{' '}
+            {table.getColumn(cell.row.groupingColumnId ?? '')?.columnDef.header}:{' '}
             <Box sx={{ color: 'success.main', fontWeight: 'bold' }}>
               {cell.getValue<[number, number]>()[0]}
             </Box>
             <br />
             Max by{' '}
             {
-              table.getColumn(cell.row.groupingColumnId ?? '').columnDef.header
+              table.getColumn(cell.row.groupingColumnId ?? '')?.columnDef.header
             }:{' '}
             <Box sx={{ color: 'success.main', fontWeight: 'bold' }}>
               {cell.getValue<[number, number]>()[1]}
@@ -262,7 +262,7 @@ export const MultiAggregationPerColumn = () => (
             <br />
             Average by{' '}
             {
-              table.getColumn(cell.row.groupingColumnId ?? '').columnDef.header
+              table.getColumn(cell.row.groupingColumnId ?? '')?.columnDef.header
             }:{' '}
             <Box sx={{ color: 'success.main', fontWeight: 'bold' }}>
               {cell

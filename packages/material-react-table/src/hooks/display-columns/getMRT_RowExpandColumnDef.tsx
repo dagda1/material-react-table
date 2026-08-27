@@ -46,7 +46,7 @@ export const getMRT_RowExpandColumnDef = <TData extends MRT_RowData>(
             <MRT_ExpandButton {...expandButtonProps} />
             <Tooltip
               {...getCommonTooltipProps('right')}
-              title={table.getColumn(row.groupingColumnId).columnDef.header}
+              title={table.getColumn(row.groupingColumnId)?.columnDef.header}
             >
               <span>{row.groupingValue as ReactNode}</span>
             </Tooltip>
@@ -71,7 +71,7 @@ export const getMRT_RowExpandColumnDef = <TData extends MRT_RowData>(
                 grouping
                   ?.map(
                     (groupedColumnId) =>
-                      table.getColumn(groupedColumnId).columnDef.header,
+                      table.getColumn(groupedColumnId)?.columnDef.header,
                   )
                   ?.join(', ')}
             </>

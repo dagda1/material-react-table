@@ -2,11 +2,7 @@ import { faker } from '@faker-js/faker';
 import { type Meta } from '@storybook/react-vite';
 import { useState } from 'react';
 
-import {
-  MaterialReactTable,
-  type MRT_ColumnDef,
-  type MRT_Row,
-} from '../../src';
+import { MaterialReactTable, type MRT_ColumnDef } from '../../src';
 
 const meta: Meta = {
   title: 'Features/Search Examples',
@@ -84,11 +80,8 @@ export const CustomGlobalFilterFn = () => (
     columns={columns}
     data={data}
     filterFns={{
-      myCustomFilterFn: (
-        row: MRT_Row<(typeof data)[0]>,
-        id: string,
-        filterValue: string,
-      ) => row.getValue<string>(id).startsWith(filterValue),
+      myCustomFilterFn: (row, id, filterValue) =>
+        row.getValue<string>(id).startsWith(filterValue as string),
     }}
     globalFilterFn="myCustomFilterFn"
   />

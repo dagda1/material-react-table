@@ -848,13 +848,13 @@ export const EditingNestedData = () => {
       enableEditing
       onEditingRowSave={({ row, values }) => {
         tableData[row.index] = {
-          address: row._valuesCache.address,
+          address: String(row._valuesCache.address),
           name: {
             firstName: values.firstName,
             lastName: values['name.lastName'],
           },
-          phoneNumber: row._valuesCache.phoneNumber,
-          state: row._valuesCache.state,
+          phoneNumber: String(row._valuesCache.phoneNumber),
+          state: String(row._valuesCache.state),
         };
         setTableData([...tableData]);
       }}

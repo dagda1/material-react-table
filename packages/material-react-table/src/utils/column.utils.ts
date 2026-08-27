@@ -13,19 +13,29 @@ import {
   type MRT_TableInstance,
 } from '../types';
 
+export const getSubColumnDefs = <TData extends MRT_RowData>(
+  columnDef: MRT_ColumnDef<TData>,
+): ReadonlyArray<MRT_ColumnDef<TData>> | undefined =>
+  'columns' in columnDef ? columnDef.columns : undefined;
+
 export const getColumnId = <TData extends MRT_RowData>(
   columnDef: MRT_ColumnDef<TData>,
 ): string =>
-  columnDef.id ?? columnDef.accessorKey?.toString?.() ?? columnDef.header;
+  columnDef.id ??
+  ('accessorKey' in columnDef
+    ? columnDef.accessorKey?.toString?.()
+    : undefined) ??
+  columnDef.header;
 
 export const getAllLeafColumnDefs = <TData extends MRT_RowData>(
-  columns: MRT_ColumnDef<TData>[],
+  columns: ReadonlyArray<MRT_ColumnDef<TData>>,
 ): MRT_ColumnDef<TData>[] => {
   const allLeafColumnDefs: MRT_ColumnDef<TData>[] = [];
-  const getLeafColumns = (cols: MRT_ColumnDef<TData>[]) => {
+  const getLeafColumns = (cols: ReadonlyArray<MRT_ColumnDef<TData>>) => {
     cols.forEach((col) => {
-      if (col.columns) {
-        getLeafColumns(col.columns);
+      const subColumnDefs = getSubColumnDefs(col);
+      if (subColumnDefs) {
+        getLeafColumns(subColumnDefs);
       } else {
         allLeafColumnDefs.push(col);
       }
@@ -54,11 +64,12 @@ export const prepareColumns = <TData extends MRT_RowData>({
     if (!columnDef.id) columnDef.id = getColumnId(columnDef);
     //assign columnDefType
     if (!columnDef.columnDefType) columnDef.columnDefType = 'data';
-    if (columnDef.columns?.length) {
+    const subColumnDefs = getSubColumnDefs(columnDef);
+    if (subColumnDefs?.length && 'columns' in columnDef) {
       columnDef.columnDefType = 'group';
       //recursively prepare columns if this is a group column
       columnDef.columns = prepareColumns({
-        columnDefs: columnDef.columns,
+        columnDefs: [...subColumnDefs],
         tableOptions,
       });
     } else if (columnDef.columnDefType === 'data') {
@@ -111,7 +122,7 @@ export const reorderColumn = <TData extends MRT_RowData>(
 };
 
 export const getDefaultColumnFilterFn = <TData extends MRT_RowData>(
-  columnDef: MRT_ColumnDef<TData>,
+  columnDef: Pick<MRT_ColumnDef<TData>, 'filterVariant'>,
 ): MRT_FilterOption => {
   const { filterVariant } = columnDef;
   if (filterVariant === 'multi-select') return 'arrIncludesSome';
@@ -139,17 +150,19 @@ export const getColumnFilterInfo = <TData extends MRT_RowData>({
     filterVariant?.startsWith('date') || filterVariant?.startsWith('time')
   );
   const isAutocompleteFilter = filterVariant === 'autocomplete';
+  const currentFilterOption =
+    columnDef._filterFn ?? getDefaultColumnFilterFn(columnDef);
+
   const isRangeFilter =
     filterVariant?.includes('range') ||
     ['between', 'betweenInclusive', 'inNumberRange'].includes(
-      columnDef._filterFn,
+      currentFilterOption,
     );
   const isSelectFilter = filterVariant === 'select';
   const isMultiSelectFilter = filterVariant === 'multi-select';
   const isTextboxFilter =
     ['autocomplete', 'text'].includes(filterVariant!) ||
     (!isSelectFilter && !isMultiSelectFilter);
-  const currentFilterOption = columnDef._filterFn;
 
   const allowedColumnFilterOptions =
     columnDef?.columnFilterModeOptions ?? columnFilterModeOptions;

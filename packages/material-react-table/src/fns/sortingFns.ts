@@ -27,8 +27,6 @@ const fuzzy = <TData extends MRT_RowData>(
     : dir;
 };
 
-// The case-sensitive variants are not offered anywhere in MRT's sorting UI, so
-// they are left out rather than spread in with the whole registry.
 export const MRT_SortingFns = {
   alphanumeric: sortFn_alphanumeric,
   basic: sortFn_basic,

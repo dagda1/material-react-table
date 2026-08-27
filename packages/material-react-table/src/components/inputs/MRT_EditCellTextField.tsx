@@ -72,7 +72,6 @@ export const MRT_EditCellTextField = <TData extends MRT_RowData>({
   const isSelectEdit = editVariant === 'select' || textFieldProps?.select;
 
   const saveInputValueToRowCache = (newValue: string) => {
-    //@ts-expect-error
     row._valuesCache[column.id] = newValue;
     if (isCreating) {
       setCreatingRow(row);
