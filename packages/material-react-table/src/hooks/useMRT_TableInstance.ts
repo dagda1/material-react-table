@@ -1,6 +1,7 @@
-import { tableFeatures, useTable } from '@tanstack/react-table';
+import { useTable } from '@tanstack/react-table';
 import { useMemo, useRef, useState } from 'react';
 
+import { getMRT_TableFeatures } from '../fns/tableFeatures';
 import {
   type MRT_Cell,
   type MRT_Column,
@@ -36,7 +37,6 @@ import {
   showRowSelectionColumn,
   showRowSpacerColumn,
 } from '../utils/displayColumn.utils';
-import { MRT_TableFeatures } from '../fns/tableFeatures';
 import { createRow } from '../utils/tanstack.helpers';
 import { getMRT_RowActionsColumnDef } from './display-columns/getMRT_RowActionsColumnDef';
 import { getMRT_RowDragColumnDef } from './display-columns/getMRT_RowDragColumnDef';
@@ -249,22 +249,25 @@ export const useMRT_TableInstance = <TData extends MRT_RowData>(
     ],
   );
 
-  const [features] = useState<MRT_TableFeatures>(() =>
-    tableFeatures({
-      ...MRT_TableFeatures,
-      aggregationFns: {
-        ...MRT_TableFeatures.aggregationFns,
-        ...statefulTableOptions.aggregationFns,
-      },
-      filterFns: {
-        ...MRT_TableFeatures.filterFns,
-        ...statefulTableOptions.filterFns,
-      },
-      sortFns: {
-        ...MRT_TableFeatures.sortFns,
-        ...statefulTableOptions.sortFns,
-      },
-    }),
+  const features = useMemo(
+    () => getMRT_TableFeatures(statefulTableOptions),
+    [
+      statefulTableOptions.aggregationFns,
+      statefulTableOptions.enableColumnFilters,
+      statefulTableOptions.enableExpanding,
+      statefulTableOptions.enableFacetedValues,
+      statefulTableOptions.enableFilters,
+      statefulTableOptions.enableGlobalFilter,
+      statefulTableOptions.enableGrouping,
+      statefulTableOptions.enablePagination,
+      statefulTableOptions.enableSorting,
+      statefulTableOptions.filterFns,
+      statefulTableOptions.manualFiltering,
+      statefulTableOptions.manualGrouping,
+      statefulTableOptions.manualPagination,
+      statefulTableOptions.manualSorting,
+      statefulTableOptions.sortFns,
+    ],
   );
 
   const tableOptions = {
@@ -280,10 +283,10 @@ export const useMRT_TableInstance = <TData extends MRT_RowData>(
   const reactTable = useTable(tableOptions);
 
   const table = Object.assign(reactTable, {
-    getState: () => reactTable.state,
     getLeftLeafColumns: () => reactTable.getStartLeafColumns(),
-    getRightLeafColumns: () => reactTable.getEndLeafColumns(),
     getPaginationRowModel: () => reactTable.getPaginatedRowModel(),
+    getRightLeafColumns: () => reactTable.getEndLeafColumns(),
+    getState: () => reactTable.state,
     refs: {
       actionCellRef,
       bottomToolbarRef,
