@@ -1,4 +1,4 @@
-import { Box, useMediaQuery, type BoxProps } from '@mui/material';
+import { Box, type BoxProps, useMediaQuery } from '@mui/material';
 import { alpha } from '@mui/material/styles';
 
 import { type MRT_RowData, type MRT_TableInstance } from '../../types';

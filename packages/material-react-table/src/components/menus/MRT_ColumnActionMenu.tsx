@@ -6,7 +6,7 @@ import {
   type MRT_RowData,
   type MRT_TableInstance,
 } from '../../types';
-import { getDefaultColumnFilterFn } from '../../utils/column.utils';
+import { getColumnFilterInfo } from '../../utils/column.utils';
 import { MRT_ActionMenuItem } from './MRT_ActionMenuItem';
 import { MRT_FilterOptionMenu } from './MRT_FilterOptionMenu';
 
@@ -30,7 +30,6 @@ export const MRT_ColumnActionMenu = <TData extends MRT_RowData>({
     getState,
     options: {
       columnFilterDisplayMode,
-      columnFilterModeOptions,
       enableColumnFilterModes,
       enableColumnFilters,
       enableColumnPinning,
@@ -109,11 +108,7 @@ export const MRT_ColumnActionMenu = <TData extends MRT_RowData>({
   const handleClearFilter = () => {
     column.setFilterValue(undefined);
     setAnchorEl(null);
-    if (
-      ['empty', 'notEmpty'].includes(
-        columnDef._filterFn ?? getDefaultColumnFilterFn(columnDef),
-      )
-    ) {
+    if (['empty', 'notEmpty'].includes(currentFilterOption)) {
       setColumnFilterFns((prev) => ({
         ...prev,
         [header.id]: allowedColumnFilterOptions?.[0] ?? 'fuzzy',
@@ -141,8 +136,8 @@ export const MRT_ColumnActionMenu = <TData extends MRT_RowData>({
 
   const isSelectFilter = !!columnDef.filterSelectOptions;
 
-  const allowedColumnFilterOptions =
-    columnDef?.columnFilterModeOptions ?? columnFilterModeOptions;
+  const { allowedColumnFilterOptions, currentFilterOption } =
+    getColumnFilterInfo({ header, table });
 
   const showFilterModeSubMenu =
     enableColumnFilterModes &&

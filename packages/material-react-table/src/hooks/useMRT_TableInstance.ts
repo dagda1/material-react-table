@@ -1,7 +1,10 @@
-import { useTable } from '@tanstack/react-table';
+import { tableFeatures, useTable } from '@tanstack/react-table';
 import { useMemo, useRef, useState } from 'react';
 
-import { getMRT_TableFeatures } from '../fns/tableFeatures';
+import {
+  MRT_DefaultTableFeatures,
+  type MRT_TableFeatures,
+} from '../fns/tableFeatures';
 import {
   type MRT_Cell,
   type MRT_Column,
@@ -249,25 +252,22 @@ export const useMRT_TableInstance = <TData extends MRT_RowData>(
     ],
   );
 
-  const features = useMemo(
-    () => getMRT_TableFeatures(statefulTableOptions),
-    [
-      statefulTableOptions.aggregationFns,
-      statefulTableOptions.enableColumnFilters,
-      statefulTableOptions.enableExpanding,
-      statefulTableOptions.enableFacetedValues,
-      statefulTableOptions.enableFilters,
-      statefulTableOptions.enableGlobalFilter,
-      statefulTableOptions.enableGrouping,
-      statefulTableOptions.enablePagination,
-      statefulTableOptions.enableSorting,
-      statefulTableOptions.filterFns,
-      statefulTableOptions.manualFiltering,
-      statefulTableOptions.manualGrouping,
-      statefulTableOptions.manualPagination,
-      statefulTableOptions.manualSorting,
-      statefulTableOptions.sortFns,
-    ],
+  const [features] = useState<MRT_TableFeatures>(() =>
+    tableFeatures({
+      ...MRT_DefaultTableFeatures,
+      aggregationFns: {
+        ...MRT_DefaultTableFeatures.aggregationFns,
+        ...statefulTableOptions.aggregationFns,
+      },
+      filterFns: {
+        ...MRT_DefaultTableFeatures.filterFns,
+        ...statefulTableOptions.filterFns,
+      },
+      sortFns: {
+        ...MRT_DefaultTableFeatures.sortFns,
+        ...statefulTableOptions.sortFns,
+      },
+    }),
   );
 
   const tableOptions = {

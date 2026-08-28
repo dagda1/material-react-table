@@ -32,94 +32,43 @@ import {
   tableFeatures,
 } from '@tanstack/react-table';
 
-import {
-  type MRT_RowData,
-  type MRT_StatefulTableOptions,
-} from '../types';
 import { MRT_AggregationFns } from './aggregationFns';
 import { MRT_FilterFns } from './filterFns';
 import { MRT_SortingFns } from './sortingFns';
 
 const mrtFeature: TableFeature = {};
 
-const slotWhen = <TSlot,>(enabled: boolean | undefined, create: () => TSlot) =>
-  enabled ? create() : undefined;
-
-export const getMRT_TableFeatures = <TData extends MRT_RowData>(
-  tableOptions: MRT_StatefulTableOptions<TData>,
-): MRT_TableFeatures => {
-  const {
-    aggregationFns,
-    enableColumnFilters,
-    enableExpanding,
-    enableFacetedValues,
-    enableFilters,
-    enableGlobalFilter,
-    enableGrouping,
-    enablePagination,
-    enableSorting,
-    filterFns,
-    manualFiltering,
-    manualGrouping,
-    manualPagination,
-    manualSorting,
-    sortFns,
-  } = tableOptions;
-
-  const clientFiltering =
-    (enableColumnFilters || enableGlobalFilter || enableFilters) &&
-    !manualFiltering;
-
-  return tableFeatures({
-    aggregationFns: { ...MRT_AggregationFns, ...aggregationFns },
-    cellSelectionFeature,
-    cellSpanningFeature,
-    columnFacetingFeature,
-    columnFilteringFeature,
-    columnGroupingFeature,
-    columnOrderingFeature,
-    columnPinningFeature,
-    columnResizingFeature,
-    columnSizingFeature,
-    columnVisibilityFeature,
-    expandedRowModel: slotWhen(
-      enableExpanding || enableGrouping,
-      createExpandedRowModel,
-    ),
-    facetedMinMaxValues: slotWhen(
-      enableFacetedValues,
-      createFacetedMinMaxValues,
-    ),
-    facetedRowModel: slotWhen(enableFacetedValues, createFacetedRowModel),
-    facetedUniqueValues: slotWhen(
-      enableFacetedValues,
-      createFacetedUniqueValues,
-    ),
-    filteredRowModel: slotWhen(clientFiltering, createFilteredRowModel),
-    filterFns: { ...MRT_FilterFns, ...filterFns },
-    globalFilteringFeature,
-    groupedRowModel: slotWhen(
-      enableGrouping && !manualGrouping,
-      createGroupedRowModel,
-    ),
-    mrtFeature,
-    paginatedRowModel: slotWhen(
-      enablePagination && !manualPagination,
-      createPaginatedRowModel,
-    ),
-    rowAggregationFeature,
-    rowExpandingFeature,
-    rowPaginationFeature,
-    rowPinningFeature,
-    rowSelectionFeature,
-    rowSortingFeature,
-    sortedRowModel: slotWhen(
-      enableSorting && !manualSorting,
-      createSortedRowModel,
-    ),
-    sortFns: { ...MRT_SortingFns, ...sortFns },
-  });
-};
+export const MRT_DefaultTableFeatures = tableFeatures({
+  aggregationFns: MRT_AggregationFns,
+  cellSelectionFeature,
+  cellSpanningFeature,
+  columnFacetingFeature,
+  columnFilteringFeature,
+  columnGroupingFeature,
+  columnOrderingFeature,
+  columnPinningFeature,
+  columnResizingFeature,
+  columnSizingFeature,
+  columnVisibilityFeature,
+  expandedRowModel: createExpandedRowModel(),
+  facetedMinMaxValues: createFacetedMinMaxValues(),
+  facetedRowModel: createFacetedRowModel(),
+  facetedUniqueValues: createFacetedUniqueValues(),
+  filteredRowModel: createFilteredRowModel(),
+  filterFns: MRT_FilterFns,
+  globalFilteringFeature,
+  groupedRowModel: createGroupedRowModel(),
+  mrtFeature,
+  paginatedRowModel: createPaginatedRowModel(),
+  rowAggregationFeature,
+  rowExpandingFeature,
+  rowPaginationFeature,
+  rowPinningFeature,
+  rowSelectionFeature,
+  rowSortingFeature,
+  sortedRowModel: createSortedRowModel(),
+  sortFns: MRT_SortingFns,
+});
 
 export interface MRT_TableFeatures extends StockFeatures {
   aggregationFns: Record<string, AggregationFnDef<any, any, any, any>>;

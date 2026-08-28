@@ -8,7 +8,7 @@ import {
   type MRT_RowData,
   type MRT_TableInstance,
 } from '../../types';
-import { getDefaultColumnFilterFn } from '../../utils/column.utils';
+import { getColumnFilterInfo } from '../../utils/column.utils';
 import { parseFromValuesOrFunc } from '../../utils/utils';
 
 export interface MRT_FilterRangeSliderProps<TData extends MRT_RowData>
@@ -29,8 +29,7 @@ export const MRT_FilterRangeSlider = <TData extends MRT_RowData>({
   const { column } = header;
   const { columnDef } = column;
 
-  const currentFilterOption =
-    columnDef._filterFn ?? getDefaultColumnFilterFn(columnDef);
+  const { currentFilterOption } = getColumnFilterInfo({ header, table });
 
   const showChangeModeButton =
     enableColumnFilterModes && columnDef.enableColumnFilterModes !== false;

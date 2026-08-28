@@ -54,9 +54,9 @@ import {
   type RowData,
   type RowSelectionState,
   type SortFn,
+  type SortingState,
   type TableFeature,
   type TableFeatures,
-  type SortingState,
   type TableOptions,
   type TableState,
   type TableState_ColumnResizing,
@@ -116,15 +116,15 @@ export type MRT_Column<
 > = Column<MRT_TableFeatures, TData, TValue>;
 
 declare module '@tanstack/table-core' {
-  interface Plugins {
-    mrtFeature: TableFeature;
-  }
   interface ColumnDef_FeatureMap<
     TFeatures extends TableFeatures,
     TData extends RowData,
     TValue extends CellData,
   > {
     mrtFeature: MRT_ColumnDefExtras<TData, TValue>;
+  }
+  interface Plugins {
+    mrtFeature: TableFeature;
   }
   interface TableOptions_FeatureMap<
     TFeatures extends TableFeatures,
@@ -137,69 +137,16 @@ declare module '@tanstack/table-core' {
   }
 }
 
-interface MRT_TableOptionExtras<TData extends MRT_RowData> {
-  globalFilterFn?: MRT_FilterOption;
-  icons: MRT_Icons;
-  localization: MRT_Localization;
-  mrtTheme: Required<MRT_Theme>;
-  state: MRT_StatefulState<TData>;
-}
-
-export type MRT_StatefulState<TData extends MRT_RowData> = Pick<
-  MRT_TableState<TData>,
-  | 'columnFilterFns'
-  | 'columnOrder'
-  | 'columnResizing'
-  | 'creatingRow'
-  | 'density'
-  | 'draggingColumn'
-  | 'draggingRow'
-  | 'editingCell'
-  | 'editingRow'
-  | 'globalFilterFn'
-  | 'grouping'
-  | 'hoveredColumn'
-  | 'hoveredRow'
-  | 'isFullScreen'
-  | 'pagination'
-  | 'showAlertBanner'
-  | 'showColumnFilters'
-  | 'showGlobalFilter'
-  | 'showToolbarDropZone'
-> &
-  Partial<Pick<MRT_TableState<TData>, 'isLoading' | 'showSkeletons'>>;
-
-interface MRT_StateExtras {
-  actionCell?: Cell<MRT_TableFeatures, any> | null;
-  columnFilterFns: MRT_ColumnFilterFnsState;
-  creatingRow: null | Row<MRT_TableFeatures, any>;
-  density: MRT_DensityState;
-  draggingColumn: Column<MRT_TableFeatures, any> | null;
-  draggingRow: null | Row<MRT_TableFeatures, any>;
-  editingCell: Cell<MRT_TableFeatures, any> | null;
-  editingRow: null | Row<MRT_TableFeatures, any>;
-  globalFilterFn: MRT_FilterOption;
-  hoveredColumn: null | Partial<Column<MRT_TableFeatures, any>>;
-  hoveredRow: null | Partial<Row<MRT_TableFeatures, any>>;
-  isFullScreen: boolean;
-  isLoading: boolean;
-  isSaving: boolean;
-  showAlertBanner: boolean;
-  showColumnFilters: boolean;
-  showGlobalFilter: boolean;
-  showLoadingOverlay: boolean;
-  showProgressBars: boolean;
-  showSkeletons: boolean;
-  showToolbarDropZone: boolean;
-}
+export type MRT_ColumnDef<
+  TData extends MRT_RowData,
+  TValue = unknown,
+> = ColumnDef<MRT_TableFeatures, TData, TValue>;
 
 export interface MRT_ColumnDefExtras<
   TData extends MRT_RowData,
   TValue = unknown,
 > {
   _filterFn?: MRT_FilterOption;
-  footer?: string;
-  header: string;
   AggregatedCell?: (props: {
     cell: MRT_Cell<TData, TValue>;
     column: MRT_Column<TData, TValue>;
@@ -276,6 +223,7 @@ export interface MRT_ColumnDefExtras<
     | 'text'
     | 'time'
     | 'time-range';
+  footer?: string;
   Footer?:
     | ((props: {
         column: MRT_Column<TData, TValue>;
@@ -295,6 +243,7 @@ export interface MRT_ColumnDefExtras<
    * If `layoutMode` is `'grid'` or `'grid-no-grow'`, you can specify the flex grow value for individual columns to still grow and take up remaining space, or set to `false`/0 to not grow.
    */
   grow?: boolean | number;
+  header: string;
   Header?:
     | ((props: {
         column: MRT_Column<TData, TValue>;
@@ -427,13 +376,10 @@ export interface MRT_ColumnDefExtras<
   visibleInShowHideMenu?: boolean;
 }
 
-export type MRT_ColumnDef<
-  TData extends MRT_RowData,
-  TValue = unknown,
-> = ColumnDef<MRT_TableFeatures, TData, TValue>;
-
 export type MRT_ColumnFilterFnsState = Record<string, MRT_FilterOption>;
+
 export type MRT_ColumnFiltersState = ColumnFiltersState;
+
 export type MRT_ColumnHelper<TData extends MRT_RowData> = {
   accessor: <
     TAccessor extends AccessorFn<TData> | DeepKeys<TData>,
@@ -449,6 +395,7 @@ export type MRT_ColumnHelper<TData extends MRT_RowData> = {
   display: (column: MRT_DisplayColumnDef<TData>) => MRT_ColumnDef<TData>;
   group: (column: MRT_GroupColumnDef<TData>) => MRT_ColumnDef<TData>;
 };
+
 export type MRT_ColumnOrderState = ColumnOrderState;
 export type MRT_ColumnPinningState = ColumnPinningState;
 export type MRT_ColumnSizingInfoState =
@@ -491,13 +438,10 @@ export type MRT_DisplayColumnIds =
   | 'mrt-row-pin'
   | 'mrt-row-select'
   | 'mrt-row-spacer';
-
 export type MRT_ExpandedState = ExpandedState;
-
 export type MRT_FilterFn<TData extends MRT_RowData> =
   | FilterFn<MRT_TableFeatures, TData>
   | MRT_FilterOption;
-
 export type MRT_FilterOption = LiteralUnion<
   keyof typeof MRT_FilterFns & string
 >;
@@ -656,6 +600,30 @@ export type MRT_SortingOption = LiteralUnion<
 >;
 
 export type MRT_SortingState = SortingState;
+
+export type MRT_StatefulState<TData extends MRT_RowData> = Partial<Pick<MRT_TableState<TData>, 'isLoading' | 'showSkeletons'>> &
+  Pick<
+  MRT_TableState<TData>,
+  | 'columnFilterFns'
+  | 'columnOrder'
+  | 'columnResizing'
+  | 'creatingRow'
+  | 'density'
+  | 'draggingColumn'
+  | 'draggingRow'
+  | 'editingCell'
+  | 'editingRow'
+  | 'globalFilterFn'
+  | 'grouping'
+  | 'hoveredColumn'
+  | 'hoveredRow'
+  | 'isFullScreen'
+  | 'pagination'
+  | 'showAlertBanner'
+  | 'showColumnFilters'
+  | 'showGlobalFilter'
+  | 'showToolbarDropZone'
+>;
 
 export type MRT_StatefulTableOptions<TData extends MRT_RowData> =
   MRT_DefinedTableOptions<TData> & {
@@ -1318,3 +1286,35 @@ export type Prettify<T> = unknown & { [K in keyof T]: T[K] };
 export type Xor<A, B> =
   | Prettify<A & { [k in keyof B]?: never }>
   | Prettify<B & { [k in keyof A]?: never }>;
+
+interface MRT_StateExtras {
+  actionCell?: Cell<MRT_TableFeatures, any> | null;
+  columnFilterFns: MRT_ColumnFilterFnsState;
+  creatingRow: null | Row<MRT_TableFeatures, any>;
+  density: MRT_DensityState;
+  draggingColumn: Column<MRT_TableFeatures, any> | null;
+  draggingRow: null | Row<MRT_TableFeatures, any>;
+  editingCell: Cell<MRT_TableFeatures, any> | null;
+  editingRow: null | Row<MRT_TableFeatures, any>;
+  globalFilterFn: MRT_FilterOption;
+  hoveredColumn: null | Partial<Column<MRT_TableFeatures, any>>;
+  hoveredRow: null | Partial<Row<MRT_TableFeatures, any>>;
+  isFullScreen: boolean;
+  isLoading: boolean;
+  isSaving: boolean;
+  showAlertBanner: boolean;
+  showColumnFilters: boolean;
+  showGlobalFilter: boolean;
+  showLoadingOverlay: boolean;
+  showProgressBars: boolean;
+  showSkeletons: boolean;
+  showToolbarDropZone: boolean;
+}
+
+interface MRT_TableOptionExtras<TData extends MRT_RowData> {
+  globalFilterFn?: MRT_FilterOption;
+  icons: MRT_Icons;
+  localization: MRT_Localization;
+  mrtTheme: Required<MRT_Theme>;
+  state: MRT_StatefulState<TData>;
+}
