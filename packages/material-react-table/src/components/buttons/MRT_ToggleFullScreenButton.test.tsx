@@ -1,4 +1,5 @@
-import { fireEvent, render } from '@testing-library/react';
+import { render } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import { describe, expect, test } from 'vitest';
 
 import { type MRT_ColumnDef } from '../../types';
@@ -15,7 +16,8 @@ const columns = (): MRT_ColumnDef<Person>[] => [
 ];
 
 describe('full screen toggle', () => {
-  test('fixes the table paper to the viewport when clicked', () => {
+  test('fixes the table paper to the viewport when clicked', async () => {
+    const user = userEvent.setup();
     const { container } = render(
       <MaterialReactTable columns={columns()} data={data} />,
     );
@@ -23,7 +25,7 @@ describe('full screen toggle', () => {
     const paper = container.firstElementChild as HTMLElement;
     expect(getComputedStyle(paper).position).not.toBe('fixed');
 
-    fireEvent.click(
+    await user.click(
       container.querySelector(
         '[aria-label="Toggle full screen"]',
       ) as HTMLElement,

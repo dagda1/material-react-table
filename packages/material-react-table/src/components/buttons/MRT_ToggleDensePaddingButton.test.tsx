@@ -1,4 +1,5 @@
-import { fireEvent, render } from '@testing-library/react';
+import { render } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import { describe, expect, test } from 'vitest';
 
 import { type MRT_ColumnDef } from '../../types';
@@ -20,14 +21,15 @@ const bodyCellPadding = (container: HTMLElement) =>
   ).getPropertyValue('padding');
 
 describe('density toggle', () => {
-  test('changes body cell padding when clicked', () => {
+  test('changes body cell padding when clicked', async () => {
+    const user = userEvent.setup();
     const { container } = render(
       <MaterialReactTable columns={columns()} data={data} />,
     );
 
     const before = bodyCellPadding(container);
 
-    fireEvent.click(
+    await user.click(
       container.querySelector('[aria-label="Toggle density"]') as HTMLElement,
     );
 

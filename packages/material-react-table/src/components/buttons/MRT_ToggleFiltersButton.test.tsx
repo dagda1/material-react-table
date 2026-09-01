@@ -1,4 +1,5 @@
-import { fireEvent, render } from '@testing-library/react';
+import { render } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import { describe, expect, test } from 'vitest';
 
 import { type MRT_ColumnDef } from '../../types';
@@ -18,14 +19,15 @@ const filterInputCount = (container: HTMLElement) =>
   container.querySelectorAll('thead input').length;
 
 describe('filters toggle', () => {
-  test('reveals the column filter inputs when clicked', () => {
+  test('reveals the column filter inputs when clicked', async () => {
+    const user = userEvent.setup();
     const { container } = render(
       <MaterialReactTable columns={columns()} data={data} />,
     );
 
     expect(filterInputCount(container)).toBe(0);
 
-    fireEvent.click(
+    await user.click(
       container.querySelector(
         '[aria-label="Show/Hide filters"]',
       ) as HTMLElement,

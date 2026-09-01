@@ -1,4 +1,5 @@
-import { fireEvent, render } from '@testing-library/react';
+import { render } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import { describe, expect, test } from 'vitest';
 
 import { type MRT_ColumnDef } from '../../types';
@@ -15,7 +16,8 @@ const columns = (): MRT_ColumnDef<Person>[] => [
 ];
 
 describe('cell editing', () => {
-  test('opens a text field in the cell that was clicked', () => {
+  test('opens a text field in the cell that was clicked', async () => {
+    const user = userEvent.setup();
     const { container } = render(
       <MaterialReactTable
         columns={columns()}
@@ -27,9 +29,7 @@ describe('cell editing', () => {
 
     expect(container.querySelectorAll('tbody input')).toHaveLength(0);
 
-    fireEvent.doubleClick(
-      container.querySelector('tbody td') as HTMLElement,
-    );
+    await user.dblClick(container.querySelector('tbody td') as HTMLElement);
 
     expect(container.querySelectorAll('tbody input')).toHaveLength(1);
   });

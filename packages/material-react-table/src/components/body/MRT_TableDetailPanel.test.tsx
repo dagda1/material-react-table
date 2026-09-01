@@ -1,4 +1,5 @@
-import { fireEvent, render } from '@testing-library/react';
+import { render } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import { describe, expect, test } from 'vitest';
 
 import { type MRT_ColumnDef } from '../../types';
@@ -16,7 +17,8 @@ const columns = (): MRT_ColumnDef<Person>[] => [
 ];
 
 describe('detail panel', () => {
-  test('reveals the panel content when the expand button is clicked', () => {
+  test('reveals the panel content when the expand button is clicked', async () => {
+    const user = userEvent.setup();
     const { container } = render(
       <MaterialReactTable
         columns={columns()}
@@ -29,7 +31,7 @@ describe('detail panel', () => {
 
     expect(container.textContent).not.toContain('Lives in Glasgow');
 
-    fireEvent.click(
+    await user.click(
       container.querySelector('[aria-label="Expand"]') as HTMLElement,
     );
 
