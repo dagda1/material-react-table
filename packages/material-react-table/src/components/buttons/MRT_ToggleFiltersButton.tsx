@@ -13,14 +13,13 @@ export const MRT_ToggleFiltersButton = <TData extends MRT_RowData>({
   ...rest
 }: MRT_ToggleFiltersButtonProps<TData>) => {
   const {
-    getState,
     options: {
       icons: { FilterListIcon, FilterListOffIcon },
       localization,
     },
     setShowColumnFilters,
   } = table;
-  const { showColumnFilters } = getState();
+  const { showColumnFilters } = table.state;
 
   const handleToggleShowFilters = () => {
     setShowColumnFilters(!showColumnFilters);

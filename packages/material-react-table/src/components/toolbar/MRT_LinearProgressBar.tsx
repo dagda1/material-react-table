@@ -16,10 +16,9 @@ export const MRT_LinearProgressBar = <TData extends MRT_RowData>({
   ...rest
 }: MRT_LinearProgressBarProps<TData>) => {
   const {
-    getState,
     options: { muiLinearProgressProps },
   } = table;
-  const { isSaving, showProgressBars } = getState();
+  const { isSaving, showProgressBars } = table.state;
 
   const linearProgressProps = {
     ...parseFromValuesOrFunc(muiLinearProgressProps, {

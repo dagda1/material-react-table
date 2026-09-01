@@ -96,10 +96,9 @@ export const getCommonMRTCellStyles = <TData extends MRT_RowData>({
   theme: Theme;
 }) => {
   const {
-    getState,
     options: { enableColumnVirtualization, layoutMode },
   } = table;
-  const { draggingColumn } = getState();
+  const { draggingColumn } = table.state;
   const { columnDef } = column;
   const { columnDefType } = columnDef;
 
@@ -158,8 +157,8 @@ export const getCommonMRTCellStyles = <TData extends MRT_RowData>({
           ? tableCellProps.align
           : undefined,
     opacity:
-      table.getState().draggingColumn?.id === column.id ||
-      table.getState().hoveredColumn?.id === column.id
+      table.state.draggingColumn?.id === column.id ||
+      table.state.hoveredColumn?.id === column.id
         ? 0.5
         : 1,
     position: 'relative',

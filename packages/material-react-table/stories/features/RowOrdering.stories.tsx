@@ -77,7 +77,7 @@ export const RowOrderingEnabled = () => {
       enableSorting={false}
       muiRowDragHandleProps={({ table }) => ({
         onDragEnd: () => {
-          const { draggingRow, hoveredRow } = table.getState();
+          const { draggingRow, hoveredRow } = table.state;
           if (hoveredRow && draggingRow) {
             data.splice(
               (hoveredRow as MRT_Row<Person>).index,
@@ -219,7 +219,7 @@ export const RowOrderingWithRowVirtualization = () => {
       enableSorting={false}
       muiRowDragHandleProps={({ table }) => ({
         onDragEnd: () => {
-          const { draggingRow, hoveredRow } = table.getState();
+          const { draggingRow, hoveredRow } = table.state;
           if (hoveredRow && draggingRow) {
             data.splice(
               (hoveredRow as MRT_Row<Person>).index,
@@ -267,7 +267,7 @@ export const RowOrderingWithColumnVirtualization = () => {
       enableSorting={false}
       muiRowDragHandleProps={({ table }) => ({
         onDragEnd: () => {
-          const { draggingRow, hoveredRow } = table.getState();
+          const { draggingRow, hoveredRow } = table.state;
           if (hoveredRow && draggingRow) {
             data.splice(
               (hoveredRow as MRT_Row<any>).index,

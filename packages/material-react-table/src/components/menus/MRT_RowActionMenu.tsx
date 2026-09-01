@@ -29,7 +29,6 @@ export const MRT_RowActionMenu = <TData extends MRT_RowData>({
   ...rest
 }: MRT_RowActionMenuProps<TData>) => {
   const {
-    getState,
     options: {
       editDisplayMode,
       enableEditing,
@@ -39,7 +38,7 @@ export const MRT_RowActionMenu = <TData extends MRT_RowData>({
       renderRowActionMenuItems,
     },
   } = table;
-  const { density } = getState();
+  const { density } = table.state;
 
   const menuItems = useMemo(() => {
     const items: ReactNode[] = [];

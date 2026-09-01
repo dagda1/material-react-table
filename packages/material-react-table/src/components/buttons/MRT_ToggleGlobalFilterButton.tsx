@@ -13,7 +13,6 @@ export const MRT_ToggleGlobalFilterButton = <TData extends MRT_RowData>({
   ...rest
 }: MRT_ToggleGlobalFilterButtonProps<TData>) => {
   const {
-    getState,
     options: {
       icons: { SearchIcon, SearchOffIcon },
 
@@ -22,7 +21,7 @@ export const MRT_ToggleGlobalFilterButton = <TData extends MRT_RowData>({
     refs: { searchInputRef },
     setShowGlobalFilter,
   } = table;
-  const { globalFilter, showGlobalFilter } = getState();
+  const { globalFilter, showGlobalFilter } = table.state;
 
   const handleToggleSearch = () => {
     setShowGlobalFilter(!showGlobalFilter);

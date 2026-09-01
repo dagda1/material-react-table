@@ -19,7 +19,6 @@ export const MRT_Table = <TData extends MRT_RowData>({
 }: MRT_TableProps<TData>) => {
   const {
     getFlatHeaders,
-    getState,
     options: {
       columns,
       enableStickyHeader,
@@ -32,7 +31,7 @@ export const MRT_Table = <TData extends MRT_RowData>({
     },
   } = table;
   const { columnResizing, columnSizing, columnVisibility, isFullScreen } =
-    getState();
+    table.state;
 
   const tableProps = {
     ...parseFromValuesOrFunc(muiTableProps, { table }),

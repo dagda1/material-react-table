@@ -286,7 +286,6 @@ export const useMRT_TableInstance = <TData extends MRT_RowData>(
     getLeftLeafColumns: () => reactTable.getStartLeafColumns(),
     getPaginationRowModel: () => reactTable.getPaginatedRowModel(),
     getRightLeafColumns: () => reactTable.getEndLeafColumns(),
-    getState: () => reactTable.state,
     refs: {
       actionCellRef,
       bottomToolbarRef,

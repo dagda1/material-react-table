@@ -25,7 +25,6 @@ export const MRT_ExpandButton = <TData extends MRT_RowData>({
 }: MRT_ExpandButtonProps<TData>) => {
   const theme = useTheme();
   const {
-    getState,
     options: {
       icons: { ExpandMoreIcon },
       localization,
@@ -34,7 +33,7 @@ export const MRT_ExpandButton = <TData extends MRT_RowData>({
       renderDetailPanel,
     },
   } = table;
-  const { density } = getState();
+  const { density } = table.state;
 
   const iconButtonProps = parseFromValuesOrFunc(muiExpandButtonProps, {
     row,

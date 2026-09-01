@@ -21,7 +21,6 @@ export const MRT_TableContainer = <TData extends MRT_RowData>({
   ...rest
 }: MRT_TableContainerProps<TData>) => {
   const {
-    getState,
     options: {
       createDisplayMode,
       editDisplayMode,
@@ -38,7 +37,7 @@ export const MRT_TableContainer = <TData extends MRT_RowData>({
     isFullScreen,
     isLoading,
     showLoadingOverlay,
-  } = getState();
+  } = table.state;
 
   const loading =
     showLoadingOverlay !== false && (isLoading || showLoadingOverlay);

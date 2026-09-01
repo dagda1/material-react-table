@@ -17,7 +17,6 @@ export const MRT_TablePaper = <TData extends MRT_RowData>({
   ...rest
 }: MRT_TablePaperProps<TData>) => {
   const {
-    getState,
     options: {
       enableBottomToolbar,
       enableTopToolbar,
@@ -28,7 +27,7 @@ export const MRT_TablePaper = <TData extends MRT_RowData>({
     },
     refs: { tablePaperRef },
   } = table;
-  const { isFullScreen } = getState();
+  const { isFullScreen } = table.state;
 
   const paperProps = {
     ...parseFromValuesOrFunc(muiTablePaperProps, { table }),

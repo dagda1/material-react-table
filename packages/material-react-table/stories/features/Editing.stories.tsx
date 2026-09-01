@@ -286,7 +286,7 @@ export const EditingEnabledEditModeRowCustomSave = () => {
       enableEditing
       onEditingRowSave={handleSaveRow}
       renderTopToolbarCustomActions={({ table }) =>
-        table.getState().creatingRow ? (
+        table.state.creatingRow ? (
           <Button color="success" onClick={() => {}}>
             Save
           </Button>

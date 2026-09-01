@@ -29,7 +29,6 @@ export const MRT_TableBody = <TData extends MRT_RowData>({
     getBottomRows,
     getIsSomeRowsPinned,
     getRowModel,
-    getState,
     getTopRows,
     options: {
       enableStickyFooter,
@@ -44,7 +43,7 @@ export const MRT_TableBody = <TData extends MRT_RowData>({
     },
     refs: { tableFooterRef, tableHeadRef, tablePaperRef },
   } = table;
-  const { columnFilters, globalFilter, isFullScreen, rowPinning } = getState();
+  const { columnFilters, globalFilter, isFullScreen, rowPinning } = table.state;
 
   const tableBodyProps = {
     ...parseFromValuesOrFunc(muiTableBodyProps, { table }),

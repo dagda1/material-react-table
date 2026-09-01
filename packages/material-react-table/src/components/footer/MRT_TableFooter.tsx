@@ -20,11 +20,10 @@ export const MRT_TableFooter = <TData extends MRT_RowData>({
   ...rest
 }: MRT_TableFooterProps<TData>) => {
   const {
-    getState,
     options: { enableStickyFooter, layoutMode, muiTableFooterProps },
     refs: { tableFooterRef },
   } = table;
-  const { isFullScreen } = getState();
+  const { isFullScreen } = table.state;
 
   const tableFooterProps = {
     ...parseFromValuesOrFunc(muiTableFooterProps, {

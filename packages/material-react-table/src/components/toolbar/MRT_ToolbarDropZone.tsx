@@ -17,14 +17,13 @@ export const MRT_ToolbarDropZone = <TData extends MRT_RowData>({
   ...rest
 }: MRT_ToolbarDropZoneProps<TData>) => {
   const {
-    getState,
     options: { enableGrouping, localization },
     setHoveredColumn,
     setShowToolbarDropZone,
   } = table;
 
   const { draggingColumn, grouping, hoveredColumn, showToolbarDropZone } =
-    getState();
+    table.state;
 
   const handleDragEnter = (_event: DragEvent<HTMLDivElement>) => {
     setHoveredColumn({ id: 'drop-zone' });

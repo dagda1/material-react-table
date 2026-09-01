@@ -18,7 +18,6 @@ export const MRT_ExpandAllButton = <TData extends MRT_RowData>({
     getCanSomeRowsExpand,
     getIsAllRowsExpanded,
     getIsSomeRowsExpanded,
-    getState,
     options: {
       icons: { KeyboardDoubleArrowDownIcon },
       localization,
@@ -27,7 +26,7 @@ export const MRT_ExpandAllButton = <TData extends MRT_RowData>({
     },
     toggleAllRowsExpanded,
   } = table;
-  const { density, isLoading } = getState();
+  const { density, isLoading } = table.state;
 
   const iconButtonProps = {
     ...parseFromValuesOrFunc(muiExpandAllButtonProps, {

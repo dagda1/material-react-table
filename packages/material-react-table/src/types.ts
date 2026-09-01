@@ -650,7 +650,6 @@ export type MRT_TableInstance<TData extends MRT_RowData> = Omit<
   | 'getRightLeafColumns'
   | 'getRowModel'
   | 'getSelectedRowModel'
-  | 'getState'
   | 'getTopRows'
   | 'options'
 > & {
@@ -672,7 +671,6 @@ export type MRT_TableInstance<TData extends MRT_RowData> = Omit<
   getRightLeafColumns: () => MRT_Column<TData>[];
   getRowModel: () => MRT_RowModel<TData>;
   getSelectedRowModel: () => MRT_RowModel<TData>;
-  getState: () => MRT_TableState<TData>;
   getTopRows: () => MRT_Row<TData>[];
   options: MRT_StatefulTableOptions<TData>;
   refs: {

@@ -31,7 +31,6 @@ export const MRT_SelectCheckbox = <TData extends MRT_RowData>({
   ...rest
 }: MRT_SelectCheckboxProps<TData>) => {
   const {
-    getState,
     options: {
       enableMultiRowSelection,
       localization,
@@ -40,7 +39,7 @@ export const MRT_SelectCheckbox = <TData extends MRT_RowData>({
       selectAllMode,
     },
   } = table;
-  const { density, isLoading } = getState();
+  const { density, isLoading } = table.state;
 
   const selectAll = !row;
 

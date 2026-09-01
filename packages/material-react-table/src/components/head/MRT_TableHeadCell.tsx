@@ -37,7 +37,6 @@ export const MRT_TableHeadCell = <TData extends MRT_RowData>({
 }: MRT_TableHeadCellProps<TData>) => {
   const theme = useTheme();
   const {
-    getState,
     options: {
       columnFilterDisplayMode,
       columnResizeDirection,
@@ -63,7 +62,7 @@ export const MRT_TableHeadCell = <TData extends MRT_RowData>({
     grouping,
     hoveredColumn,
     showColumnFilters,
-  } = getState();
+  } = table.state;
   const { column } = header;
   const { columnDef } = column;
   const { columnDefType } = columnDef;

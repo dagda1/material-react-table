@@ -21,7 +21,6 @@ export const MRT_TableHeadCellSortLabel = <TData extends MRT_RowData>({
   ...rest
 }: MRT_TableHeadCellSortLabelProps<TData>) => {
   const {
-    getState,
     options: {
       icons: { ArrowDownwardIcon, SyncAltIcon },
       localization,
@@ -29,7 +28,7 @@ export const MRT_TableHeadCellSortLabel = <TData extends MRT_RowData>({
   } = table;
   const { column } = header;
   const { columnDef } = column;
-  const { isLoading, showSkeletons, sorting } = getState();
+  const { isLoading, showSkeletons, sorting } = table.state;
 
   const isSorted = !!column.getIsSorted();
 

@@ -12,7 +12,6 @@ export const useMRT_Rows = <TData extends MRT_RowData>(
 ): MRT_Row<TData>[] => {
   const {
     getRowModel,
-    getState,
     options: { data, enableGlobalFilterRankedResults, positionCreatingRow },
   } = table;
   const {
@@ -22,7 +21,7 @@ export const useMRT_Rows = <TData extends MRT_RowData>(
     pagination,
     rowPinning,
     sorting,
-  } = getState();
+  } = table.state;
 
   const rows = useMemo(
     () => getMRT_Rows(table),

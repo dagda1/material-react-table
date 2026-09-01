@@ -32,7 +32,6 @@ export const MRT_TableDetailPanel = <TData extends MRT_RowData>({
   ...rest
 }: MRT_TableDetailPanelProps<TData>) => {
   const {
-    getState,
     getVisibleLeafColumns,
     options: {
       layoutMode,
@@ -42,7 +41,7 @@ export const MRT_TableDetailPanel = <TData extends MRT_RowData>({
       renderDetailPanel,
     },
   } = table;
-  const { isLoading } = getState();
+  const { isLoading } = table.state;
 
   const tableRowProps = parseFromValuesOrFunc(muiTableBodyRowProps, {
     isDetailPanel: true,

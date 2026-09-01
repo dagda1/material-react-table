@@ -374,7 +374,7 @@ export const MultiSelectRowWithHoldShift = () => {
   // TODO: Reset prevSelectedStaticRowIndex when sorting changes
   useEffect(() => {
     setPrevSelectedStaticRowIndex(undefined);
-  }, [table.getState().sorting]);
+  }, [table.state.sorting]);
 
   return <MaterialReactTable table={table} />;
 };

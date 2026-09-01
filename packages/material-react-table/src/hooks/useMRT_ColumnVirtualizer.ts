@@ -17,7 +17,6 @@ export const useMRT_ColumnVirtualizer = <
   table: MRT_TableInstance<TData>,
 ): MRT_ColumnVirtualizer | undefined => {
   const {
-    getState,
     options: {
       columnVirtualizerInstanceRef,
       columnVirtualizerOptions,
@@ -26,7 +25,7 @@ export const useMRT_ColumnVirtualizer = <
     },
     refs: { tableContainerRef },
   } = table;
-  const { columnPinning, columnVisibility, draggingColumn } = getState();
+  const { columnPinning, columnVisibility, draggingColumn } = table.state;
 
   if (!enableColumnVirtualization) return undefined;
 

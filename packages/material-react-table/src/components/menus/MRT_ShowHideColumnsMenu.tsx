@@ -36,7 +36,6 @@ export const MRT_ShowHideColumnsMenu = <TData extends MRT_RowData>({
     getIsSomeColumnsVisible,
     getLeftLeafColumns,
     getRightLeafColumns,
-    getState,
     initialState,
     options: {
       enableColumnOrdering,
@@ -46,7 +45,7 @@ export const MRT_ShowHideColumnsMenu = <TData extends MRT_RowData>({
       mrtTheme: { menuBackgroundColor },
     },
   } = table;
-  const { columnOrder, columnPinning, density } = getState();
+  const { columnOrder, columnPinning, density } = table.state;
 
   const handleToggleAllColumns = (value?: boolean) => {
     const updates =

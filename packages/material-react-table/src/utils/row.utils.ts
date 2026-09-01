@@ -16,7 +16,6 @@ export const getMRT_Rows = <TData extends MRT_RowData>(
     getCenterRows,
     getPrePaginatedRowModel,
     getRowModel,
-    getState,
     getTopRows,
     options: {
       createDisplayMode,
@@ -27,7 +26,7 @@ export const getMRT_Rows = <TData extends MRT_RowData>(
       rowPinningDisplayMode,
     },
   } = table;
-  const { creatingRow, pagination } = getState();
+  const { creatingRow, pagination } = table.state;
 
   const isRankingRows = getIsRankingRows(table);
 
@@ -89,7 +88,6 @@ export const getCanRankRows = <TData extends MRT_RowData>(
   table: MRT_TableInstance<TData>,
 ) => {
   const {
-    getState,
     options: {
       enableGlobalFilterRankedResults,
       manualExpanding,
@@ -98,7 +96,7 @@ export const getCanRankRows = <TData extends MRT_RowData>(
       manualSorting,
     },
   } = table;
-  const { expanded, globalFilterFn } = getState();
+  const { expanded, globalFilterFn } = table.state;
 
   return (
     !manualExpanding &&
@@ -115,7 +113,7 @@ export const getCanRankRows = <TData extends MRT_RowData>(
 export const getIsRankingRows = <TData extends MRT_RowData>(
   table: MRT_TableInstance<TData>,
 ) => {
-  const { globalFilter, sorting } = table.getState();
+  const { globalFilter, sorting } = table.state;
 
   return (
     getCanRankRows(table) &&
@@ -158,7 +156,6 @@ export const getMRT_RowSelectionHandler =
     value?: boolean,
   ) => {
     const {
-      getState,
       options: {
         enableBatchRowSelection,
         enableMultiRowSelection,
@@ -170,7 +167,7 @@ export const getMRT_RowSelectionHandler =
     } = table;
     const {
       pagination: { pageIndex, pageSize },
-    } = getState();
+    } = table.state;
 
     const paginationOffset = manualPagination ? 0 : pageSize * pageIndex;
 

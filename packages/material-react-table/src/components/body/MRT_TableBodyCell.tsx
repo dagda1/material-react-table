@@ -48,7 +48,6 @@ export const MRT_TableBodyCell = <TData extends MRT_RowData>({
 }: MRT_TableBodyCellProps<TData>) => {
   const theme = useTheme();
   const {
-    getState,
     options: {
       columnResizeDirection,
       columnResizeMode,
@@ -80,7 +79,7 @@ export const MRT_TableBodyCell = <TData extends MRT_RowData>({
     hoveredRow,
     isLoading,
     showSkeletons,
-  } = getState();
+  } = table.state;
   const { column, row } = cell;
   const { columnDef } = column;
   const { columnDefType } = columnDef;

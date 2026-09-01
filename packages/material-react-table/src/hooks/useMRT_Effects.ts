@@ -14,7 +14,6 @@ export const useMRT_Effects = <TData extends MRT_RowData>(
   const {
     getIsSomeRowsPinned,
     getPrePaginatedRowModel,
-    getState,
     options: { enablePagination, enableRowPinning, rowCount },
   } = table;
   const {
@@ -26,7 +25,7 @@ export const useMRT_Effects = <TData extends MRT_RowData>(
     pagination,
     showSkeletons,
     sorting,
-  } = getState();
+  } = table.state;
 
   const totalColumnCount = table.options.columns.length;
   const totalRowCount = rowCount ?? getPrePaginatedRowModel().rows.length;

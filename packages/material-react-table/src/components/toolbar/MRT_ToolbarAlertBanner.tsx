@@ -26,7 +26,6 @@ export const MRT_ToolbarAlertBanner = <TData extends MRT_RowData>({
   const {
     getCoreRowModel,
     getFilteredSelectedRowModel,
-    getState,
     options: {
       enableRowSelection,
       enableSelectAll,
@@ -40,7 +39,7 @@ export const MRT_ToolbarAlertBanner = <TData extends MRT_RowData>({
     },
     refs: { tablePaperRef },
   } = table;
-  const { density, grouping, rowSelection, showAlertBanner } = getState();
+  const { density, grouping, rowSelection, showAlertBanner } = table.state;
 
   const alertProps = {
     ...parseFromValuesOrFunc(muiToolbarAlertBannerProps, {

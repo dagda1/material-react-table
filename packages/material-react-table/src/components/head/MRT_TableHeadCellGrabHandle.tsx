@@ -24,7 +24,6 @@ export const MRT_TableHeadCellGrabHandle = <TData extends MRT_RowData>({
   ...rest
 }: MRT_TableHeadCellGrabHandleProps<TData>) => {
   const {
-    getState,
     options: { enableColumnOrdering, muiColumnDragHandleProps },
     setColumnOrder,
     setColumnPinning,
@@ -32,7 +31,7 @@ export const MRT_TableHeadCellGrabHandle = <TData extends MRT_RowData>({
     setHoveredColumn,
   } = table;
   const { columnDef } = column;
-  const { columnOrder, draggingColumn, hoveredColumn } = getState();
+  const { columnOrder, draggingColumn, hoveredColumn } = table.state;
 
   const iconButtonProps = {
     ...parseFromValuesOrFunc(muiColumnDragHandleProps, { column, table }),

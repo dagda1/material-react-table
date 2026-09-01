@@ -21,10 +21,9 @@ export const MRT_TableBodyRowPinButton = <TData extends MRT_RowData>({
   ...rest
 }: MRT_TableBodyRowPinButtonProps<TData>) => {
   const {
-    getState,
     options: { enableRowPinning, rowPinningDisplayMode },
   } = table;
-  const { density } = getState();
+  const { density } = table.state;
 
   const canPin = parseFromValuesOrFunc(enableRowPinning, row as any);
 

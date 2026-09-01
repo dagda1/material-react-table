@@ -47,7 +47,6 @@ export const MRT_TableBodyRow = <TData extends MRT_RowData>({
   const theme = useTheme();
 
   const {
-    getState,
     options: {
       enableRowOrdering,
       enableRowPinning,
@@ -76,7 +75,7 @@ export const MRT_TableBodyRow = <TData extends MRT_RowData>({
     hoveredRow,
     isFullScreen,
     rowPinning,
-  } = getState();
+  } = table.state;
 
   const visibleCells = row.getVisibleCells();
 

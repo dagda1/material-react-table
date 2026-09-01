@@ -27,7 +27,6 @@ export const MRT_ColumnActionMenu = <TData extends MRT_RowData>({
 }: MRT_ColumnActionMenuProps<TData>) => {
   const {
     getAllLeafColumns,
-    getState,
     options: {
       columnFilterDisplayMode,
       enableColumnFilterModes,
@@ -62,7 +61,7 @@ export const MRT_ColumnActionMenu = <TData extends MRT_RowData>({
   const { column } = header;
   const { columnDef } = column;
   const { columnSizing, columnVisibility, density, showColumnFilters } =
-    getState();
+    table.state;
   const columnFilterValue = column.getFilterValue();
 
   const [filterMenuAnchorEl, setFilterMenuAnchorEl] =

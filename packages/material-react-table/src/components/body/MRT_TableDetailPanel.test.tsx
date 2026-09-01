@@ -32,7 +32,7 @@ describe('detail panel', () => {
     expect(container.textContent).not.toContain('Lives in Glasgow');
 
     await user.click(
-      container.querySelector('[aria-label="Expand"]') as HTMLElement,
+      container.querySelector('tbody button[aria-label="Expand"]') as HTMLElement,
     );
 
     expect(container.textContent).toContain('Lives in Glasgow');

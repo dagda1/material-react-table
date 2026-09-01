@@ -43,7 +43,6 @@ export const MRT_ShowHideColumnsMenuItems = <TData extends MRT_RowData>({
   ...rest
 }: MRT_ShowHideColumnsMenuItemsProps<TData>) => {
   const {
-    getState,
     options: {
       enableColumnOrdering,
       enableColumnPinning,
@@ -54,7 +53,7 @@ export const MRT_ShowHideColumnsMenuItems = <TData extends MRT_RowData>({
     setColumnOrder,
     setColumnPinning,
   } = table;
-  const { columnOrder } = getState();
+  const { columnOrder } = table.state;
   const { columnDef } = column;
   const { columnDefType } = columnDef;
 

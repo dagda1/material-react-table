@@ -22,10 +22,9 @@ export const MRT_FilterCheckbox = <TData extends MRT_RowData>({
   ...rest
 }: MRT_FilterCheckboxProps<TData>) => {
   const {
-    getState,
     options: { localization, muiFilterCheckboxProps },
   } = table;
-  const { density } = getState();
+  const { density } = table.state;
   const { columnDef } = column;
 
   const checkboxProps = {

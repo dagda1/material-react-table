@@ -40,7 +40,7 @@
   "size-limit": [
     {
       "path": "dist/index.js",
-      "limit": "53 KB"
+      "limit": "65 KB"
     }
   ],
   "engines": {

@@ -20,11 +20,10 @@ export const MRT_TableHeadCellResizeHandle = <TData extends MRT_RowData>({
   ...rest
 }: MRT_TableHeadCellResizeHandleProps<TData>) => {
   const {
-    getState,
     options: { columnResizeDirection, columnResizeMode },
     setColumnResizing,
   } = table;
-  const { density } = getState();
+  const { density } = table.state;
   const { column } = header;
 
   const handler = header.getResizeHandler();
@@ -55,7 +54,7 @@ export const MRT_TableHeadCellResizeHandle = <TData extends MRT_RowData>({
           column.getIsResizing() && columnResizeMode === 'onEnd'
             ? `translateX(${
                 (columnResizeDirection === 'rtl' ? -1 : 1) *
-                (getState().columnResizing.deltaOffset ?? 0)
+                (table.state.columnResizing.deltaOffset ?? 0)
               }px)`
             : undefined,
       }}

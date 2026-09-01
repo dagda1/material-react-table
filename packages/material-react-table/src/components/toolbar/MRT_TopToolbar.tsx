@@ -18,7 +18,6 @@ export const MRT_TopToolbar = <TData extends MRT_RowData>({
   table,
 }: MRT_TopToolbarProps<TData>) => {
   const {
-    getState,
     options: {
       enableGlobalFilter,
       enablePagination,
@@ -33,7 +32,7 @@ export const MRT_TopToolbar = <TData extends MRT_RowData>({
     refs: { topToolbarRef },
   } = table;
 
-  const { isFullScreen, showGlobalFilter } = getState();
+  const { isFullScreen, showGlobalFilter } = table.state;
 
   const isMobile = useMediaQuery('(max-width:720px)');
   const isTablet = useMediaQuery('(max-width:1024px)');
