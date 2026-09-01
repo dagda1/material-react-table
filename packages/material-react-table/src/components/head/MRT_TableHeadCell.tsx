@@ -2,7 +2,7 @@ import { Box } from '@mui/material';
 import { TableCell, type TableCellProps } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
 import { type Theme } from '@mui/material/styles';
-import { type DragEvent, useCallback, useMemo } from 'react';
+import { type DragEvent, useCallback, useMemo, useRef } from 'react';
 
 import {
   type MRT_ColumnVirtualizer,
@@ -160,8 +160,11 @@ export const MRT_TableHeadCell = <TData extends MRT_RowData>({
     });
   };
 
+  const tableHeadCellRef = useRef<HTMLTableCellElement | null>(null);
+
   const handleRef = useCallback(
     (node: HTMLTableCellElement) => {
+      tableHeadCellRef.current = node;
       if (node) {
         if (tableHeadCellRefs.current) {
           tableHeadCellRefs.current[column.id] = node;
@@ -326,9 +329,7 @@ export const MRT_TableHeadCell = <TData extends MRT_RowData>({
                     <MRT_TableHeadCellGrabHandle
                       column={column}
                       table={table}
-                      tableHeadCellRef={{
-                        current: tableHeadCellRefs.current?.[column.id]!,
-                      }}
+                      tableHeadCellRef={tableHeadCellRef}
                     />
                   )}
                   {showColumnActions && (

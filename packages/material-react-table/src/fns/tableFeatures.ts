@@ -36,7 +36,32 @@ import { MRT_AggregationFns } from './aggregationFns';
 import { MRT_FilterFns } from './filterFns';
 import { MRT_SortingFns } from './sortingFns';
 
-const mrtFeature: TableFeature = {};
+const mrtFeature: TableFeature = {
+  getInitialState: (state) => ({
+    actionCell: null,
+    columnFilterFns: {},
+    creatingRow: null,
+    density: 'comfortable',
+    draggingColumn: null,
+    draggingRow: null,
+    editingCell: null,
+    editingRow: null,
+    globalFilterFn: 'fuzzy',
+    hoveredColumn: null,
+    hoveredRow: null,
+    isFullScreen: false,
+    isLoading: false,
+    isSaving: false,
+    showAlertBanner: false,
+    showColumnFilters: false,
+    showGlobalFilter: false,
+    showLoadingOverlay: false,
+    showProgressBars: false,
+    showSkeletons: false,
+    showToolbarDropZone: false,
+    ...state,
+  }),
+};
 
 export const MRT_DefaultTableFeatures = tableFeatures({
   aggregationFns: MRT_AggregationFns,
