@@ -210,6 +210,8 @@ export const useMRT_TableOptions: <TData extends MRT_RowData>(
     enableToolbarInternalActions,
     enableTopToolbar,
     filterFns,
+    getRowCanExpand:
+      rest.getRowCanExpand ?? (rest.renderDetailPanel ? () => true : undefined),
     getSubRows: (row) => row?.subRows,
     icons,
     id,
