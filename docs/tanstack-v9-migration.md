@@ -10,4 +10,4 @@ Native v9 API throughout. tsc, eslint and 58 tests pass; build passes.
 
 ## Breaking for consumers
 
-Documented in [release-notes-5.0.0.md](./release-notes-5.0.0.md).
+Documented in [CHANGELOG.md](../CHANGELOG.md).
