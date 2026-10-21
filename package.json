@@ -21,6 +21,7 @@
     "release": "pnpm --filter @cutting/material-react-table publish --no-git-checks"
   },
   "devDependencies": {
+    "jscpd": "^5.4.2",
     "prettier": "^3.9.10",
     "turbo": "2.11.10"
   },
