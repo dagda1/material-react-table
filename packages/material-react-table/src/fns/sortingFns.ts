@@ -1,11 +1,13 @@
 import { compareItems, type RankingInfo } from '@tanstack/match-sorter-utils';
 import {
+  type Row,
   sortFn_alphanumeric,
+  sortFn_alphanumericCaseSensitive,
   sortFn_basic,
   sortFn_datetime,
   sortFn_text,
+  sortFn_textCaseSensitive,
 } from '@tanstack/react-table';
-import { type Row } from '@tanstack/react-table';
 
 import { type MRT_Row, type MRT_RowData } from '../types';
 
@@ -29,10 +31,12 @@ const fuzzy = <TData extends MRT_RowData>(
 
 export const MRT_SortingFns = {
   alphanumeric: sortFn_alphanumeric,
+  alphanumericCaseSensitive: sortFn_alphanumericCaseSensitive,
   basic: sortFn_basic,
   datetime: sortFn_datetime,
   fuzzy,
   text: sortFn_text,
+  textCaseSensitive: sortFn_textCaseSensitive,
 };
 
 export const rankGlobalFuzzy = <TData extends MRT_RowData>(

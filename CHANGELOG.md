@@ -1,7 +1,7 @@
 # 5.0.0
 
-Upgrades TanStack Table 8.21.3 → 9.2.4, @mui/material 9.2 → 9.4 and
-@mui/x-date-pickers 9.10 → 9.12. Peer ranges are unchanged: @mui/material >=9,
+Upgrades TanStack Table 8.21.3 → 9.3.1, @mui/material 9.2 → 9.5 and
+@mui/x-date-pickers 9.10 → 9.16. Peer ranges are unchanged: @mui/material >=9,
 @mui/x-date-pickers >=9.2, react >=19. The dependency bumps break nothing. The
 API changes below, caused by TanStack Table 9, are breaking.
 

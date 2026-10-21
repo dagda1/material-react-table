@@ -8,6 +8,7 @@ import {
   filterFn_includesString,
   filterFn_includesStringSensitive,
   filterFn_inNumberRange,
+  filterFn_weakEquals,
   type FilterMeta,
   type Row,
 } from '@tanstack/react-table';
@@ -208,4 +209,5 @@ export const MRT_FilterFns = {
   notEmpty,
   notEquals,
   startsWith,
+  weakEquals: filterFn_weakEquals,
 };

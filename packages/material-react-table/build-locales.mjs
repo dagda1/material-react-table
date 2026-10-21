@@ -61,11 +61,9 @@ export declare const MRT_Localization_${locale
     .replaceAll('-', '_')}: MRT_Localization;
   `;
 
-  await fs.writeFile(`./locales/${locale}/index.d.mts`, typeFile, (err) => {
-    if (err) console.log(err);
-  });
+  fs.writeFileSync(`./locales/${locale}/index.d.mts`, typeFile);
 
-  await fs.writeFile(
+  fs.writeFileSync(
     `./locales/${locale}/package.json`,
     JSON.stringify(
       {
@@ -77,9 +75,6 @@ export declare const MRT_Localization_${locale
       null,
       2,
     ),
-    (err) => {
-      if (err) console.log(err);
-    },
   );
 
   console.log(`Built ${locale} locale`);

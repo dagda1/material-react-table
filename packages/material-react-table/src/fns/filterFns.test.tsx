@@ -135,6 +135,7 @@ describe('column filter fns', () => {
     ['greaterThanOrEqualTo', 30, ['Alice', 'alice']],
     ['lessThan', 30, ['Bob']],
     ['lessThanOrEqualTo', 20, ['Bob']],
+    ['weakEquals', '30', ['Alice']],
   ])('%s filters the age column', (filterFn, value, expected) => {
     expect(renderFiltered('age', filterFn, value)).toEqual(expected);
   });

@@ -3,6 +3,8 @@ packages:
 
 minimumReleaseAge: 0
 
+publishBranch: v5
+
 allowBuilds:
   core-js: false
   core-js-pure: true
