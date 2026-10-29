@@ -3,7 +3,7 @@ import { type CSSObject } from '@mui/material/styles';
 import { type MouseEvent, useState } from 'react';
 
 import { type MRT_Header, type MRT_RowData, type MRT_TableInstance } from '../../types';
-import { getColumnFilterInfo, useDropdownOptions } from '../../utils/column.utils';
+import { getColumnFilterInfo, getFilterOptionLabel, useDropdownOptions } from '../../utils/column.utils';
 import { getValueAndLabel, parseFromValuesOrFunc } from '../../utils/utils';
 import { MRT_TableHeadCellFilterContainer } from './MRT_TableHeadCellFilterContainer';
 
@@ -55,16 +55,7 @@ export const MRT_TableHeadCellFilterLabel = <TData extends MRT_RowData = MRT_Row
       ? localization.filterByColumn?.replace('{column}', String(columnDef.header))
       : localization.filteringByColumn
           .replace('{column}', String(columnDef.header))
-          .replace(
-            '{filterType}',
-            currentFilterOption
-              ? localization[
-                  `filter${
-                    currentFilterOption.charAt(0).toUpperCase() + currentFilterOption.slice(1)
-                  }` as keyof typeof localization
-                ]
-              : '',
-          )
+          .replace('{filterType}', currentFilterOption ? getFilterOptionLabel(localization, currentFilterOption) : '')
           .replace(
             '{filterValue}',
             `"${

@@ -9,6 +9,7 @@ import {
   type MRT_DefinedTableOptions,
   type MRT_FilterOption,
   type MRT_Header,
+  type MRT_Localization,
   type MRT_RowData,
   type MRT_TableInstance,
 } from '../types';
@@ -115,6 +116,19 @@ export const reorderColumn = <TData extends MRT_RowData>(
   return newColumnOrder;
 };
 
+export const moveColumn = <TData extends MRT_RowData>(
+  table: MRT_TableInstance<TData>,
+  draggedColumn: MRT_Column<TData>,
+  targetColumn: MRT_Column<TData>,
+): void => {
+  const reorderedColumns = reorderColumn(draggedColumn, targetColumn, table.state.columnOrder);
+  table.setColumnOrder(reorderedColumns);
+  table.setColumnPinning(({ end = [], start = [] }) => ({
+    end: reorderedColumns.filter((header) => end.includes(header)),
+    start: reorderedColumns.filter((header) => start.includes(header)),
+  }));
+};
+
 export const getDefaultColumnFilterFn = <TData extends MRT_RowData>(
   columnDef: Pick<MRT_ColumnDef<TData>, 'filterVariant'>,
 ): MRT_FilterOption => {
@@ -142,6 +156,9 @@ export interface MRT_ColumnFilterInfo<TData extends MRT_RowData> {
   isSelectFilter: boolean;
   isTextboxFilter: boolean;
 }
+
+export const getFilterOptionLabel = (localization: MRT_Localization, filterOption: MRT_FilterOption): string =>
+  localization[`filter${filterOption.charAt(0).toUpperCase() + filterOption.slice(1)}` as keyof MRT_Localization];
 
 export const getColumnFilterInfo = <TData extends MRT_RowData>({
   header,

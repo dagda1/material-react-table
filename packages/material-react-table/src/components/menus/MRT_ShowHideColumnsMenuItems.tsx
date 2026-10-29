@@ -3,7 +3,7 @@ import { type CSSObject } from '@mui/material/styles';
 import { type Dispatch, type DragEvent, type SetStateAction, useRef, useState } from 'react';
 
 import { type MRT_Column, type MRT_RowData, type MRT_TableInstance } from '../../types';
-import { reorderColumn } from '../../utils/column.utils';
+import { moveColumn } from '../../utils/column.utils';
 import { getCommonTooltipProps } from '../../utils/style.utils';
 import { parseFromValuesOrFunc } from '../../utils/utils';
 import { MRT_ColumnPinningButtons } from '../buttons/MRT_ColumnPinningButtons';
@@ -35,10 +35,7 @@ export const MRT_ShowHideColumnsMenuItems = <TData extends MRT_RowData>({
       localization,
       mrtTheme: { draggingBorderColor },
     },
-    setColumnOrder,
-    setColumnPinning,
   } = table;
-  const { columnOrder } = table.state;
   const { columnDef } = column;
   const { columnDefType } = columnDef;
 
@@ -71,12 +68,7 @@ export const MRT_ShowHideColumnsMenuItems = <TData extends MRT_RowData>({
     setIsDragging(false);
     setHoveredColumn(null);
     if (hoveredColumn) {
-      const reorderedColumns = reorderColumn(column, hoveredColumn, columnOrder);
-      setColumnOrder(reorderedColumns);
-      setColumnPinning(({ end = [], start = [] }) => ({
-        end: reorderedColumns.filter((header) => end.includes(header)),
-        start: reorderedColumns.filter((header) => start.includes(header)),
-      }));
+      moveColumn(table, column, hoveredColumn);
     }
   };
 

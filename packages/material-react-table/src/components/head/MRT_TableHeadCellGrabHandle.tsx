@@ -2,7 +2,7 @@ import { type IconButtonProps } from '@mui/material/IconButton';
 import { type DragEvent, type RefObject } from 'react';
 
 import { type MRT_Column, type MRT_RowData, type MRT_TableInstance } from '../../types';
-import { reorderColumn } from '../../utils/column.utils';
+import { moveColumn } from '../../utils/column.utils';
 import { parseFromValuesOrFunc } from '../../utils/utils';
 import { MRT_GrabHandleButton } from '../buttons/MRT_GrabHandleButton';
 
@@ -20,13 +20,11 @@ export const MRT_TableHeadCellGrabHandle = <TData extends MRT_RowData>({
 }: MRT_TableHeadCellGrabHandleProps<TData>): JSX.Element => {
   const {
     options: { enableColumnOrdering, muiColumnDragHandleProps },
-    setColumnOrder,
-    setColumnPinning,
     setDraggingColumn,
     setHoveredColumn,
   } = table;
   const { columnDef } = column;
-  const { columnOrder, draggingColumn, hoveredColumn } = table.state;
+  const { draggingColumn, hoveredColumn } = table.state;
 
   const iconButtonProps = {
     ...parseFromValuesOrFunc(muiColumnDragHandleProps, { column, table }),
@@ -52,12 +50,7 @@ export const MRT_TableHeadCellGrabHandle = <TData extends MRT_RowData>({
     if (hoveredColumn?.id === 'drop-zone') {
       column.toggleGrouping();
     } else if (enableColumnOrdering && hoveredColumn && hoveredColumn?.id !== draggingColumn?.id) {
-      const reorderedColumns = reorderColumn(column, hoveredColumn as MRT_Column<TData>, columnOrder);
-      setColumnOrder(reorderedColumns);
-      setColumnPinning(({ end = [], start = [] }) => ({
-        end: reorderedColumns.filter((header) => end.includes(header)),
-        start: reorderedColumns.filter((header) => start.includes(header)),
-      }));
+      moveColumn(table, column, hoveredColumn as MRT_Column<TData>);
     }
     setDraggingColumn(null);
     setHoveredColumn(null);

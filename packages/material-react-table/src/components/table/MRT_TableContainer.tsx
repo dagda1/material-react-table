@@ -20,7 +20,15 @@ export const MRT_TableContainer = <TData extends MRT_RowData>({
   ...rest
 }: MRT_TableContainerProps<TData>): JSX.Element => {
   const {
-    options: { createDisplayMode, editDisplayMode, enableCellActions, enableStickyHeader, muiTableContainerProps },
+    options: {
+      createDisplayMode,
+      editDisplayMode,
+      enableBottomToolbar,
+      enableCellActions,
+      enableStickyHeader,
+      enableTopToolbar,
+      muiTableContainerProps,
+    },
     refs: { bottomToolbarRef, tableContainerRef, topToolbarRef },
   } = table;
   const { actionCell, creatingRow, editingRow, isFullScreen, isLoading, showLoadingOverlay } = table.state;
@@ -37,14 +45,29 @@ export const MRT_TableContainer = <TData extends MRT_RowData>({
   };
 
   useIsomorphicLayoutEffect(() => {
-    const topToolbar = topToolbarRef.current;
-    const bottomToolbar = bottomToolbarRef?.current;
-    const topToolbarHeight = typeof document !== 'undefined' ? (topToolbar?.offsetHeight ?? 0) : 0;
+    const measureToolbars = () => {
+      setTotalToolbarHeight((topToolbarRef.current?.offsetHeight ?? 0) + (bottomToolbarRef.current?.offsetHeight ?? 0));
+    };
 
-    const bottomToolbarHeight = typeof document !== 'undefined' ? (bottomToolbar?.offsetHeight ?? 0) : 0;
+    measureToolbars();
 
-    setTotalToolbarHeight(topToolbarHeight + bottomToolbarHeight);
-  }, [bottomToolbarRef, table.options, table.state, topToolbarRef]);
+    if (typeof ResizeObserver === 'undefined' || !tableContainerRef.current) {
+      return;
+    }
+
+    //the bottom toolbar renders after this container, so its ref is only set when the observer first fires
+    const resizeObserver = new ResizeObserver(() => {
+      for (const toolbar of [topToolbarRef.current, bottomToolbarRef.current]) {
+        if (toolbar) {
+          resizeObserver.observe(toolbar);
+        }
+      }
+      measureToolbars();
+    });
+    resizeObserver.observe(tableContainerRef.current);
+
+    return () => resizeObserver.disconnect();
+  }, [bottomToolbarRef, enableBottomToolbar, enableTopToolbar, isFullScreen, tableContainerRef, topToolbarRef]);
 
   const createModalOpen = createDisplayMode === 'modal' && creatingRow;
   const editModalOpen = editDisplayMode === 'modal' && editingRow;

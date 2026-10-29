@@ -31,17 +31,21 @@ const fuzzy = <TFeatures extends TableFeatures, TData extends MRT_RowData>(
 
 fuzzy.autoRemove = (val: unknown): boolean => !val;
 
+const normalize = (value: number | string): string => value.toString().toLowerCase().trim();
+
+const getNormalizedValue = <TFeatures extends TableFeatures, TData extends MRT_RowData>(
+  row: Row<TFeatures, TData>,
+  id: string,
+): string | undefined => {
+  const value = row.getValue<null | number | string>(id);
+  return value === null || value === undefined ? undefined : normalize(value);
+};
+
 const contains = <TFeatures extends TableFeatures, TData extends MRT_RowData>(
   row: Row<TFeatures, TData>,
   id: string,
   filterValue: number | string,
-): boolean =>
-  !!row
-    .getValue<null | number | string>(id)
-    ?.toString()
-    .toLowerCase()
-    .trim()
-    .includes(filterValue.toString().toLowerCase().trim());
+): boolean => !!getNormalizedValue(row, id)?.includes(normalize(filterValue));
 
 contains.autoRemove = (val: unknown): boolean => !val;
 
@@ -49,13 +53,7 @@ const startsWith = <TFeatures extends TableFeatures, TData extends MRT_RowData>(
   row: Row<TFeatures, TData>,
   id: string,
   filterValue: number | string,
-): boolean =>
-  !!row
-    .getValue<null | number | string>(id)
-    ?.toString()
-    .toLowerCase()
-    .trim()
-    .startsWith(filterValue.toString().toLowerCase().trim());
+): boolean => !!getNormalizedValue(row, id)?.startsWith(normalize(filterValue));
 
 startsWith.autoRemove = (val: unknown): boolean => !val;
 
@@ -63,13 +61,7 @@ const endsWith = <TFeatures extends TableFeatures, TData extends MRT_RowData>(
   row: Row<TFeatures, TData>,
   id: string,
   filterValue: number | string,
-): boolean =>
-  !!row
-    .getValue<null | number | string>(id)
-    ?.toString()
-    .toLowerCase()
-    .trim()
-    .endsWith(filterValue.toString().toLowerCase().trim());
+): boolean => !!getNormalizedValue(row, id)?.endsWith(normalize(filterValue));
 
 endsWith.autoRemove = (val: unknown): boolean => !val;
 
@@ -77,9 +69,7 @@ const equals = <TFeatures extends TableFeatures, TData extends MRT_RowData>(
   row: Row<TFeatures, TData>,
   id: string,
   filterValue: number | string,
-): boolean =>
-  row.getValue<null | number | string>(id)?.toString().toLowerCase().trim() ===
-  filterValue.toString().toLowerCase().trim();
+): boolean => getNormalizedValue(row, id) === normalize(filterValue);
 
 equals.autoRemove = (val: unknown): boolean => !val;
 
@@ -87,9 +77,7 @@ const notEquals = <TFeatures extends TableFeatures, TData extends MRT_RowData>(
   row: Row<TFeatures, TData>,
   id: string,
   filterValue: number | string,
-): boolean =>
-  row.getValue<null | number | string>(id)?.toString().toLowerCase().trim() !==
-  filterValue.toString().toLowerCase().trim();
+): boolean => getNormalizedValue(row, id) !== normalize(filterValue);
 
 notEquals.autoRemove = (val: unknown): boolean => !val;
 
@@ -100,8 +88,7 @@ const greaterThan = <TFeatures extends TableFeatures, TData extends MRT_RowData>
 ): boolean =>
   !isNaN(+filterValue) && !isNaN(+row.getValue<number | string>(id))
     ? +(row.getValue<null | number | string>(id) ?? 0) > +filterValue
-    : (row.getValue<null | number | string>(id) ?? '')?.toString().toLowerCase().trim() >
-      filterValue.toString().toLowerCase().trim();
+    : (getNormalizedValue(row, id) ?? '') > normalize(filterValue);
 
 greaterThan.autoRemove = (val: unknown): boolean => !val;
 
@@ -120,8 +107,7 @@ const lessThan = <TFeatures extends TableFeatures, TData extends MRT_RowData>(
 ): boolean =>
   !isNaN(+filterValue) && !isNaN(+row.getValue<number | string>(id))
     ? +(row.getValue<null | number | string>(id) ?? 0) < +filterValue
-    : (row.getValue<null | number | string>(id) ?? '')?.toString().toLowerCase().trim() <
-      filterValue.toString().toLowerCase().trim();
+    : (getNormalizedValue(row, id) ?? '') < normalize(filterValue);
 
 lessThan.autoRemove = (val: unknown): boolean => !val;
 

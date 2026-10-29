@@ -3,16 +3,16 @@ import { type DropdownOption } from '../types';
 export const parseFromValuesOrFunc = <T, U>(fn: ((arg: U) => T) | T | undefined, arg: U): T | undefined =>
   fn instanceof Function ? fn(arg) : fn;
 
-export const getValueAndLabel = (option?: DropdownOption | null): { label: string; value: string } => {
+export const getValueAndLabel = (option?: DropdownOption | null): { label: string; value: number | string } => {
   let label: string = '';
-  let value: string = '';
+  let value: number | string = '';
   if (option) {
     if (typeof option !== 'object') {
       label = option;
       value = option;
     } else {
-      label = option.label ?? (option.value as string);
-      value = (option.value as string) ?? label;
+      label = option.label ?? String(option.value);
+      value = option.value;
     }
   }
   return { label, value };

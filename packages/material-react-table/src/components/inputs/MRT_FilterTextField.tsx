@@ -21,10 +21,12 @@ import { TimePicker } from '@mui/x-date-pickers/TimePicker';
 import { type ChangeEvent, type MouseEvent, type SyntheticEvent, useEffect, useRef, useState } from 'react';
 
 import { type DropdownOption, type MRT_Header, type MRT_RowData, type MRT_TableInstance } from '../../types';
-import { getColumnFilterInfo, useDropdownOptions } from '../../utils/column.utils';
+import { getColumnFilterInfo, getFilterOptionLabel, useDropdownOptions } from '../../utils/column.utils';
 import { getTextFieldSlotProps } from '../../utils/slotProps.utils';
 import { getValueAndLabel, parseFromValuesOrFunc } from '../../utils/utils';
 import { MRT_FilterOptionMenu } from '../menus/MRT_FilterOptionMenu';
+
+type MRT_FilterInputValue = (number | string)[] | Date | number | string | null;
 
 export interface MRT_FilterTextFieldProps<TData extends MRT_RowData> extends TextFieldProps<'standard'> {
   header: MRT_Header<TData>;
@@ -100,11 +102,7 @@ export const MRT_FilterTextField = <TData extends MRT_RowData>({
   const dropdownOptions = useDropdownOptions({ header, table });
 
   const filterChipLabel = ['empty', 'notEmpty'].includes(currentFilterOption)
-    ? localization[
-        `filter${
-          currentFilterOption?.charAt?.(0)?.toUpperCase() + currentFilterOption?.slice(1)
-        }` as keyof typeof localization
-      ]
+    ? getFilterOptionLabel(localization, currentFilterOption)
     : '';
 
   const filterPlaceholder = !isRangeFilter
@@ -123,7 +121,7 @@ export const MRT_FilterTextField = <TData extends MRT_RowData>({
   );
 
   const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
-  const [filterValue, setFilterValue] = useState<string | string[]>(() =>
+  const [filterValue, setFilterValue] = useState<MRT_FilterInputValue>(() =>
     isMultiSelectFilter
       ? (column.getFilterValue() as string[]) || []
       : isRangeFilter
@@ -155,8 +153,8 @@ export const MRT_FilterTextField = <TData extends MRT_RowData>({
     ),
   );
 
-  const handleChange = (newValue: unknown) => {
-    setFilterValue((newValue ?? '') as string | string[]);
+  const handleChange = (newValue: MRT_FilterInputValue) => {
+    setFilterValue(newValue ?? '');
     handleChangeDebounced(newValue);
   };
 
@@ -252,7 +250,10 @@ export const MRT_FilterTextField = <TData extends MRT_RowData>({
         position="end"
         sx={{
           mr: isSelectFilter || isMultiSelectFilter ? '20px' : undefined,
-          visibility: (filterValue?.length ?? 0) > 0 ? 'visible' : 'hidden',
+          visibility:
+            (typeof filterValue === 'string' || Array.isArray(filterValue)) && filterValue.length > 0
+              ? 'visible'
+              : 'hidden',
         }}
       >
         <Tooltip placement="right" title={localization.clearFilter ?? ''}>
@@ -297,14 +298,7 @@ export const MRT_FilterTextField = <TData extends MRT_RowData>({
     fullWidth: true,
     helperText: showChangeModeButton ? (
       <label>
-        {localization.filterMode.replace(
-          '{filterType}',
-          localization[
-            `filter${
-              currentFilterOption?.charAt(0)?.toUpperCase() + currentFilterOption?.slice(1)
-            }` as keyof typeof localization
-          ],
-        )}
+        {localization.filterMode.replace('{filterType}', getFilterOptionLabel(localization, currentFilterOption))}
       </label>
     ) : null,
     inputRef: (inputRef) => {
@@ -364,7 +358,7 @@ export const MRT_FilterTextField = <TData extends MRT_RowData>({
   };
 
   const commonDatePickerProps = {
-    onChange: (newDate: unknown) => {
+    onChange: (newDate: Date | null) => {
       handleChange(newDate);
     },
     value: filterValue || null,
@@ -517,7 +511,7 @@ export const MRT_FilterTextField = <TData extends MRT_RowData>({
                     >
                       {isMultiSelectFilter && (
                         <Checkbox
-                          checked={((column.getFilterValue() ?? []) as string[]).includes(value)}
+                          checked={((column.getFilterValue() ?? []) as (number | string)[]).includes(value)}
                           sx={{ mr: '0.5rem' }}
                         />
                       )}

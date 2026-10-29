@@ -3,7 +3,7 @@ import { type CSSObject } from '@mui/material/styles';
 import { useEffect, useRef, useState } from 'react';
 
 import { type MRT_Header, type MRT_RowData, type MRT_TableInstance } from '../../types';
-import { getColumnFilterInfo } from '../../utils/column.utils';
+import { getColumnFilterInfo, getFilterOptionLabel } from '../../utils/column.utils';
 import { parseFromValuesOrFunc } from '../../utils/utils';
 
 export interface MRT_FilterRangeSliderProps<TData extends MRT_RowData> extends SliderProps {
@@ -129,14 +129,7 @@ export const MRT_FilterRangeSlider = <TData extends MRT_RowData>({
             whiteSpace: 'nowrap',
           }}
         >
-          {localization.filterMode.replace(
-            '{filterType}',
-            localization[
-              `filter${
-                currentFilterOption?.charAt(0)?.toUpperCase() + currentFilterOption?.slice(1)
-              }` as keyof typeof localization
-            ],
-          )}
+          {localization.filterMode.replace('{filterType}', getFilterOptionLabel(localization, currentFilterOption))}
         </FormHelperText>
       ) : null}
     </Stack>

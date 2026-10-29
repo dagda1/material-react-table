@@ -7,7 +7,7 @@ import Select from '@mui/material/Select';
 import { type Meta } from '@storybook/react-vite';
 import { useState } from 'react';
 
-import { createRow, MaterialReactTable, type MRT_Row, type MRT_TableOptions } from '../../src';
+import { createRow, MaterialReactTable, type MRT_EditValues, type MRT_Row, type MRT_TableOptions } from '../../src';
 
 const meta: Meta = {
   title: 'Features/Creating Examples',
@@ -22,6 +22,14 @@ type Person = {
   phoneNumber: string;
   state: string;
 };
+
+const toPerson = (values: MRT_EditValues<Person>): Person => ({
+  address: String(values.address),
+  firstName: String(values.firstName),
+  lastName: String(values.lastName),
+  phoneNumber: String(values.phoneNumber),
+  state: String(values.state),
+});
 
 const data: Person[] = [...Array(100)].map(() => ({
   address: faker.location.streetAddress(),
@@ -60,8 +68,7 @@ export const CreateRowIndexTop = (): JSX.Element => {
   const [tableData, setTableData] = useState(data);
 
   const handleSaveRow: MRT_TableOptions<Person>['onEditingRowSave'] = ({ exitEditingMode, row, values }) => {
-    tableData[row.index] = values;
-    setTableData([...tableData]);
+    setTableData((previous) => previous.map((person, index) => (index === row.index ? toPerson(values) : person)));
     exitEditingMode();
   };
 
@@ -106,8 +113,7 @@ export const CreateRowIndexBottom = (): JSX.Element => {
   const [tableData, setTableData] = useState(data);
 
   const handleSaveRow: MRT_TableOptions<Person>['onEditingRowSave'] = ({ exitEditingMode, row, values }) => {
-    tableData[row.index] = values;
-    setTableData([...tableData]);
+    setTableData((previous) => previous.map((person, index) => (index === row.index ? toPerson(values) : person)));
     exitEditingMode();
   };
 
@@ -152,8 +158,7 @@ export const CreateRowIndexIndex = (): JSX.Element => {
   const [tableData, setTableData] = useState(data);
 
   const handleSaveRow: MRT_TableOptions<Person>['onEditingRowSave'] = ({ exitEditingMode, row, values }) => {
-    tableData[row.index] = values;
-    setTableData([...tableData]);
+    setTableData((previous) => previous.map((person, index) => (index === row.index ? toPerson(values) : person)));
     exitEditingMode();
   };
 
@@ -198,8 +203,7 @@ export const CreateRowIndexIndexVirtualized = (): JSX.Element => {
   const [tableData, setTableData] = useState(data);
 
   const handleSaveRow: MRT_TableOptions<Person>['onEditingRowSave'] = ({ exitEditingMode, row, values }) => {
-    tableData[row.index] = values;
-    setTableData([...tableData]);
+    setTableData((previous) => previous.map((person, index) => (index === row.index ? toPerson(values) : person)));
     exitEditingMode();
   };
 
@@ -316,8 +320,7 @@ export const CreateWithCustomEditCell = (): JSX.Element => {
   const [tableData, setTableData] = useState(data);
 
   const handleSaveRow: MRT_TableOptions<Person>['onEditingRowSave'] = ({ exitEditingMode, row, values }) => {
-    tableData[row.index] = values;
-    setTableData([...tableData]);
+    setTableData((previous) => previous.map((person, index) => (index === row.index ? toPerson(values) : person)));
     exitEditingMode();
   };
 

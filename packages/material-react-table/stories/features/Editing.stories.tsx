@@ -4,7 +4,7 @@ import MenuItem from '@mui/material/MenuItem';
 import { type Meta } from '@storybook/react-vite';
 import { useState } from 'react';
 
-import { MaterialReactTable, type MRT_Cell, type MRT_TableOptions } from '../../src';
+import { MaterialReactTable, type MRT_Cell, type MRT_EditValues, type MRT_TableOptions } from '../../src';
 
 const meta: Meta = {
   title: 'Features/Editing Examples',
@@ -77,6 +77,14 @@ type Person = {
   state: string;
 };
 
+const toPerson = (values: MRT_EditValues<Person>): Person => ({
+  address: String(values.address),
+  firstName: String(values.firstName),
+  lastName: String(values.lastName),
+  phoneNumber: String(values.phoneNumber),
+  state: String(values.state),
+});
+
 const data: Person[] = [...Array(100)].map(() => ({
   address: faker.location.streetAddress(),
   firstName: faker.person.firstName(),
@@ -89,8 +97,7 @@ export const EditingEnabledEditModeModalDefault = (): JSX.Element => {
   const [tableData, setTableData] = useState(data);
 
   const handleSaveRow: MRT_TableOptions<Person>['onEditingRowSave'] = ({ exitEditingMode, row, values }) => {
-    tableData[row.index] = values;
-    setTableData([...tableData]);
+    setTableData((previous) => previous.map((person, index) => (index === row.index ? toPerson(values) : person)));
     exitEditingMode();
   };
 
@@ -132,8 +139,7 @@ export const EditingFeatureEnabledConditionally = (): JSX.Element => {
   const [tableData, setTableData] = useState(data);
 
   const handleSaveRow: MRT_TableOptions<Person>['onEditingRowSave'] = ({ exitEditingMode, row, values }) => {
-    tableData[row.index] = values;
-    setTableData([...tableData]);
+    setTableData((previous) => previous.map((person, index) => (index === row.index ? toPerson(values) : person)));
     exitEditingMode();
   };
 
@@ -179,8 +185,7 @@ export const EditingEnabledEditModeRow = (): JSX.Element => {
   const [tableData, setTableData] = useState(data);
 
   const handleSaveRow: MRT_TableOptions<Person>['onEditingRowSave'] = ({ exitEditingMode, row, values }) => {
-    tableData[row.index] = values;
-    setTableData([...tableData]);
+    setTableData((previous) => previous.map((person, index) => (index === row.index ? toPerson(values) : person)));
     exitEditingMode();
   };
 
@@ -224,8 +229,7 @@ export const EditingEnabledEditModeRowCustomSave = (): JSX.Element => {
   const [tableData, setTableData] = useState(data);
 
   const handleSaveRow: MRT_TableOptions<Person>['onEditingRowSave'] = ({ exitEditingMode, row, values }) => {
-    tableData[row.index] = values;
-    setTableData([...tableData]);
+    setTableData((previous) => previous.map((person, index) => (index === row.index ? toPerson(values) : person)));
     exitEditingMode();
   };
 
@@ -276,8 +280,7 @@ export const EditingEnabledEditModeRowVirtualized = (): JSX.Element => {
   const [tableData, setTableData] = useState(data);
 
   const handleSaveRow: MRT_TableOptions<Person>['onEditingRowSave'] = ({ exitEditingMode, row, values }) => {
-    tableData[row.index] = values;
-    setTableData([...tableData]);
+    setTableData((previous) => previous.map((person, index) => (index === row.index ? toPerson(values) : person)));
     exitEditingMode();
   };
 
@@ -330,8 +333,9 @@ export const EditingEnabledEditModeCell = (): JSX.Element => {
   const [tableData, setTableData] = useState(data);
 
   const handleSaveCell = (cell: MRT_Cell<Person>, value: string) => {
-    tableData[cell.row.index] = { ...tableData[cell.row.index], [cell.column.id]: value };
-    setTableData([...tableData]);
+    setTableData((previous) =>
+      previous.map((person, index) => (index === cell.row.index ? { ...person, [cell.column.id]: value } : person)),
+    );
   };
 
   return (
@@ -378,8 +382,9 @@ export const EditingEnabledEditModeCellWithRowActions = (): JSX.Element => {
   const [tableData, setTableData] = useState(data);
 
   const handleSaveCell = (cell: MRT_Cell<Person>, value: string) => {
-    tableData[cell.row.index] = { ...tableData[cell.row.index], [cell.column.id]: value };
-    setTableData([...tableData]);
+    setTableData((previous) =>
+      previous.map((person, index) => (index === cell.row.index ? { ...person, [cell.column.id]: value } : person)),
+    );
   };
 
   return (
@@ -427,8 +432,9 @@ export const EditingEnabledEditModeTable = (): JSX.Element => {
   const [tableData, setTableData] = useState(data);
 
   const handleSaveCell = (cell: MRT_Cell<Person>, value: string) => {
-    tableData[cell.row.index] = { ...tableData[cell.row.index], [cell.column.id]: value };
-    setTableData([...tableData]);
+    setTableData((previous) =>
+      previous.map((person, index) => (index === cell.row.index ? { ...person, [cell.column.id]: value } : person)),
+    );
     console.info('saved cell with value: ', value);
   };
 
@@ -472,8 +478,7 @@ export const EditSelectVariant = (): JSX.Element => {
   const [tableData, setTableData] = useState(data);
 
   const handleSaveRow: MRT_TableOptions<Person>['onEditingRowSave'] = ({ row, values }) => {
-    tableData[+row.index] = values;
-    setTableData([...tableData]);
+    setTableData((previous) => previous.map((person, index) => (index === row.index ? toPerson(values) : person)));
   };
 
   return (
@@ -515,8 +520,7 @@ export const EditSelectVariantAlternate = (): JSX.Element => {
   const [tableData, setTableData] = useState(data);
 
   const handleSaveRow: MRT_TableOptions<Person>['onEditingRowSave'] = ({ row, values }) => {
-    tableData[row.index] = values;
-    setTableData([...tableData]);
+    setTableData((previous) => previous.map((person, index) => (index === row.index ? toPerson(values) : person)));
   };
 
   return (
@@ -604,8 +608,7 @@ export const EditingCustomizeInput = (): JSX.Element => {
   const [tableData, setTableData] = useState(data);
 
   const handleSaveRow: MRT_TableOptions<Person>['onEditingRowSave'] = ({ row, values }) => {
-    tableData[row.index] = values;
-    setTableData([...tableData]);
+    setTableData((previous) => previous.map((person, index) => (index === row.index ? toPerson(values) : person)));
   };
 
   const usStates = [
@@ -713,8 +716,7 @@ export const EditingEnabledAsync = (): JSX.Element => {
   const handleSaveRow: MRT_TableOptions<Person>['onEditingRowSave'] = ({ row, values }) => {
     setIsSaving(true);
     setTimeout(() => {
-      tableData[row.index] = values;
-      setTableData([...tableData]);
+      setTableData((previous) => previous.map((person, index) => (index === row.index ? toPerson(values) : person)));
       setIsSaving(false);
     }, 1500);
   };
@@ -796,16 +798,21 @@ export const EditingNestedData = (): JSX.Element => {
       data={tableData}
       enableEditing
       onEditingRowSave={({ row, values }) => {
-        tableData[row.index] = {
-          address: String(row._valuesCache.address),
-          name: {
-            firstName: String(values.firstName),
-            lastName: values['name.lastName'],
-          },
-          phoneNumber: String(row._valuesCache.phoneNumber),
-          state: String(row._valuesCache.state),
-        };
-        setTableData([...tableData]);
+        setTableData((previous) =>
+          previous.map((person, index) =>
+            index === row.index
+              ? {
+                  address: String(values.address),
+                  name: {
+                    firstName: String(values.firstName),
+                    lastName: String(values['name.lastName']),
+                  },
+                  phoneNumber: String(values.phoneNumber),
+                  state: String(values.state),
+                }
+              : person,
+          ),
+        );
       }}
     />
   );
@@ -815,8 +822,7 @@ export const EditingEnabledEditModeTableWithGroupedRows = (): JSX.Element => {
   const [tableData, setTableData] = useState(data);
 
   const handleSaveRow: MRT_TableOptions<Person>['onEditingRowSave'] = ({ exitEditingMode, row, values }) => {
-    tableData[row.index] = values;
-    setTableData([...tableData]);
+    setTableData((previous) => previous.map((person, index) => (index === row.index ? toPerson(values) : person)));
     exitEditingMode();
   };
 
@@ -858,8 +864,7 @@ export const EnableEditingConditionally = (): JSX.Element => {
   const [tableData, setTableData] = useState(data);
 
   const handleSaveRow: MRT_TableOptions<Person>['onEditingRowSave'] = ({ exitEditingMode, row, values }) => {
-    tableData[row.index] = values;
-    setTableData([...tableData]);
+    setTableData((previous) => previous.map((person, index) => (index === row.index ? toPerson(values) : person)));
     exitEditingMode();
   };
 
@@ -900,8 +905,7 @@ export const EnableEditingConditionallyCell = (): JSX.Element => {
   const [tableData, setTableData] = useState(data);
 
   const handleSaveRow: MRT_TableOptions<Person>['onEditingRowSave'] = ({ exitEditingMode, row, values }) => {
-    tableData[row.index] = values;
-    setTableData([...tableData]);
+    setTableData((previous) => previous.map((person, index) => (index === row.index ? toPerson(values) : person)));
     exitEditingMode();
   };
 
@@ -942,8 +946,7 @@ export const EnableEditingConditionallyTable = (): JSX.Element => {
   const [tableData, setTableData] = useState(data);
 
   const handleSaveRow: MRT_TableOptions<Person>['onEditingRowSave'] = ({ exitEditingMode, row, values }) => {
-    tableData[row.index] = values;
-    setTableData([...tableData]);
+    setTableData((previous) => previous.map((person, index) => (index === row.index ? toPerson(values) : person)));
     exitEditingMode();
   };
 
@@ -984,8 +987,9 @@ export const EditingCellManualOnChange = (): JSX.Element => {
   const [tableData, setTableData] = useState(data);
 
   const handleSaveCell = (cell: MRT_Cell<Person>, value: string) => {
-    tableData[cell.row.index] = { ...tableData[cell.row.index], [cell.column.id]: value };
-    setTableData([...tableData]);
+    setTableData((previous) =>
+      previous.map((person, index) => (index === cell.row.index ? { ...person, [cell.column.id]: value } : person)),
+    );
   };
 
   return (

@@ -20,9 +20,9 @@ export const useMRT_Effects = <TData extends MRT_RowData>(table: MRT_TableInstan
   const previousTop = useRef<number>(null);
 
   //values the effects below read without re-running when they change
-  const effectValues = useRef({ columnOrder, enableRowPinning, pagination, tableOptions: table.options });
+  const effectValues = useRef({ columnOrder, enableRowPinning, pagination, table, tableOptions: table.options });
   useEffect(() => {
-    effectValues.current = { columnOrder, enableRowPinning, pagination, tableOptions: table.options };
+    effectValues.current = { columnOrder, enableRowPinning, pagination, table, tableOptions: table.options };
   });
 
   useEffect(() => {
@@ -53,25 +53,26 @@ export const useMRT_Effects = <TData extends MRT_RowData>(table: MRT_TableInstan
 
   //recalculate column order when columns change or features are toggled on/off
   useEffect(() => {
-    const { columnOrder, tableOptions } = effectValues.current;
+    const { columnOrder, table, tableOptions } = effectValues.current;
     if (totalColumnCount !== columnOrder.length) {
       table.setColumnOrder(getDefaultColumnOrderIds(tableOptions));
     }
-  }, [table, totalColumnCount]);
+  }, [totalColumnCount]);
 
   //if page index is out of bounds, set it to the last page
   useEffect(() => {
     if (!enablePagination || isLoading || showSkeletons) {
       return;
     }
-    const { pageIndex, pageSize } = effectValues.current.pagination;
+    const { pagination, table } = effectValues.current;
+    const { pageIndex, pageSize } = pagination;
     const totalPages: number = totalRowCount > 0 ? Math.ceil(totalRowCount / pageSize) : 1;
     const isOutOfBounds: boolean = pageIndex < 0 || pageIndex >= totalPages;
 
     if (isOutOfBounds) {
       table.setPageIndex(totalPages - 1);
     }
-  }, [table, totalRowCount, enablePagination, isLoading, showSkeletons]);
+  }, [totalRowCount, enablePagination, isLoading, showSkeletons]);
 
   //turn off sort when global filter is looking for ranked results
   const appliedSort = useRef<MRT_SortingState>(sorting);
@@ -82,6 +83,7 @@ export const useMRT_Effects = <TData extends MRT_RowData>(table: MRT_TableInstan
   }, [sorting]);
 
   useEffect(() => {
+    const { table } = effectValues.current;
     if (!getCanRankRows(table)) {
       return;
     }
@@ -90,14 +92,15 @@ export const useMRT_Effects = <TData extends MRT_RowData>(table: MRT_TableInstan
     } else {
       table.setSorting(() => appliedSort.current || []);
     }
-  }, [table, globalFilter]);
+  }, [globalFilter]);
 
   //fix pinned row top style when density changes
   useEffect(() => {
-    if (effectValues.current.enableRowPinning && table.getIsSomeRowsPinned()) {
+    const { enableRowPinning, table } = effectValues.current;
+    if (enableRowPinning && table.getIsSomeRowsPinned()) {
       setTimeout(() => {
         rerender();
       }, 150);
     }
-  }, [table, density]);
+  }, [density]);
 };

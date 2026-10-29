@@ -1,6 +1,6 @@
 import { Box, type BoxProps, Fade, Typography } from '@mui/material';
 import { alpha, type CSSObject } from '@mui/material/styles';
-import { type DragEvent, useEffect } from 'react';
+import { type DragEvent, useEffect, useRef } from 'react';
 
 import { type MRT_RowData, type MRT_TableInstance } from '../../types';
 import { parseFromValuesOrFunc } from '../../utils/utils';
@@ -30,17 +30,22 @@ export const MRT_ToolbarDropZone = <TData extends MRT_RowData>({
   };
 
   const isShowToolbarDropZoneControlled = table.options.state?.showToolbarDropZone !== undefined;
+  const setShowToolbarDropZoneRef = useRef(setShowToolbarDropZone);
+
+  useEffect(() => {
+    setShowToolbarDropZoneRef.current = setShowToolbarDropZone;
+  });
 
   useEffect(() => {
     if (isShowToolbarDropZoneControlled) {
-      setShowToolbarDropZone(
+      setShowToolbarDropZoneRef.current(
         !!enableGrouping &&
           !!draggingColumn &&
           draggingColumn.columnDef.enableGrouping !== false &&
           !grouping.includes(draggingColumn.id),
       );
     }
-  }, [draggingColumn, enableGrouping, grouping, isShowToolbarDropZoneControlled, setShowToolbarDropZone]);
+  }, [draggingColumn, enableGrouping, grouping, isShowToolbarDropZoneControlled]);
 
   return (
     <Fade in={showToolbarDropZone}>

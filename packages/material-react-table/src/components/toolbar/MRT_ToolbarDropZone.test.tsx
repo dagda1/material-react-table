@@ -1,5 +1,5 @@
 import { fireEvent, render } from '@testing-library/react';
-import { describe, expect, test } from 'vitest';
+import { describe, expect, test, vi } from 'vitest';
 
 import { type MRT_ColumnDef } from '../../types';
 import { MaterialReactTable } from '../MaterialReactTable';
@@ -32,5 +32,27 @@ describe('grouping drop zone', () => {
     fireEvent.dragEnd(handle);
 
     expect(container.textContent).toContain('Grouped by');
+  });
+});
+
+describe('controlled drop zone', () => {
+  test('does not call onShowToolbarDropZoneChange when the table re-renders', () => {
+    const onShowToolbarDropZoneChange = vi.fn();
+    const table = (isLoading: boolean) => (
+      <MaterialReactTable
+        columns={columns()}
+        data={data}
+        enableGrouping
+        onShowToolbarDropZoneChange={(showToolbarDropZone) => onShowToolbarDropZoneChange(showToolbarDropZone)}
+        state={{ isLoading, showToolbarDropZone: false }}
+      />
+    );
+    const { rerender } = render(table(false));
+    onShowToolbarDropZoneChange.mockClear();
+
+    rerender(table(true));
+    rerender(table(false));
+
+    expect(onShowToolbarDropZoneChange).not.toHaveBeenCalled();
   });
 });

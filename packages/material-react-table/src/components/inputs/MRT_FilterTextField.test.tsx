@@ -1,4 +1,4 @@
-import { render, waitFor } from '@testing-library/react';
+import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { describe, expect, test, vi } from 'vitest';
 
@@ -86,5 +86,48 @@ describe('empty text filter', () => {
     rerender(table(false));
 
     expect(onColumnFiltersChange).not.toHaveBeenCalled();
+  });
+});
+
+describe('filter mode labels', () => {
+  test('shows the current filter mode under the text filter', () => {
+    render(
+      <MaterialReactTable
+        columns={[{ accessorKey: 'name', header: 'Name' }]}
+        data={data}
+        enableColumnFilterModes
+        initialState={{ showColumnFilters: true }}
+      />,
+    );
+
+    expect(screen.getByText('Filter Mode: Fuzzy')).toBeTruthy();
+  });
+
+  test('shows the filter mode under the range slider', () => {
+    render(
+      <MaterialReactTable
+        columns={[
+          { accessorFn: (person) => person.name.length, filterVariant: 'range-slider', header: 'Length', id: 'length' },
+        ]}
+        data={data}
+        enableColumnFilterModes
+        initialState={{ showColumnFilters: true }}
+      />,
+    );
+
+    expect(screen.getByText('Filter Mode: Between Inclusive')).toBeTruthy();
+  });
+
+  test('shows a chip for the empty filter mode', () => {
+    render(
+      <MaterialReactTable
+        columns={[{ accessorKey: 'name', header: 'Name' }]}
+        data={data}
+        enableColumnFilterModes
+        initialState={{ columnFilterFns: { name: 'empty' }, showColumnFilters: true }}
+      />,
+    );
+
+    expect(screen.getAllByText('Empty').length).toBeGreaterThan(0);
   });
 });
