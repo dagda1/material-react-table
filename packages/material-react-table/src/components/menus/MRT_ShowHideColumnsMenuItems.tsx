@@ -1,30 +1,15 @@
-import { Box } from '@mui/material';
-import { FormControlLabel } from '@mui/material';
-import { MenuItem, type MenuItemProps } from '@mui/material';
-import { Switch } from '@mui/material';
-import { Tooltip } from '@mui/material';
-import { Typography } from '@mui/material';
-import {
-  type Dispatch,
-  type DragEvent,
-  type SetStateAction,
-  useRef,
-  useState,
-} from 'react';
+import { Box, FormControlLabel, MenuItem, type MenuItemProps, Switch, Tooltip, Typography } from '@mui/material';
+import { type CSSObject } from '@mui/material/styles';
+import { type Dispatch, type DragEvent, type SetStateAction, useRef, useState } from 'react';
 
-import {
-  type MRT_Column,
-  type MRT_RowData,
-  type MRT_TableInstance,
-} from '../../types';
+import { type MRT_Column, type MRT_RowData, type MRT_TableInstance } from '../../types';
 import { reorderColumn } from '../../utils/column.utils';
 import { getCommonTooltipProps } from '../../utils/style.utils';
 import { parseFromValuesOrFunc } from '../../utils/utils';
 import { MRT_ColumnPinningButtons } from '../buttons/MRT_ColumnPinningButtons';
 import { MRT_GrabHandleButton } from '../buttons/MRT_GrabHandleButton';
 
-export interface MRT_ShowHideColumnsMenuItemsProps<TData extends MRT_RowData>
-  extends MenuItemProps {
+export interface MRT_ShowHideColumnsMenuItemsProps<TData extends MRT_RowData> extends MenuItemProps {
   allColumns: MRT_Column<TData>[];
   column: MRT_Column<TData>;
   hoveredColumn: MRT_Column<TData> | null;
@@ -41,7 +26,7 @@ export const MRT_ShowHideColumnsMenuItems = <TData extends MRT_RowData>({
   setHoveredColumn,
   table,
   ...rest
-}: MRT_ShowHideColumnsMenuItemsProps<TData>) => {
+}: MRT_ShowHideColumnsMenuItemsProps<TData>): JSX.Element | null => {
   const {
     options: {
       enableColumnOrdering,
@@ -69,7 +54,7 @@ export const MRT_ShowHideColumnsMenuItems = <TData extends MRT_RowData>({
     }
   };
 
-  const menuItemRef = useRef<HTMLElement>(null);
+  const menuItemRef = useRef<HTMLLIElement>(null);
 
   const [isDragging, setIsDragging] = useState(false);
 
@@ -86,11 +71,7 @@ export const MRT_ShowHideColumnsMenuItems = <TData extends MRT_RowData>({
     setIsDragging(false);
     setHoveredColumn(null);
     if (hoveredColumn) {
-      const reorderedColumns = reorderColumn(
-        column,
-        hoveredColumn,
-        columnOrder,
-      );
+      const reorderedColumns = reorderColumn(column, hoveredColumn, columnOrder);
       setColumnOrder(reorderedColumns);
       setColumnPinning(({ end = [], start = [] }) => ({
         end: reorderedColumns.filter((header) => end.includes(header)),
@@ -114,7 +95,7 @@ export const MRT_ShowHideColumnsMenuItems = <TData extends MRT_RowData>({
       <MenuItem
         disableRipple
         onDragEnter={handleDragEnter}
-        ref={menuItemRef as any}
+        ref={menuItemRef}
         {...rest}
         sx={(theme) => ({
           alignItems: 'center',
@@ -129,7 +110,7 @@ export const MRT_ShowHideColumnsMenuItems = <TData extends MRT_RowData>({
           outlineOffset: '-2px',
           pl: `${(column.depth + 0.5) * 2}rem`,
           py: '6px',
-          ...(parseFromValuesOrFunc(rest?.sx, theme) as any),
+          ...(parseFromValuesOrFunc(rest?.sx, theme) as CSSObject),
         })}
       >
         <Box
@@ -143,11 +124,7 @@ export const MRT_ShowHideColumnsMenuItems = <TData extends MRT_RowData>({
             enableColumnOrdering &&
             !isNestedColumns &&
             (columnDef.enableColumnOrdering !== false ? (
-              <MRT_GrabHandleButton
-                onDragEnd={handleDragEnd}
-                onDragStart={handleDragStart}
-                table={table}
-              />
+              <MRT_GrabHandleButton onDragEnd={handleDragEnd} onDragStart={handleDragStart} table={table} />
             ) : (
               <Box sx={{ width: '28px' }} />
             ))}
@@ -161,10 +138,7 @@ export const MRT_ShowHideColumnsMenuItems = <TData extends MRT_RowData>({
             <FormControlLabel
               checked={switchChecked}
               control={
-                <Tooltip
-                  {...getCommonTooltipProps()}
-                  title={localization.toggleVisibility}
-                >
+                <Tooltip {...getCommonTooltipProps()} title={localization.toggleVisibility}>
                   <Switch />
                 </Tooltip>
               }
@@ -181,9 +155,7 @@ export const MRT_ShowHideColumnsMenuItems = <TData extends MRT_RowData>({
               }}
             />
           ) : (
-            <Typography sx={{ alignSelf: 'center' }}>
-              {columnDef.header}
-            </Typography>
+            <Typography sx={{ alignSelf: 'center' }}>{columnDef.header}</Typography>
           )}
         </Box>
       </MenuItem>

@@ -1,13 +1,7 @@
-import { IconButton, type IconButtonProps } from '@mui/material';
-import { Tooltip } from '@mui/material';
+import { IconButton, type IconButtonProps, Tooltip } from '@mui/material';
 import { type MouseEvent, useState } from 'react';
 
-import {
-  type MRT_Cell,
-  type MRT_Row,
-  type MRT_RowData,
-  type MRT_TableInstance,
-} from '../../types';
+import { type MRT_Cell, type MRT_Row, type MRT_RowData, type MRT_TableInstance } from '../../types';
 import { getCommonTooltipProps } from '../../utils/style.utils';
 import { parseFromValuesOrFunc } from '../../utils/utils';
 import { MRT_RowActionMenu } from '../menus/MRT_RowActionMenu';
@@ -24,8 +18,7 @@ const commonIconButtonStyles = {
   width: '2rem',
 };
 
-export interface MRT_ToggleRowActionMenuButtonProps<TData extends MRT_RowData>
-  extends IconButtonProps {
+export interface MRT_ToggleRowActionMenuButtonProps<TData extends MRT_RowData> extends IconButtonProps {
   cell: MRT_Cell<TData>;
   row: MRT_Row<TData>;
   staticRowIndex?: number;
@@ -38,7 +31,7 @@ export const MRT_ToggleRowActionMenuButton = <TData extends MRT_RowData>({
   staticRowIndex,
   table,
   ...rest
-}: MRT_ToggleRowActionMenuButtonProps<TData>) => {
+}: MRT_ToggleRowActionMenuButtonProps<TData>): JSX.Element => {
   const {
     options: {
       createDisplayMode,
@@ -57,9 +50,7 @@ export const MRT_ToggleRowActionMenuButton = <TData extends MRT_RowData>({
   const isCreating = creatingRow?.id === row.id;
   const isEditing = editingRow?.id === row.id;
 
-  const showEditActionButtons =
-    (isCreating && createDisplayMode === 'row') ||
-    (isEditing && editDisplayMode === 'row');
+  const showEditActionButtons = (isCreating && createDisplayMode === 'row') || (isEditing && editDisplayMode === 'row');
 
   const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
 
@@ -96,9 +87,10 @@ export const MRT_ToggleRowActionMenuButton = <TData extends MRT_RowData>({
         </Tooltip>
       ) : renderRowActionMenuItems?.({
           row,
+          closeMenu: () => {},
           staticRowIndex,
           table,
-        } as any)?.length ? (
+        })?.length ? (
         <>
           <Tooltip {...getCommonTooltipProps()} title={localization.rowActions}>
             <IconButton

@@ -73,8 +73,7 @@ export const MRT_Localization_KO: MRT_Localization = {
   rowsPerPage: '페이지 당 행 수',
   save: '저장',
   search: '검색',
-  selectedCountOfRowCountRowsSelected:
-    '{rowCount} 행 중 {selectedCount} 행 선택됨',
+  selectedCountOfRowCountRowsSelected: '{rowCount} 행 중 {selectedCount} 행 선택됨',
   select: '선택',
   showAll: '모두 보이기',
   showAllColumns: '모든 열 보이기',

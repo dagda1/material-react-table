@@ -1,15 +1,10 @@
-import { Box } from '@mui/material';
-import { Divider, type DividerProps } from '@mui/material';
+import { Box, Divider, type DividerProps } from '@mui/material';
+import { type CSSObject } from '@mui/material/styles';
 
-import {
-  type MRT_Header,
-  type MRT_RowData,
-  type MRT_TableInstance,
-} from '../../types';
+import { type MRT_Header, type MRT_RowData, type MRT_TableInstance } from '../../types';
 import { parseFromValuesOrFunc } from '../../utils/utils';
 
-export interface MRT_TableHeadCellResizeHandleProps<TData extends MRT_RowData>
-  extends DividerProps {
+export interface MRT_TableHeadCellResizeHandleProps<TData extends MRT_RowData> extends DividerProps {
   header: MRT_Header<TData>;
   table: MRT_TableInstance<TData>;
 }
@@ -18,7 +13,7 @@ export const MRT_TableHeadCellResizeHandle = <TData extends MRT_RowData>({
   header,
   table,
   ...rest
-}: MRT_TableHeadCellResizeHandleProps<TData>) => {
+}: MRT_TableHeadCellResizeHandleProps<TData>): JSX.Element => {
   const {
     options: { columnResizeDirection, columnResizeMode },
     setColumnResizing,
@@ -28,12 +23,7 @@ export const MRT_TableHeadCellResizeHandle = <TData extends MRT_RowData>({
 
   const handler = header.getResizeHandler();
 
-  const mx =
-    density === 'compact'
-      ? '-8px'
-      : density === 'comfortable'
-        ? '-16px'
-        : '-24px';
+  const mx = density === 'compact' ? '-8px' : density === 'comfortable' ? '-16px' : '-24px';
 
   const lr = column.columnDef.columnDefType === 'display' ? '4px' : '0';
 
@@ -53,16 +43,14 @@ export const MRT_TableHeadCellResizeHandle = <TData extends MRT_RowData>({
         transform:
           column.getIsResizing() && columnResizeMode === 'onEnd'
             ? `translateX(${
-                (columnResizeDirection === 'rtl' ? -1 : 1) *
-                (table.state.columnResizing.deltaOffset ?? 0)
+                (columnResizeDirection === 'rtl' ? -1 : 1) * (table.state.columnResizing.deltaOffset ?? 0)
               }px)`
             : undefined,
       }}
       sx={(theme) => ({
         '&:active > hr': {
           backgroundColor: theme.palette.info.main,
-          opacity:
-            header.subHeaders.length || columnResizeMode === 'onEnd' ? 1 : 0,
+          opacity: header.subHeaders.length || columnResizeMode === 'onEnd' ? 1 : 0,
         },
         cursor: 'col-resize',
         left: columnResizeDirection === 'rtl' ? lr : undefined,
@@ -83,12 +71,10 @@ export const MRT_TableHeadCellResizeHandle = <TData extends MRT_RowData>({
           height: '24px',
           touchAction: 'none',
           transform: 'translateX(4px)',
-          transition: column.getIsResizing()
-            ? undefined
-            : 'all 150ms ease-in-out',
+          transition: column.getIsResizing() ? undefined : 'all 150ms ease-in-out',
           userSelect: 'none',
           zIndex: 4,
-          ...(parseFromValuesOrFunc(rest?.sx, theme) as any),
+          ...(parseFromValuesOrFunc(rest?.sx, theme) as CSSObject),
         })}
       />
     </Box>

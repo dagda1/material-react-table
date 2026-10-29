@@ -1,11 +1,7 @@
 import { faker } from '@faker-js/faker';
 import { type Meta } from '@storybook/react-vite';
 
-import {
-  MaterialReactTable,
-  type MRT_ColumnDef,
-  useMaterialReactTable,
-} from '../../src';
+import { MaterialReactTable, type MRT_ColumnDef, useMaterialReactTable } from '../../src';
 
 const meta: Meta = {
   title: 'Features/Click to Copy Examples',
@@ -62,7 +58,7 @@ const data: Person[] = [...Array(100)].map(() => ({
   state: faker.location.state(),
 }));
 
-export const ClickToCopyEnabled = () => {
+export const ClickToCopyEnabled = (): JSX.Element => {
   const table = useMaterialReactTable({
     columns,
     data,
@@ -71,7 +67,7 @@ export const ClickToCopyEnabled = () => {
   return <MaterialReactTable table={table} />;
 };
 
-export const ClickToCopyEnabledWithColumnResizing = () => {
+export const ClickToCopyEnabledWithColumnResizing = (): JSX.Element => {
   const table = useMaterialReactTable({
     columns,
     data,
@@ -82,7 +78,7 @@ export const ClickToCopyEnabledWithColumnResizing = () => {
   return <MaterialReactTable table={table} />;
 };
 
-export const ClickToCopyEnabledPerColumn = () => {
+export const ClickToCopyEnabledPerColumn = (): JSX.Element => {
   const table = useMaterialReactTable({
     columns: [
       {
@@ -117,7 +113,7 @@ export const ClickToCopyEnabledPerColumn = () => {
   return <MaterialReactTable table={table} />;
 };
 
-export const ClickToCopyDisabledPerColumn = () => {
+export const ClickToCopyDisabledPerColumn = (): JSX.Element => {
   const table = useMaterialReactTable({
     columns: [
       {

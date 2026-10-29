@@ -56,11 +56,11 @@ const blankData = [...Array(100)].map(() => ({
   state: null,
 }));
 
-export const Loading = () => (
+export const Loading = (): JSX.Element => (
   <MaterialReactTable columns={columns} data={[]} state={{ isLoading: true }} />
 );
 
-export const Loading5 = () => (
+export const Loading5 = (): JSX.Element => (
   <MaterialReactTable
     columns={columns}
     data={[]}
@@ -68,15 +68,11 @@ export const Loading5 = () => (
   />
 );
 
-export const LoadingWithProgressBars = () => (
-  <MaterialReactTable
-    columns={columns}
-    data={[]}
-    state={{ isLoading: true, showProgressBars: true }}
-  />
+export const LoadingWithProgressBars = (): JSX.Element => (
+  <MaterialReactTable columns={columns} data={[]} state={{ isLoading: true, showProgressBars: true }} />
 );
 
-export const LoadingWithProgressBarsNoOverlay = () => (
+export const LoadingWithProgressBarsNoOverlay = (): JSX.Element => (
   <MaterialReactTable
     columns={columns}
     data={[]}
@@ -88,24 +84,15 @@ export const LoadingWithProgressBarsNoOverlay = () => (
   />
 );
 
-export const LoadingWithSomeData = () => (
-  <MaterialReactTable
-    columns={columns}
-    data={[...data.slice(0, 5), ...blankData]}
-    state={{ isLoading: true }}
-  />
+export const LoadingWithSomeData = (): JSX.Element => (
+  <MaterialReactTable columns={columns} data={[...data.slice(0, 5), ...blankData]} state={{ isLoading: true }} />
 );
 
-export const LoadingWithSelection = () => (
-  <MaterialReactTable
-    columns={columns}
-    data={[]}
-    enableRowSelection
-    state={{ isLoading: true }}
-  />
+export const LoadingWithSelection = (): JSX.Element => (
+  <MaterialReactTable columns={columns} data={[]} enableRowSelection state={{ isLoading: true }} />
 );
 
-export const LoadingWithDetailPanelExample = () => (
+export const LoadingWithDetailPanelExample = (): JSX.Element => (
   <MaterialReactTable
     columns={columns}
     data={[]}
@@ -121,7 +108,7 @@ export const LoadingWithDetailPanelExample = () => (
   />
 );
 
-export const SkeletonDisplayColumns = () => (
+export const SkeletonDisplayColumns = (): JSX.Element => (
   <MaterialReactTable
     columns={columns}
     data={[]}
@@ -133,15 +120,11 @@ export const SkeletonDisplayColumns = () => (
   />
 );
 
-export const ReloadingExample = () => (
-  <MaterialReactTable
-    columns={columns}
-    data={data}
-    state={{ showProgressBars: true }}
-  />
+export const ReloadingExample = (): JSX.Element => (
+  <MaterialReactTable columns={columns} data={data} state={{ showProgressBars: true }} />
 );
 
-export const OnlyTopProgressBar = () => (
+export const OnlyTopProgressBar = (): JSX.Element => (
   <MaterialReactTable
     columns={columns}
     data={data}

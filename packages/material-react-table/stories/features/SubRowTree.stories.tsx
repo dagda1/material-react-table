@@ -63,11 +63,11 @@ const data = [...Array(5)].map(() => ({
   })),
 }));
 
-export const SubRowTreeEnabledDefault = () => (
+export const SubRowTreeEnabledDefault = (): JSX.Element => (
   <MaterialReactTable columns={columns} data={data} enableExpanding />
 );
 
-export const SubRowTreeLayoutGrid = () => (
+export const SubRowTreeLayoutGrid = (): JSX.Element => (
   <MaterialReactTable
     columns={columns}
     data={data}
@@ -82,7 +82,7 @@ export const SubRowTreeLayoutGrid = () => (
   />
 );
 
-export const SubRowTreeLayoutGridNoGrow = () => (
+export const SubRowTreeLayoutGridNoGrow = (): JSX.Element => (
   <MaterialReactTable
     columns={columns}
     data={data}
@@ -97,32 +97,22 @@ export const SubRowTreeLayoutGridNoGrow = () => (
   />
 );
 
-export const SubRowTreeEnabledPositionLast = () => (
-  <MaterialReactTable
-    columns={columns}
-    data={data}
-    enableExpanding
-    positionExpandColumn="last"
-  />
+export const SubRowTreeEnabledPositionLast = (): JSX.Element => (
+  <MaterialReactTable columns={columns} data={data} enableExpanding positionExpandColumn="last" />
 );
 
-export const SubRowTreeEnabledDefaultRTL = () => {
+export const SubRowTreeEnabledDefaultRTL = (): JSX.Element => {
   const theme = useTheme();
   return (
     <ThemeProvider theme={{ ...theme, direction: 'rtl' }}>
       <div style={{ direction: 'rtl' }}>
-        <MaterialReactTable
-          columns={columns}
-          data={data}
-          enableExpanding
-          localization={MRT_Localization_HE}
-        />
+        <MaterialReactTable columns={columns} data={data} enableExpanding localization={MRT_Localization_HE} />
       </div>
     </ThemeProvider>
   );
 };
 
-export const SubRowTreeEnabledDefaultRTLAndPositionLast = () => {
+export const SubRowTreeEnabledDefaultRTLAndPositionLast = (): JSX.Element => {
   const theme = useTheme();
   return (
     <ThemeProvider theme={{ ...theme, direction: 'rtl' }}>
@@ -139,16 +129,11 @@ export const SubRowTreeEnabledDefaultRTLAndPositionLast = () => {
   );
 };
 
-export const SubRowTreeDisableExpandAll = () => (
-  <MaterialReactTable
-    columns={columns}
-    data={data}
-    enableExpandAll={false}
-    enableExpanding
-  />
+export const SubRowTreeDisableExpandAll = (): JSX.Element => (
+  <MaterialReactTable columns={columns} data={data} enableExpandAll={false} enableExpanding />
 );
 
-export const SubRowTreeFilterFromLeafRows = () => (
+export const SubRowTreeFilterFromLeafRows = (): JSX.Element => (
   <MaterialReactTable
     columns={columns}
     data={data}
@@ -159,7 +144,7 @@ export const SubRowTreeFilterFromLeafRows = () => (
   />
 );
 
-export const SubRowTreeMaxLeafRowFilterDepth0 = () => (
+export const SubRowTreeMaxLeafRowFilterDepth0 = (): JSX.Element => (
   <MaterialReactTable
     columns={columns}
     data={data}
@@ -170,7 +155,7 @@ export const SubRowTreeMaxLeafRowFilterDepth0 = () => (
   />
 );
 
-export const SubRowTreeMaxLeafRowFilterDepth1 = () => (
+export const SubRowTreeMaxLeafRowFilterDepth1 = (): JSX.Element => (
   <MaterialReactTable
     columns={columns}
     data={data}
@@ -181,7 +166,7 @@ export const SubRowTreeMaxLeafRowFilterDepth1 = () => (
   />
 );
 
-export const SubRowTreeMaxLeafRowFilterDepthAndFilterFromLeafRows = () => (
+export const SubRowTreeMaxLeafRowFilterDepthAndFilterFromLeafRows = (): JSX.Element => (
   <MaterialReactTable
     columns={columns}
     data={data}
@@ -193,17 +178,11 @@ export const SubRowTreeMaxLeafRowFilterDepthAndFilterFromLeafRows = () => (
   />
 );
 
-export const SubRowTreeWithSelection = () => (
-  <MaterialReactTable
-    columns={columns}
-    data={data}
-    enableExpanding
-    enablePagination={false}
-    enableRowSelection
-  />
+export const SubRowTreeWithSelection = (): JSX.Element => (
+  <MaterialReactTable columns={columns} data={data} enableExpanding enablePagination={false} enableRowSelection />
 );
 
-export const SubRowTreeWithSelectionNoSubRowSelection = () => (
+export const SubRowTreeWithSelectionNoSubRowSelection = (): JSX.Element => (
   <MaterialReactTable
     columns={columns}
     data={data}
@@ -214,7 +193,7 @@ export const SubRowTreeWithSelectionNoSubRowSelection = () => (
   />
 );
 
-export const SubRowTreeWithSingleSelection = () => (
+export const SubRowTreeWithSingleSelection = (): JSX.Element => (
   <MaterialReactTable
     columns={columns}
     data={data}

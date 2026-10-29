@@ -1,11 +1,7 @@
 import { type Range, useVirtualizer } from '@tanstack/react-virtual';
 import { useCallback, useMemo } from 'react';
 
-import {
-  type MRT_ColumnVirtualizer,
-  type MRT_RowData,
-  type MRT_TableInstance,
-} from '../types';
+import { type MRT_ColumnVirtualizer, type MRT_RowData, type MRT_TableInstance } from '../types';
 import { parseFromValuesOrFunc } from '../utils/utils';
 import { extraIndexRangeExtractor } from '../utils/virtualization.utils';
 
@@ -15,7 +11,7 @@ export const useMRT_ColumnVirtualizer = <
   TItemElement extends Element = HTMLTableCellElement,
 >(
   table: MRT_TableInstance<TData>,
-): MRT_ColumnVirtualizer | undefined => {
+): MRT_ColumnVirtualizer<TScrollElement, TItemElement> | undefined => {
   const {
     options: {
       columnVirtualizerInstanceRef,
@@ -25,16 +21,13 @@ export const useMRT_ColumnVirtualizer = <
     },
     refs: { tableContainerRef },
   } = table;
-  const { columnPinning, columnVisibility, draggingColumn } = table.state;
+  const { draggingColumn } = table.state;
 
-  if (!enableColumnVirtualization) return undefined;
-
-  const columnVirtualizerProps = parseFromValuesOrFunc(
-    columnVirtualizerOptions,
-    {
-      table,
-    },
-  );
+  const columnVirtualizerProps = enableColumnVirtualization
+    ? parseFromValuesOrFunc(columnVirtualizerOptions, {
+        table,
+      })
+    : undefined;
 
   const visibleColumns = table.getVisibleLeafColumns();
 
@@ -42,33 +35,27 @@ export const useMRT_ColumnVirtualizer = <
     () =>
       enableColumnPinning
         ? [
-            visibleColumns
-              .filter((c) => c.getIsPinned() === 'start')
-              .map((c) => c.getPinnedIndex()),
+            visibleColumns.filter((c) => c.getIsPinned() === 'start').map((c) => c.getPinnedIndex()),
             visibleColumns
               .filter((c) => c.getIsPinned() === 'end')
-              .map(
-                (column) => visibleColumns.length - column.getPinnedIndex() - 1,
-              )
+              .map((column) => visibleColumns.length - column.getPinnedIndex() - 1)
               .sort((a, b) => a - b),
           ]
         : [[], []],
-    [columnPinning, columnVisibility, enableColumnPinning],
+    [enableColumnPinning, visibleColumns],
   );
 
   const numPinnedLeft = leftPinnedIndexes.length;
   const numPinnedRight = rightPinnedIndexes.length;
 
   const draggingColumnIndex = useMemo(
-    () =>
-      draggingColumn?.id
-        ? visibleColumns.findIndex((c) => c.id === draggingColumn?.id)
-        : undefined,
-    [draggingColumn?.id],
+    () => (draggingColumn?.id ? visibleColumns.findIndex((c) => c.id === draggingColumn?.id) : undefined),
+    [draggingColumn?.id, visibleColumns],
   );
 
   const columnVirtualizer = useVirtualizer({
     count: visibleColumns.length,
+    enabled: !!enableColumnVirtualization,
     estimateSize: (index) => visibleColumns[index].getSize(),
     getScrollElement: () => tableContainerRef.current,
     horizontal: true,
@@ -79,48 +66,40 @@ export const useMRT_ColumnVirtualizer = <
         if (!numPinnedLeft && !numPinnedRight) {
           return newIndexes;
         }
-        return [
-          ...new Set([
-            ...leftPinnedIndexes,
-            ...newIndexes,
-            ...rightPinnedIndexes,
-          ]),
-        ];
+        return [...new Set([...leftPinnedIndexes, ...newIndexes, ...rightPinnedIndexes])];
       },
-      [leftPinnedIndexes, rightPinnedIndexes, draggingColumnIndex],
+      [leftPinnedIndexes, rightPinnedIndexes, draggingColumnIndex, numPinnedLeft, numPinnedRight],
     ),
     ...columnVirtualizerProps,
   }) as unknown as MRT_ColumnVirtualizer<TScrollElement, TItemElement>;
 
+  if (!enableColumnVirtualization) {
+    return undefined;
+  }
+
   const virtualColumns = columnVirtualizer.getVirtualItems();
-  columnVirtualizer.virtualColumns = virtualColumns as any;
+  columnVirtualizer.virtualColumns = virtualColumns;
   const numColumns = virtualColumns.length;
 
   if (numColumns) {
     const totalSize = columnVirtualizer.getTotalSize();
 
     const leftNonPinnedStart = virtualColumns[numPinnedLeft]?.start || 0;
-    const leftNonPinnedEnd =
-      virtualColumns[leftPinnedIndexes.length - 1]?.end || 0;
+    const leftNonPinnedEnd = virtualColumns[leftPinnedIndexes.length - 1]?.end || 0;
 
-    const rightNonPinnedStart =
-      virtualColumns[numColumns - numPinnedRight]?.start || 0;
-    const rightNonPinnedEnd =
-      virtualColumns[numColumns - numPinnedRight - 1]?.end || 0;
+    const rightNonPinnedStart = virtualColumns[numColumns - numPinnedRight]?.start || 0;
+    const rightNonPinnedEnd = virtualColumns[numColumns - numPinnedRight - 1]?.end || 0;
 
-    columnVirtualizer.virtualPaddingLeft =
-      leftNonPinnedStart - leftNonPinnedEnd;
+    columnVirtualizer.virtualPaddingLeft = leftNonPinnedStart - leftNonPinnedEnd;
 
     columnVirtualizer.virtualPaddingRight =
-      totalSize -
-      rightNonPinnedEnd -
-      (numPinnedRight ? totalSize - rightNonPinnedStart : 0);
+      totalSize - rightNonPinnedEnd - (numPinnedRight ? totalSize - rightNonPinnedStart : 0);
   }
 
   if (columnVirtualizerInstanceRef) {
-    //@ts-expect-error
+    // @ts-expect-error: the ref is typed for the default element generics, this virtualizer uses TScrollElement and TItemElement
     columnVirtualizerInstanceRef.current = columnVirtualizer;
   }
 
-  return columnVirtualizer as any;
+  return columnVirtualizer;
 };

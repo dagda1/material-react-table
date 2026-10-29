@@ -50,19 +50,13 @@ const data: Row[] = [...Array(100)].map(() => ({
   state: faker.location.state(),
 }));
 
-export const ColumnActionsEnabledDefault = () => (
-  <MaterialReactTable columns={columns} data={data} />
+export const ColumnActionsEnabledDefault = (): JSX.Element => <MaterialReactTable columns={columns} data={data} />;
+
+export const ColumnActionsDisabled = (): JSX.Element => (
+  <MaterialReactTable columns={columns} data={data} enableColumnActions={false} />
 );
 
-export const ColumnActionsDisabled = () => (
-  <MaterialReactTable
-    columns={columns}
-    data={data}
-    enableColumnActions={false}
-  />
-);
-
-export const ColumnActionsDisabledPerColumn = () => (
+export const ColumnActionsDisabledPerColumn = (): JSX.Element => (
   <MaterialReactTable
     columns={[
       {
@@ -93,7 +87,7 @@ export const ColumnActionsDisabledPerColumn = () => (
   />
 );
 
-export const ColumnActionsEnabledPerColumn = () => (
+export const ColumnActionsEnabledPerColumn = (): JSX.Element => (
   <MaterialReactTable
     columns={[
       {
@@ -125,35 +119,26 @@ export const ColumnActionsEnabledPerColumn = () => (
   />
 );
 
-export const CustomColumnActions = () => (
+export const CustomColumnActions = (): JSX.Element => (
   <MaterialReactTable
     columns={columns}
     data={data}
-    renderColumnActionsMenuItems={() => [
-      <MenuItem key={1}>Item 1</MenuItem>,
-      <MenuItem key={2}>Item 2</MenuItem>,
-    ]}
+    renderColumnActionsMenuItems={() => [<MenuItem key={1}>Item 1</MenuItem>, <MenuItem key={2}>Item 2</MenuItem>]}
   />
 );
 
-export const CustomColumnActionsPerColumn = () => (
+export const CustomColumnActionsPerColumn = (): JSX.Element => (
   <MaterialReactTable
     columns={[
       {
         accessorKey: 'firstName',
         header: 'First Name',
-        renderColumnActionsMenuItems: () => [
-          <MenuItem key={1}>Item 1</MenuItem>,
-          <MenuItem key={2}>Item 2</MenuItem>,
-        ],
+        renderColumnActionsMenuItems: () => [<MenuItem key={1}>Item 1</MenuItem>, <MenuItem key={2}>Item 2</MenuItem>],
       },
       {
         accessorKey: 'lastName',
         header: 'Last Name',
-        renderColumnActionsMenuItems: () => [
-          <MenuItem key={1}>Item 2</MenuItem>,
-          <MenuItem key={3}>Item 3</MenuItem>,
-        ],
+        renderColumnActionsMenuItems: () => [<MenuItem key={1}>Item 2</MenuItem>, <MenuItem key={3}>Item 3</MenuItem>],
       },
       {
         accessorKey: 'address',

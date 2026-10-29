@@ -1,9 +1,5 @@
-import {
-  constructRow as _constructRow,
-  flexRender as _flexRender,
-  type Renderable,
-} from '@tanstack/react-table';
-import { type JSX, type ReactNode } from 'react';
+import { constructRow as _constructRow, flexRender as _flexRender, type Renderable } from '@tanstack/react-table';
+import { type ReactNode } from 'react';
 
 import {
   type MRT_ColumnHelper,
@@ -15,21 +11,17 @@ import {
 } from '../types';
 import { getAllLeafColumnDefs, getColumnId } from './column.utils';
 
-export const flexRender = _flexRender as (
-  Comp: Renderable<any>,
-  props: any,
-) => JSX.Element | ReactNode;
+export const flexRender = <TProps extends object>(Comp: Renderable<TProps>, props: TProps): ReactNode =>
+  _flexRender(Comp, props);
 
-export function createMRTColumnHelper<
-  TData extends MRT_RowData,
->(): MRT_ColumnHelper<TData> {
+export function createMRTColumnHelper<TData extends MRT_RowData>(): MRT_ColumnHelper<TData> {
   return {
     accessor: (accessor, column) => {
       return typeof accessor === 'function'
-        ? ({
+        ? {
             ...column,
             accessorFn: accessor,
-          } as any)
+          }
         : {
             ...column,
             accessorKey: accessor,
@@ -49,7 +41,8 @@ export const createRow = <TData extends MRT_RowData>(
   parentId?: string,
 ): MRT_Row<TData> =>
   _constructRow(
-    table as any,
+    // @ts-expect-error: MRT_TableInstance omits `options.features`, which the runtime table instance has
+    table,
     'mrt-row-create',
     originalRow ??
       Object.assign(
@@ -60,6 +53,6 @@ export const createRow = <TData extends MRT_RowData>(
       ),
     rowIndex,
     depth,
-    subRows as any,
+    subRows,
     parentId,
   ) as MRT_Row<TData>;

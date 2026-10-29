@@ -1,14 +1,10 @@
-import AppBar from "@mui/material/AppBar";
-import Box from "@mui/material/Box";
-import CssBaseline from "@mui/material/CssBaseline";
-import Toolbar from "@mui/material/Toolbar";
+import AppBar from '@mui/material/AppBar';
+import Box from '@mui/material/Box';
+import CssBaseline from '@mui/material/CssBaseline';
+import Toolbar from '@mui/material/Toolbar';
 import { type Meta } from '@storybook/react-vite';
 
-import {
-  MaterialReactTable,
-  type MRT_ColumnDef,
-  useMaterialReactTable,
-} from '../../src';
+import { MaterialReactTable, type MRT_ColumnDef, useMaterialReactTable } from '../../src';
 
 const meta: Meta = {
   title: 'Fixed Bugs/AppBar overlaps with Fullscreen Modal',
@@ -104,7 +100,7 @@ const columns: MRT_ColumnDef<Person>[] = [
   },
 ];
 
-export const FullscreenIsAboveAppbar = () => {
+export const FullscreenIsAboveAppbar = (): JSX.Element => {
   const table = useMaterialReactTable({
     columns,
     data, //data must be memoized or stable (useState, useMemo, defined outside of this component, etc.)

@@ -73,8 +73,7 @@ export const MRT_Localization_FA: MRT_Localization = {
   rowsPerPage: 'تعداد ردیف در هر صفحه',
   save: 'ذخیره کردن',
   search: 'جستجو',
-  selectedCountOfRowCountRowsSelected:
-    '{selectedCount} از {rowCount} انتخاب شد',
+  selectedCountOfRowCountRowsSelected: '{selectedCount} از {rowCount} انتخاب شد',
   select: 'انتخاب',
   showAll: 'نمایش همه',
   showAllColumns: 'نمایش تمام ستون ها',

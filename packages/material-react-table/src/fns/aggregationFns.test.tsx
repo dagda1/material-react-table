@@ -46,9 +46,7 @@ describe('aggregation fns', () => {
   ])('%s aggregates each group', (aggregationFn, expected) => {
     const container = renderGrouped(aggregationFn);
 
-    const aggregated = Array.from(
-      container.querySelectorAll('tbody td'),
-    )
+    const aggregated = Array.from(container.querySelectorAll('tbody td'))
       .map((td) => td.textContent)
       .filter((text) => text?.startsWith('agg:'));
 

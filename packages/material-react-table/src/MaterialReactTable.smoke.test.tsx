@@ -25,12 +25,8 @@ describe('MaterialReactTable smoke', () => {
   test('renders headers and rows from props', () => {
     render(<MaterialReactTable columns={columns} data={data} />);
 
-    expect(
-      screen.getByRole('columnheader', { name: /name/i }),
-    ).toBeInTheDocument();
-    expect(
-      screen.getByRole('columnheader', { name: /age/i }),
-    ).toBeInTheDocument();
+    expect(screen.getByRole('columnheader', { name: /name/i })).toBeInTheDocument();
+    expect(screen.getByRole('columnheader', { name: /age/i })).toBeInTheDocument();
 
     expect(screen.getByText('John')).toBeInTheDocument();
     expect(screen.getByText('Sara')).toBeInTheDocument();
@@ -48,9 +44,7 @@ describe('MaterialReactTable smoke', () => {
 
     await user.click(sortButton);
 
-    const firstBodyRow = document.querySelector<HTMLTableRowElement>(
-      'tr[data-index="0"]',
-    );
+    const firstBodyRow = document.querySelector<HTMLTableRowElement>('tr[data-index="0"]');
     expect(firstBodyRow?.textContent).toContain('Aaron');
   });
 

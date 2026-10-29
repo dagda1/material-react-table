@@ -18,32 +18,22 @@ const columns = (): MRT_ColumnDef<Person>[] => [
 ];
 
 const headerOrder = (container: HTMLElement) =>
-  Array.from(container.querySelectorAll('thead th')).map((th) =>
-    th.textContent?.replace(/[^A-Za-z]/g, ''),
-  );
+  Array.from(container.querySelectorAll('thead th')).map((th) => th.textContent?.replace(/[^A-Za-z]/g, ''));
 
 describe('column pinning', () => {
   test('pinning to start moves the column to the front', async () => {
     const user = userEvent.setup();
     const { baseElement, container } = render(
-      <MaterialReactTable
-        columns={columns()}
-        data={data}
-        enableColumnPinning
-      />,
+      <MaterialReactTable columns={columns()} data={data} enableColumnPinning />,
     );
 
     expect(headerOrder(container)).toEqual(['Name', 'City']);
 
-    const cityHeader = Array.from(
-      container.querySelectorAll<HTMLElement>('thead th'),
-    ).find((th) => th.textContent?.includes('City'));
-
-    await user.click(
-      cityHeader?.querySelector(
-        'button[aria-label="Column Actions"]',
-      ) as HTMLElement,
+    const cityHeader = Array.from(container.querySelectorAll<HTMLElement>('thead th')).find((th) =>
+      th.textContent?.includes('City'),
     );
+
+    await user.click(cityHeader?.querySelector('button[aria-label="Column Actions"]') as HTMLElement);
 
     await user.click(
       Array.from(baseElement.querySelectorAll<HTMLElement>('li')).find((li) =>

@@ -17,20 +17,12 @@ const columns = (): MRT_ColumnDef<Person>[] => [
 ];
 
 const headerOrder = (container: HTMLElement) =>
-  Array.from(container.querySelectorAll('thead th')).map((th) =>
-    th.textContent?.replace(/[^A-Za-z]/g, ''),
-  );
+  Array.from(container.querySelectorAll('thead th')).map((th) => th.textContent?.replace(/[^A-Za-z]/g, ''));
 
 const dragColumnOnto = (container: HTMLElement, from: string, to: string) => {
-  const handles = Array.from(
-    container.querySelectorAll<HTMLElement>('thead [aria-label="Move"]'),
-  );
-  const headerCells = Array.from(
-    container.querySelectorAll<HTMLElement>('thead th'),
-  );
-  const fromIndex = headerCells.findIndex((th) =>
-    th.textContent?.includes(from),
-  );
+  const handles = Array.from(container.querySelectorAll<HTMLElement>('thead [aria-label="Move"]'));
+  const headerCells = Array.from(container.querySelectorAll<HTMLElement>('thead th'));
+  const fromIndex = headerCells.findIndex((th) => th.textContent?.includes(from));
   const toIndex = headerCells.findIndex((th) => th.textContent?.includes(to));
 
   fireEvent.dragStart(handles[fromIndex], {
@@ -44,13 +36,7 @@ const dragColumnOnto = (container: HTMLElement, from: string, to: string) => {
 
 describe('column dragging', () => {
   test('reorders columns when one is dragged onto another', () => {
-    const { container } = render(
-      <MaterialReactTable
-        columns={columns()}
-        data={data}
-        enableColumnOrdering
-      />,
-    );
+    const { container } = render(<MaterialReactTable columns={columns()} data={data} enableColumnOrdering />);
 
     expect(headerOrder(container)).toEqual(['Name', 'City']);
 

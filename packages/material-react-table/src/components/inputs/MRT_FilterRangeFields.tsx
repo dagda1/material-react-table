@@ -1,15 +1,11 @@
 import { Box, type BoxProps } from '@mui/material';
+import { type CSSObject } from '@mui/material/styles';
 
-import {
-  type MRT_Header,
-  type MRT_RowData,
-  type MRT_TableInstance,
-} from '../../types';
+import { type MRT_Header, type MRT_RowData, type MRT_TableInstance } from '../../types';
 import { parseFromValuesOrFunc } from '../../utils/utils';
 import { MRT_FilterTextField } from './MRT_FilterTextField';
 
-export interface MRT_FilterRangeFieldsProps<TData extends MRT_RowData>
-  extends BoxProps {
+export interface MRT_FilterRangeFieldsProps<TData extends MRT_RowData> extends BoxProps {
   header: MRT_Header<TData>;
   table: MRT_TableInstance<TData>;
 }
@@ -18,7 +14,7 @@ export const MRT_FilterRangeFields = <TData extends MRT_RowData>({
   header,
   table,
   ...rest
-}: MRT_FilterRangeFieldsProps<TData>) => {
+}: MRT_FilterRangeFieldsProps<TData>): JSX.Element => {
   return (
     <Box
       {...rest}
@@ -26,16 +22,11 @@ export const MRT_FilterRangeFields = <TData extends MRT_RowData>({
         display: 'grid',
         gap: '1rem',
         gridTemplateColumns: '1fr 1fr',
-        ...(parseFromValuesOrFunc(rest?.sx, theme) as any),
+        ...(parseFromValuesOrFunc(rest?.sx, theme) as CSSObject),
       })}
     >
       {[0, 1].map((rangeFilterIndex) => (
-        <MRT_FilterTextField
-          header={header}
-          key={rangeFilterIndex}
-          rangeFilterIndex={rangeFilterIndex}
-          table={table}
-        />
+        <MRT_FilterTextField header={header} key={rangeFilterIndex} rangeFilterIndex={rangeFilterIndex} table={table} />
       ))}
     </Box>
   );

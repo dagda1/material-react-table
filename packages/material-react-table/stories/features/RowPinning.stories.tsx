@@ -47,11 +47,11 @@ const data = [...Array(50)].map(() => ({
   state: faker.location.state(),
 }));
 
-export const RowPinningStickyDefaultEnabled = () => (
+export const RowPinningStickyDefaultEnabled = (): JSX.Element => (
   <MaterialReactTable columns={columns} data={data} enableRowPinning />
 );
 
-export const RowPinningEnabledConditionally = () => {
+export const RowPinningEnabledConditionally = (): JSX.Element => {
   const [enableRowPinning, setEnableRowPinning] = useState(false);
   return (
     <MaterialReactTable
@@ -59,15 +59,13 @@ export const RowPinningEnabledConditionally = () => {
       data={data}
       enableRowPinning={enableRowPinning}
       renderTopToolbarCustomActions={() => (
-        <Button onClick={() => setEnableRowPinning(!enableRowPinning)}>
-          Toggle Row Pinning
-        </Button>
+        <Button onClick={() => setEnableRowPinning(!enableRowPinning)}>Toggle Row Pinning</Button>
       )}
     />
   );
 };
 
-export const RowPinningStickyNoPagination = () => (
+export const RowPinningStickyNoPagination = (): JSX.Element => (
   <MaterialReactTable
     columns={columns}
     data={data}
@@ -81,7 +79,7 @@ export const RowPinningStickyNoPagination = () => (
   />
 );
 
-export const RowPinningStickyCustomRowHeight = () => (
+export const RowPinningStickyCustomRowHeight = (): JSX.Element => (
   <MaterialReactTable
     columns={columns}
     data={data}
@@ -101,7 +99,7 @@ export const RowPinningStickyCustomRowHeight = () => (
   />
 );
 
-export const RowPinningSelectStickyMode = () => (
+export const RowPinningSelectStickyMode = (): JSX.Element => (
   <MaterialReactTable
     columns={columns}
     data={data}
@@ -117,7 +115,7 @@ export const RowPinningSelectStickyMode = () => (
   />
 );
 
-export const RowPinningTopAndBottomMode = () => (
+export const RowPinningTopAndBottomMode = (): JSX.Element => (
   <MaterialReactTable
     columns={columns}
     data={data}
@@ -132,7 +130,7 @@ export const RowPinningTopAndBottomMode = () => (
   />
 );
 
-export const RowPinningTopMode = () => (
+export const RowPinningTopMode = (): JSX.Element => (
   <MaterialReactTable
     columns={columns}
     data={data}
@@ -148,7 +146,7 @@ export const RowPinningTopMode = () => (
   />
 );
 
-export const RowPinningSelectTopMode = () => (
+export const RowPinningSelectTopMode = (): JSX.Element => (
   <MaterialReactTable
     columns={columns}
     data={data}
@@ -164,7 +162,7 @@ export const RowPinningSelectTopMode = () => (
   />
 );
 
-export const RowPinningBottomMode = () => (
+export const RowPinningBottomMode = (): JSX.Element => (
   <MaterialReactTable
     columns={columns}
     data={data}
@@ -179,7 +177,7 @@ export const RowPinningBottomMode = () => (
   />
 );
 
-export const RowPinningSelectBottomMode = () => (
+export const RowPinningSelectBottomMode = (): JSX.Element => (
   <MaterialReactTable
     columns={columns}
     data={data}
@@ -195,7 +193,7 @@ export const RowPinningSelectBottomMode = () => (
   />
 );
 
-export const RowPinningWithStickyHeader = () => (
+export const RowPinningWithStickyHeader = (): JSX.Element => (
   <MaterialReactTable
     columns={columns}
     data={data}
@@ -211,7 +209,7 @@ export const RowPinningWithStickyHeader = () => (
   />
 );
 
-export const RowPinningWithGridLayout = () => (
+export const RowPinningWithGridLayout = (): JSX.Element => (
   <MaterialReactTable
     columns={columns}
     data={data}
@@ -226,7 +224,7 @@ export const RowPinningWithGridLayout = () => (
   />
 );
 
-export const RowPinningStickyWithVirtualization = () => (
+export const RowPinningStickyWithVirtualization = (): JSX.Element => (
   <MaterialReactTable
     columns={columns}
     data={data}
@@ -241,7 +239,7 @@ export const RowPinningStickyWithVirtualization = () => (
   />
 );
 
-export const RowPinningTopWithVirtualization = () => (
+export const RowPinningTopWithVirtualization = (): JSX.Element => (
   <MaterialReactTable
     columns={columns}
     data={data}
@@ -257,7 +255,7 @@ export const RowPinningTopWithVirtualization = () => (
   />
 );
 
-export const RowAndColumnPinning = () => (
+export const RowAndColumnPinning = (): JSX.Element => (
   <MaterialReactTable
     columns={columns}
     data={data}

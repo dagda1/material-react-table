@@ -12,9 +12,7 @@ interface Person {
 
 const data: Person[] = [{ city: 'Glasgow', name: 'Alice' }];
 
-const columns = (): MRT_ColumnDef<Person>[] => [
-  { accessorKey: 'name', header: 'Name' },
-];
+const columns = (): MRT_ColumnDef<Person>[] => [{ accessorKey: 'name', header: 'Name' }];
 
 describe('detail panel', () => {
   test('reveals the panel content when the expand button is clicked', async () => {
@@ -23,17 +21,13 @@ describe('detail panel', () => {
       <MaterialReactTable
         columns={columns()}
         data={data}
-        renderDetailPanel={({ row }) => (
-          <span>Lives in {row.original.city}</span>
-        )}
+        renderDetailPanel={({ row }) => <span>Lives in {row.original.city}</span>}
       />,
     );
 
     expect(container.textContent).not.toContain('Lives in Glasgow');
 
-    await user.click(
-      container.querySelector('tbody button[aria-label="Expand"]') as HTMLElement,
-    );
+    await user.click(container.querySelector('tbody button[aria-label="Expand"]') as HTMLElement);
 
     expect(container.textContent).toContain('Lives in Glasgow');
   });

@@ -6,11 +6,7 @@ import TextField from '@mui/material/TextField';
 import { type Meta } from '@storybook/react-vite';
 import { useEffect, useState } from 'react';
 
-import {
-  MaterialReactTable,
-  type MRT_ColumnDef,
-  type MRT_ColumnFiltersState,
-} from '../../src';
+import { MaterialReactTable, type MRT_ColumnDef, type MRT_ColumnFiltersState } from '../../src';
 
 const meta: Meta = {
   title: 'Features/Filtering Examples',
@@ -84,48 +80,29 @@ const data = [...Array(120)].map(() => ({
   state: faker.location.state(),
 }));
 
-export const FilteringEnabledDefault = () => (
-  <MaterialReactTable columns={columns} data={data} />
+export const FilteringEnabledDefault = (): JSX.Element => <MaterialReactTable columns={columns} data={data} />;
+
+export const PopoverDisplayMode = (): JSX.Element => (
+  <MaterialReactTable columnFilterDisplayMode="popover" columns={columns} data={data} />
 );
 
-export const PopoverDisplayMode = () => (
-  <MaterialReactTable
-    columnFilterDisplayMode="popover"
-    columns={columns}
-    data={data}
-  />
+export const PopoverDisplayModeNoSorting = (): JSX.Element => (
+  <MaterialReactTable columnFilterDisplayMode="popover" columns={columns} data={data} enableSorting={false} />
 );
 
-export const PopoverDisplayModeNoSorting = () => (
-  <MaterialReactTable
-    columnFilterDisplayMode="popover"
-    columns={columns}
-    data={data}
-    enableSorting={false}
-  />
+export const ColumnFilteringDisabled = (): JSX.Element => (
+  <MaterialReactTable columns={columns} data={data} enableColumnFilters={false} />
 );
 
-export const ColumnFilteringDisabled = () => (
-  <MaterialReactTable
-    columns={columns}
-    data={data}
-    enableColumnFilters={false}
-  />
-);
-
-export const FilteringDisabled = () => (
+export const FilteringDisabled = (): JSX.Element => (
   <MaterialReactTable columns={columns} data={data} enableFilters={false} />
 );
 
-export const FilterHighlightingDisabled = () => (
-  <MaterialReactTable
-    columns={columns}
-    data={data}
-    enableFilterMatchHighlighting={false}
-  />
+export const FilterHighlightingDisabled = (): JSX.Element => (
+  <MaterialReactTable columns={columns} data={data} enableFilterMatchHighlighting={false} />
 );
 
-export const FilterFnAndFilterVariants = () => (
+export const FilterFnAndFilterVariants = (): JSX.Element => (
   <MaterialReactTable
     columns={[
       {
@@ -211,7 +188,7 @@ export const FilterFnAndFilterVariants = () => (
   />
 );
 
-export const FilterFnAndFilterVariantsFaceted = () => (
+export const FilterFnAndFilterVariantsFaceted = (): JSX.Element => (
   <MaterialReactTable
     columns={[
       {
@@ -250,7 +227,7 @@ export const FilterFnAndFilterVariantsFaceted = () => (
   />
 );
 
-export const FilteringChangeModeEnabled = () => (
+export const FilteringChangeModeEnabled = (): JSX.Element => (
   <MaterialReactTable
     columns={[
       {
@@ -293,7 +270,7 @@ export const FilteringChangeModeEnabled = () => (
   />
 );
 
-export const FilteringChangeModeEnabledFaceted = () => (
+export const FilteringChangeModeEnabledFaceted = (): JSX.Element => (
   <MaterialReactTable
     columns={[
       {
@@ -329,7 +306,7 @@ export const FilteringChangeModeEnabledFaceted = () => (
   />
 );
 
-export const FilteringChangeModeEnabledHidden = () => (
+export const FilteringChangeModeEnabledHidden = (): JSX.Element => (
   <MaterialReactTable
     columns={[
       {
@@ -364,7 +341,7 @@ export const FilteringChangeModeEnabledHidden = () => (
   />
 );
 
-export const DisableSomeFilterTypesForCertainColumns = () => (
+export const DisableSomeFilterTypesForCertainColumns = (): JSX.Element => (
   <MaterialReactTable
     columns={[
       {
@@ -373,12 +350,7 @@ export const DisableSomeFilterTypesForCertainColumns = () => (
       },
       {
         accessorKey: 'lastName',
-        columnFilterModeOptions: [
-          'startsWith',
-          'endsWith',
-          'empty',
-          'notEmpty',
-        ],
+        columnFilterModeOptions: ['startsWith', 'endsWith', 'empty', 'notEmpty'],
         filterFn: 'startsWith',
         header: 'Last Name',
       },
@@ -407,7 +379,7 @@ export const DisableSomeFilterTypesForCertainColumns = () => (
   />
 );
 
-export const FilteringDisabledForCertainColumns = () => (
+export const FilteringDisabledForCertainColumns = (): JSX.Element => (
   <MaterialReactTable
     columns={[
       {
@@ -442,7 +414,7 @@ export const FilteringDisabledForCertainColumns = () => (
   />
 );
 
-export const CustomFilterFunctionPerColumn = () => (
+export const CustomFilterFunctionPerColumn = (): JSX.Element => (
   <MaterialReactTable
     columns={[
       {
@@ -460,10 +432,7 @@ export const CustomFilterFunctionPerColumn = () => (
       {
         accessorKey: 'gender',
         filterFn: (row, _columnIds, filterValue) =>
-          row
-            .getValue<string>('gender')
-            .toLowerCase()
-            .startsWith(filterValue.toLowerCase()),
+          row.getValue<string>('gender').toLowerCase().startsWith(filterValue.toLowerCase()),
         header: 'Gender',
       },
       {
@@ -473,10 +442,7 @@ export const CustomFilterFunctionPerColumn = () => (
       {
         accessorKey: 'state',
         filterFn: (row, _columnIds, filterValue) =>
-          row
-            .getValue<string>('state')
-            .toLowerCase()
-            .startsWith(filterValue.toLowerCase()),
+          row.getValue<string>('state').toLowerCase().startsWith(filterValue.toLowerCase()),
         header: 'State',
       },
     ]}
@@ -485,7 +451,7 @@ export const CustomFilterFunctionPerColumn = () => (
   />
 );
 
-export const CustomFilterFns = () => (
+export const CustomFilterFns = (): JSX.Element => (
   <MaterialReactTable
     columns={[
       {
@@ -519,17 +485,14 @@ export const CustomFilterFns = () => (
     filterFns={{
       customFn: (row, _columnIds, filterValue) => {
         console.info('customFn', row, _columnIds, filterValue);
-        return row
-          .getValue<string>('state')
-          .toLowerCase()
-          .startsWith(String(filterValue).toLowerCase());
+        return row.getValue<string>('state').toLowerCase().startsWith(String(filterValue).toLowerCase());
       },
     }}
     initialState={{ showColumnFilters: true }}
   />
 );
 
-export const CustomFilterComponent = () => (
+export const CustomFilterComponent = (): JSX.Element => (
   <MaterialReactTable
     columns={[
       {
@@ -550,24 +513,20 @@ export const CustomFilterComponent = () => (
           <TextField
             fullWidth
             margin="none"
-            onChange={(e) =>
-              header.column.setFilterValue(e.target.value || undefined)
-            }
+            onChange={(e) => header.column.setFilterValue(e.target.value || undefined)}
             placeholder="Filter"
             select
             value={header.column.getFilterValue() ?? ''}
             variant="standard"
           >
-            {/*@ts-expect-error*/}
-            <MenuItem value={null}>All</MenuItem>
+            <MenuItem value="">All</MenuItem>
             <MenuItem value="Male">Male</MenuItem>
             <MenuItem value="Female">Female</MenuItem>
             <MenuItem value="Other">Other</MenuItem>
           </TextField>
         ),
         filterFn: (row, _columnIds, filterValue) =>
-          row.getValue<string>('gender').toLowerCase() ===
-          filterValue.toLowerCase(),
+          row.getValue<string>('gender').toLowerCase() === filterValue.toLowerCase(),
         header: 'Gender',
       },
       {
@@ -584,7 +543,7 @@ export const CustomFilterComponent = () => (
   />
 );
 
-export const CustomizeFilterTextFields = () => (
+export const CustomizeFilterTextFields = (): JSX.Element => (
   <MaterialReactTable
     columns={[
       {
@@ -620,11 +579,9 @@ export const CustomizeFilterTextFields = () => (
   />
 );
 
-export const ManualFiltering = () => {
+export const ManualFiltering = (): JSX.Element => {
   const [rows, setRows] = useState(() => [...data]);
-  const [columnFilters, setColumnFilters] = useState<MRT_ColumnFiltersState>(
-    [],
-  );
+  const [columnFilters, setColumnFilters] = useState<MRT_ColumnFiltersState>([]);
 
   //this kind of logic would actually live on a server, not client-side
   useEffect(() => {
@@ -657,42 +614,26 @@ export const ManualFiltering = () => {
   );
 };
 
-export const ExternalSetFilterValue = () => (
+export const ExternalSetFilterValue = (): JSX.Element => (
   <MaterialReactTable
     columns={columns}
     data={data}
     initialState={{ showColumnFilters: true }}
     renderTopToolbarCustomActions={({ table }) => (
       <Box>
-        <Button
-          onClick={() =>
-            table.setColumnFilters((prev) => [
-              ...prev,
-              { id: 'firstName', value: 'Joe' },
-            ])
-          }
-        >
+        <Button onClick={() => table.setColumnFilters((prev) => [...prev, { id: 'firstName', value: 'Joe' }])}>
           Find Joes
         </Button>
-        <Button
-          onClick={() =>
-            table.setColumnFilters((prev) => [
-              ...prev,
-              { id: 'age', value: [18, 25] },
-            ])
-          }
-        >
+        <Button onClick={() => table.setColumnFilters((prev) => [...prev, { id: 'age', value: [18, 25] }])}>
           Find 18-25 Age Range
         </Button>
-        <Button onClick={() => table.resetColumnFilters()}>
-          Reset Filters
-        </Button>
+        <Button onClick={() => table.resetColumnFilters()}>Reset Filters</Button>
       </Box>
     )}
   />
 );
 
-export const InitialFilters = () => (
+export const InitialFilters = (): JSX.Element => (
   <MaterialReactTable
     columns={[
       {

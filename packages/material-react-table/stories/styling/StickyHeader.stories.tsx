@@ -45,15 +45,11 @@ const data = [...Array(100)].map(() => ({
   state: faker.location.state(),
 }));
 
-export const StickyHeaderDisabledDefault = () => (
-  <MaterialReactTable
-    columns={columns}
-    data={data}
-    initialState={{ pagination: { pageIndex: 0, pageSize: 25 } }}
-  />
+export const StickyHeaderDisabledDefault = (): JSX.Element => (
+  <MaterialReactTable columns={columns} data={data} initialState={{ pagination: { pageIndex: 0, pageSize: 25 } }} />
 );
 
-export const EnableStickyHeader = () => (
+export const EnableStickyHeader = (): JSX.Element => (
   <MaterialReactTable
     columns={columns}
     data={data}
@@ -62,7 +58,7 @@ export const EnableStickyHeader = () => (
   />
 );
 
-export const StickyHeaderShorterTable = () => (
+export const StickyHeaderShorterTable = (): JSX.Element => (
   <MaterialReactTable
     columns={columns}
     data={data}
@@ -102,7 +98,7 @@ const columnsWithFooters: MRT_ColumnDef<(typeof data)[0]>[] = [
   },
 ];
 
-export const disableStickyFooter = () => (
+export const disableStickyFooter = (): JSX.Element => (
   <MaterialReactTable
     columns={columnsWithFooters}
     data={data}
@@ -114,7 +110,7 @@ export const disableStickyFooter = () => (
   />
 );
 
-export const enableStickyFooter = () => (
+export const enableStickyFooter = (): JSX.Element => (
   <MaterialReactTable
     columns={columnsWithFooters}
     data={data}

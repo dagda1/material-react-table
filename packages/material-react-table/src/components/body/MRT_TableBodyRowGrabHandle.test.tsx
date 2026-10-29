@@ -10,9 +10,7 @@ interface Person {
 
 const data: Person[] = [{ name: 'Alice' }, { name: 'Bob' }];
 
-const columns = (): MRT_ColumnDef<Person>[] => [
-  { accessorKey: 'name', header: 'Name' },
-];
+const columns = (): MRT_ColumnDef<Person>[] => [{ accessorKey: 'name', header: 'Name' }];
 
 describe('row ordering', () => {
   test('dragging a row over another reports both rows to the drop handler', () => {
@@ -26,9 +24,7 @@ describe('row ordering', () => {
       />,
     );
 
-    const handles = container.querySelectorAll<HTMLElement>(
-      'tbody button[aria-label="Move"]',
-    );
+    const handles = container.querySelectorAll<HTMLElement>('tbody button[aria-label="Move"]');
     const rows = container.querySelectorAll<HTMLElement>('tbody tr');
 
     fireEvent.dragStart(handles[0], {

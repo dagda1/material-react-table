@@ -1,15 +1,9 @@
-import { Box } from '@mui/material';
-import { TableCell, type TableCellProps } from '@mui/material';
+import { Box, TableCell, type TableCellProps } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
 import { type Theme } from '@mui/material/styles';
 import { type DragEvent, useCallback, useMemo, useRef } from 'react';
 
-import {
-  type MRT_ColumnVirtualizer,
-  type MRT_Header,
-  type MRT_RowData,
-  type MRT_TableInstance,
-} from '../../types';
+import { type MRT_ColumnVirtualizer, type MRT_Header, type MRT_RowData, type MRT_TableInstance } from '../../types';
 import { cellKeyboardShortcuts } from '../../utils/cell.utils';
 import { getCommonMRTCellStyles } from '../../utils/style.utils';
 import { parseFromValuesOrFunc } from '../../utils/utils';
@@ -20,8 +14,7 @@ import { MRT_TableHeadCellGrabHandle } from './MRT_TableHeadCellGrabHandle';
 import { MRT_TableHeadCellResizeHandle } from './MRT_TableHeadCellResizeHandle';
 import { MRT_TableHeadCellSortLabel } from './MRT_TableHeadCellSortLabel';
 
-export interface MRT_TableHeadCellProps<TData extends MRT_RowData>
-  extends TableCellProps {
+export interface MRT_TableHeadCellProps<TData extends MRT_RowData> extends TableCellProps {
   columnVirtualizer?: MRT_ColumnVirtualizer;
   header: MRT_Header<TData>;
   staticColumnIndex?: number;
@@ -34,7 +27,7 @@ export const MRT_TableHeadCell = <TData extends MRT_RowData>({
   staticColumnIndex,
   table,
   ...rest
-}: MRT_TableHeadCellProps<TData>) => {
+}: MRT_TableHeadCellProps<TData>): JSX.Element => {
   const theme = useTheme();
   const {
     options: {
@@ -55,14 +48,7 @@ export const MRT_TableHeadCell = <TData extends MRT_RowData>({
     refs: { tableHeadCellRefs },
     setHoveredColumn,
   } = table;
-  const {
-    columnResizing,
-    density,
-    draggingColumn,
-    grouping,
-    hoveredColumn,
-    showColumnFilters,
-  } = table.state;
+  const { columnResizing, density, draggingColumn, grouping, hoveredColumn, showColumnFilters } = table.state;
   const { column } = header;
   const { columnDef } = column;
   const { columnDefType } = columnDef;
@@ -76,37 +62,35 @@ export const MRT_TableHeadCell = <TData extends MRT_RowData>({
     ...rest,
   };
 
-  const isColumnPinned =
-    enableColumnPinning &&
-    columnDef.columnDefType !== 'group' &&
-    column.getIsPinned();
+  const isColumnPinned = enableColumnPinning && columnDef.columnDefType !== 'group' && column.getIsPinned();
 
   const showColumnActions =
-    (enableColumnActions || columnDef.enableColumnActions) &&
-    columnDef.enableColumnActions !== false;
+    (enableColumnActions || columnDef.enableColumnActions) && columnDef.enableColumnActions !== false;
 
   const showDragHandle =
     enableColumnDragging !== false &&
     columnDef.enableColumnDragging !== false &&
     (enableColumnDragging ||
       (enableColumnOrdering && columnDef.enableColumnOrdering !== false) ||
-      (enableGrouping &&
-        columnDef.enableGrouping !== false &&
-        !grouping.includes(column.id)));
+      (enableGrouping && columnDef.enableGrouping !== false && !grouping.includes(column.id)));
 
   const headerPL = useMemo(() => {
     let pl = 0;
-    if (column.getCanSort()) pl += 1;
-    if (showColumnActions) pl += 1.75;
-    if (showDragHandle) pl += 1.5;
+    if (column.getCanSort()) {
+      pl += 1;
+    }
+    if (showColumnActions) {
+      pl += 1.75;
+    }
+    if (showDragHandle) {
+      pl += 1.5;
+    }
     return pl;
-  }, [showColumnActions, showDragHandle]);
+  }, [column, showColumnActions, showDragHandle]);
 
   const draggingBorders = useMemo(() => {
     const showResizeBorder =
-      columnResizing.isResizingColumn === column.id &&
-      columnResizeMode === 'onChange' &&
-      !header.subHeaders.length;
+      columnResizing.isResizingColumn === column.id && columnResizeMode === 'onChange' && !header.subHeaders.length;
 
     const borderStyle = showResizeBorder
       ? `2px solid ${draggingBorderColor} !important`
@@ -117,9 +101,7 @@ export const MRT_TableHeadCell = <TData extends MRT_RowData>({
           : undefined;
 
     if (showResizeBorder) {
-      return columnResizeDirection === 'ltr'
-        ? { borderRight: borderStyle }
-        : { borderLeft: borderStyle };
+      return columnResizeDirection === 'ltr' ? { borderRight: borderStyle } : { borderLeft: borderStyle };
     }
     const draggingBorders = borderStyle
       ? {
@@ -130,16 +112,24 @@ export const MRT_TableHeadCell = <TData extends MRT_RowData>({
       : undefined;
 
     return draggingBorders;
-  }, [draggingColumn, hoveredColumn, columnResizing.isResizingColumn]);
+  }, [
+    column.id,
+    columnResizeDirection,
+    columnResizeMode,
+    columnResizing.isResizingColumn,
+    draggingBorderColor,
+    draggingColumn,
+    header.subHeaders.length,
+    hoveredColumn,
+    theme.palette.grey,
+  ]);
 
   const handleDragEnter = (_e: DragEvent) => {
     if (enableGrouping && hoveredColumn?.id === 'drop-zone') {
       setHoveredColumn(null);
     }
     if (enableColumnOrdering && draggingColumn && columnDefType !== 'group') {
-      setHoveredColumn(
-        columnDef.enableColumnOrdering !== false ? column : null,
-      );
+      setHoveredColumn(columnDef.enableColumnOrdering !== false ? column : null);
     }
   };
 
@@ -185,20 +175,8 @@ export const MRT_TableHeadCell = <TData extends MRT_RowData>({
 
   return (
     <TableCell
-      align={
-        columnDefType === 'group'
-          ? 'center'
-          : theme.direction === 'rtl'
-            ? 'right'
-            : 'left'
-      }
-      aria-sort={
-        column.getIsSorted()
-          ? column.getIsSorted() === 'asc'
-            ? 'ascending'
-            : 'descending'
-          : 'none'
-      }
+      align={columnDefType === 'group' ? 'center' : theme.direction === 'rtl' ? 'right' : 'left'}
+      aria-sort={column.getIsSorted() ? (column.getIsSorted() === 'asc' ? 'ascending' : 'descending') : 'none'}
       colSpan={header.colSpan}
       data-can-sort={column.getCanSort() || undefined}
       data-index={staticColumnIndex}
@@ -229,12 +207,7 @@ export const MRT_TableHeadCell = <TData extends MRT_RowData>({
               : columnDefType === 'display'
                 ? '1rem 1.25rem'
                 : '1.5rem',
-        pb:
-          columnDefType === 'display'
-            ? 0
-            : showColumnFilters || density === 'compact'
-              ? '0.4rem'
-              : '0.6rem',
+        pb: columnDefType === 'display' ? 0 : showColumnFilters || density === 'compact' ? '0.4rem' : '0.6rem',
         pt:
           columnDefType === 'group' || density === 'compact'
             ? '0.25rem'
@@ -261,11 +234,9 @@ export const MRT_TableHeadCell = <TData extends MRT_RowData>({
               sx={{
                 alignItems: 'center',
                 display: 'flex',
-                flexDirection:
-                  tableCellProps?.align === 'right' ? 'row-reverse' : 'row',
+                flexDirection: tableCellProps?.align === 'right' ? 'row-reverse' : 'row',
                 justifyContent:
-                  columnDefType === 'group' ||
-                  tableCellProps?.align === 'center'
+                  columnDefType === 'group' || tableCellProps?.align === 'center'
                     ? 'center'
                     : column.getCanResize()
                       ? 'space-between'
@@ -279,18 +250,11 @@ export const MRT_TableHeadCell = <TData extends MRT_RowData>({
                 onClick={column.getToggleSortingHandler()}
                 sx={{
                   alignItems: 'center',
-                  cursor:
-                    column.getCanSort() && columnDefType !== 'group'
-                      ? 'pointer'
-                      : undefined,
+                  cursor: column.getCanSort() && columnDefType !== 'group' ? 'pointer' : undefined,
                   display: 'flex',
-                  flexDirection:
-                    tableCellProps?.align === 'right' ? 'row-reverse' : 'row',
+                  flexDirection: tableCellProps?.align === 'right' ? 'row-reverse' : 'row',
                   overflow: columnDefType === 'data' ? 'hidden' : undefined,
-                  pl:
-                    tableCellProps?.align === 'center'
-                      ? `${headerPL}rem`
-                      : undefined,
+                  pl: tableCellProps?.align === 'center' ? `${headerPL}rem` : undefined,
                 }}
               >
                 <Box
@@ -302,20 +266,13 @@ export const MRT_TableHeadCell = <TData extends MRT_RowData>({
                     minWidth: `${Math.min(columnDef.header?.length ?? 0, 4)}ch`,
                     overflow: columnDefType === 'data' ? 'hidden' : undefined,
                     textOverflow: 'ellipsis',
-                    whiteSpace:
-                      (columnDef.header?.length ?? 0) < 20
-                        ? 'nowrap'
-                        : 'normal',
+                    whiteSpace: (columnDef.header?.length ?? 0) < 20 ? 'nowrap' : 'normal',
                   }}
                 >
                   {HeaderElement}
                 </Box>
-                {column.getCanFilter() && (
-                  <MRT_TableHeadCellFilterLabel header={header} table={table} />
-                )}
-                {column.getCanSort() && (
-                  <MRT_TableHeadCellSortLabel header={header} table={table} />
-                )}
+                {column.getCanFilter() && <MRT_TableHeadCellFilterLabel header={header} table={table} />}
+                {column.getCanSort() && <MRT_TableHeadCellSortLabel header={header} table={table} />}
               </Box>
               {columnDefType !== 'group' && (
                 <Box
@@ -325,23 +282,12 @@ export const MRT_TableHeadCell = <TData extends MRT_RowData>({
                   }}
                 >
                   {showDragHandle && (
-                    <MRT_TableHeadCellGrabHandle
-                      column={column}
-                      table={table}
-                      tableHeadCellRef={tableHeadCellRef}
-                    />
+                    <MRT_TableHeadCellGrabHandle column={column} table={table} tableHeadCellRef={tableHeadCellRef} />
                   )}
-                  {showColumnActions && (
-                    <MRT_TableHeadCellColumnActionsButton
-                      header={header}
-                      table={table}
-                    />
-                  )}
+                  {showColumnActions && <MRT_TableHeadCellColumnActionsButton header={header} table={table} />}
                 </Box>
               )}
-              {column.getCanResize() && (
-                <MRT_TableHeadCellResizeHandle header={header} table={table} />
-              )}
+              {column.getCanResize() && <MRT_TableHeadCellResizeHandle header={header} table={table} />}
             </Box>
           ))}
       {columnFilterDisplayMode === 'subheader' && column.getCanFilter() && (

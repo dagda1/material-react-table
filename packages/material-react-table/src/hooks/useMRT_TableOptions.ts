@@ -1,16 +1,12 @@
 import { useTheme } from '@mui/material/styles';
-import { useId, useMemo } from 'react';
+import { useId, useMemo, useState } from 'react';
 
 import { MRT_AggregationFns } from '../fns/aggregationFns';
 import { MRT_FilterFns } from '../fns/filterFns';
 import { MRT_SortingFns } from '../fns/sortingFns';
 import { MRT_Default_Icons } from '../icons';
 import { MRT_Localization_EN } from '../locales/en';
-import {
-  type MRT_DefinedTableOptions,
-  type MRT_RowData,
-  type MRT_TableOptions,
-} from '../types';
+import { type MRT_DefinedTableOptions, type MRT_RowData, type MRT_TableOptions } from '../types';
 import { getMRTTheme } from '../utils/style.utils';
 
 export const MRT_DefaultColumn = {
@@ -115,16 +111,11 @@ export const useMRT_TableOptions: <TData extends MRT_RowData>(
     [localization],
   );
   mrtTheme = useMemo(() => getMRTTheme(mrtTheme, theme), [mrtTheme, theme]);
-  aggregationFns = useMemo(
-    () => ({ ...MRT_AggregationFns, ...aggregationFns }),
-    [],
-  );
-  filterFns = useMemo(() => ({ ...MRT_FilterFns, ...filterFns }), []);
-  sortFns = useMemo(() => ({ ...MRT_SortingFns, ...sortFns }), []);
-  defaultColumn = useMemo(
-    () => ({ ...MRT_DefaultColumn, ...defaultColumn }),
-    [defaultColumn],
-  );
+  //cannot be changed after initialization
+  [aggregationFns] = useState(() => ({ ...MRT_AggregationFns, ...aggregationFns }));
+  [filterFns] = useState(() => ({ ...MRT_FilterFns, ...filterFns }));
+  [sortFns] = useState(() => ({ ...MRT_SortingFns, ...sortFns }));
+  defaultColumn = useMemo(() => ({ ...MRT_DefaultColumn, ...defaultColumn }), [defaultColumn]);
   defaultDisplayColumn = useMemo(
     () => ({
       ...MRT_DefaultDisplayColumn,
@@ -133,21 +124,17 @@ export const useMRT_TableOptions: <TData extends MRT_RowData>(
     [defaultDisplayColumn],
   );
   //cannot be changed after initialization
-  [enableColumnVirtualization, enableRowVirtualization] = useMemo(
-    () => [enableColumnVirtualization, enableRowVirtualization],
-    [],
-  );
+  [[enableColumnVirtualization, enableRowVirtualization]] = useState(() => [
+    enableColumnVirtualization,
+    enableRowVirtualization,
+  ]);
 
   if (!columnResizeDirection) {
     columnResizeDirection = theme.direction || 'ltr';
   }
 
-  layoutMode =
-    layoutMode || (enableColumnResizing ? 'grid-no-grow' : 'semantic');
-  if (
-    layoutMode === 'semantic' &&
-    (enableRowVirtualization || enableColumnVirtualization)
-  ) {
+  layoutMode = layoutMode || (enableColumnResizing ? 'grid-no-grow' : 'semantic');
+  if (layoutMode === 'semantic' && (enableRowVirtualization || enableColumnVirtualization)) {
     layoutMode = 'grid';
   }
 
@@ -210,9 +197,8 @@ export const useMRT_TableOptions: <TData extends MRT_RowData>(
     enableToolbarInternalActions,
     enableTopToolbar,
     filterFns,
-    getRowCanExpand:
-      rest.getRowCanExpand ?? (rest.renderDetailPanel ? () => true : undefined),
-    getSubRows: (row) => row?.subRows,
+    getRowCanExpand: rest.getRowCanExpand ?? (rest.renderDetailPanel ? () => true : undefined),
+    getSubRows: (row) => ('subRows' in row ? (row.subRows as TData[] | undefined) : undefined),
     icons,
     id,
     layoutMode,

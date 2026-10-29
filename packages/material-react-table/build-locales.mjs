@@ -1,4 +1,3 @@
-/* eslint-disable */
 import fs from 'fs';
 import { rolldown } from 'rolldown';
 
@@ -56,9 +55,7 @@ async function build(locale) {
   });
 
   const typeFile = `import { type MRT_Localization } from '../..';
-export declare const MRT_Localization_${locale
-    .toUpperCase()
-    .replaceAll('-', '_')}: MRT_Localization;
+export declare const MRT_Localization_${locale.toUpperCase().replaceAll('-', '_')}: MRT_Localization;
   `;
 
   fs.writeFileSync(`./locales/${locale}/index.d.mts`, typeFile);

@@ -73,8 +73,7 @@ export const MRT_Localization_SV: MRT_Localization = {
   rowsPerPage: 'Rader per sida',
   save: 'Spara',
   search: 'Sök',
-  selectedCountOfRowCountRowsSelected:
-    '{selectedCount} av {rowCount} rad(er) valda',
+  selectedCountOfRowCountRowsSelected: '{selectedCount} av {rowCount} rad(er) valda',
   select: 'Välj',
   showAll: 'Visa alla',
   showAllColumns: 'Visa alla kolumner',

@@ -1,11 +1,7 @@
-import { type ChangeEvent, type MouseEvent } from 'react';
+import { type ChangeEvent, type KeyboardEvent, type MouseEvent } from 'react';
 
 import { rankGlobalFuzzy } from '../fns/sortingFns';
-import {
-  type MRT_Row,
-  type MRT_RowData,
-  type MRT_TableInstance,
-} from '../types';
+import { type MRT_Row, type MRT_RowData, type MRT_TableInstance } from '../types';
 import { parseFromValuesOrFunc } from './utils';
 
 export const getMRT_Rows = <TData extends MRT_RowData>(
@@ -40,9 +36,7 @@ export const getMRT_Rows = <TData extends MRT_RowData>(
         : getCenterRows();
   } else {
     // fuzzy ranking adjustments
-    rows = getPrePaginatedRowModel().rows.sort((a, b) =>
-      rankGlobalFuzzy(a, b),
-    );
+    rows = getPrePaginatedRowModel().rows.sort((a, b) => rankGlobalFuzzy(a, b));
     if (enablePagination && !manualPagination && !all) {
       const start = pagination.pageIndex * pagination.pageSize;
       rows = rows.slice(start, start + pagination.pageSize);
@@ -54,47 +48,26 @@ export const getMRT_Rows = <TData extends MRT_RowData>(
   }
   // row pinning adjustments
   if (enableRowPinning && rowPinningDisplayMode?.includes('sticky')) {
-    const centerPinnedRowIds = rows
-      .filter((row) => row.getIsPinned())
-      .map((r) => r.id);
+    const centerPinnedRowIds = rows.filter((row) => row.getIsPinned()).map((r) => r.id);
 
-    rows = [
-      ...getTopRows().filter((row) => !centerPinnedRowIds.includes(row.id)),
-      ...rows,
-    ];
+    rows = [...getTopRows().filter((row) => !centerPinnedRowIds.includes(row.id)), ...rows];
   }
   // blank inserted creating row adjustments
-  if (
-    positionCreatingRow !== undefined &&
-    creatingRow &&
-    createDisplayMode === 'row'
-  ) {
+  if (positionCreatingRow !== undefined && creatingRow && createDisplayMode === 'row') {
     const creatingRowIndex = !isNaN(+positionCreatingRow)
       ? +positionCreatingRow
       : positionCreatingRow === 'top'
         ? 0
         : rows.length;
-    rows = [
-      ...rows.slice(0, creatingRowIndex),
-      creatingRow,
-      ...rows.slice(creatingRowIndex),
-    ];
+    rows = [...rows.slice(0, creatingRowIndex), creatingRow, ...rows.slice(creatingRowIndex)];
   }
 
   return rows;
 };
 
-export const getCanRankRows = <TData extends MRT_RowData>(
-  table: MRT_TableInstance<TData>,
-) => {
+export const getCanRankRows = <TData extends MRT_RowData>(table: MRT_TableInstance<TData>): boolean | undefined => {
   const {
-    options: {
-      enableGlobalFilterRankedResults,
-      manualExpanding,
-      manualFiltering,
-      manualGrouping,
-      manualSorting,
-    },
+    options: { enableGlobalFilterRankedResults, manualExpanding, manualFiltering, manualGrouping, manualSorting },
   } = table;
   const { expanded, globalFilterFn } = table.state;
 
@@ -110,16 +83,10 @@ export const getCanRankRows = <TData extends MRT_RowData>(
   );
 };
 
-export const getIsRankingRows = <TData extends MRT_RowData>(
-  table: MRT_TableInstance<TData>,
-) => {
+export const getIsRankingRows = <TData extends MRT_RowData>(table: MRT_TableInstance<TData>): boolean => {
   const { globalFilter, sorting } = table.state;
 
-  return (
-    getCanRankRows(table) &&
-    globalFilter &&
-    !Object.values(sorting).some(Boolean)
-  );
+  return Boolean(getCanRankRows(table) && globalFilter && !Object.values(sorting).some(Boolean));
 };
 
 export const getIsRowSelected = <TData extends MRT_RowData>({
@@ -128,16 +95,14 @@ export const getIsRowSelected = <TData extends MRT_RowData>({
 }: {
   row: MRT_Row<TData>;
   table: MRT_TableInstance<TData>;
-}) => {
+}): boolean | undefined => {
   const {
     options: { enableRowSelection },
   } = table;
 
   return (
     row.getIsSelected() ||
-    (parseFromValuesOrFunc(enableRowSelection, row) &&
-      row.getCanSelectSubRows() &&
-      row.getIsAllSubRowsSelected())
+    (parseFromValuesOrFunc(enableRowSelection, row) && row.getCanSelectSubRows() && row.getIsAllSubRowsSelected())
   );
 };
 
@@ -150,11 +115,14 @@ export const getMRT_RowSelectionHandler =
     row: MRT_Row<TData>;
     staticRowIndex?: number;
     table: MRT_TableInstance<TData>;
-  }) =>
-  (
-    event: ChangeEvent<HTMLInputElement> | MouseEvent<HTMLTableRowElement>,
+  }): ((
+    event: ChangeEvent<HTMLInputElement> | KeyboardEvent<HTMLTableCellElement> | MouseEvent<HTMLTableRowElement>,
     value?: boolean,
-  ) => {
+  ) => void) =>
+  (
+    event: ChangeEvent<HTMLInputElement> | KeyboardEvent<HTMLTableCellElement> | MouseEvent<HTMLTableRowElement>,
+    value?: boolean,
+  ): void => {
     const {
       options: {
         enableBatchRowSelection,
@@ -182,14 +150,13 @@ export const getMRT_RowSelectionHandler =
     if (
       enableBatchRowSelection &&
       enableMultiRowSelection &&
-      (event as any).nativeEvent.shiftKey &&
+      'shiftKey' in event.nativeEvent &&
+      event.nativeEvent.shiftKey &&
       lastSelectedRowId.current !== null
     ) {
       const rows = getMRT_Rows(table, true);
 
-      const lastIndex = rows.findIndex(
-        (r) => r.id === lastSelectedRowId.current,
-      );
+      const lastIndex = rows.findIndex((r) => r.id === lastSelectedRowId.current);
 
       if (lastIndex !== -1) {
         const isLastIndexChecked = getIsRowSelected({
@@ -198,10 +165,7 @@ export const getMRT_RowSelectionHandler =
         });
 
         const currentIndex = staticRowIndex + paginationOffset;
-        const [start, end] =
-          lastIndex < currentIndex
-            ? [lastIndex, currentIndex]
-            : [currentIndex, lastIndex];
+        const [start, end] = lastIndex < currentIndex ? [lastIndex, currentIndex] : [currentIndex, lastIndex];
 
         // toggle selection of all rows between last selected and this one
         // but only if the last selected row is not the same as the current one
@@ -237,20 +201,31 @@ export const getMRT_RowSelectionHandler =
   };
 
 export const getMRT_SelectAllHandler =
-  <TData extends MRT_RowData>({ table }: { table: MRT_TableInstance<TData> }) =>
-  (
-    event: ChangeEvent<HTMLInputElement> | MouseEvent<HTMLButtonElement>,
+  <TData extends MRT_RowData>({
+    table,
+  }: {
+    table: MRT_TableInstance<TData>;
+  }): ((
+    event: ChangeEvent<HTMLInputElement> | KeyboardEvent<HTMLTableCellElement> | MouseEvent<HTMLButtonElement>,
     value?: boolean,
     forceAll?: boolean,
-  ) => {
+  ) => void) =>
+  (
+    event: ChangeEvent<HTMLInputElement> | KeyboardEvent<HTMLTableCellElement> | MouseEvent<HTMLButtonElement>,
+    value?: boolean,
+    forceAll?: boolean,
+  ): void => {
     const {
       options: { enableRowPinning, rowPinningDisplayMode, selectAllMode },
       refs: { lastSelectedRowId },
     } = table;
 
-    selectAllMode === 'all' || forceAll
-      ? table.toggleAllRowsSelected(value ?? (event as any).target.checked)
-      : table.toggleAllPageRowsSelected(value ?? (event as any).target.checked);
+    const checked = value ?? (event.target as HTMLInputElement).checked;
+    if (selectAllMode === 'all' || forceAll) {
+      table.toggleAllRowsSelected(checked);
+    } else {
+      table.toggleAllPageRowsSelected(checked);
+    }
     if (enableRowPinning && rowPinningDisplayMode?.includes('select')) {
       table.setRowPinning({ bottom: [], top: [] });
     }

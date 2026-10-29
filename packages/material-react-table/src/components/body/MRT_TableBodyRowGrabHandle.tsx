@@ -1,16 +1,11 @@
 import { type IconButtonProps } from '@mui/material/IconButton';
 import { type DragEvent, type RefObject } from 'react';
 
-import {
-  type MRT_Row,
-  type MRT_RowData,
-  type MRT_TableInstance,
-} from '../../types';
+import { type MRT_Row, type MRT_RowData, type MRT_TableInstance } from '../../types';
 import { parseFromValuesOrFunc } from '../../utils/utils';
 import { MRT_GrabHandleButton } from '../buttons/MRT_GrabHandleButton';
 
-export interface MRT_TableBodyRowGrabHandleProps<TData extends MRT_RowData>
-  extends IconButtonProps {
+export interface MRT_TableBodyRowGrabHandleProps<TData extends MRT_RowData> extends IconButtonProps {
   row: MRT_Row<TData>;
   rowRef: RefObject<HTMLTableRowElement | null>;
   table: MRT_TableInstance<TData>;
@@ -21,7 +16,7 @@ export const MRT_TableBodyRowGrabHandle = <TData extends MRT_RowData>({
   rowRef,
   table,
   ...rest
-}: MRT_TableBodyRowGrabHandleProps<TData>) => {
+}: MRT_TableBodyRowGrabHandleProps<TData>): JSX.Element => {
   const {
     options: { muiRowDragHandleProps },
   } = table;
@@ -41,7 +36,7 @@ export const MRT_TableBodyRowGrabHandle = <TData extends MRT_RowData>({
     } catch (e) {
       console.error(e);
     }
-    table.setDraggingRow(row as any);
+    table.setDraggingRow(row);
   };
 
   const handleDragEnd = (event: DragEvent<HTMLButtonElement>) => {

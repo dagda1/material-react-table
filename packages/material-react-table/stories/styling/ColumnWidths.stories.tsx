@@ -17,7 +17,7 @@ const data = [...Array(21)].map(() => ({
   lastName: faker.person.lastName(),
 }));
 
-export const CustomWidthsSemantic = () => (
+export const CustomWidthsSemantic = (): JSX.Element => (
   <MaterialReactTable
     columns={[
       {
@@ -49,7 +49,7 @@ export const CustomWidthsSemantic = () => (
   />
 );
 
-export const CustomWidthsGrid = () => (
+export const CustomWidthsGrid = (): JSX.Element => (
   <MaterialReactTable
     columns={[
       {
@@ -82,7 +82,7 @@ export const CustomWidthsGrid = () => (
   />
 );
 
-export const CustomWidthsGridNoGrow = () => (
+export const CustomWidthsGridNoGrow = (): JSX.Element => (
   <MaterialReactTable
     columns={[
       {
@@ -115,7 +115,7 @@ export const CustomWidthsGridNoGrow = () => (
   />
 );
 
-export const CustomWidthsGridNoGrowIndividualGrow = () => (
+export const CustomWidthsGridNoGrowIndividualGrow = (): JSX.Element => (
   <MaterialReactTable
     columns={[
       {
@@ -149,7 +149,7 @@ export const CustomWidthsGridNoGrowIndividualGrow = () => (
   />
 );
 
-export const CustomWidthsGridIndividualShrink = () => (
+export const CustomWidthsGridIndividualShrink = (): JSX.Element => (
   <MaterialReactTable
     columns={[
       {
@@ -183,7 +183,7 @@ export const CustomWidthsGridIndividualShrink = () => (
   />
 );
 
-export const SmallWidthsSemantic = () => (
+export const SmallWidthsSemantic = (): JSX.Element => (
   <MaterialReactTable
     columns={[
       {
@@ -216,7 +216,7 @@ export const SmallWidthsSemantic = () => (
   />
 );
 
-export const SmallWidthsGrid = () => (
+export const SmallWidthsGrid = (): JSX.Element => (
   <MaterialReactTable
     columns={[
       {
@@ -250,7 +250,7 @@ export const SmallWidthsGrid = () => (
   />
 );
 
-export const SmallWidthsGridNoGrow = () => (
+export const SmallWidthsGridNoGrow = (): JSX.Element => (
   <MaterialReactTable
     columns={[
       {
@@ -284,7 +284,7 @@ export const SmallWidthsGridNoGrow = () => (
   />
 );
 
-export const SmallWidthsGridNoGrowIndividualGrow = () => (
+export const SmallWidthsGridNoGrowIndividualGrow = (): JSX.Element => (
   <MaterialReactTable
     columns={[
       {

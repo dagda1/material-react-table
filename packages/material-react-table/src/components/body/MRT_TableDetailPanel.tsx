@@ -1,6 +1,5 @@
-import { Collapse } from '@mui/material';
-import { TableCell, type TableCellProps } from '@mui/material';
-import { TableRow } from '@mui/material';
+import { Collapse, TableCell, type TableCellProps, TableRow } from '@mui/material';
+import { type CSSObject } from '@mui/material/styles';
 import { type RefObject } from 'react';
 
 import {
@@ -12,8 +11,7 @@ import {
 } from '../../types';
 import { parseFromValuesOrFunc } from '../../utils/utils';
 
-export interface MRT_TableDetailPanelProps<TData extends MRT_RowData>
-  extends TableCellProps {
+export interface MRT_TableDetailPanelProps<TData extends MRT_RowData> extends TableCellProps {
   parentRowRef: RefObject<HTMLTableRowElement | null>;
   row: MRT_Row<TData>;
   rowVirtualizer?: MRT_RowVirtualizer;
@@ -30,7 +28,7 @@ export const MRT_TableDetailPanel = <TData extends MRT_RowData>({
   table,
   virtualRow,
   ...rest
-}: MRT_TableDetailPanelProps<TData>) => {
+}: MRT_TableDetailPanelProps<TData>): JSX.Element => {
   const {
     getVisibleLeafColumns,
     options: {
@@ -73,14 +71,10 @@ export const MRT_TableDetailPanel = <TData extends MRT_RowData>({
       sx={(theme) => ({
         display: layoutMode?.startsWith('grid') ? 'flex' : undefined,
         position: virtualRow ? 'absolute' : undefined,
-        top: virtualRow
-          ? `${parentRowRef.current?.getBoundingClientRect()?.height}px`
-          : undefined,
-        transform: virtualRow
-          ? `translateY(${virtualRow?.start}px)`
-          : undefined,
+        top: virtualRow ? `${parentRowRef.current?.getBoundingClientRect()?.height}px` : undefined,
+        transform: virtualRow ? `translateY(${virtualRow?.start}px)` : undefined,
         width: '100%',
-        ...(parseFromValuesOrFunc(tableRowProps?.sx, theme) as any),
+        ...(parseFromValuesOrFunc(tableRowProps?.sx, theme) as CSSObject),
       })}
     >
       <TableCell
@@ -94,7 +88,7 @@ export const MRT_TableDetailPanel = <TData extends MRT_RowData>({
           py: !!DetailPanel && row.getIsExpanded() ? '1rem' : 0,
           transition: !virtualRow ? 'all 150ms ease-in-out' : undefined,
           width: `100%`,
-          ...(parseFromValuesOrFunc(tableCellProps?.sx, theme) as any),
+          ...(parseFromValuesOrFunc(tableCellProps?.sx, theme) as CSSObject),
         })}
       >
         {virtualRow ? (

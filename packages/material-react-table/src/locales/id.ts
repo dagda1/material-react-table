@@ -45,8 +45,7 @@ export const MRT_Localization_ID: MRT_Localization = {
   filterNotEquals: 'Tidak Sama Dengan',
   filterStartsWith: 'Dimulai Dengan',
   filterWeakEquals: 'Sama Dengan',
-  filteringByColumn:
-    'Memfilter berdasarkan {column} - {filterType} {filterValue}',
+  filteringByColumn: 'Memfilter berdasarkan {column} - {filterType} {filterValue}',
   goToFirstPage: 'Pergi ke halaman pertama',
   goToLastPage: 'Pergi ke halaman terakhir',
   goToNextPage: 'Pergi ke halaman berikutnya',
@@ -74,8 +73,7 @@ export const MRT_Localization_ID: MRT_Localization = {
   rowsPerPage: 'Baris per halaman',
   save: 'Simpan',
   search: 'Cari',
-  selectedCountOfRowCountRowsSelected:
-    '{selectedCount} dari {rowCount} baris dipilih',
+  selectedCountOfRowCountRowsSelected: '{selectedCount} dari {rowCount} baris dipilih',
   select: 'Pilih',
   showAll: 'Tampilkan semua',
   showAllColumns: 'Tampilkan semua kolom',

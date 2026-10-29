@@ -1,18 +1,16 @@
-import { IconButton, type IconButtonProps } from '@mui/material';
-import { Tooltip } from '@mui/material';
+import { IconButton, type IconButtonProps, Tooltip } from '@mui/material';
 import { useState } from 'react';
 
 import { type MRT_RowData, type MRT_TableInstance } from '../../types';
 
-export interface MRT_ToggleFullScreenButtonProps<TData extends MRT_RowData>
-  extends IconButtonProps {
+export interface MRT_ToggleFullScreenButtonProps<TData extends MRT_RowData> extends IconButtonProps {
   table: MRT_TableInstance<TData>;
 }
 
 export const MRT_ToggleFullScreenButton = <TData extends MRT_RowData>({
   table,
   ...rest
-}: MRT_ToggleFullScreenButtonProps<TData>) => {
+}: MRT_ToggleFullScreenButtonProps<TData>): JSX.Element => {
   const {
     options: {
       icons: { FullscreenExitIcon, FullscreenIcon },
@@ -30,10 +28,7 @@ export const MRT_ToggleFullScreenButton = <TData extends MRT_RowData>({
   };
 
   return (
-    <Tooltip
-      open={tooltipOpened}
-      title={rest?.title ?? localization.toggleFullScreen}
-    >
+    <Tooltip open={tooltipOpened} title={rest?.title ?? localization.toggleFullScreen}>
       <IconButton
         aria-label={localization.toggleFullScreen}
         onBlur={() => setTooltipOpened(false)}

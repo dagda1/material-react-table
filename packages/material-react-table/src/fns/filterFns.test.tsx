@@ -8,31 +8,16 @@ interface Person {
   name: string;
 }
 
-const data: Person[] = [
-  { name: 'Jonathan' },
-  { name: 'John' },
-  { name: 'Sara' },
-  { name: 'Aaron' },
-];
+const data: Person[] = [{ name: 'Jonathan' }, { name: 'John' }, { name: 'Sara' }, { name: 'Aaron' }];
 
-const columns: MRT_ColumnDef<Person>[] = [
-  { accessorKey: 'name', header: 'Name' },
-];
+const columns: MRT_ColumnDef<Person>[] = [{ accessorKey: 'name', header: 'Name' }];
 
 const renderedNames = (container: HTMLElement) =>
-  Array.from(container.querySelectorAll('tbody tr')).map(
-    (row) => row.textContent,
-  );
+  Array.from(container.querySelectorAll('tbody tr')).map((row) => row.textContent);
 
 describe('fuzzy global filter', () => {
   test('keeps rows whose value matches the term and drops the rest', () => {
-    render(
-      <MaterialReactTable
-        columns={columns}
-        data={data}
-        initialState={{ globalFilter: 'john' }}
-      />,
-    );
+    render(<MaterialReactTable columns={columns} data={data} initialState={{ globalFilter: 'john' }} />);
 
     expect(screen.getByText('John')).toBeInTheDocument();
     expect(screen.getByText('Jonathan')).toBeInTheDocument();
@@ -42,11 +27,7 @@ describe('fuzzy global filter', () => {
 
   test('orders matches by rank rather than by source order', () => {
     const { container } = render(
-      <MaterialReactTable
-        columns={columns}
-        data={data}
-        initialState={{ globalFilter: 'john' }}
-      />,
+      <MaterialReactTable columns={columns} data={data} initialState={{ globalFilter: 'john' }} />,
     );
 
     expect(renderedNames(container)).toEqual(['John', 'Jonathan']);
@@ -67,11 +48,7 @@ describe('fuzzy global filter', () => {
 
   test('drops every row when no value matches the term', () => {
     const { container } = render(
-      <MaterialReactTable
-        columns={columns}
-        data={data}
-        initialState={{ globalFilter: 'zzz' }}
-      />,
+      <MaterialReactTable columns={columns} data={data} initialState={{ globalFilter: 'zzz' }} />,
     );
 
     expect(renderedNames(container)).toEqual(['No results found']);
@@ -94,11 +71,7 @@ const employeeColumns = (): MRT_ColumnDef<Employee>[] => [
   { accessorKey: 'age', header: 'Age' },
 ];
 
-const renderFiltered = (
-  columnId: string,
-  filterFn: string,
-  value: unknown,
-) => {
+const renderFiltered = (columnId: string, filterFn: string, value: unknown) => {
   const { container } = render(
     <MaterialReactTable
       columns={employeeColumns()}
@@ -109,9 +82,7 @@ const renderFiltered = (
       }}
     />,
   );
-  return Array.from(container.querySelectorAll('tbody tr')).map(
-    (row) => row.querySelector('td')?.textContent,
-  );
+  return Array.from(container.querySelectorAll('tbody tr')).map((row) => row.querySelector('td')?.textContent);
 };
 
 describe('column filter fns', () => {

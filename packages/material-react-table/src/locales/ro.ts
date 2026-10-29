@@ -73,8 +73,7 @@ export const MRT_Localization_RO: MRT_Localization = {
   rowsPerPage: 'Linii per pagină',
   save: 'Salvează',
   search: 'Căutare',
-  selectedCountOfRowCountRowsSelected:
-    '{selectedCount} din {rowCount} linii selectate',
+  selectedCountOfRowCountRowsSelected: '{selectedCount} din {rowCount} linii selectate',
   select: 'Selectare',
   showAll: 'Afișează tot',
   showAllColumns: 'Afișează toate coloanele',

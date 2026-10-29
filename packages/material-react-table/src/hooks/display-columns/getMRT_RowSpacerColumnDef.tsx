@@ -1,8 +1,4 @@
-import {
-  type MRT_ColumnDef,
-  type MRT_RowData,
-  type MRT_StatefulTableOptions,
-} from '../../types';
+import { type MRT_ColumnDef, type MRT_RowData, type MRT_StatefulTableOptions } from '../../types';
 import { defaultDisplayColumnProps } from '../../utils/displayColumn.utils';
 import { MRT_DefaultDisplayColumn } from '../useMRT_TableOptions';
 

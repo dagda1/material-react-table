@@ -40,7 +40,7 @@ const data = [...Array(25)].map(() => ({
   state: faker.location.state(),
 }));
 
-export const MaxWidthAndCentered = () => (
+export const MaxWidthAndCentered = (): JSX.Element => (
   <MaterialReactTable
     columns={columns}
     data={data}
@@ -53,7 +53,7 @@ export const MaxWidthAndCentered = () => (
   />
 );
 
-export const maxHeight = () => (
+export const maxHeight = (): JSX.Element => (
   <MaterialReactTable
     columns={columns}
     data={data}
@@ -65,7 +65,7 @@ export const maxHeight = () => (
   />
 );
 
-export const minHeight = () => (
+export const minHeight = (): JSX.Element => (
   <MaterialReactTable
     columns={columns}
     data={data.slice(0, 5)}
@@ -77,7 +77,7 @@ export const minHeight = () => (
   />
 );
 
-export const minHeightParent = () => (
+export const minHeightParent = (): JSX.Element => (
   <div style={{ height: '700px' }}>
     <MaterialReactTable
       columns={columns}
@@ -96,7 +96,7 @@ export const minHeightParent = () => (
   </div>
 );
 
-export const ContainerHeight = () => (
+export const ContainerHeight = (): JSX.Element => (
   <div style={{ height: '300px' }}>
     <MaterialReactTable
       columns={columns}

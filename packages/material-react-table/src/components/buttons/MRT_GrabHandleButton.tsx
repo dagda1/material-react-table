@@ -1,13 +1,12 @@
-import { IconButton, type IconButtonProps } from '@mui/material';
-import { Tooltip } from '@mui/material';
+import { IconButton, type IconButtonProps, Tooltip } from '@mui/material';
+import { type CSSObject } from '@mui/material/styles';
 import { type DragEventHandler } from 'react';
 
 import { type MRT_RowData, type MRT_TableInstance } from '../../types';
 import { getCommonTooltipProps } from '../../utils/style.utils';
 import { parseFromValuesOrFunc } from '../../utils/utils';
 
-export interface MRT_GrabHandleButtonProps<TData extends MRT_RowData>
-  extends IconButtonProps {
+export interface MRT_GrabHandleButtonProps<TData extends MRT_RowData> extends IconButtonProps {
   iconButtonProps?: IconButtonProps;
   location?: 'column' | 'row';
   onDragEnd: DragEventHandler<HTMLButtonElement>;
@@ -19,7 +18,7 @@ export const MRT_GrabHandleButton = <TData extends MRT_RowData>({
   location,
   table,
   ...rest
-}: MRT_GrabHandleButtonProps<TData>) => {
+}: MRT_GrabHandleButtonProps<TData>): JSX.Element => {
   const {
     options: {
       icons: { DragHandleIcon },
@@ -28,10 +27,7 @@ export const MRT_GrabHandleButton = <TData extends MRT_RowData>({
   } = table;
 
   return (
-    <Tooltip
-      {...getCommonTooltipProps('top')}
-      title={rest?.title ?? localization.move}
-    >
+    <Tooltip {...getCommonTooltipProps('top')} title={rest?.title ?? localization.move}>
       <IconButton
         aria-label={rest.title ?? localization.move}
         disableRipple
@@ -55,7 +51,7 @@ export const MRT_GrabHandleButton = <TData extends MRT_RowData>({
           opacity: location === 'row' ? 1 : 0.5,
           p: '2px',
           transition: 'all 150ms ease-in-out',
-          ...(parseFromValuesOrFunc(rest?.sx, theme) as any),
+          ...(parseFromValuesOrFunc(rest?.sx, theme) as CSSObject),
         })}
         title={undefined}
       >

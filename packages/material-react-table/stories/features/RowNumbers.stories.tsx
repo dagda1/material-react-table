@@ -42,11 +42,11 @@ const data = [...Array(100)].map(() => ({
   state: faker.location.state(),
 }));
 
-export const enableRowNumbersStatic = () => (
+export const enableRowNumbersStatic = (): JSX.Element => (
   <MaterialReactTable columns={columns} data={data} enableRowNumbers />
 );
 
-export const enableRowNumbersConditionally = () => {
+const EnableRowNumbersConditionally = () => {
   const [enableRowNumbers, setEnableRowNumbers] = useState(false);
   return (
     <MaterialReactTable
@@ -54,33 +54,23 @@ export const enableRowNumbersConditionally = () => {
       data={data}
       enableRowNumbers={enableRowNumbers}
       renderTopToolbarCustomActions={() => (
-        <Button onClick={() => setEnableRowNumbers(!enableRowNumbers)}>
-          Toggle Row Numbers
-        </Button>
+        <Button onClick={() => setEnableRowNumbers(!enableRowNumbers)}>Toggle Row Numbers</Button>
       )}
     />
   );
 };
 
-export const enableRowNumbersStaticGrid = () => (
-  <MaterialReactTable
-    columns={columns}
-    data={data}
-    enableRowNumbers
-    layoutMode="grid"
-  />
+export const enableRowNumbersConditionally = (): JSX.Element => <EnableRowNumbersConditionally />;
+
+export const enableRowNumbersStaticGrid = (): JSX.Element => (
+  <MaterialReactTable columns={columns} data={data} enableRowNumbers layoutMode="grid" />
 );
 
-export const enableRowNumbersStaticGridNoGrow = () => (
-  <MaterialReactTable
-    columns={columns}
-    data={data}
-    enableRowNumbers
-    layoutMode="grid-no-grow"
-  />
+export const enableRowNumbersStaticGridNoGrow = (): JSX.Element => (
+  <MaterialReactTable columns={columns} data={data} enableRowNumbers layoutMode="grid-no-grow" />
 );
 
-export const enableRowNumbersOriginal = () => (
+export const enableRowNumbersOriginal = (): JSX.Element => (
   <MaterialReactTable
     columns={columns}
     data={data}
@@ -90,7 +80,7 @@ export const enableRowNumbersOriginal = () => (
   />
 );
 
-export const enableRowNumbersOriginalVirtual = () => (
+export const enableRowNumbersOriginalVirtual = (): JSX.Element => (
   <MaterialReactTable
     columns={columns}
     data={data}
@@ -101,7 +91,7 @@ export const enableRowNumbersOriginalVirtual = () => (
   />
 );
 
-export const enableRowNumbersStaticVirtual = () => (
+export const enableRowNumbersStaticVirtual = (): JSX.Element => (
   <MaterialReactTable
     columns={columns}
     data={data}

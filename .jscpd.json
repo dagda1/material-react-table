@@ -4,10 +4,7 @@
   "pattern": "**/src/**/*.{ts,tsx}",
   "minLines": 5,
   "minTokens": 40,
-  "ignorePattern": [
-    "import\\s[^;\\n]+[;\\n]",
-    "export\\s\\*\\sfrom\\s[^;\\n]+[;\\n]"
-  ],
+  "ignorePattern": ["import\\s[^;\\n]+[;\\n]", "export\\s\\*\\sfrom\\s[^;\\n]+[;\\n]"],
   "formatsExts": {
     "typescript": ["ts", "tsx"]
   },

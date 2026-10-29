@@ -1,18 +1,10 @@
-import { Box, type BoxProps } from '@mui/material';
-import { Button } from '@mui/material';
-import { CircularProgress } from '@mui/material';
-import { IconButton } from '@mui/material';
-import { Tooltip } from '@mui/material';
+import { Box, type BoxProps, Button, CircularProgress, IconButton, Tooltip } from '@mui/material';
+import { type CSSObject } from '@mui/material/styles';
 
-import {
-  type MRT_Row,
-  type MRT_RowData,
-  type MRT_TableInstance,
-} from '../../types';
+import { type MRT_EditValues, type MRT_Row, type MRT_RowData, type MRT_TableInstance } from '../../types';
 import { parseFromValuesOrFunc } from '../../utils/utils';
 
-export interface MRT_EditActionButtonsProps<TData extends MRT_RowData>
-  extends BoxProps {
+export interface MRT_EditActionButtonsProps<TData extends MRT_RowData> extends BoxProps {
   row: MRT_Row<TData>;
   table: MRT_TableInstance<TData>;
   variant?: 'icon' | 'text';
@@ -23,7 +15,7 @@ export const MRT_EditActionButtons = <TData extends MRT_RowData>({
   table,
   variant = 'icon',
   ...rest
-}: MRT_EditActionButtonsProps<TData>) => {
+}: MRT_EditActionButtonsProps<TData>): JSX.Element => {
   const {
     options: {
       icons: { CancelIcon, SaveIcon },
@@ -50,7 +42,7 @@ export const MRT_EditActionButtons = <TData extends MRT_RowData>({
       onEditingRowCancel?.({ row, table });
       setEditingRow(null);
     }
-    row._valuesCache = {} as any; //reset values cache
+    row._valuesCache = {}; //reset values cache
   };
 
   const handleSubmitRow = () => {
@@ -58,26 +50,23 @@ export const MRT_EditActionButtons = <TData extends MRT_RowData>({
     Object.values(editInputRefs.current ?? {})
       .filter((inputRef) => row.id === inputRef?.name?.split('_')?.[0])
       ?.forEach((input) => {
-        if (
-          input.value !== undefined &&
-          Object.hasOwn(row?._valuesCache as object, input.name)
-        ) {
+        if (input.value !== undefined && Object.hasOwn(row?._valuesCache as object, input.name)) {
           row._valuesCache[input.name] = input.value;
         }
       });
-    if (isCreating)
+    if (isCreating) {
       onCreatingRowSave?.({
         exitCreatingMode: () => setCreatingRow(null),
         row,
         table,
-        values: row._valuesCache,
+        values: row._valuesCache as MRT_EditValues<TData>,
       });
-    else if (isEditing) {
+    } else if (isEditing) {
       onEditingRowSave?.({
         exitEditingMode: () => setEditingRow(null),
         row,
         table,
-        values: row?._valuesCache,
+        values: row._valuesCache as MRT_EditValues<TData>,
       });
     }
   };
@@ -88,7 +77,7 @@ export const MRT_EditActionButtons = <TData extends MRT_RowData>({
       sx={(theme) => ({
         display: 'flex',
         gap: '0.75rem',
-        ...(parseFromValuesOrFunc(rest?.sx, theme) as any),
+        ...(parseFromValuesOrFunc(rest?.sx, theme) as CSSObject),
       })}
     >
       {variant === 'icon' ? (
@@ -98,15 +87,9 @@ export const MRT_EditActionButtons = <TData extends MRT_RowData>({
               <CancelIcon />
             </IconButton>
           </Tooltip>
-          {((isCreating && onCreatingRowSave) ||
-            (isEditing && onEditingRowSave)) && (
+          {((isCreating && onCreatingRowSave) || (isEditing && onEditingRowSave)) && (
             <Tooltip title={localization.save}>
-              <IconButton
-                aria-label={localization.save}
-                color="info"
-                disabled={isSaving}
-                onClick={handleSubmitRow}
-              >
+              <IconButton aria-label={localization.save} color="info" disabled={isSaving} onClick={handleSubmitRow}>
                 {isSaving ? <CircularProgress size={18} /> : <SaveIcon />}
               </IconButton>
             </Tooltip>
@@ -117,12 +100,7 @@ export const MRT_EditActionButtons = <TData extends MRT_RowData>({
           <Button onClick={handleCancel} sx={{ minWidth: '100px' }}>
             {localization.cancel}
           </Button>
-          <Button
-            disabled={isSaving}
-            onClick={handleSubmitRow}
-            sx={{ minWidth: '100px' }}
-            variant="contained"
-          >
+          <Button disabled={isSaving} onClick={handleSubmitRow} sx={{ minWidth: '100px' }} variant="contained">
             {isSaving && <CircularProgress color="inherit" size={18} />}
             {localization.save}
           </Button>

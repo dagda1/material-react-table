@@ -45,8 +45,7 @@ export const MRT_Localization_NP: MRT_Localization = {
   filterNotEquals: 'असमान',
   filterStartsWith: 'सुरुमा समावेश गरिएको',
   filterWeakEquals: 'असमान',
-  filteringByColumn:
-    '{column} द्वारा फिल्टर गर्दै - {filterType} {filterValue}',
+  filteringByColumn: '{column} द्वारा फिल्टर गर्दै - {filterType} {filterValue}',
   goToFirstPage: 'पहिलो पृष्ठमा जानुहोस्',
   goToLastPage: 'अन्तिम पृष्ठमा जानुहोस्',
   goToNextPage: 'अर्को पृष्ठमा जानुहोस्',
@@ -74,8 +73,7 @@ export const MRT_Localization_NP: MRT_Localization = {
   rowsPerPage: 'प्रति पृष्ठ',
   save: 'सुरक्षित गर्नुहोस्',
   search: 'खोज्नुहोस्',
-  selectedCountOfRowCountRowsSelected:
-    '{rowCount} पंक्ति(हरू)बाट {selectedCount} चयनित',
+  selectedCountOfRowCountRowsSelected: '{rowCount} पंक्ति(हरू)बाट {selectedCount} चयनित',
   select: 'चयन गर्नुहोस्',
   showAll: 'सबै देखाउनुहोस्',
   showAllColumns: 'सबै स्तम्भ देखाउनुहोस्',

@@ -11,27 +11,19 @@ interface Person {
 
 const data: Person[] = [{ name: 'Alice' }];
 
-const columns = (): MRT_ColumnDef<Person>[] => [
-  { accessorKey: 'name', header: 'Name' },
-];
+const columns = (): MRT_ColumnDef<Person>[] => [{ accessorKey: 'name', header: 'Name' }];
 
 const bodyCellPadding = (container: HTMLElement) =>
-  getComputedStyle(
-    container.querySelector('tbody td') as HTMLElement,
-  ).getPropertyValue('padding');
+  getComputedStyle(container.querySelector('tbody td') as HTMLElement).getPropertyValue('padding');
 
 describe('density toggle', () => {
   test('changes body cell padding when clicked', async () => {
     const user = userEvent.setup();
-    const { container } = render(
-      <MaterialReactTable columns={columns()} data={data} />,
-    );
+    const { container } = render(<MaterialReactTable columns={columns()} data={data} />);
 
     const before = bodyCellPadding(container);
 
-    await user.click(
-      container.querySelector('[aria-label="Toggle density"]') as HTMLElement,
-    );
+    await user.click(container.querySelector('[aria-label="Toggle density"]') as HTMLElement);
 
     expect(bodyCellPadding(container)).not.toBe(before);
   });

@@ -11,20 +11,13 @@ interface Person {
 
 const data: Person[] = [{ name: 'Alice' }];
 
-const columns = (): MRT_ColumnDef<Person>[] => [
-  { accessorKey: 'name', header: 'Name' },
-];
+const columns = (): MRT_ColumnDef<Person>[] => [{ accessorKey: 'name', header: 'Name' }];
 
 describe('cell editing', () => {
   test('opens a text field in the cell that was clicked', async () => {
     const user = userEvent.setup();
     const { container } = render(
-      <MaterialReactTable
-        columns={columns()}
-        data={data}
-        editDisplayMode="cell"
-        enableEditing
-      />,
+      <MaterialReactTable columns={columns()} data={data} editDisplayMode="cell" enableEditing />,
     );
 
     expect(container.querySelectorAll('tbody input')).toHaveLength(0);

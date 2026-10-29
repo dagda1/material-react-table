@@ -1,5 +1,5 @@
 import { Table, type TableProps } from '@mui/material';
-import { useMemo } from 'react';
+import { type CSSObject } from '@mui/material/styles';
 
 import { useMRT_ColumnVirtualizer } from '../../hooks/useMRT_ColumnVirtualizer';
 import { type MRT_RowData, type MRT_TableInstance } from '../../types';
@@ -13,14 +13,10 @@ export interface MRT_TableProps<TData extends MRT_RowData> extends TableProps {
   table: MRT_TableInstance<TData>;
 }
 
-export const MRT_Table = <TData extends MRT_RowData>({
-  table,
-  ...rest
-}: MRT_TableProps<TData>) => {
+export const MRT_Table = <TData extends MRT_RowData>({ table, ...rest }: MRT_TableProps<TData>): JSX.Element => {
   const {
     getFlatHeaders,
     options: {
-      columns,
       enableStickyHeader,
       enableTableFooter,
       enableTableHead,
@@ -30,8 +26,7 @@ export const MRT_Table = <TData extends MRT_RowData>({
       renderCaption,
     },
   } = table;
-  const { columnResizing, columnSizing, columnVisibility, isFullScreen } =
-    table.state;
+  const { columnResizing, isFullScreen } = table.state;
 
   const tableProps = {
     ...parseFromValuesOrFunc(muiTableProps, { table }),
@@ -40,17 +35,14 @@ export const MRT_Table = <TData extends MRT_RowData>({
 
   const Caption = parseFromValuesOrFunc(renderCaption, { table });
 
-  const columnSizeVars = useMemo(() => {
-    const headers = getFlatHeaders();
-    const colSizes: { [key: string]: number } = {};
-    for (let i = 0; i < headers.length; i++) {
-      const header = headers[i];
-      const colSize = header.getSize();
-      colSizes[`--header-${parseCSSVarId(header.id)}-size`] = colSize;
-      colSizes[`--col-${parseCSSVarId(header.column.id)}-size`] = colSize;
-    }
-    return colSizes;
-  }, [columns, columnSizing, columnResizing, columnVisibility]);
+  const headers = getFlatHeaders();
+  const columnSizeVars: { [key: string]: number } = {};
+  for (let i = 0; i < headers.length; i++) {
+    const header = headers[i];
+    const colSize = header.getSize();
+    columnSizeVars[`--header-${parseCSSVarId(header.id)}-size`] = colSize;
+    columnSizeVars[`--col-${parseCSSVarId(header.column.id)}-size`] = colSize;
+  }
 
   const columnVirtualizer = useMRT_ColumnVirtualizer(table);
 
@@ -68,7 +60,7 @@ export const MRT_Table = <TData extends MRT_RowData>({
         borderCollapse: 'separate',
         display: layoutMode?.startsWith('grid') ? 'grid' : undefined,
         position: 'relative',
-        ...(parseFromValuesOrFunc(tableProps?.sx, theme) as any),
+        ...(parseFromValuesOrFunc(tableProps?.sx, theme) as CSSObject),
       })}
     >
       {!!Caption && <caption>{Caption}</caption>}

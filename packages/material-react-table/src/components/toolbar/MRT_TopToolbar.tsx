@@ -1,4 +1,5 @@
 import { Box, useMediaQuery } from '@mui/material';
+import { type CSSObject } from '@mui/material/styles';
 
 import { type MRT_RowData, type MRT_TableInstance } from '../../types';
 import { getCommonToolbarStyles } from '../../utils/style.utils';
@@ -14,9 +15,7 @@ export interface MRT_TopToolbarProps<TData extends MRT_RowData> {
   table: MRT_TableInstance<TData>;
 }
 
-export const MRT_TopToolbar = <TData extends MRT_RowData>({
-  table,
-}: MRT_TopToolbarProps<TData>) => {
+export const MRT_TopToolbar = <TData extends MRT_RowData>({ table }: MRT_TopToolbarProps<TData>): JSX.Element => {
   const {
     options: {
       enableGlobalFilter,
@@ -39,10 +38,7 @@ export const MRT_TopToolbar = <TData extends MRT_RowData>({
 
   const toolbarProps = parseFromValuesOrFunc(muiTopToolbarProps, { table });
 
-  const stackAlertBanner =
-    isMobile ||
-    !!renderTopToolbarCustomActions ||
-    (showGlobalFilter && isTablet);
+  const stackAlertBanner = isMobile || !!renderTopToolbarCustomActions || (showGlobalFilter && isTablet);
 
   const globalFilterProps = {
     sx: !isTablet
@@ -58,8 +54,7 @@ export const MRT_TopToolbar = <TData extends MRT_RowData>({
       {...toolbarProps}
       ref={(ref: HTMLDivElement) => {
         topToolbarRef.current = ref;
-        if (toolbarProps?.ref) {
-          // @ts-expect-error
+        if (toolbarProps?.ref && typeof toolbarProps.ref === 'object') {
           toolbarProps.ref.current = ref;
         }
       }}
@@ -67,18 +62,13 @@ export const MRT_TopToolbar = <TData extends MRT_RowData>({
         ...getCommonToolbarStyles({ table, theme }),
         position: isFullScreen ? 'sticky' : 'relative',
         top: isFullScreen ? '0' : undefined,
-        ...(parseFromValuesOrFunc(toolbarProps?.sx, theme) as any),
+        ...(parseFromValuesOrFunc(toolbarProps?.sx, theme) as CSSObject),
       })}
     >
       {positionToolbarAlertBanner === 'top' && (
-        <MRT_ToolbarAlertBanner
-          stackAlertBanner={stackAlertBanner}
-          table={table}
-        />
+        <MRT_ToolbarAlertBanner stackAlertBanner={stackAlertBanner} table={table} />
       )}
-      {['both', 'top'].includes(positionToolbarDropZone ?? '') && (
-        <MRT_ToolbarDropZone table={table} />
-      )}
+      {['both', 'top'].includes(positionToolbarDropZone ?? '') && <MRT_ToolbarDropZone table={table} />}
       <Box
         sx={{
           alignItems: 'flex-start',
@@ -93,9 +83,7 @@ export const MRT_TopToolbar = <TData extends MRT_RowData>({
           width: '100%',
         }}
       >
-        {enableGlobalFilter && positionGlobalFilter === 'left' && (
-          <MRT_GlobalFilterTextField {...globalFilterProps} />
-        )}
+        {enableGlobalFilter && positionGlobalFilter === 'left' && <MRT_GlobalFilterTextField {...globalFilterProps} />}
         {renderTopToolbarCustomActions?.({ table }) ?? <span />}
         {enableToolbarInternalActions ? (
           <Box
@@ -113,16 +101,12 @@ export const MRT_TopToolbar = <TData extends MRT_RowData>({
             <MRT_ToolbarInternalButtons table={table} />
           </Box>
         ) : (
-          enableGlobalFilter &&
-          positionGlobalFilter === 'right' && (
-            <MRT_GlobalFilterTextField {...globalFilterProps} />
-          )
+          enableGlobalFilter && positionGlobalFilter === 'right' && <MRT_GlobalFilterTextField {...globalFilterProps} />
         )}
       </Box>
-      {enablePagination &&
-        ['both', 'top'].includes(positionPagination ?? '') && (
-          <MRT_TablePagination position="top" table={table} />
-        )}
+      {enablePagination && ['both', 'top'].includes(positionPagination ?? '') && (
+        <MRT_TablePagination position="top" table={table} />
+      )}
       <MRT_LinearProgressBar isTopToolbar table={table} />
     </Box>
   );

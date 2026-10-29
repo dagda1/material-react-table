@@ -52,16 +52,11 @@ const data: Row[] = [...Array(100)].map(() => ({
   state: faker.location.state(),
 }));
 
-export const CellActionsEnabled = () => (
-  <MaterialReactTable
-    columns={columns}
-    data={data}
-    enableCellActions
-    enableClickToCopy="context-menu"
-  />
+export const CellActionsEnabled = (): JSX.Element => (
+  <MaterialReactTable columns={columns} data={data} enableCellActions enableClickToCopy="context-menu" />
 );
 
-export const CellActionsEnabledConditionally = () => (
+export const CellActionsEnabledConditionally = (): JSX.Element => (
   <MaterialReactTable
     columns={columns}
     data={data}
@@ -70,7 +65,7 @@ export const CellActionsEnabledConditionally = () => (
   />
 );
 
-export const CellActionsEnabledCustom = () => (
+export const CellActionsEnabledCustom = (): JSX.Element => (
   <MaterialReactTable
     columns={columns}
     data={data}
@@ -98,7 +93,7 @@ export const CellActionsEnabledCustom = () => (
   />
 );
 
-export const CellActionsWithClickToCopy = () => (
+export const CellActionsWithClickToCopy = (): JSX.Element => (
   <MaterialReactTable
     columns={columns}
     data={data}
@@ -127,7 +122,7 @@ export const CellActionsWithClickToCopy = () => (
   />
 );
 
-export const CellActionsWithBuiltIns = () => (
+export const CellActionsWithBuiltIns = (): JSX.Element => (
   <MaterialReactTable
     columns={columns}
     data={data}

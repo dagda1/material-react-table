@@ -2,11 +2,8 @@ import { faker } from '@faker-js/faker';
 import { type Meta } from '@storybook/react-vite';
 import { useState } from 'react';
 
-import {
-  MaterialReactTable,
-  type MRT_ColumnDef,
-  useMaterialReactTable,
-} from '../../src';
+import { MaterialReactTable, type MRT_ColumnDef, useMaterialReactTable } from '../../src';
+
 const meta: Meta = {
   title: 'Fixed Bugs/dragging virtual when filtered',
 };
@@ -51,7 +48,7 @@ const columns: MRT_ColumnDef<(typeof initData)[0]>[] = [
     header: 'State',
   },
 ];
-export const DraggingRowWhenFiltered = () => {
+export const DraggingRowWhenFiltered = (): JSX.Element => {
   const [data, _setData] = useState(() => initData);
   const t = useMaterialReactTable({
     columns: columns,

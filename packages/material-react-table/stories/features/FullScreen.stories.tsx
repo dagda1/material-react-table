@@ -60,27 +60,17 @@ const data = [...Array(128)].map(() => ({
   startDate: faker.date.past({ years: 8 }).toLocaleDateString(),
 }));
 
-export const FullScreenToggleEnabledDefault = () => (
-  <MaterialReactTable columns={columns} data={data} />
+export const FullScreenToggleEnabledDefault = (): JSX.Element => <MaterialReactTable columns={columns} data={data} />;
+
+export const DisableFullScreenToggle = (): JSX.Element => (
+  <MaterialReactTable columns={columns} data={data} enableFullScreenToggle={false} />
 );
 
-export const DisableFullScreenToggle = () => (
-  <MaterialReactTable
-    columns={columns}
-    data={data}
-    enableFullScreenToggle={false}
-  />
+export const DefaultFullScreenOn = (): JSX.Element => (
+  <MaterialReactTable columns={columns} data={data} initialState={{ isFullScreen: true }} />
 );
 
-export const DefaultFullScreenOn = () => (
-  <MaterialReactTable
-    columns={columns}
-    data={data}
-    initialState={{ isFullScreen: true }}
-  />
-);
-
-export const ControlledFullScreen = () => {
+export const ControlledFullScreen = (): JSX.Element => {
   const [isFullScreen, setIsFullScreen] = useState(false);
 
   return (

@@ -73,8 +73,7 @@ export const MRT_Localization_JA: MRT_Localization = {
   rowsPerPage: '表示件数',
   save: '保存',
   search: '検索',
-  selectedCountOfRowCountRowsSelected:
-    '{rowCount}行中{selectedCount}行が選択されました',
+  selectedCountOfRowCountRowsSelected: '{rowCount}行中{selectedCount}行が選択されました',
   select: '選択',
   showAll: '全て表示',
   showAllColumns: 'すべての列を表示',

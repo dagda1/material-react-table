@@ -11,22 +11,15 @@ interface Person {
 
 const data: Person[] = [{ name: 'Alice' }, { name: 'Bob' }];
 
-const columns = (): MRT_ColumnDef<Person>[] => [
-  { accessorKey: 'name', header: 'Name' },
-];
+const columns = (): MRT_ColumnDef<Person>[] => [{ accessorKey: 'name', header: 'Name' }];
 
 const selectAll = (container: HTMLElement) =>
   container.querySelector('thead input[type="checkbox"]') as HTMLInputElement;
 
 const rowBoxes = (container: HTMLElement) =>
-  Array.from(
-    container.querySelectorAll<HTMLInputElement>(
-      'tbody input[type="checkbox"]',
-    ),
-  );
+  Array.from(container.querySelectorAll<HTMLInputElement>('tbody input[type="checkbox"]'));
 
-const renderTable = () =>
-  render(<MaterialReactTable columns={columns()} data={data} enableRowSelection />);
+const renderTable = () => render(<MaterialReactTable columns={columns()} data={data} enableRowSelection />);
 
 describe('row selection checkboxes', () => {
   test('select all checks every row', async () => {

@@ -1,17 +1,14 @@
 //body components
 export * from './components/body/MRT_TableBody';
-
 export * from './components/body/MRT_TableBodyCell';
 export * from './components/body/MRT_TableBodyCellValue';
 export * from './components/body/MRT_TableBodyRow';
 export * from './components/body/MRT_TableBodyRowGrabHandle';
 export * from './components/body/MRT_TableBodyRowPinButton';
-
 export * from './components/body/MRT_TableDetailPanel';
 //button components
 export * from './components/buttons/MRT_ColumnPinningButtons';
 export * from './components/buttons/MRT_CopyButton';
-
 export * from './components/buttons/MRT_EditActionButtons';
 export * from './components/buttons/MRT_ExpandAllButton';
 export * from './components/buttons/MRT_ExpandButton';
@@ -19,7 +16,6 @@ export * from './components/buttons/MRT_GrabHandleButton';
 export * from './components/buttons/MRT_RowPinButton';
 export * from './components/buttons/MRT_ShowHideColumnsButton';
 export * from './components/buttons/MRT_ToggleDensePaddingButton';
-
 export * from './components/buttons/MRT_ToggleFiltersButton';
 export * from './components/buttons/MRT_ToggleFullScreenButton';
 export * from './components/buttons/MRT_ToggleGlobalFilterButton';

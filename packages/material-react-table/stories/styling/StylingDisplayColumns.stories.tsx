@@ -35,7 +35,7 @@ const data = [...Array(21)].map(() => ({
   lastName: faker.person.lastName(),
 }));
 
-export const CustomizeDisplayColumns = () => (
+export const CustomizeDisplayColumns = (): JSX.Element => (
   <MaterialReactTable
     columns={columns}
     data={data}

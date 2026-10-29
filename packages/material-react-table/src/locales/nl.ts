@@ -73,8 +73,7 @@ export const MRT_Localization_NL: MRT_Localization = {
   rowsPerPage: 'Rijen per pagina',
   save: 'Opslaan',
   search: 'Zoeken',
-  selectedCountOfRowCountRowsSelected:
-    '{selectedCount} van {rowCount} rij(en) geselecteerd',
+  selectedCountOfRowCountRowsSelected: '{selectedCount} van {rowCount} rij(en) geselecteerd',
   select: 'Selecteer',
   showAll: 'Alles tonen',
   showAllColumns: 'Toon alle kolommen',

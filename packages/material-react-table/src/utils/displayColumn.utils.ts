@@ -1,5 +1,6 @@
 import {
   type MRT_DefinedTableOptions,
+  type MRT_DisplayColumnDef,
   type MRT_DisplayColumnIds,
   type MRT_Localization,
   type MRT_RowData,
@@ -17,9 +18,8 @@ export function defaultDisplayColumnProps<TData extends MRT_RowData>({
   id: MRT_DisplayColumnIds;
   size: number;
   tableOptions: MRT_DefinedTableOptions<TData>;
-}) {
-  const { defaultDisplayColumn, displayColumnDefOptions, localization } =
-    tableOptions;
+}): Partial<MRT_DisplayColumnDef<TData>> & { header: string; id: MRT_DisplayColumnIds; size: number } {
+  const { defaultDisplayColumn, displayColumnDefOptions, localization } = tableOptions;
   return {
     ...defaultDisplayColumn,
     header: header ? localization[header]! : '',
@@ -52,11 +52,7 @@ export const showRowExpandColumn = <TData extends MRT_RowData>(
     renderDetailPanel,
     state: { grouping },
   } = tableOptions;
-  return !!(
-    enableExpanding ||
-    (enableGrouping && grouping?.length) ||
-    renderDetailPanel
-  );
+  return !!(enableExpanding || (enableGrouping && grouping?.length) || renderDetailPanel);
 };
 
 export const showRowActionsColumn = <TData extends MRT_RowData>(
@@ -90,63 +86,45 @@ export const showRowSpacerColumn = <TData extends MRT_RowData>(
 
 export const getLeadingDisplayColumnIds = <TData extends MRT_RowData>(
   tableOptions: MRT_StatefulTableOptions<TData>,
-) =>
+): MRT_DisplayColumnIds[] =>
   [
     showRowPinningColumn(tableOptions) && 'mrt-row-pin',
     showRowDragColumn(tableOptions) && 'mrt-row-drag',
-    tableOptions.positionActionsColumn === 'first' &&
-      showRowActionsColumn(tableOptions) &&
-      'mrt-row-actions',
-    tableOptions.positionExpandColumn === 'first' &&
-      showRowExpandColumn(tableOptions) &&
-      'mrt-row-expand',
+    tableOptions.positionActionsColumn === 'first' && showRowActionsColumn(tableOptions) && 'mrt-row-actions',
+    tableOptions.positionExpandColumn === 'first' && showRowExpandColumn(tableOptions) && 'mrt-row-expand',
     showRowSelectionColumn(tableOptions) && 'mrt-row-select',
     showRowNumbersColumn(tableOptions) && 'mrt-row-numbers',
   ].filter(Boolean) as MRT_DisplayColumnIds[];
 
 export const getTrailingDisplayColumnIds = <TData extends MRT_RowData>(
   tableOptions: MRT_StatefulTableOptions<TData>,
-) =>
+): MRT_DisplayColumnIds[] =>
   [
-    tableOptions.positionActionsColumn === 'last' &&
-      showRowActionsColumn(tableOptions) &&
-      'mrt-row-actions',
-    tableOptions.positionExpandColumn === 'last' &&
-      showRowExpandColumn(tableOptions) &&
-      'mrt-row-expand',
+    tableOptions.positionActionsColumn === 'last' && showRowActionsColumn(tableOptions) && 'mrt-row-actions',
+    tableOptions.positionExpandColumn === 'last' && showRowExpandColumn(tableOptions) && 'mrt-row-expand',
     showRowSpacerColumn(tableOptions) && 'mrt-row-spacer',
   ].filter(Boolean) as MRT_DisplayColumnIds[];
 
 export const getDefaultColumnOrderIds = <TData extends MRT_RowData>(
   tableOptions: MRT_StatefulTableOptions<TData>,
   reset = false,
-) => {
+): string[] => {
   const {
     state: { columnOrder: currentColumnOrderIds = [] },
   } = tableOptions;
 
-  const leadingDisplayColIds: string[] =
-    getLeadingDisplayColumnIds(tableOptions);
-  const trailingDisplayColIds: string[] =
-    getTrailingDisplayColumnIds(tableOptions);
+  const leadingDisplayColIds: string[] = getLeadingDisplayColumnIds(tableOptions);
+  const trailingDisplayColIds: string[] = getTrailingDisplayColumnIds(tableOptions);
 
-  const defaultColumnDefIds = getAllLeafColumnDefs(tableOptions.columns).map(
-    (columnDef) => getColumnId(columnDef),
-  );
+  const defaultColumnDefIds = getAllLeafColumnDefs(tableOptions.columns).map((columnDef) => getColumnId(columnDef));
 
   let allLeafColumnDefIds = reset
     ? defaultColumnDefIds
     : Array.from(new Set([...currentColumnOrderIds, ...defaultColumnDefIds]));
 
   allLeafColumnDefIds = allLeafColumnDefIds.filter(
-    (colId) =>
-      !leadingDisplayColIds.includes(colId) &&
-      !trailingDisplayColIds.includes(colId),
+    (colId) => !leadingDisplayColIds.includes(colId) && !trailingDisplayColIds.includes(colId),
   );
 
-  return [
-    ...leadingDisplayColIds,
-    ...allLeafColumnDefIds,
-    ...trailingDisplayColIds,
-  ];
+  return [...leadingDisplayColIds, ...allLeafColumnDefIds, ...trailingDisplayColIds];
 };

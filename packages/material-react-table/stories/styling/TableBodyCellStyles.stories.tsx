@@ -34,11 +34,9 @@ const data = [...Array(21)].map(() => ({
   lastName: faker.person.lastName(),
 }));
 
-export const DefaultTableBodyCellStyles = () => (
-  <MaterialReactTable columns={columns} data={data} />
-);
+export const DefaultTableBodyCellStyles = (): JSX.Element => <MaterialReactTable columns={columns} data={data} />;
 
-export const StyleAllMuiTableBodyCell = () => (
+export const StyleAllMuiTableBodyCell = (): JSX.Element => (
   <MaterialReactTable
     columns={columns}
     data={data}
@@ -51,7 +49,7 @@ export const StyleAllMuiTableBodyCell = () => (
   />
 );
 
-export const StyleMuiTableBodyCellConditionallyIn1Column = () => (
+export const StyleMuiTableBodyCellConditionallyIn1Column = (): JSX.Element => (
   <MaterialReactTable
     columns={[
       {
@@ -67,14 +65,8 @@ export const StyleMuiTableBodyCellConditionallyIn1Column = () => (
         header: 'Age',
         muiTableBodyCellProps: ({ cell }) => ({
           sx: {
-            backgroundColor:
-              cell.getValue<number>() > 40
-                ? 'rgba(22, 184, 44, 0.5)'
-                : undefined,
-            fontWeight:
-              cell.column.id === 'age' && cell.getValue<number>() > 40
-                ? '700'
-                : '400',
+            backgroundColor: cell.getValue<number>() > 40 ? 'rgba(22, 184, 44, 0.5)' : undefined,
+            fontWeight: cell.column.id === 'age' && cell.getValue<number>() > 40 ? '700' : '400',
           },
         }),
       },
@@ -87,21 +79,17 @@ export const StyleMuiTableBodyCellConditionallyIn1Column = () => (
   />
 );
 
-export const CustomCellRender = () => (
+export const CustomCellRender = (): JSX.Element => (
   <MaterialReactTable
     columns={[
       {
         accessorKey: 'firstName',
-        Cell: ({ cell }) => (
-          <span style={{ fontStyle: 'italic' }}>{cell.getValue<string>()}</span>
-        ),
+        Cell: ({ cell }) => <span style={{ fontStyle: 'italic' }}>{cell.getValue<string>()}</span>,
         header: 'First Name',
       },
       {
         accessorKey: 'lastName',
-        Cell: ({ cell }) => (
-          <span style={{ color: 'red' }}>{cell.getValue<string>()}</span>
-        ),
+        Cell: ({ cell }) => <span style={{ color: 'red' }}>{cell.getValue<string>()}</span>,
         header: 'Last Name',
       },
       {
@@ -110,9 +98,7 @@ export const CustomCellRender = () => (
           <span
             style={{
               backgroundColor:
-                cell.column.id === 'age' && cell.getValue<number>() > 40
-                  ? 'rgba(22, 184, 44, 0.5)'
-                  : undefined,
+                cell.column.id === 'age' && cell.getValue<number>() > 40 ? 'rgba(22, 184, 44, 0.5)' : undefined,
               fontStyle: 'italic',
               padding: '0.5rem',
             }}

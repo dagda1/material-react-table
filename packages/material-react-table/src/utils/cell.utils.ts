@@ -1,13 +1,5 @@
-import {
-  type MRT_Cell,
-  type MRT_Header,
-  type MRT_RowData,
-  type MRT_TableInstance,
-} from '../types';
-import {
-  getMRT_RowSelectionHandler,
-  getMRT_SelectAllHandler,
-} from './row.utils';
+import { type MRT_Cell, type MRT_Header, type MRT_RowData, type MRT_TableInstance } from '../types';
+import { getMRT_RowSelectionHandler, getMRT_SelectAllHandler } from './row.utils';
 import { parseFromValuesOrFunc } from './utils';
 
 const isWinCtrlMacMeta = (event: React.KeyboardEvent<HTMLTableCellElement>) => {
@@ -23,7 +15,7 @@ export const isCellEditable = <TData extends MRT_RowData>({
 }: {
   cell: MRT_Cell<TData>;
   table: MRT_TableInstance<TData>;
-}) => {
+}): boolean | undefined => {
   const { enableEditing } = table.options;
   const {
     column: { columnDef },
@@ -42,7 +34,7 @@ export const openEditingCell = <TData extends MRT_RowData>({
 }: {
   cell: MRT_Cell<TData>;
   table: MRT_TableInstance<TData>;
-}) => {
+}): void => {
   const {
     options: { editDisplayMode },
     refs: { editInputRefs },
@@ -79,9 +71,13 @@ export const cellKeyboardShortcuts = <TData extends MRT_RowData = MRT_RowData>({
   header?: MRT_Header<TData>;
   parentElement?: HTMLTableRowElement;
   table: MRT_TableInstance<TData>;
-}) => {
-  if (!table.options.enableKeyboardShortcuts) return;
-  if (event.isPropagationStopped()) return;
+}): void => {
+  if (!table.options.enableKeyboardShortcuts) {
+    return;
+  }
+  if (event.isPropagationStopped()) {
+    return;
+  }
   const currentCell = event.currentTarget;
 
   if (cellValue && isWinCtrlMacMeta(event) && event.key === 'c') {
@@ -91,40 +87,30 @@ export const cellKeyboardShortcuts = <TData extends MRT_RowData = MRT_RowData>({
       event.preventDefault();
       getMRT_RowSelectionHandler({
         row: cell.row,
-        //@ts-expect-error
-        staticRowIndex: +event.target.getAttribute('data-index'),
+        staticRowIndex: Number((event.target as HTMLElement).getAttribute('data-index')),
         table,
-      })(event as any);
-    } else if (
-      header?.column?.id === 'mrt-row-select' &&
-      table.options.enableSelectAll
-    ) {
+      })(event);
+    } else if (header?.column?.id === 'mrt-row-select' && table.options.enableSelectAll) {
       event.preventDefault();
       getMRT_SelectAllHandler({
         table,
-      })(event as any);
+      })(event);
     } else if (
       cell?.column?.id === 'mrt-row-expand' &&
-      (cell.row.getCanExpand() ||
-        table.options.renderDetailPanel?.({ row: cell.row, table }))
+      (cell.row.getCanExpand() || table.options.renderDetailPanel?.({ row: cell.row, table }))
     ) {
       event.preventDefault();
       cell.row.toggleExpanded();
-    } else if (
-      header?.column?.id === 'mrt-row-expand' &&
-      table.options.enableExpandAll
-    ) {
+    } else if (header?.column?.id === 'mrt-row-expand' && table.options.enableExpandAll) {
       event.preventDefault();
       table.toggleAllRowsExpanded();
     } else if (cell?.column.id === 'mrt-row-pin') {
       event.preventDefault();
-      cell.row.getIsPinned()
-        ? cell.row.pin(false)
-        : cell.row.pin(
-            table.options.rowPinningDisplayMode?.includes('bottom')
-              ? 'bottom'
-              : 'top',
-          );
+      if (cell.row.getIsPinned()) {
+        cell.row.pin(false);
+      } else {
+        cell.row.pin(table.options.rowPinningDisplayMode?.includes('bottom') ? 'bottom' : 'top');
+      }
     } else if (header && isWinCtrlMacMeta(event)) {
       const actionsButton = currentCell.querySelector(
         `button[aria-label="${table.options.localization.columnActions}"]`,
@@ -137,29 +123,16 @@ export const cellKeyboardShortcuts = <TData extends MRT_RowData = MRT_RowData>({
       header.column.toggleSorting();
     }
   } else if (
-    [
-      'ArrowDown',
-      'ArrowLeft',
-      'ArrowRight',
-      'ArrowUp',
-      'End',
-      'Home',
-      'PageDown',
-      'PageUp',
-    ].includes(event.key)
+    ['ArrowDown', 'ArrowLeft', 'ArrowRight', 'ArrowUp', 'End', 'Home', 'PageDown', 'PageUp'].includes(event.key)
   ) {
     event.preventDefault();
 
     const currentRow = parentElement || currentCell.closest('tr');
     const tableElement = containerElement || currentCell.closest('table');
-    const allCells =
-      cellElements ||
-      Array.from(tableElement?.querySelectorAll('th, td') || []);
+    const allCells = cellElements || Array.from(tableElement?.querySelectorAll('th, td') || []);
     const currentCellIndex = allCells.indexOf(currentCell);
 
-    const currentIndex = parseInt(
-      currentCell.getAttribute('data-index') || '0',
-    );
+    const currentIndex = parseInt(currentCell.getAttribute('data-index') || '0');
     let nextCell: HTMLElement | undefined = undefined;
 
     //home/end first or last cell in row
@@ -171,33 +144,22 @@ export const cellKeyboardShortcuts = <TData extends MRT_RowData = MRT_RowData>({
             ? tableElement?.querySelector('tr')
             : tableElement?.lastElementChild?.lastElementChild;
       const rowCells = Array.from(row?.children || []);
-      const targetCell =
-        edge === 'f' ? rowCells[0] : rowCells[rowCells.length - 1];
+      const targetCell = edge === 'f' ? rowCells[0] : rowCells[rowCells.length - 1];
       return targetCell as HTMLElement;
     };
 
     //page up/down first or last cell in column
     const findBottomTopCell = (columnIndex: number, edge: 'b' | 't') => {
-      const row =
-        edge === 't'
-          ? tableElement?.querySelector('tr')
-          : tableElement?.lastElementChild?.lastElementChild;
+      const row = edge === 't' ? tableElement?.querySelector('tr') : tableElement?.lastElementChild?.lastElementChild;
       const rowCells = Array.from(row?.children || []);
       const targetCell = rowCells[columnIndex];
       return targetCell as HTMLElement;
     };
 
-    const findAdjacentCell = (
-      columnIndex: number,
-      searchDirection: 'b' | 'f',
-    ) => {
+    const findAdjacentCell = (columnIndex: number, searchDirection: 'b' | 'f') => {
       const searchArray =
-        searchDirection === 'f'
-          ? allCells.slice(currentCellIndex + 1)
-          : allCells.slice(0, currentCellIndex).reverse();
-      return searchArray.find((cell) =>
-        cell.matches(`[data-index="${columnIndex}"]`),
-      ) as HTMLElement | undefined;
+        searchDirection === 'f' ? allCells.slice(currentCellIndex + 1) : allCells.slice(0, currentCellIndex).reverse();
+      return searchArray.find((cell) => cell.matches(`[data-index="${columnIndex}"]`)) as HTMLElement | undefined;
     };
 
     switch (event.key) {

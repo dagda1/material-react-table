@@ -35,11 +35,9 @@ const data = [...Array(21)].map(() => ({
   lastName: faker.person.lastName(),
 }));
 
-export const DefaultTableHeadCellStyles = () => (
-  <MaterialReactTable columns={columns} data={data} />
-);
+export const DefaultTableHeadCellStyles = (): JSX.Element => <MaterialReactTable columns={columns} data={data} />;
 
-export const ColorSortIcon = () => (
+export const ColorSortIcon = (): JSX.Element => (
   <MaterialReactTable
     columns={columns}
     data={data}
@@ -53,7 +51,7 @@ export const ColorSortIcon = () => (
   />
 );
 
-export const StyleAllMuiTableHeadCell = () => (
+export const StyleAllMuiTableHeadCell = (): JSX.Element => (
   <MaterialReactTable
     columns={columns}
     data={data}
@@ -67,7 +65,7 @@ export const StyleAllMuiTableHeadCell = () => (
   />
 );
 
-export const StyleTableHeadCellsIndividually = () => (
+export const StyleTableHeadCellsIndividually = (): JSX.Element => (
   <MaterialReactTable
     columns={[
       {
@@ -99,7 +97,7 @@ export const StyleTableHeadCellsIndividually = () => (
   />
 );
 
-export const CustomHeadCellRenders = () => (
+export const CustomHeadCellRenders = (): JSX.Element => (
   <MaterialReactTable
     columns={[
       {
@@ -114,9 +112,7 @@ export const CustomHeadCellRenders = () => (
       },
       {
         accessorKey: 'age',
-        Header: ({ column }) => (
-          <Box color="primary.main">{column.columnDef.header}</Box>
-        ),
+        Header: ({ column }) => <Box color="primary.main">{column.columnDef.header}</Box>,
         header: 'Current Age',
       },
       {

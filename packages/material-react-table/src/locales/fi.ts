@@ -45,8 +45,7 @@ export const MRT_Localization_FI: MRT_Localization = {
   filterNotEquals: 'Ei ole yhtä kuin',
   filterStartsWith: 'Alkaa',
   filterWeakEquals: 'On yhtä kuin',
-  filteringByColumn:
-    'Suodatetaan sarakkeen {column} mukaan - {filterType} {filterValue}',
+  filteringByColumn: 'Suodatetaan sarakkeen {column} mukaan - {filterType} {filterValue}',
   goToFirstPage: 'Siirry ensimmäiselle sivulle',
   goToLastPage: 'Siirry viimeiselle sivulle',
   goToNextPage: 'Siirry seuraavalle sivulle',
@@ -74,8 +73,7 @@ export const MRT_Localization_FI: MRT_Localization = {
   rowsPerPage: 'Rivejä per sivu',
   save: 'Tallenna',
   search: 'Etsi',
-  selectedCountOfRowCountRowsSelected:
-    '{selectedCount}/{rowCount} rivi(ä) valittu',
+  selectedCountOfRowCountRowsSelected: '{selectedCount}/{rowCount} rivi(ä) valittu',
   select: 'Valitse',
   showAll: 'Näytä kaikki',
   showAllColumns: 'Näytä kaikki sarakkeet',

@@ -50,19 +50,13 @@ const data = [...Array(25)].map(() => ({
   zipCode: faker.location.zipCode(),
 }));
 
-export const DensePaddingToggleEnabledDefault = () => (
-  <MaterialReactTable columns={columns} data={data} />
+export const DensePaddingToggleEnabledDefault = (): JSX.Element => <MaterialReactTable columns={columns} data={data} />;
+
+export const DensePaddingDisabled = (): JSX.Element => (
+  <MaterialReactTable columns={columns} data={data} enableDensityToggle={false} />
 );
 
-export const DensePaddingDisabled = () => (
-  <MaterialReactTable
-    columns={columns}
-    data={data}
-    enableDensityToggle={false}
-  />
-);
-
-export const DefaultToDensePadding = () => (
+export const DefaultToDensePadding = (): JSX.Element => (
   <MaterialReactTable
     columns={columns}
     data={data}

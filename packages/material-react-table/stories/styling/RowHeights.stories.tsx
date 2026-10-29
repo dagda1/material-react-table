@@ -45,7 +45,7 @@ const data = [...Array(25)].map(() => ({
   state: faker.location.state(),
 }));
 
-export const SetRowHeight = () => (
+export const SetRowHeight = (): JSX.Element => (
   <MaterialReactTable
     columns={columns}
     data={data}

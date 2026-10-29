@@ -50,11 +50,9 @@ const data = [...Array(555)].map(() => ({
   state: faker.location.state(),
 }));
 
-export const HeaderGroups = () => (
-  <MaterialReactTable columns={columns} data={data} />
-);
+export const HeaderGroups = (): JSX.Element => <MaterialReactTable columns={columns} data={data} />;
 
-export const HeaderGroupsWithStickyHeader = () => (
+export const HeaderGroupsWithStickyHeader = (): JSX.Element => (
   <MaterialReactTable
     columns={columns}
     data={data}
@@ -63,7 +61,7 @@ export const HeaderGroupsWithStickyHeader = () => (
   />
 );
 
-export const HeaderAndFooterGroups = () => (
+export const HeaderAndFooterGroups = (): JSX.Element => (
   <MaterialReactTable
     columns={[
       {
@@ -106,42 +104,27 @@ export const HeaderAndFooterGroups = () => (
   />
 );
 
-export const HeaderGroupsWithColumnOrdering = () => (
+export const HeaderGroupsWithColumnOrdering = (): JSX.Element => (
   <MaterialReactTable columns={columns} data={data} enableColumnOrdering />
 );
 
-export const HeaderGroupsWithColumnPinning = () => (
+export const HeaderGroupsWithColumnPinning = (): JSX.Element => (
   <MaterialReactTable columns={columns} data={data} enableColumnPinning />
 );
 
-export const HeaderGroupsWithColumResizing = () => (
-  <MaterialReactTable
-    columns={columns}
-    data={data}
-    enableColumnResizing
-    enableRowSelection
-  />
+export const HeaderGroupsWithColumResizing = (): JSX.Element => (
+  <MaterialReactTable columns={columns} data={data} enableColumnResizing enableRowSelection />
 );
 
-export const HeaderGroupsWithColumResizingGrid = () => (
-  <MaterialReactTable
-    columns={columns}
-    data={data}
-    enableColumnResizing
-    layoutMode="grid"
-  />
+export const HeaderGroupsWithColumResizingGrid = (): JSX.Element => (
+  <MaterialReactTable columns={columns} data={data} enableColumnResizing layoutMode="grid" />
 );
 
-export const HeaderGroupsWithSemanticColumResizing = () => (
-  <MaterialReactTable
-    columns={columns}
-    data={data}
-    enableColumnResizing
-    layoutMode="semantic"
-  />
+export const HeaderGroupsWithSemanticColumResizing = (): JSX.Element => (
+  <MaterialReactTable columns={columns} data={data} enableColumnResizing layoutMode="semantic" />
 );
 
-export const MixedHeaderGroups = () => {
+export const MixedHeaderGroups = (): JSX.Element => {
   return (
     <MaterialReactTable
       columns={[
@@ -177,7 +160,7 @@ export const MixedHeaderGroups = () => {
   );
 };
 
-export const DeepMixedHeaderGroups = () => {
+export const DeepMixedHeaderGroups = (): JSX.Element => {
   return (
     <MaterialReactTable
       columns={[
@@ -219,19 +202,10 @@ export const DeepMixedHeaderGroups = () => {
   );
 };
 
-export const HeaderGroupsWithRowVirtualization = () => (
-  <MaterialReactTable
-    columns={columns}
-    data={data}
-    enablePagination={false}
-    enableRowVirtualization
-  />
+export const HeaderGroupsWithRowVirtualization = (): JSX.Element => (
+  <MaterialReactTable columns={columns} data={data} enablePagination={false} enableRowVirtualization />
 );
 
-export const HeaderGroupsWithColumnVirtualization = () => (
-  <MaterialReactTable
-    columns={columns}
-    data={data}
-    enableColumnVirtualization
-  />
+export const HeaderGroupsWithColumnVirtualization = (): JSX.Element => (
+  <MaterialReactTable columns={columns} data={data} enableColumnVirtualization />
 );

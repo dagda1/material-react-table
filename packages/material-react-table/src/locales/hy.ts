@@ -73,8 +73,7 @@ export const MRT_Localization_HY: MRT_Localization = {
   rowsPerPage: 'Տողեր էջում',
   save: 'Պահպանել',
   search: 'Գտնել',
-  selectedCountOfRowCountRowsSelected:
-    '{rowCount} տողից ընտրված է {selectedCount}',
+  selectedCountOfRowCountRowsSelected: '{rowCount} տողից ընտրված է {selectedCount}',
   select: 'Ընտրել',
   showAll: 'Ցույց տալ բոլորը',
   showAllColumns: 'Ցույց տալ բոլոր սյունակները',

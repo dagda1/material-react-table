@@ -21,20 +21,14 @@ const columns = (): MRT_ColumnDef<Person>[] => [
 
 describe('grouping drop zone', () => {
   test('dropping a column on it groups by that column', () => {
-    const { container } = render(
-      <MaterialReactTable columns={columns()} data={data} enableGrouping />,
-    );
+    const { container } = render(<MaterialReactTable columns={columns()} data={data} enableGrouping />);
 
-    const handle = container.querySelector(
-      'thead button[aria-label="Move"]',
-    ) as HTMLElement;
+    const handle = container.querySelector('thead button[aria-label="Move"]') as HTMLElement;
 
     fireEvent.dragStart(handle, {
       dataTransfer: { setDragImage: () => {} },
     });
-    fireEvent.dragEnter(
-      container.querySelector('[class*="ToolbarDropZone"]') as HTMLElement,
-    );
+    fireEvent.dragEnter(container.querySelector('[class*="ToolbarDropZone"]') as HTMLElement);
     fireEvent.dragEnd(handle);
 
     expect(container.textContent).toContain('Grouped by');

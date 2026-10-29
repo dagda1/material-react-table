@@ -1,17 +1,12 @@
-import { Button, type ButtonProps } from '@mui/material';
-import { Tooltip } from '@mui/material';
+import { Button, type ButtonProps, Tooltip } from '@mui/material';
+import { type CSSObject } from '@mui/material/styles';
 import { type MouseEvent, useState } from 'react';
 
-import {
-  type MRT_Cell,
-  type MRT_RowData,
-  type MRT_TableInstance,
-} from '../../types';
+import { type MRT_Cell, type MRT_RowData, type MRT_TableInstance } from '../../types';
 import { getCommonTooltipProps } from '../../utils/style.utils';
 import { parseFromValuesOrFunc } from '../../utils/utils';
 
-export interface MRT_CopyButtonProps<TData extends MRT_RowData>
-  extends ButtonProps {
+export interface MRT_CopyButtonProps<TData extends MRT_RowData> extends ButtonProps {
   cell: MRT_Cell<TData>;
   table: MRT_TableInstance<TData>;
 }
@@ -20,7 +15,7 @@ export const MRT_CopyButton = <TData extends MRT_RowData>({
   cell,
   table,
   ...rest
-}: MRT_CopyButtonProps<TData>) => {
+}: MRT_CopyButtonProps<TData>): JSX.Element => {
   const {
     options: { localization, muiCopyButtonProps },
   } = table;
@@ -55,10 +50,7 @@ export const MRT_CopyButton = <TData extends MRT_RowData>({
   return (
     <Tooltip
       {...getCommonTooltipProps('top')}
-      title={
-        buttonProps?.title ??
-        (copied ? localization.copiedToClipboard : localization.clickToCopy)
-      }
+      title={buttonProps?.title ?? (copied ? localization.copiedToClipboard : localization.clickToCopy)}
     >
       <Button
         onClick={(e) => handleCopy(e, cell.getValue())}
@@ -79,7 +71,7 @@ export const MRT_CopyButton = <TData extends MRT_RowData>({
           py: 0,
           textAlign: 'inherit',
           textTransform: 'inherit',
-          ...(parseFromValuesOrFunc(buttonProps?.sx, theme) as any),
+          ...(parseFromValuesOrFunc(buttonProps?.sx, theme) as CSSObject),
         })}
         title={undefined}
       />

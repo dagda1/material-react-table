@@ -73,8 +73,7 @@ export const MRT_Localization_UK: MRT_Localization = {
   rowsPerPage: 'Рядків на сторінці:',
   save: 'Зберегти',
   search: 'Пошук',
-  selectedCountOfRowCountRowsSelected:
-    'Вибрано {selectedCount} з {rowCount} рядків',
+  selectedCountOfRowCountRowsSelected: 'Вибрано {selectedCount} з {rowCount} рядків',
   select: 'Вибрати',
   showAll: 'Показати все',
   showAllColumns: 'Показати всі стовпці',

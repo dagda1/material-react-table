@@ -2,17 +2,12 @@ import { faker } from '@faker-js/faker';
 import Add from '@mui/icons-material/Add';
 import Button from '@mui/material/Button';
 import IconButton from '@mui/material/IconButton';
-import MenuItem from "@mui/material/MenuItem";
-import Select from "@mui/material/Select";
+import MenuItem from '@mui/material/MenuItem';
+import Select from '@mui/material/Select';
 import { type Meta } from '@storybook/react-vite';
 import { useState } from 'react';
 
-import {
-  createRow,
-  MaterialReactTable,
-  type MRT_Row,
-  type MRT_TableOptions,
-} from '../../src';
+import { createRow, MaterialReactTable, type MRT_Row, type MRT_TableOptions } from '../../src';
 
 const meta: Meta = {
   title: 'Features/Creating Examples',
@@ -61,14 +56,10 @@ const expandingData = [...Array(5)].map(() => ({
   })),
 }));
 
-export const CreateRowIndexTop = () => {
+export const CreateRowIndexTop = (): JSX.Element => {
   const [tableData, setTableData] = useState(data);
 
-  const handleSaveRow: MRT_TableOptions<Person>['onEditingRowSave'] = ({
-    exitEditingMode,
-    row,
-    values,
-  }) => {
+  const handleSaveRow: MRT_TableOptions<Person>['onEditingRowSave'] = ({ exitEditingMode, row, values }) => {
     tableData[row.index] = values;
     setTableData([...tableData]);
     exitEditingMode();
@@ -106,21 +97,15 @@ export const CreateRowIndexTop = () => {
       onCreatingRowSave={() => {}}
       onEditingRowSave={handleSaveRow}
       positionCreatingRow="top"
-      renderTopToolbarCustomActions={({ table }) => (
-        <Button onClick={() => table.setCreatingRow(true)}>Add</Button>
-      )}
+      renderTopToolbarCustomActions={({ table }) => <Button onClick={() => table.setCreatingRow(true)}>Add</Button>}
     />
   );
 };
 
-export const CreateRowIndexBottom = () => {
+export const CreateRowIndexBottom = (): JSX.Element => {
   const [tableData, setTableData] = useState(data);
 
-  const handleSaveRow: MRT_TableOptions<Person>['onEditingRowSave'] = ({
-    exitEditingMode,
-    row,
-    values,
-  }) => {
+  const handleSaveRow: MRT_TableOptions<Person>['onEditingRowSave'] = ({ exitEditingMode, row, values }) => {
     tableData[row.index] = values;
     setTableData([...tableData]);
     exitEditingMode();
@@ -158,21 +143,15 @@ export const CreateRowIndexBottom = () => {
       onCreatingRowSave={() => {}}
       onEditingRowSave={handleSaveRow}
       positionCreatingRow="bottom"
-      renderTopToolbarCustomActions={({ table }) => (
-        <Button onClick={() => table.setCreatingRow(true)}>Add</Button>
-      )}
+      renderTopToolbarCustomActions={({ table }) => <Button onClick={() => table.setCreatingRow(true)}>Add</Button>}
     />
   );
 };
 
-export const CreateRowIndexIndex = () => {
+export const CreateRowIndexIndex = (): JSX.Element => {
   const [tableData, setTableData] = useState(data);
 
-  const handleSaveRow: MRT_TableOptions<Person>['onEditingRowSave'] = ({
-    exitEditingMode,
-    row,
-    values,
-  }) => {
+  const handleSaveRow: MRT_TableOptions<Person>['onEditingRowSave'] = ({ exitEditingMode, row, values }) => {
     tableData[row.index] = values;
     setTableData([...tableData]);
     exitEditingMode();
@@ -210,21 +189,15 @@ export const CreateRowIndexIndex = () => {
       onCreatingRowSave={() => {}}
       onEditingRowSave={handleSaveRow}
       positionCreatingRow={5}
-      renderTopToolbarCustomActions={({ table }) => (
-        <Button onClick={() => table.setCreatingRow(true)}>Add</Button>
-      )}
+      renderTopToolbarCustomActions={({ table }) => <Button onClick={() => table.setCreatingRow(true)}>Add</Button>}
     />
   );
 };
 
-export const CreateRowIndexIndexVirtualized = () => {
+export const CreateRowIndexIndexVirtualized = (): JSX.Element => {
   const [tableData, setTableData] = useState(data);
 
-  const handleSaveRow: MRT_TableOptions<Person>['onEditingRowSave'] = ({
-    exitEditingMode,
-    row,
-    values,
-  }) => {
+  const handleSaveRow: MRT_TableOptions<Person>['onEditingRowSave'] = ({ exitEditingMode, row, values }) => {
     tableData[row.index] = values;
     setTableData([...tableData]);
     exitEditingMode();
@@ -263,17 +236,13 @@ export const CreateRowIndexIndexVirtualized = () => {
       onCreatingRowSave={() => {}}
       onEditingRowSave={handleSaveRow}
       positionCreatingRow={5}
-      renderTopToolbarCustomActions={({ table }) => (
-        <Button onClick={() => table.setCreatingRow(true)}>Add</Button>
-      )}
+      renderTopToolbarCustomActions={({ table }) => <Button onClick={() => table.setCreatingRow(true)}>Add</Button>}
     />
   );
 };
 
-export const CreateRowIndexIndexExpanding = () => {
-  const [creatingRowIndex, setCreatingRowIndex] = useState<
-    number | undefined
-  >();
+export const CreateRowIndexIndexExpanding = (): JSX.Element => {
+  const [creatingRowIndex, setCreatingRowIndex] = useState<number | undefined>();
 
   return (
     <MaterialReactTable
@@ -343,14 +312,10 @@ export const CreateRowIndexIndexExpanding = () => {
   );
 };
 
-export const CreateWithCustomEditCell = () => {
+export const CreateWithCustomEditCell = (): JSX.Element => {
   const [tableData, setTableData] = useState(data);
 
-  const handleSaveRow: MRT_TableOptions<Person>['onEditingRowSave'] = ({
-    exitEditingMode,
-    row,
-    values,
-  }) => {
+  const handleSaveRow: MRT_TableOptions<Person>['onEditingRowSave'] = ({ exitEditingMode, row, values }) => {
     tableData[row.index] = values;
     setTableData([...tableData]);
     exitEditingMode();
@@ -397,9 +362,7 @@ export const CreateWithCustomEditCell = () => {
       onCreatingRowSave={() => {}}
       onEditingRowSave={handleSaveRow}
       positionCreatingRow="top"
-      renderTopToolbarCustomActions={({ table }) => (
-        <Button onClick={() => table.setCreatingRow(true)}>Add</Button>
-      )}
+      renderTopToolbarCustomActions={({ table }) => <Button onClick={() => table.setCreatingRow(true)}>Add</Button>}
       state={{ creatingRow }}
     />
   );

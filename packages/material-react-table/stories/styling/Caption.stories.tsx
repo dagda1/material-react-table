@@ -45,15 +45,11 @@ const data = [...Array(25)].map(() => ({
   state: faker.location.state(),
 }));
 
-export const BottomCaption = () => (
-  <MaterialReactTable
-    columns={columns}
-    data={data}
-    renderCaption={() => 'Table Caption'}
-  />
+export const BottomCaption = (): JSX.Element => (
+  <MaterialReactTable columns={columns} data={data} renderCaption={() => 'Table Caption'} />
 );
 
-export const TopCaption = () => (
+export const TopCaption = (): JSX.Element => (
   <MaterialReactTable
     columns={columns}
     data={data}

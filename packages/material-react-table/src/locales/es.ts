@@ -74,8 +74,7 @@ export const MRT_Localization_ES: MRT_Localization = {
   save: 'Guardar',
   search: 'Buscar',
   select: 'Seleccionar',
-  selectedCountOfRowCountRowsSelected:
-    '{selectedCount} de {rowCount} fila(s) seleccionada(s)',
+  selectedCountOfRowCountRowsSelected: '{selectedCount} de {rowCount} fila(s) seleccionada(s)',
   showAll: 'Mostrar todo',
   showAllColumns: 'Mostrar todas las columnas',
   showHideColumns: 'Mostrar/ocultar columnas',

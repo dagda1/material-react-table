@@ -73,8 +73,7 @@ export const MRT_Localization_EL: MRT_Localization = {
   rowsPerPage: 'Γραμμές ανά σελίδα',
   save: 'Αποθήκευση',
   search: 'Αναζήτηση',
-  selectedCountOfRowCountRowsSelected:
-    '{selectedCount} από {rowCount} επιλεγμένη(ες) γραμμή(ες)',
+  selectedCountOfRowCountRowsSelected: '{selectedCount} από {rowCount} επιλεγμένη(ες) γραμμή(ες)',
   select: 'Επιλογή',
   showAll: 'Εμφάνιση όλων',
   showAllColumns: 'Εμφάνιση όλων των στηλών',

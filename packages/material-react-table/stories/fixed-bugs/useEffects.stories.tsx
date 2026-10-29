@@ -39,10 +39,8 @@ const data: Person[] = [...Array(100)].map(() => ({
   state: faker.location.state(),
 }));
 
-export const FilterModesRefetch = () => {
-  const [columnFilters, setColumnFilters] = useState<MRT_ColumnFiltersState>(
-    [],
-  );
+export const FilterModesRefetch = (): JSX.Element => {
+  const [columnFilters, setColumnFilters] = useState<MRT_ColumnFiltersState>([]);
 
   useEffect(() => {
     console.log('refetch', columnFilters);
@@ -83,7 +81,7 @@ export const FilterModesRefetch = () => {
   );
 };
 
-export const FilterOptionsAsync = () => {
+export const FilterOptionsAsync = (): JSX.Element => {
   const [stateFilterOptions, setStateFilterOptions] = useState<string[]>([]);
 
   useEffect(() => {
@@ -130,7 +128,7 @@ export const FilterOptionsAsync = () => {
   );
 };
 
-export const EditOptionsAsync = () => {
+export const EditOptionsAsync = (): JSX.Element => {
   const [stateEditOptions, setStateEditOptions] = useState<string[]>([]);
 
   useEffect(() => {
@@ -167,17 +165,10 @@ export const EditOptionsAsync = () => {
     [stateEditOptions],
   );
 
-  return (
-    <MaterialReactTable
-      columns={columns}
-      data={data}
-      editDisplayMode="row"
-      enableEditing
-    />
-  );
+  return <MaterialReactTable columns={columns} data={data} editDisplayMode="row" enableEditing />;
 };
 
-export const RenderRowActionsAsync = () => {
+export const RenderRowActionsAsync = (): JSX.Element => {
   const [rowActions, setRowActions] = useState<string[]>([]);
 
   useEffect(() => {
@@ -230,7 +221,7 @@ export const RenderRowActionsAsync = () => {
   );
 };
 
-export const renderRowActionMenuItemsAsync = () => {
+const RenderRowActionMenuItemsAsync = () => {
   const [rowActions, setRowActions] = useState<string[]>([]);
 
   useEffect(() => {
@@ -270,14 +261,14 @@ export const renderRowActionMenuItemsAsync = () => {
       columns={columns}
       data={data}
       enableRowActions
-      renderRowActionMenuItems={() =>
-        rowActions.map((action) => [<MenuItem key={action}>{action}</MenuItem>])
-      }
+      renderRowActionMenuItems={() => rowActions.map((action) => [<MenuItem key={action}>{action}</MenuItem>])}
     />
   );
 };
 
-export const DelayedFacetedValues = () => {
+export const renderRowActionMenuItemsAsync = (): JSX.Element => <RenderRowActionMenuItemsAsync />;
+
+export const DelayedFacetedValues = (): JSX.Element => {
   const [tableData, setTableData] = useState<Person[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
@@ -327,7 +318,7 @@ export const DelayedFacetedValues = () => {
   );
 };
 
-export const PreventUnnecessaryPaginationChangeByOutOfBoundsCheck = () => {
+export const PreventUnnecessaryPaginationChangeByOutOfBoundsCheck = (): JSX.Element => {
   const [pagination, setPagination] = useState({
     pageIndex: 0,
     pageSize: 5,

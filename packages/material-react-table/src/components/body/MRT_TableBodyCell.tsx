@@ -1,34 +1,25 @@
-import { Skeleton } from '@mui/material';
-import { TableCell, type TableCellProps } from '@mui/material';
+import { Skeleton, TableCell, type TableCellProps } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
 import {
   type DragEvent,
   memo,
   type MouseEvent,
+  type ReactNode,
   type RefObject,
   useEffect,
   useMemo,
   useState,
 } from 'react';
 
-import {
-  type MRT_Cell,
-  type MRT_RowData,
-  type MRT_TableInstance,
-} from '../../types';
-import {
-  cellKeyboardShortcuts,
-  isCellEditable,
-  openEditingCell,
-} from '../../utils/cell.utils';
+import { type MRT_Cell, type MRT_RowData, type MRT_TableInstance } from '../../types';
+import { cellKeyboardShortcuts, isCellEditable, openEditingCell } from '../../utils/cell.utils';
 import { getCommonMRTCellStyles } from '../../utils/style.utils';
 import { parseFromValuesOrFunc } from '../../utils/utils';
 import { MRT_CopyButton } from '../buttons/MRT_CopyButton';
 import { MRT_EditCellTextField } from '../inputs/MRT_EditCellTextField';
 import { MRT_TableBodyCellValue } from './MRT_TableBodyCellValue';
 
-export interface MRT_TableBodyCellProps<TData extends MRT_RowData>
-  extends TableCellProps {
+export interface MRT_TableBodyCellProps<TData extends MRT_RowData> extends TableCellProps {
   cell: MRT_Cell<TData>;
   numRows?: number;
   rowRef: RefObject<HTMLTableRowElement | null>;
@@ -45,7 +36,7 @@ export const MRT_TableBodyCell = <TData extends MRT_RowData>({
   staticRowIndex,
   table,
   ...rest
-}: MRT_TableBodyCellProps<TData>) => {
+}: MRT_TableBodyCellProps<TData>): JSX.Element => {
   const theme = useTheme();
   const {
     options: {
@@ -100,14 +91,12 @@ export const MRT_TableBodyCell = <TData extends MRT_RowData>({
 
   const [skeletonWidth, setSkeletonWidth] = useState(100);
   useEffect(() => {
-    if ((!isLoading && !showSkeletons) || skeletonWidth !== 100) return;
+    if ((!isLoading && !showSkeletons) || skeletonWidth !== 100) {
+      return;
+    }
     const size = column.getSize();
-    setSkeletonWidth(
-      columnDefType === 'display'
-        ? size / 2
-        : Math.round(Math.random() * (size - size / 3) + size / 3),
-    );
-  }, [isLoading, showSkeletons]);
+    setSkeletonWidth(columnDefType === 'display' ? size / 2 : Math.round(Math.random() * (size - size / 3) + size / 3));
+  }, [column, columnDefType, isLoading, showSkeletons, skeletonWidth]);
 
   const draggingBorders = useMemo(() => {
     const isDraggingColumn = draggingColumn?.id === column.id;
@@ -118,8 +107,7 @@ export const MRT_TableBodyCell = <TData extends MRT_RowData>({
     const isLastColumn = column.getIsLastColumn();
     const isLastRow = numRows && staticRowIndex === numRows - 1;
     const isResizingColumn = columnResizing.isResizingColumn === column.id;
-    const showResizeBorder =
-      isResizingColumn && columnResizeMode === 'onChange';
+    const showResizeBorder = isResizingColumn && columnResizeMode === 'onChange';
 
     const borderStyle = showResizeBorder
       ? `2px solid ${draggingBorderColor} !important`
@@ -130,66 +118,56 @@ export const MRT_TableBodyCell = <TData extends MRT_RowData>({
           : undefined;
 
     if (showResizeBorder) {
-      return columnResizeDirection === 'ltr'
-        ? { borderRight: borderStyle }
-        : { borderLeft: borderStyle };
+      return columnResizeDirection === 'ltr' ? { borderRight: borderStyle } : { borderLeft: borderStyle };
     }
 
     return borderStyle
       ? {
-          borderBottom:
-            isDraggingRow || isHoveredRow || (isLastRow && !isResizingColumn)
-              ? borderStyle
-              : undefined,
+          borderBottom: isDraggingRow || isHoveredRow || (isLastRow && !isResizingColumn) ? borderStyle : undefined,
           borderLeft:
-            isDraggingColumn ||
-            isHoveredColumn ||
-            ((isDraggingRow || isHoveredRow) && isFirstColumn)
+            isDraggingColumn || isHoveredColumn || ((isDraggingRow || isHoveredRow) && isFirstColumn)
               ? borderStyle
               : undefined,
           borderRight:
-            isDraggingColumn ||
-            isHoveredColumn ||
-            ((isDraggingRow || isHoveredRow) && isLastColumn)
+            isDraggingColumn || isHoveredColumn || ((isDraggingRow || isHoveredRow) && isLastColumn)
               ? borderStyle
               : undefined,
           borderTop: isDraggingRow || isHoveredRow ? borderStyle : undefined,
         }
       : undefined;
   }, [
+    column,
+    columnResizeDirection,
+    columnResizeMode,
     columnResizing.isResizingColumn,
+    draggingBorderColor,
     draggingColumn,
     draggingRow,
     hoveredColumn,
     hoveredRow,
+    numRows,
+    row.id,
     staticRowIndex,
+    theme.palette.grey,
   ]);
 
-  const isColumnPinned =
-    enableColumnPinning &&
-    columnDef.columnDefType !== 'group' &&
-    column.getIsPinned();
+  const isColumnPinned = enableColumnPinning && columnDef.columnDefType !== 'group' && column.getIsPinned();
 
   const isEditable = isCellEditable({ cell, table });
 
   const isEditing =
     isEditable &&
     !['custom', 'modal'].includes(editDisplayMode as string) &&
-    (editDisplayMode === 'table' ||
-      editingRow?.id === row.id ||
-      editingCell?.id === cell.id) &&
+    (editDisplayMode === 'table' || editingRow?.id === row.id || editingCell?.id === cell.id) &&
     !row.getIsGrouped();
 
-  const isCreating =
-    isEditable && createDisplayMode === 'row' && creatingRow?.id === row.id;
+  const isCreating = isEditable && createDisplayMode === 'row' && creatingRow?.id === row.id;
 
+  const columnClickToCopy = parseFromValuesOrFunc(columnDef.enableClickToCopy, cell);
   const showClickToCopyButton =
-    (parseFromValuesOrFunc(enableClickToCopy, cell) === true ||
-      parseFromValuesOrFunc(columnDef.enableClickToCopy, cell) === true) &&
-    !['context-menu', false].includes(
-      // @ts-expect-error
-      parseFromValuesOrFunc(columnDef.enableClickToCopy, cell),
-    );
+    (parseFromValuesOrFunc(enableClickToCopy, cell) === true || columnClickToCopy === true) &&
+    columnClickToCopy !== 'context-menu' &&
+    columnClickToCopy !== false;
 
   const isRightClickable = parseFromValuesOrFunc(enableCellActions, cell);
 
@@ -211,9 +189,7 @@ export const MRT_TableBodyCell = <TData extends MRT_RowData>({
       setHoveredColumn(null);
     }
     if (enableColumnOrdering && draggingColumn) {
-      setHoveredColumn(
-        columnDef.enableColumnOrdering !== false ? column : null,
-      );
+      setHoveredColumn(columnDef.enableColumnOrdering !== false ? column : null);
     }
   };
 
@@ -265,15 +241,8 @@ export const MRT_TableBodyCell = <TData extends MRT_RowData>({
           textOverflow: 'clip',
         },
         alignItems: layoutMode?.startsWith('grid') ? 'center' : undefined,
-        cursor: isRightClickable
-          ? 'context-menu'
-          : isEditable && editDisplayMode === 'cell'
-            ? 'pointer'
-            : 'inherit',
-        outline:
-          actionCell?.id === cell.id
-            ? `1px solid ${theme.palette.grey[500]}`
-            : undefined,
+        cursor: isRightClickable ? 'context-menu' : isEditable && editDisplayMode === 'cell' ? 'pointer' : 'inherit',
+        outline: actionCell?.id === cell.id ? `1px solid ${theme.palette.grey[500]}` : undefined,
         outlineOffset: '-1px',
         overflow: 'hidden',
         p:
@@ -290,8 +259,7 @@ export const MRT_TableBodyCell = <TData extends MRT_RowData>({
                 : '1.5rem',
 
         textOverflow: columnDefType !== 'display' ? 'ellipsis' : undefined,
-        whiteSpace:
-          row.getIsPinned() || density === 'compact' ? 'nowrap' : 'normal',
+        whiteSpace: row.getIsPinned() || density === 'compact' ? 'nowrap' : 'normal',
         ...getCommonMRTCellStyles({
           column,
           table,
@@ -306,21 +274,13 @@ export const MRT_TableBodyCell = <TData extends MRT_RowData>({
           {cell.getIsPlaceholder() ? (
             (columnDef.PlaceholderCell?.({ cell, column, row, table }) ?? null)
           ) : showSkeletons !== false && (isLoading || showSkeletons) ? (
-            <Skeleton
-              animation="wave"
-              height={20}
-              width={skeletonWidth}
-              {...skeletonProps}
-            />
+            <Skeleton animation="wave" height={20} width={skeletonWidth} {...skeletonProps} />
           ) : columnDefType === 'display' &&
-            (['mrt-row-expand', 'mrt-row-numbers', 'mrt-row-select'].includes(
-              column.id,
-            ) ||
-              !row.getIsGrouped()) ? (
+            (['mrt-row-expand', 'mrt-row-numbers', 'mrt-row-select'].includes(column.id) || !row.getIsGrouped()) ? (
             columnDef.Cell?.({
               cell,
               column,
-              renderedCellValue: cell.renderValue() as any,
+              renderedCellValue: cell.renderValue() as ReactNode,
               row,
               rowRef,
               staticColumnIndex,
@@ -336,9 +296,7 @@ export const MRT_TableBodyCell = <TData extends MRT_RowData>({
           ) : (
             <MRT_TableBodyCellValue {...cellValueProps} />
           )}
-          {cell.getIsGrouped() && !columnDef.GroupedCell && (
-            <> ({row.subRows?.length})</>
-          )}
+          {cell.getIsGrouped() && !columnDef.GroupedCell && <> ({row.subRows?.length})</>}
         </>
       )}
     </TableCell>

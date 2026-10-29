@@ -57,10 +57,7 @@ Requires React 19 or later.
 API is identical to upstream. Only the import path changes:
 
 ```tsx
-import {
-  MaterialReactTable,
-  useMaterialReactTable,
-} from '@cutting/material-react-table';
+import { MaterialReactTable, useMaterialReactTable } from '@cutting/material-react-table';
 ```
 
 See the [upstream usage guide](https://www.material-react-table.com/docs/getting-started/usage) for the full example.

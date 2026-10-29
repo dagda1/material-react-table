@@ -46,7 +46,7 @@ const data = [...Array(25)].map(() => ({
   state: faker.location.state(),
 }));
 
-export const CustomTableBody = () => (
+export const CustomTableBody = (): JSX.Element => (
   <MaterialReactTable
     columns={columns}
     data={data}
@@ -56,12 +56,10 @@ export const CustomTableBody = () => (
   />
 );
 
-export const CustomEmptyRowsJSX = () => (
+export const CustomEmptyRowsJSX = (): JSX.Element => (
   <MaterialReactTable
     columns={columns}
     data={[]}
-    renderEmptyRowsFallback={() => (
-      <Typography>OMG THERE ARE NO ROWS 😳</Typography>
-    )}
+    renderEmptyRowsFallback={() => <Typography>OMG THERE ARE NO ROWS 😳</Typography>}
   />
 );

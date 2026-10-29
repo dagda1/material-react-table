@@ -1,18 +1,12 @@
-import { FormHelperText } from '@mui/material';
-import { Slider, type SliderProps } from '@mui/material';
-import { Stack } from '@mui/material';
+import { FormHelperText, Slider, type SliderProps, Stack } from '@mui/material';
+import { type CSSObject } from '@mui/material/styles';
 import { useEffect, useRef, useState } from 'react';
 
-import {
-  type MRT_Header,
-  type MRT_RowData,
-  type MRT_TableInstance,
-} from '../../types';
+import { type MRT_Header, type MRT_RowData, type MRT_TableInstance } from '../../types';
 import { getColumnFilterInfo } from '../../utils/column.utils';
 import { parseFromValuesOrFunc } from '../../utils/utils';
 
-export interface MRT_FilterRangeSliderProps<TData extends MRT_RowData>
-  extends SliderProps {
+export interface MRT_FilterRangeSliderProps<TData extends MRT_RowData> extends SliderProps {
   header: MRT_Header<TData>;
   table: MRT_TableInstance<TData>;
 }
@@ -21,7 +15,7 @@ export const MRT_FilterRangeSlider = <TData extends MRT_RowData>({
   header,
   table,
   ...rest
-}: MRT_FilterRangeSliderProps<TData>) => {
+}: MRT_FilterRangeSliderProps<TData>): JSX.Element => {
   const {
     options: { enableColumnFilterModes, localization, muiFilterSliderProps },
     refs: { filterInputRefs },
@@ -31,8 +25,7 @@ export const MRT_FilterRangeSlider = <TData extends MRT_RowData>({
 
   const { currentFilterOption } = getColumnFilterInfo({ header, table });
 
-  const showChangeModeButton =
-    enableColumnFilterModes && columnDef.enableColumnFilterModes !== false;
+  const showChangeModeButton = enableColumnFilterModes && columnDef.enableColumnFilterModes !== false;
 
   const sliderProps = {
     ...parseFromValuesOrFunc(muiFilterSliderProps, { column, table }),
@@ -46,10 +39,18 @@ export const MRT_FilterRangeSlider = <TData extends MRT_RowData>({
       : (column.getFacetedMinMaxValues() ?? [0, 1]);
 
   //fix potential TanStack Table bugs where min or max is an array
-  if (Array.isArray(min)) min = min[0];
-  if (Array.isArray(max)) max = max[0];
-  if (min === null) min = 0;
-  if (max === null) max = 1;
+  if (Array.isArray(min)) {
+    min = min[0];
+  }
+  if (Array.isArray(max)) {
+    max = max[0];
+  }
+  if (min === null) {
+    min = 0;
+  }
+  if (max === null) {
+    max = 1;
+  }
 
   const [filterValues, setFilterValues] = useState([min, max]);
   const columnFilterValue = column.getFilterValue();
@@ -102,10 +103,9 @@ export const MRT_FilterRangeSlider = <TData extends MRT_RowData>({
             ref: (node) => {
               if (node) {
                 filterInputRefs.current![`${column.id}-0`] = node;
-                // @ts-expect-error
-                if (sliderProps?.slotProps?.input?.ref) {
-                  //@ts-expect-error
-                  sliderProps.slotProps.input.ref = node;
+                const inputSlot = sliderProps?.slotProps?.input;
+                if (inputSlot && typeof inputSlot === 'object' && inputSlot.ref && typeof inputSlot.ref === 'object') {
+                  inputSlot.ref.current = node;
                 }
               }
             },
@@ -117,7 +117,7 @@ export const MRT_FilterRangeSlider = <TData extends MRT_RowData>({
           mt: !showChangeModeButton ? '10px' : '6px',
           px: '4px',
           width: 'calc(100% - 8px)',
-          ...(parseFromValuesOrFunc(sliderProps?.sx, theme) as any),
+          ...(parseFromValuesOrFunc(sliderProps?.sx, theme) as CSSObject),
         })}
       />
       {showChangeModeButton ? (
@@ -133,8 +133,7 @@ export const MRT_FilterRangeSlider = <TData extends MRT_RowData>({
             '{filterType}',
             localization[
               `filter${
-                currentFilterOption?.charAt(0)?.toUpperCase() +
-                currentFilterOption?.slice(1)
+                currentFilterOption?.charAt(0)?.toUpperCase() + currentFilterOption?.slice(1)
               }` as keyof typeof localization
             ],
           )}

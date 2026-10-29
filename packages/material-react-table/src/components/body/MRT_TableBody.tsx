@@ -1,21 +1,15 @@
-import { TableBody, type TableBodyProps } from '@mui/material';
-import { Typography } from '@mui/material';
+import { TableBody, type TableBodyProps, Typography } from '@mui/material';
+import { type CSSObject } from '@mui/material/styles';
 import { type VirtualItem } from '@tanstack/react-virtual';
 import { memo, useMemo } from 'react';
 
 import { useMRT_Rows } from '../../hooks/useMRT_Rows';
 import { useMRT_RowVirtualizer } from '../../hooks/useMRT_RowVirtualizer';
-import {
-  type MRT_ColumnVirtualizer,
-  type MRT_Row,
-  type MRT_RowData,
-  type MRT_TableInstance,
-} from '../../types';
+import { type MRT_ColumnVirtualizer, type MRT_Row, type MRT_RowData, type MRT_TableInstance } from '../../types';
 import { parseFromValuesOrFunc } from '../../utils/utils';
 import { Memo_MRT_TableBodyRow, MRT_TableBodyRow } from './MRT_TableBodyRow';
 
-export interface MRT_TableBodyProps<TData extends MRT_RowData>
-  extends TableBodyProps {
+export interface MRT_TableBodyProps<TData extends MRT_RowData> extends TableBodyProps {
   columnVirtualizer?: MRT_ColumnVirtualizer;
   table: MRT_TableInstance<TData>;
 }
@@ -24,7 +18,7 @@ export const MRT_TableBody = <TData extends MRT_RowData>({
   columnVirtualizer,
   table,
   ...rest
-}: MRT_TableBodyProps<TData>) => {
+}: MRT_TableBodyProps<TData>): JSX.Element => {
   const {
     getBottomRows,
     getIsSomeRowsPinned,
@@ -50,19 +44,16 @@ export const MRT_TableBody = <TData extends MRT_RowData>({
     ...rest,
   };
 
-  const tableHeadHeight =
-    ((enableStickyHeader || isFullScreen) &&
-      tableHeadRef.current?.clientHeight) ||
-    0;
-  const tableFooterHeight =
-    (enableStickyFooter && tableFooterRef.current?.clientHeight) || 0;
+  const tableHeadHeight = ((enableStickyHeader || isFullScreen) && tableHeadRef.current?.clientHeight) || 0;
+  const tableFooterHeight = (enableStickyFooter && tableFooterRef.current?.clientHeight) || 0;
 
+  const rowModelRows = getRowModel().rows;
   const pinnedRowIds = useMemo(() => {
-    if (!rowPinning.bottom?.length && !rowPinning.top?.length) return [];
-    return getRowModel()
-      .rows.filter((row) => row.getIsPinned())
-      .map((r) => r.id);
-  }, [rowPinning, getRowModel().rows]);
+    if (!rowPinning.bottom?.length && !rowPinning.top?.length) {
+      return [];
+    }
+    return rowModelRows.filter((row) => row.getIsPinned()).map((r) => r.id);
+  }, [rowPinning, rowModelRows]);
 
   const rows = useMRT_Rows(table);
 
@@ -78,42 +69,39 @@ export const MRT_TableBody = <TData extends MRT_RowData>({
 
   return (
     <>
-      {!rowPinningDisplayMode?.includes('sticky') &&
-        getIsSomeRowsPinned('top') && (
-          <TableBody
-            {...tableBodyProps}
-            sx={(theme) => ({
-              display: layoutMode?.startsWith('grid') ? 'grid' : undefined,
-              position: 'sticky',
-              top: tableHeadHeight - 1,
-              zIndex: 1,
-              ...(parseFromValuesOrFunc(tableBodyProps?.sx, theme) as any),
-            })}
-          >
-            {getTopRows().map((row, staticRowIndex) => {
-              const props = {
-                ...commonRowProps,
-                row,
-                staticRowIndex,
-              };
-              return memoMode === 'rows' ? (
-                <Memo_MRT_TableBodyRow key={row.id} {...props} />
-              ) : (
-                <MRT_TableBodyRow key={row.id} {...props} />
-              );
-            })}
-          </TableBody>
-        )}
+      {!rowPinningDisplayMode?.includes('sticky') && getIsSomeRowsPinned('top') && (
+        <TableBody
+          {...tableBodyProps}
+          sx={(theme) => ({
+            display: layoutMode?.startsWith('grid') ? 'grid' : undefined,
+            position: 'sticky',
+            top: tableHeadHeight - 1,
+            zIndex: 1,
+            ...(parseFromValuesOrFunc(tableBodyProps?.sx, theme) as CSSObject),
+          })}
+        >
+          {getTopRows().map((row, staticRowIndex) => {
+            const props = {
+              ...commonRowProps,
+              row,
+              staticRowIndex,
+            };
+            return memoMode === 'rows' ? (
+              <Memo_MRT_TableBodyRow key={row.id} {...props} />
+            ) : (
+              <MRT_TableBodyRow key={row.id} {...props} />
+            );
+          })}
+        </TableBody>
+      )}
       <TableBody
         {...tableBodyProps}
         sx={(theme) => ({
           display: layoutMode?.startsWith('grid') ? 'grid' : undefined,
-          height: rowVirtualizer
-            ? `${rowVirtualizer.getTotalSize()}px`
-            : undefined,
+          height: rowVirtualizer ? `${rowVirtualizer.getTotalSize()}px` : undefined,
           minHeight: !rows.length ? '100px' : undefined,
           position: 'relative',
-          ...(parseFromValuesOrFunc(tableBodyProps?.sx, theme) as any),
+          ...(parseFromValuesOrFunc(tableBodyProps?.sx, theme) as CSSObject),
         })}
       >
         {tableBodyProps?.children ??
@@ -135,7 +123,7 @@ export const MRT_TableBody = <TData extends MRT_RowData>({
                       color: 'text.secondary',
                       fontStyle: 'italic',
                       maxWidth: `min(100vw, ${
-                        tablePaperRef.current?.clientWidth ? tablePaperRef.current?.clientWidth + "px" : "100%"
+                        tablePaperRef.current?.clientWidth ? tablePaperRef.current?.clientWidth + 'px' : '100%'
                       })`,
                       py: '2rem',
                       textAlign: 'center',
@@ -171,9 +159,7 @@ export const MRT_TableBody = <TData extends MRT_RowData>({
                   row,
                   rowVirtualizer,
                   staticRowIndex,
-                  virtualRow: rowVirtualizer
-                    ? (rowOrVirtualRow as VirtualItem)
-                    : undefined,
+                  virtualRow: rowVirtualizer ? (rowOrVirtualRow as VirtualItem) : undefined,
                 };
                 const key = `${row.id}-${row.index}`;
                 return memoMode === 'rows' ? (
@@ -185,32 +171,31 @@ export const MRT_TableBody = <TData extends MRT_RowData>({
             </>
           ))}
       </TableBody>
-      {!rowPinningDisplayMode?.includes('sticky') &&
-        getIsSomeRowsPinned('bottom') && (
-          <TableBody
-            {...tableBodyProps}
-            sx={(theme) => ({
-              bottom: tableFooterHeight - 1,
-              display: layoutMode?.startsWith('grid') ? 'grid' : undefined,
-              position: 'sticky',
-              zIndex: 1,
-              ...(parseFromValuesOrFunc(tableBodyProps?.sx, theme) as any),
-            })}
-          >
-            {getBottomRows().map((row, staticRowIndex) => {
-              const props = {
-                ...commonRowProps,
-                row,
-                staticRowIndex,
-              };
-              return memoMode === 'rows' ? (
-                <Memo_MRT_TableBodyRow key={row.id} {...props} />
-              ) : (
-                <MRT_TableBodyRow key={row.id} {...props} />
-              );
-            })}
-          </TableBody>
-        )}
+      {!rowPinningDisplayMode?.includes('sticky') && getIsSomeRowsPinned('bottom') && (
+        <TableBody
+          {...tableBodyProps}
+          sx={(theme) => ({
+            bottom: tableFooterHeight - 1,
+            display: layoutMode?.startsWith('grid') ? 'grid' : undefined,
+            position: 'sticky',
+            zIndex: 1,
+            ...(parseFromValuesOrFunc(tableBodyProps?.sx, theme) as CSSObject),
+          })}
+        >
+          {getBottomRows().map((row, staticRowIndex) => {
+            const props = {
+              ...commonRowProps,
+              row,
+              staticRowIndex,
+            };
+            return memoMode === 'rows' ? (
+              <Memo_MRT_TableBodyRow key={row.id} {...props} />
+            ) : (
+              <MRT_TableBodyRow key={row.id} {...props} />
+            );
+          })}
+        </TableBody>
+      )}
     </>
   );
 };

@@ -1,5 +1,5 @@
 import { Menu, type MenuProps } from '@mui/material';
-import { useMemo } from 'react';
+import { useState } from 'react';
 
 import {
   type MRT_FilterOption,
@@ -11,9 +11,7 @@ import {
 } from '../../types';
 import { MRT_ActionMenuItem } from './MRT_ActionMenuItem';
 
-export const mrtFilterOptions = (
-  localization: MRT_Localization,
-): MRT_InternalFilterOption[] => [
+export const mrtFilterOptions = (localization: MRT_Localization): MRT_InternalFilterOption[] => [
   {
     divider: false,
     label: localization.filterFuzzy,
@@ -105,13 +103,12 @@ const emptyModes = ['empty', 'notEmpty'];
 const arrModes = ['arrIncludesSome', 'arrIncludesAll', 'arrIncludes'];
 const rangeVariants = ['range-slider', 'date-range', 'datetime-range', 'range'];
 
-export interface MRT_FilterOptionMenuProps<TData extends MRT_RowData>
-  extends Partial<MenuProps> {
+export interface MRT_FilterOptionMenuProps<TData extends MRT_RowData> extends Partial<MenuProps> {
   anchorEl: HTMLElement | null;
   header?: MRT_Header<TData>;
   onSelect?: () => void;
   setAnchorEl: (anchorEl: HTMLElement | null) => void;
-  setFilterValue?: (filterValue: any) => void;
+  setFilterValue?: (filterValue: string | string[]) => void;
   table: MRT_TableInstance<TData>;
 }
 
@@ -123,7 +120,7 @@ export const MRT_FilterOptionMenu = <TData extends MRT_RowData>({
   setFilterValue,
   table,
   ...rest
-}: MRT_FilterOptionMenuProps<TData>) => {
+}: MRT_FilterOptionMenuProps<TData>): JSX.Element => {
   const {
     options: {
       columnFilterModeOptions,
@@ -141,27 +138,21 @@ export const MRT_FilterOptionMenu = <TData extends MRT_RowData>({
   const { columnDef } = column ?? {};
   const currentFilterValue = column?.getFilterValue();
 
-  let allowedColumnFilterOptions =
-    columnDef?.columnFilterModeOptions ?? columnFilterModeOptions;
+  let allowedColumnFilterOptions = columnDef?.columnFilterModeOptions ?? columnFilterModeOptions;
 
   if (rangeVariants.includes(columnDef?.filterVariant as string)) {
-    allowedColumnFilterOptions = [
-      ...rangeModes,
-      ...(allowedColumnFilterOptions ?? []),
-    ].filter((option) => rangeModes.includes(option));
+    allowedColumnFilterOptions = [...rangeModes, ...(allowedColumnFilterOptions ?? [])].filter((option) =>
+      rangeModes.includes(option),
+    );
   }
 
-  const internalFilterOptions = useMemo(
-    () =>
-      mrtFilterOptions(localization).filter((filterOption) =>
-        columnDef
-          ? allowedColumnFilterOptions === undefined ||
-            allowedColumnFilterOptions?.includes(filterOption.option)
-          : (!globalFilterModeOptions ||
-              globalFilterModeOptions.includes(filterOption.option)) &&
-            ['contains', 'fuzzy', 'startsWith'].includes(filterOption.option),
-      ),
-    [],
+  const [internalFilterOptions] = useState(() =>
+    mrtFilterOptions(localization).filter((filterOption) =>
+      columnDef
+        ? allowedColumnFilterOptions === undefined || allowedColumnFilterOptions?.includes(filterOption.option)
+        : (!globalFilterModeOptions || globalFilterModeOptions.includes(filterOption.option)) &&
+          ['contains', 'fuzzy', 'startsWith'].includes(filterOption.option),
+    ),
   );
 
   const handleSelectFilterMode = (option: MRT_FilterOption) => {
@@ -171,7 +162,7 @@ export const MRT_FilterOptionMenu = <TData extends MRT_RowData>({
       setGlobalFilterFn(option);
     } else if (option !== prevFilterMode) {
       // column filter mode
-      setColumnFilterFns((prev: { [key: string]: any }) => ({
+      setColumnFilterFns((prev) => ({
         ...prev,
         [header.id]: option,
       }));
@@ -179,37 +170,24 @@ export const MRT_FilterOptionMenu = <TData extends MRT_RowData>({
       // reset filter value and/or perform new filter render
       if (emptyModes.includes(option)) {
         // will now be empty/notEmpty filter mode
-        if (
-          currentFilterValue !== ' ' &&
-          !emptyModes.includes(prevFilterMode)
-        ) {
+        if (currentFilterValue !== ' ' && !emptyModes.includes(prevFilterMode)) {
           column.setFilterValue(' ');
         } else if (currentFilterValue) {
           column.setFilterValue(currentFilterValue); // perform new filter render
         }
-      } else if (
-        columnDef?.filterVariant === 'multi-select' ||
-        arrModes.includes(option as string)
-      ) {
+      } else if (columnDef?.filterVariant === 'multi-select' || arrModes.includes(option as string)) {
         // will now be array filter mode
-        if (
-          currentFilterValue instanceof String ||
-          (currentFilterValue as Array<any>)?.length
-        ) {
+        if (currentFilterValue instanceof String || (currentFilterValue as Array<unknown>)?.length) {
           column.setFilterValue([]);
           setFilterValue?.([]);
         } else if (currentFilterValue) {
           column.setFilterValue(currentFilterValue); // perform new filter render
         }
-      } else if (
-        columnDef?.filterVariant?.includes('range') ||
-        rangeModes.includes(option as MRT_FilterOption)
-      ) {
+      } else if (columnDef?.filterVariant?.includes('range') || rangeModes.includes(option as MRT_FilterOption)) {
         // will now be range filter mode
         if (
           !Array.isArray(currentFilterValue) ||
-          (!(currentFilterValue as Array<any>)?.every((v) => v === '') &&
-            !rangeModes.includes(prevFilterMode))
+          (!(currentFilterValue as Array<unknown>)?.every((v) => v === '') && !rangeModes.includes(prevFilterMode))
         ) {
           column.setFilterValue(['', '']);
           setFilterValue?.('');
@@ -221,10 +199,7 @@ export const MRT_FilterOptionMenu = <TData extends MRT_RowData>({
         if (Array.isArray(currentFilterValue)) {
           column.setFilterValue('');
           setFilterValue?.('');
-        } else if (
-          currentFilterValue === ' ' &&
-          emptyModes.includes(prevFilterMode)
-        ) {
+        } else if (currentFilterValue === ' ' && emptyModes.includes(prevFilterMode)) {
           column.setFilterValue(undefined);
         } else {
           column.setFilterValue(currentFilterValue); // perform new filter render
@@ -235,8 +210,7 @@ export const MRT_FilterOptionMenu = <TData extends MRT_RowData>({
     onSelect?.();
   };
 
-  const filterOption =
-    !!header && columnDef ? columnDef._filterFn : globalFilterFn;
+  const filterOption = !!header && columnDef ? columnDef._filterFn : globalFilterFn;
 
   return (
     <Menu
@@ -257,13 +231,13 @@ export const MRT_FilterOptionMenu = <TData extends MRT_RowData>({
     >
       {(header && column && columnDef
         ? (columnDef.renderColumnFilterModeMenuItems?.({
-            column: column as any,
+            column,
             internalFilterOptions,
             onSelectFilterMode: handleSelectFilterMode,
             table,
           }) ??
           renderColumnFilterModeMenuItems?.({
-            column: column as any,
+            column,
             internalFilterOptions,
             onSelectFilterMode: handleSelectFilterMode,
             table,
@@ -273,20 +247,18 @@ export const MRT_FilterOptionMenu = <TData extends MRT_RowData>({
             onSelectFilterMode: handleSelectFilterMode,
             table,
           })) ??
-        internalFilterOptions.map(
-          ({ divider, label, option, symbol }, index) => (
-            <MRT_ActionMenuItem
-              divider={divider}
-              icon={symbol}
-              key={index}
-              label={label}
-              onClick={() => handleSelectFilterMode(option as MRT_FilterOption)}
-              selected={option === filterOption}
-              table={table}
-              value={option}
-            />
-          ),
-        )}
+        internalFilterOptions.map(({ divider, label, option, symbol }, index) => (
+          <MRT_ActionMenuItem
+            divider={divider}
+            icon={symbol}
+            key={index}
+            label={label}
+            onClick={() => handleSelectFilterMode(option as MRT_FilterOption)}
+            selected={option === filterOption}
+            table={table}
+            value={option}
+          />
+        ))}
     </Menu>
   );
 };

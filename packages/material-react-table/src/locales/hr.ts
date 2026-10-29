@@ -73,8 +73,7 @@ export const MRT_Localization_HR: MRT_Localization = {
   rowsPerPage: 'Redaka po stranici',
   save: 'Spremi',
   search: 'Pretraži',
-  selectedCountOfRowCountRowsSelected:
-    '{selectedCount} od {rowCount} odabranih redaka',
+  selectedCountOfRowCountRowsSelected: '{selectedCount} od {rowCount} odabranih redaka',
   select: 'Odaberi',
   showAll: 'Prikaži sve',
   showAllColumns: 'Prikaži sve stupce',

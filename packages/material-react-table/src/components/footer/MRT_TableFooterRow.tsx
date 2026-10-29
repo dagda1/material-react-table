@@ -1,4 +1,5 @@
 import { TableRow, type TableRowProps } from '@mui/material';
+import { type CSSObject } from '@mui/material/styles';
 
 import {
   type MRT_ColumnVirtualizer,
@@ -11,8 +12,7 @@ import {
 import { parseFromValuesOrFunc } from '../../utils/utils';
 import { MRT_TableFooterCell } from './MRT_TableFooterCell';
 
-export interface MRT_TableFooterRowProps<TData extends MRT_RowData>
-  extends TableRowProps {
+export interface MRT_TableFooterRowProps<TData extends MRT_RowData> extends TableRowProps {
   columnVirtualizer?: MRT_ColumnVirtualizer;
   footerGroup: MRT_HeaderGroup<TData>;
   table: MRT_TableInstance<TData>;
@@ -23,7 +23,7 @@ export const MRT_TableFooterRow = <TData extends MRT_RowData>({
   footerGroup,
   table,
   ...rest
-}: MRT_TableFooterRowProps<TData>) => {
+}: MRT_TableFooterRowProps<TData>): JSX.Element | null => {
   const {
     options: {
       layoutMode,
@@ -32,15 +32,13 @@ export const MRT_TableFooterRow = <TData extends MRT_RowData>({
     },
   } = table;
 
-  const { virtualColumns, virtualPaddingLeft, virtualPaddingRight } =
-    columnVirtualizer ?? {};
+  const { virtualColumns, virtualPaddingLeft, virtualPaddingRight } = columnVirtualizer ?? {};
 
   // if no content in row, skip row
   if (
     !footerGroup.headers?.some(
       (header) =>
-        (typeof header.column.columnDef.footer === 'string' &&
-          !!header.column.columnDef.footer) ||
+        (typeof header.column.columnDef.footer === 'string' && !!header.column.columnDef.footer) ||
         header.column.columnDef.Footer,
     )
   ) {
@@ -63,34 +61,22 @@ export const MRT_TableFooterRow = <TData extends MRT_RowData>({
         display: layoutMode?.startsWith('grid') ? 'flex' : undefined,
         position: 'relative',
         width: '100%',
-        ...(parseFromValuesOrFunc(tableRowProps?.sx, theme) as any),
+        ...(parseFromValuesOrFunc(tableRowProps?.sx, theme) as CSSObject),
       })}
     >
-      {virtualPaddingLeft ? (
-        <th style={{ display: 'flex', width: virtualPaddingLeft }} />
-      ) : null}
-      {(virtualColumns ?? footerGroup.headers).map(
-        (footerOrVirtualFooter, staticColumnIndex) => {
-          let footer = footerOrVirtualFooter as MRT_Header<TData>;
-          if (columnVirtualizer) {
-            staticColumnIndex = (footerOrVirtualFooter as MRT_VirtualItem)
-              .index;
-            footer = footerGroup.headers[staticColumnIndex];
-          }
+      {virtualPaddingLeft ? <th style={{ display: 'flex', width: virtualPaddingLeft }} /> : null}
+      {(virtualColumns ?? footerGroup.headers).map((footerOrVirtualFooter, staticColumnIndex) => {
+        let footer = footerOrVirtualFooter as MRT_Header<TData>;
+        if (columnVirtualizer) {
+          staticColumnIndex = (footerOrVirtualFooter as MRT_VirtualItem).index;
+          footer = footerGroup.headers[staticColumnIndex];
+        }
 
-          return footer ? (
-            <MRT_TableFooterCell
-              footer={footer}
-              key={footer.id}
-              staticColumnIndex={staticColumnIndex}
-              table={table}
-            />
-          ) : null;
-        },
-      )}
-      {virtualPaddingRight ? (
-        <th style={{ display: 'flex', width: virtualPaddingRight }} />
-      ) : null}
+        return footer ? (
+          <MRT_TableFooterCell footer={footer} key={footer.id} staticColumnIndex={staticColumnIndex} table={table} />
+        ) : null;
+      })}
+      {virtualPaddingRight ? <th style={{ display: 'flex', width: virtualPaddingRight }} /> : null}
     </TableRow>
   );
 };

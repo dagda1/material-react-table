@@ -1,5 +1,4 @@
 import {
-  type AggregationFnDef,
   cellSelectionFeature,
   cellSpanningFeature,
   columnFacetingFeature,
@@ -18,6 +17,7 @@ import {
   createGroupedRowModel,
   createPaginatedRowModel,
   createSortedRowModel,
+  type CustomAggregationFns,
   type FilterFn,
   globalFilteringFeature,
   rowAggregationFeature,
@@ -32,6 +32,7 @@ import {
   tableFeatures,
 } from '@tanstack/react-table';
 
+import { type MRT_RowData } from '../types';
 import { MRT_AggregationFns } from './aggregationFns';
 import { MRT_FilterFns } from './filterFns';
 import { MRT_SortingFns } from './sortingFns';
@@ -96,8 +97,8 @@ export const MRT_DefaultTableFeatures = tableFeatures({
 });
 
 export interface MRT_TableFeatures extends StockFeatures {
-  aggregationFns: Record<string, AggregationFnDef<any, any, any, any>>;
-  filterFns: Record<string, FilterFn<any, any>>;
+  aggregationFns: CustomAggregationFns<MRT_TableFeatures, MRT_RowData>;
+  filterFns: Record<string, FilterFn<MRT_TableFeatures, MRT_RowData>>;
   mrtFeature: TableFeature;
-  sortFns: Record<string, SortFn<any, any>>;
+  sortFns: Record<string, SortFn<MRT_TableFeatures, MRT_RowData>>;
 }

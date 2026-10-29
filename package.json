@@ -11,8 +11,7 @@
     "lib:build-locales": "turbo run lib:build-locales",
     "lib:build-lib": "turbo run lib:build-lib",
     "lib:dev": "turbo run lib:dev",
-    "format": "prettier --write \"**/*.{js,ts,tsx,md}\"",
-    "lint": "turbo run lint",
+    "lint": "turbo run lint && oxfmt . '!packages/**'",
     "start": "turbo run start --parallel",
     "storybook": "turbo run storybook",
     "storybook:build": "turbo run storybook:build",
@@ -21,12 +20,11 @@
     "release": "pnpm --filter @cutting/material-react-table publish --no-git-checks"
   },
   "devDependencies": {
-    "@cutting/oxc-config": "1.0.0",
+    "@cutting/oxc-config": "1.0.1",
     "eslint-plugin-simple-import-sort": "14.0.0",
     "jscpd": "^5.4.2",
-    "oxfmt": "0.74.0",
-    "oxlint": "1.89.0",
-    "prettier": "^3.9.10",
+    "oxfmt": "0.75.0",
+    "oxlint": "1.90.0",
     "turbo": "2.11.10"
   },
   "engines": {

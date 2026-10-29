@@ -1,16 +1,10 @@
-import { Badge } from '@mui/material';
-import { TableSortLabel, type TableSortLabelProps } from '@mui/material';
-import { Tooltip } from '@mui/material';
+import { Badge, TableSortLabel, type TableSortLabelProps, Tooltip } from '@mui/material';
+import { type CSSObject } from '@mui/material/styles';
 
-import {
-  type MRT_Header,
-  type MRT_RowData,
-  type MRT_TableInstance,
-} from '../../types';
+import { type MRT_Header, type MRT_RowData, type MRT_TableInstance } from '../../types';
 import { parseFromValuesOrFunc } from '../../utils/utils';
 
-export interface MRT_TableHeadCellSortLabelProps<TData extends MRT_RowData>
-  extends TableSortLabelProps {
+export interface MRT_TableHeadCellSortLabelProps<TData extends MRT_RowData> extends TableSortLabelProps {
   header: MRT_Header<TData>;
   table: MRT_TableInstance<TData>;
 }
@@ -19,7 +13,7 @@ export const MRT_TableHeadCellSortLabel = <TData extends MRT_RowData>({
   header,
   table,
   ...rest
-}: MRT_TableHeadCellSortLabelProps<TData>) => {
+}: MRT_TableHeadCellSortLabelProps<TData>): JSX.Element => {
   const {
     options: {
       icons: { ArrowDownwardIcon, SyncAltIcon },
@@ -37,25 +31,17 @@ export const MRT_TableHeadCellSortLabel = <TData extends MRT_RowData>({
       ? ''
       : column.getIsSorted()
         ? column.getIsSorted() === 'desc'
-          ? localization.sortedByColumnDesc.replace(
-              '{column}',
-              columnDef.header,
-            )
+          ? localization.sortedByColumnDesc.replace('{column}', columnDef.header)
           : localization.sortedByColumnAsc.replace('{column}', columnDef.header)
         : column.getNextSortingOrder() === 'desc'
           ? localization.sortByColumnDesc.replace('{column}', columnDef.header)
           : localization.sortByColumnAsc.replace('{column}', columnDef.header);
 
-  const direction = isSorted
-    ? (column.getIsSorted() as 'asc' | 'desc')
-    : undefined;
+  const direction = isSorted ? (column.getIsSorted() as 'asc' | 'desc') : undefined;
 
   return (
     <Tooltip placement="top" title={sortTooltip}>
-      <Badge
-        badgeContent={sorting.length > 1 ? column.getSortIndex() + 1 : 0}
-        overlap="circular"
-      >
+      <Badge badgeContent={sorting.length > 1 ? column.getSortIndex() + 1 : 0} overlap="circular">
         <TableSortLabel
           active
           aria-label={sortTooltip}
@@ -81,16 +67,14 @@ export const MRT_TableHeadCellSortLabel = <TData extends MRT_RowData>({
           sx={(theme) => ({
             '.MuiTableSortLabel-icon': {
               color: `${
-                theme.palette.mode === 'dark'
-                  ? theme.palette.text.primary
-                  : theme.palette.text.secondary
+                theme.palette.mode === 'dark' ? theme.palette.text.primary : theme.palette.text.secondary
               } !important`,
             },
             flex: '0 0',
             opacity: isSorted ? 1 : 0.3,
             transition: 'all 150ms ease-in-out',
             width: '3ch',
-            ...(parseFromValuesOrFunc(rest?.sx, theme) as any),
+            ...(parseFromValuesOrFunc(rest?.sx, theme) as CSSObject),
           })}
         />
       </Badge>

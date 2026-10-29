@@ -73,8 +73,7 @@ export const MRT_Localization_SR_CYRL_RS: MRT_Localization = {
   rowsPerPage: 'Редова по страници',
   save: 'Сними',
   search: 'Претражи',
-  selectedCountOfRowCountRowsSelected:
-    '{selectedCount} од {rowCount} редова означено',
+  selectedCountOfRowCountRowsSelected: '{selectedCount} од {rowCount} редова означено',
   select: 'Означи',
   showAll: 'Прикажи све',
   showAllColumns: 'Прикажи све колоне',

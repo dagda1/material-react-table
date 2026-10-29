@@ -1,16 +1,12 @@
 import { TableHead, type TableHeadProps } from '@mui/material';
+import { type CSSObject } from '@mui/material/styles';
 
-import {
-  type MRT_ColumnVirtualizer,
-  type MRT_RowData,
-  type MRT_TableInstance,
-} from '../../types';
+import { type MRT_ColumnVirtualizer, type MRT_RowData, type MRT_TableInstance } from '../../types';
 import { parseFromValuesOrFunc } from '../../utils/utils';
 import { MRT_ToolbarAlertBanner } from '../toolbar/MRT_ToolbarAlertBanner';
 import { MRT_TableHeadRow } from './MRT_TableHeadRow';
 
-export interface MRT_TableHeadProps<TData extends MRT_RowData>
-  extends TableHeadProps {
+export interface MRT_TableHeadProps<TData extends MRT_RowData> extends TableHeadProps {
   columnVirtualizer?: MRT_ColumnVirtualizer;
   table: MRT_TableInstance<TData>;
 }
@@ -19,14 +15,9 @@ export const MRT_TableHead = <TData extends MRT_RowData>({
   columnVirtualizer,
   table,
   ...rest
-}: MRT_TableHeadProps<TData>) => {
+}: MRT_TableHeadProps<TData>): JSX.Element => {
   const {
-    options: {
-      enableStickyHeader,
-      layoutMode,
-      muiTableHeadProps,
-      positionToolbarAlertBanner,
-    },
+    options: { enableStickyHeader, layoutMode, muiTableHeadProps, positionToolbarAlertBanner },
     refs: { tableHeadRef },
   } = table;
   const { isFullScreen, showAlertBanner } = table.state;
@@ -43,8 +34,7 @@ export const MRT_TableHead = <TData extends MRT_RowData>({
       {...tableHeadProps}
       ref={(ref: HTMLTableSectionElement) => {
         tableHeadRef.current = ref;
-        if (tableHeadProps?.ref) {
-          // @ts-expect-error
+        if (tableHeadProps?.ref && typeof tableHeadProps.ref === 'object') {
           tableHeadProps.ref.current = ref;
         }
       }}
@@ -54,7 +44,7 @@ export const MRT_TableHead = <TData extends MRT_RowData>({
         position: stickyHeader ? 'sticky' : 'relative',
         top: stickyHeader && layoutMode?.startsWith('grid') ? 0 : undefined,
         zIndex: stickyHeader ? 2 : undefined,
-        ...(parseFromValuesOrFunc(tableHeadProps?.sx, theme) as any),
+        ...(parseFromValuesOrFunc(tableHeadProps?.sx, theme) as CSSObject),
       })}
     >
       {positionToolbarAlertBanner === 'head-overlay' &&
@@ -80,7 +70,7 @@ export const MRT_TableHead = <TData extends MRT_RowData>({
           .map((headerGroup) => (
             <MRT_TableHeadRow
               columnVirtualizer={columnVirtualizer}
-              headerGroup={headerGroup as any}
+              headerGroup={headerGroup}
               key={headerGroup.id}
               table={table}
             />

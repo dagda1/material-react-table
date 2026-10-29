@@ -136,10 +136,7 @@ npm install material-react-table
 
 ```jsx
 import { useMemo, useState, useEffect } from 'react';
-import {
-  MaterialReactTable,
-  useMaterialReactTable,
-} from 'material-react-table';
+import { MaterialReactTable, useMaterialReactTable } from 'material-react-table';
 
 //data must be stable reference (useState, useMemo, useQuery, defined outside of component, etc.)
 const data = [

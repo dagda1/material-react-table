@@ -50,7 +50,7 @@ const data = [...Array(6)].map(() => ({
   state: faker.location.state(),
 }));
 
-export const RowClickAndRowMenuActions = () => {
+export const RowClickAndRowMenuActions = (): JSX.Element => {
   return (
     <MaterialReactTable
       columns={columns}
@@ -62,12 +62,12 @@ export const RowClickAndRowMenuActions = () => {
           alert('row click');
         },
       }}
-      renderRowActionMenuItems={() => [<MenuItem>Test</MenuItem>]}
+      renderRowActionMenuItems={() => [<MenuItem key="test">Test</MenuItem>]}
     />
   );
 };
 
-export const RowClickAndRowButtonActions = () => {
+export const RowClickAndRowButtonActions = (): JSX.Element => {
   return (
     <MaterialReactTable
       columns={columns}
@@ -79,9 +79,7 @@ export const RowClickAndRowButtonActions = () => {
           alert('row click');
         },
       }}
-      renderRowActions={() => (
-        <Button onClick={(e) => e.stopPropagation()}>Test</Button>
-      )}
+      renderRowActions={() => <Button onClick={(e) => e.stopPropagation()}>Test</Button>}
     />
   );
 };

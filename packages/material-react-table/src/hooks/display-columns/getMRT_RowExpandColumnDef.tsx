@@ -1,14 +1,9 @@
-import { Stack } from '@mui/material';
-import { Tooltip } from '@mui/material';
+import { Stack, Tooltip } from '@mui/material';
 import { type ReactNode } from 'react';
 
 import { MRT_ExpandAllButton } from '../../components/buttons/MRT_ExpandAllButton';
 import { MRT_ExpandButton } from '../../components/buttons/MRT_ExpandButton';
-import {
-  type MRT_ColumnDef,
-  type MRT_RowData,
-  type MRT_StatefulTableOptions,
-} from '../../types';
+import { type MRT_ColumnDef, type MRT_RowData, type MRT_StatefulTableOptions } from '../../types';
 import { defaultDisplayColumnProps } from '../../utils/displayColumn.utils';
 import { getCommonTooltipProps } from '../../utils/style.utils';
 
@@ -39,10 +34,11 @@ export const getMRT_RowExpandColumnDef = <TData extends MRT_RowData>(
         return (
           <Stack
             sx={{
-              alignItems: "center",
-              flexDirection: "row",
-              gap: "0.25rem"
-            }}>
+              alignItems: 'center',
+              flexDirection: 'row',
+              gap: '0.25rem',
+            }}
+          >
             <MRT_ExpandButton {...expandButtonProps} />
             <Tooltip
               {...getCommonTooltipProps('right')}
@@ -68,12 +64,7 @@ export const getMRT_RowExpandColumnDef = <TData extends MRT_RowData>(
             <>
               <MRT_ExpandAllButton table={table} />
               {groupedColumnMode === 'remove' &&
-                grouping
-                  ?.map(
-                    (groupedColumnId) =>
-                      table.getColumn(groupedColumnId)?.columnDef.header,
-                  )
-                  ?.join(', ')}
+                grouping?.map((groupedColumnId) => table.getColumn(groupedColumnId)?.columnDef.header)?.join(', ')}
             </>
           );
         }

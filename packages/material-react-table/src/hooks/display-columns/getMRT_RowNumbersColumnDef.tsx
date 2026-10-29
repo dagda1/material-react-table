@@ -1,8 +1,4 @@
-import {
-  type MRT_ColumnDef,
-  type MRT_RowData,
-  type MRT_StatefulTableOptions,
-} from '../../types';
+import { type MRT_ColumnDef, type MRT_RowData, type MRT_StatefulTableOptions } from '../../types';
 import { defaultDisplayColumnProps } from '../../utils/displayColumn.utils';
 
 export const getMRT_RowNumbersColumnDef = <TData extends MRT_RowData>(
@@ -15,9 +11,8 @@ export const getMRT_RowNumbersColumnDef = <TData extends MRT_RowData>(
 
   return {
     Cell: ({ row, staticRowIndex }) =>
-      ((rowNumberDisplayMode === 'static'
-        ? (staticRowIndex || 0) + (pageSize || 0) * (pageIndex || 0)
-        : row.index) ?? 0) + 1,
+      ((rowNumberDisplayMode === 'static' ? (staticRowIndex || 0) + (pageSize || 0) * (pageIndex || 0) : row.index) ??
+        0) + 1,
     grow: false,
     Header: () => localization.rowNumber,
     ...defaultDisplayColumnProps({

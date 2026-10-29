@@ -46,52 +46,40 @@ const data = [...Array(200)].map(() => ({
   state: faker.location.state(),
 }));
 
-export const SearchEnabledDefault = () => (
-  <MaterialReactTable columns={columns} data={data} />
+export const SearchEnabledDefault = (): JSX.Element => <MaterialReactTable columns={columns} data={data} />;
+
+export const SearchInitialState = (): JSX.Element => (
+  <MaterialReactTable columns={columns} data={data} initialState={{ globalFilter: 'John' }} />
 );
 
-export const SearchInitialState = () => (
-  <MaterialReactTable
-    columns={columns}
-    data={data}
-    initialState={{ globalFilter: 'John' }}
-  />
-);
-
-export const SearchInitializedState = () => {
+export const SearchInitializedState = (): JSX.Element => {
   const [globalFilter, setGlobalFilter] = useState('John');
 
   return (
-    <MaterialReactTable
-      columns={columns}
-      data={data}
-      onGlobalFilterChange={setGlobalFilter}
-      state={{ globalFilter }}
-    />
+    <MaterialReactTable columns={columns} data={data} onGlobalFilterChange={setGlobalFilter} state={{ globalFilter }} />
   );
 };
 
-export const SearchContains = () => (
+export const SearchContains = (): JSX.Element => (
   <MaterialReactTable columns={columns} data={data} globalFilterFn="contains" />
 );
 
-export const CustomGlobalFilterFn = () => (
+export const CustomGlobalFilterFn = (): JSX.Element => (
   <MaterialReactTable
     columns={columns}
     data={data}
     filterFns={{
-      myCustomFilterFn: (row, id, filterValue) =>
-        row.getValue<string>(id).startsWith(filterValue as string),
+      myCustomFilterFn: (row, id, filterValue) => row.getValue<string>(id).startsWith(filterValue as string),
     }}
     globalFilterFn="myCustomFilterFn"
   />
 );
 
-export const SearchGlobalFilterModes = () => (
+export const SearchGlobalFilterModes = (): JSX.Element => (
   <MaterialReactTable columns={columns} data={data} enableGlobalFilterModes />
 );
 
-export const SearchGlobalFilterModeOptions = () => (
+export const SearchGlobalFilterModeOptions = (): JSX.Element => (
   <MaterialReactTable
     columns={columns}
     data={data}
@@ -100,28 +88,19 @@ export const SearchGlobalFilterModeOptions = () => (
   />
 );
 
-export const SearchRankedResultsEnabledByDefault = () => (
+export const SearchRankedResultsEnabledByDefault = (): JSX.Element => (
   <MaterialReactTable columns={columns} data={data} enableRowNumbers />
 );
 
-export const SearchDisableRankedResults = () => (
-  <MaterialReactTable
-    columns={columns}
-    data={data}
-    enableGlobalFilterRankedResults={false}
-    enableRowNumbers
-  />
+export const SearchDisableRankedResults = (): JSX.Element => (
+  <MaterialReactTable columns={columns} data={data} enableGlobalFilterRankedResults={false} enableRowNumbers />
 );
 
-export const ShowSearchRightBoxByDefault = () => (
-  <MaterialReactTable
-    columns={columns}
-    data={data}
-    initialState={{ showGlobalFilter: true }}
-  />
+export const ShowSearchRightBoxByDefault = (): JSX.Element => (
+  <MaterialReactTable columns={columns} data={data} initialState={{ showGlobalFilter: true }} />
 );
 
-export const ShowSearchBoxLeftByDefault = () => (
+export const ShowSearchBoxLeftByDefault = (): JSX.Element => (
   <MaterialReactTable
     columns={columns}
     data={data}
@@ -130,7 +109,7 @@ export const ShowSearchBoxLeftByDefault = () => (
   />
 );
 
-export const ShowSearchBoxLeftByDefaultWithSelection = () => (
+export const ShowSearchBoxLeftByDefaultWithSelection = (): JSX.Element => (
   <MaterialReactTable
     columns={columns}
     data={data}
@@ -140,7 +119,7 @@ export const ShowSearchBoxLeftByDefaultWithSelection = () => (
   />
 );
 
-export const JustASearchBox = () => (
+export const JustASearchBox = (): JSX.Element => (
   <MaterialReactTable
     columns={columns}
     data={data}
@@ -149,15 +128,11 @@ export const JustASearchBox = () => (
   />
 );
 
-export const SearchDisabled = () => (
-  <MaterialReactTable
-    columns={columns}
-    data={data}
-    enableGlobalFilter={false}
-  />
+export const SearchDisabled = (): JSX.Element => (
+  <MaterialReactTable columns={columns} data={data} enableGlobalFilter={false} />
 );
 
-export const CustomizeSearchTextBox = () => (
+export const CustomizeSearchTextBox = (): JSX.Element => (
   <MaterialReactTable
     columns={columns}
     data={data}

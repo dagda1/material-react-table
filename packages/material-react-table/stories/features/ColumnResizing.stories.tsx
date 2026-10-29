@@ -46,31 +46,21 @@ const data = [...Array(88)].map(() => ({
   zipCode: faker.location.zipCode(),
 }));
 
-export const ColumnResizingEnabledDefaultOnChange = () => (
+export const ColumnResizingEnabledDefaultOnChange = (): JSX.Element => (
   <MaterialReactTable columns={columns} data={data} enableColumnResizing />
 );
 
-export const ColumnResizingEnabledDefaultOnChangeRTL = () => (
+export const ColumnResizingEnabledDefaultOnChangeRTL = (): JSX.Element => (
   <div style={{ direction: 'rtl' }}>
-    <MaterialReactTable
-      columnResizeDirection="rtl"
-      columns={columns}
-      data={data}
-      enableColumnResizing
-    />
+    <MaterialReactTable columnResizeDirection="rtl" columns={columns} data={data} enableColumnResizing />
   </div>
 );
 
-export const ColumnResizingEnabledDefaultOnChangeGrid = () => (
-  <MaterialReactTable
-    columns={columns}
-    data={data}
-    enableColumnResizing
-    layoutMode="grid"
-  />
+export const ColumnResizingEnabledDefaultOnChangeGrid = (): JSX.Element => (
+  <MaterialReactTable columns={columns} data={data} enableColumnResizing layoutMode="grid" />
 );
 
-export const ColumnResizingDefaultOnChangeGridWithIndividualShrink = () => (
+export const ColumnResizingDefaultOnChangeGridWithIndividualShrink = (): JSX.Element => (
   <MaterialReactTable
     columns={[
       {
@@ -94,7 +84,7 @@ export const ColumnResizingDefaultOnChangeGridWithIndividualShrink = () => (
   />
 );
 
-export const ColumnResizingEnabledDefaultOnChangeGridRTL = () => (
+export const ColumnResizingEnabledDefaultOnChangeGridRTL = (): JSX.Element => (
   <div style={{ direction: 'rtl' }}>
     <MaterialReactTable
       columnResizeDirection="rtl"
@@ -106,16 +96,11 @@ export const ColumnResizingEnabledDefaultOnChangeGridRTL = () => (
   </div>
 );
 
-export const ColumnResizingEnabledDefaultOnChangeSemantic = () => (
-  <MaterialReactTable
-    columns={columns}
-    data={data}
-    enableColumnResizing
-    layoutMode="semantic"
-  />
+export const ColumnResizingEnabledDefaultOnChangeSemantic = (): JSX.Element => (
+  <MaterialReactTable columns={columns} data={data} enableColumnResizing layoutMode="semantic" />
 );
 
-export const ColumnResizingEnabledDefaultOnChangeSemanticRTL = () => (
+export const ColumnResizingEnabledDefaultOnChangeSemanticRTL = (): JSX.Element => (
   <div style={{ direction: 'rtl' }}>
     <MaterialReactTable
       columnResizeDirection="rtl"
@@ -127,16 +112,11 @@ export const ColumnResizingEnabledDefaultOnChangeSemanticRTL = () => (
   </div>
 );
 
-export const ColumnResizingEnabledNoColumnActions = () => (
-  <MaterialReactTable
-    columns={columns}
-    data={data}
-    enableColumnActions={false}
-    enableColumnResizing
-  />
+export const ColumnResizingEnabledNoColumnActions = (): JSX.Element => (
+  <MaterialReactTable columns={columns} data={data} enableColumnActions={false} enableColumnResizing />
 );
 
-export const ColumnResizingDisabledSomeColumns = () => (
+export const ColumnResizingDisabledSomeColumns = (): JSX.Element => (
   <MaterialReactTable
     columns={[
       {
@@ -170,16 +150,11 @@ export const ColumnResizingDisabledSomeColumns = () => (
   />
 );
 
-export const ColumnResizingEnabledOnEnd = () => (
-  <MaterialReactTable
-    columnResizeMode="onEnd"
-    columns={columns}
-    data={data}
-    enableColumnResizing
-  />
+export const ColumnResizingEnabledOnEnd = (): JSX.Element => (
+  <MaterialReactTable columnResizeMode="onEnd" columns={columns} data={data} enableColumnResizing />
 );
 
-export const ColumnResizingEnabledOnEndRTL = () => (
+export const ColumnResizingEnabledOnEndRTL = (): JSX.Element => (
   <div style={{ direction: 'rtl' }}>
     <MaterialReactTable
       columnResizeDirection="rtl"
@@ -191,7 +166,7 @@ export const ColumnResizingEnabledOnEndRTL = () => (
   </div>
 );
 
-export const ColumnResizingCustomDefaultWidths = () => (
+export const ColumnResizingCustomDefaultWidths = (): JSX.Element => (
   <MaterialReactTable
     columns={columns}
     data={data}
@@ -200,7 +175,7 @@ export const ColumnResizingCustomDefaultWidths = () => (
   />
 );
 
-export const ColumnResizingWithPinning = () => (
+export const ColumnResizingWithPinning = (): JSX.Element => (
   <MaterialReactTable
     columns={columns}
     data={data}
@@ -212,7 +187,7 @@ export const ColumnResizingWithPinning = () => (
   />
 );
 
-export const ColumnResizingWithHeaderGroups = () => (
+export const ColumnResizingWithHeaderGroups = (): JSX.Element => (
   <MaterialReactTable
     columns={[
       {
@@ -259,7 +234,7 @@ export const ColumnResizingWithHeaderGroups = () => (
   />
 );
 
-export const ColumnResizingWithHeaderGroupsGridGrow = () => (
+export const ColumnResizingWithHeaderGroupsGridGrow = (): JSX.Element => (
   <MaterialReactTable
     columns={[
       {
@@ -308,7 +283,7 @@ export const ColumnResizingWithHeaderGroupsGridGrow = () => (
   />
 );
 
-export const ColumnResizingLayoutGridGrow = () => (
+export const ColumnResizingLayoutGridGrow = (): JSX.Element => (
   <MaterialReactTable
     columns={columns.slice(0, 3)}
     data={data}
@@ -318,7 +293,7 @@ export const ColumnResizingLayoutGridGrow = () => (
   />
 );
 
-export const ColumnResizingLayoutGridGrowRTL = () => (
+export const ColumnResizingLayoutGridGrowRTL = (): JSX.Element => (
   <div style={{ direction: 'rtl' }}>
     <MaterialReactTable
       columnResizeDirection="rtl"

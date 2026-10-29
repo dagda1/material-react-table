@@ -15,17 +15,10 @@ import {
 
 export const getSubColumnDefs = <TData extends MRT_RowData>(
   columnDef: MRT_ColumnDef<TData>,
-): ReadonlyArray<MRT_ColumnDef<TData>> | undefined =>
-  'columns' in columnDef ? columnDef.columns : undefined;
+): ReadonlyArray<MRT_ColumnDef<TData>> | undefined => ('columns' in columnDef ? columnDef.columns : undefined);
 
-export const getColumnId = <TData extends MRT_RowData>(
-  columnDef: MRT_ColumnDef<TData>,
-): string =>
-  columnDef.id ??
-  ('accessorKey' in columnDef
-    ? columnDef.accessorKey?.toString?.()
-    : undefined) ??
-  columnDef.header;
+export const getColumnId = <TData extends MRT_RowData>(columnDef: MRT_ColumnDef<TData>): string =>
+  columnDef.id ?? ('accessorKey' in columnDef ? columnDef.accessorKey?.toString?.() : undefined) ?? columnDef.header;
 
 export const getAllLeafColumnDefs = <TData extends MRT_RowData>(
   columns: ReadonlyArray<MRT_ColumnDef<TData>>,
@@ -61,9 +54,13 @@ export const prepareColumns = <TData extends MRT_RowData>({
   } = tableOptions;
   return columnDefs.map((columnDef) => {
     //assign columnId
-    if (!columnDef.id) columnDef.id = getColumnId(columnDef);
+    if (!columnDef.id) {
+      columnDef.id = getColumnId(columnDef);
+    }
     //assign columnDefType
-    if (!columnDef.columnDefType) columnDef.columnDefType = 'data';
+    if (!columnDef.columnDefType) {
+      columnDef.columnDefType = 'data';
+    }
     const subColumnDefs = getSubColumnDefs(columnDef);
     if (subColumnDefs?.length && 'columns' in columnDef) {
       columnDef.columnDefType = 'group';
@@ -77,17 +74,14 @@ export const prepareColumns = <TData extends MRT_RowData>({
       if (Array.isArray(columnDef.aggregationFn)) {
         const aggFns = columnDef.aggregationFn as string[];
         columnDef.aggregationFn = {
-          aggregate: (context) =>
-            aggFns.map((fn) => aggregationFns[fn]?.aggregate(context)),
+          aggregate: (context) => aggFns.map((fn) => aggregationFns[fn]?.aggregate(context)),
         };
       }
 
       //assign filterFns
       if (Object.keys(filterFns).includes(columnFilterFns[columnDef.id])) {
-        columnDef.filterFn =
-          filterFns[columnFilterFns[columnDef.id]] ?? filterFns.fuzzy;
-        (columnDef as MRT_DefinedColumnDef<TData>)._filterFn =
-          columnFilterFns[columnDef.id];
+        columnDef.filterFn = filterFns[columnFilterFns[columnDef.id]] ?? filterFns.fuzzy;
+        (columnDef as MRT_DefinedColumnDef<TData>)._filterFn = columnFilterFns[columnDef.id];
       }
 
       //assign sortFns
@@ -125,12 +119,29 @@ export const getDefaultColumnFilterFn = <TData extends MRT_RowData>(
   columnDef: Pick<MRT_ColumnDef<TData>, 'filterVariant'>,
 ): MRT_FilterOption => {
   const { filterVariant } = columnDef;
-  if (filterVariant === 'multi-select') return 'arrIncludesSome';
-  if (filterVariant?.includes('range')) return 'betweenInclusive';
-  if (filterVariant === 'select' || filterVariant === 'checkbox')
+  if (filterVariant === 'multi-select') {
+    return 'arrIncludesSome';
+  }
+  if (filterVariant?.includes('range')) {
+    return 'betweenInclusive';
+  }
+  if (filterVariant === 'select' || filterVariant === 'checkbox') {
     return 'equals';
+  }
   return 'fuzzy';
 };
+
+export interface MRT_ColumnFilterInfo<TData extends MRT_RowData> {
+  allowedColumnFilterOptions: MRT_ColumnDef<TData>['columnFilterModeOptions'];
+  currentFilterOption: MRT_FilterOption;
+  facetedUniqueValues: ReturnType<MRT_Column<TData>['getFacetedUniqueValues']>;
+  isAutocompleteFilter: boolean;
+  isDateFilter: boolean;
+  isMultiSelectFilter: boolean;
+  isRangeFilter: boolean;
+  isSelectFilter: boolean;
+  isTextboxFilter: boolean;
+}
 
 export const getColumnFilterInfo = <TData extends MRT_RowData>({
   header,
@@ -138,7 +149,7 @@ export const getColumnFilterInfo = <TData extends MRT_RowData>({
 }: {
   header: MRT_Header<TData>;
   table: MRT_TableInstance<TData>;
-}) => {
+}): MRT_ColumnFilterInfo<TData> => {
   const {
     options: { columnFilterModeOptions },
   } = table;
@@ -146,26 +157,18 @@ export const getColumnFilterInfo = <TData extends MRT_RowData>({
   const { columnDef } = column;
   const { filterVariant } = columnDef;
 
-  const isDateFilter = !!(
-    filterVariant?.startsWith('date') || filterVariant?.startsWith('time')
-  );
+  const isDateFilter = !!(filterVariant?.startsWith('date') || filterVariant?.startsWith('time'));
   const isAutocompleteFilter = filterVariant === 'autocomplete';
-  const currentFilterOption =
-    columnDef._filterFn ?? getDefaultColumnFilterFn(columnDef);
+  const currentFilterOption = columnDef._filterFn ?? getDefaultColumnFilterFn(columnDef);
 
   const isRangeFilter =
-    filterVariant?.includes('range') ||
-    ['between', 'betweenInclusive', 'inNumberRange'].includes(
-      currentFilterOption,
-    );
+    filterVariant?.includes('range') || ['between', 'betweenInclusive', 'inNumberRange'].includes(currentFilterOption);
   const isSelectFilter = filterVariant === 'select';
   const isMultiSelectFilter = filterVariant === 'multi-select';
   const isTextboxFilter =
-    ['autocomplete', 'text'].includes(filterVariant!) ||
-    (!isSelectFilter && !isMultiSelectFilter);
+    ['autocomplete', 'text'].includes(filterVariant!) || (!isSelectFilter && !isMultiSelectFilter);
 
-  const allowedColumnFilterOptions =
-    columnDef?.columnFilterModeOptions ?? columnFilterModeOptions;
+  const allowedColumnFilterOptions = columnDef?.columnFilterModeOptions ?? columnFilterModeOptions;
 
   const facetedUniqueValues = column.getFacetedUniqueValues();
 
@@ -191,27 +194,19 @@ export const useDropdownOptions = <TData extends MRT_RowData>({
 }): DropdownOption[] | undefined => {
   const { column } = header;
   const { columnDef } = column;
-  const {
-    facetedUniqueValues,
-    isAutocompleteFilter,
-    isMultiSelectFilter,
-    isSelectFilter,
-  } = getColumnFilterInfo({ header, table });
+  const { facetedUniqueValues, isAutocompleteFilter, isMultiSelectFilter, isSelectFilter } = getColumnFilterInfo({
+    header,
+    table,
+  });
 
   return useMemo<DropdownOption[] | undefined>(
     () =>
       columnDef.filterSelectOptions ??
-      ((isSelectFilter || isMultiSelectFilter || isAutocompleteFilter) &&
-      facetedUniqueValues
+      ((isSelectFilter || isMultiSelectFilter || isAutocompleteFilter) && facetedUniqueValues
         ? Array.from(facetedUniqueValues.keys())
             .filter((value) => value !== null && value !== undefined)
             .sort((a, b) => a.localeCompare(b))
         : undefined),
-    [
-      columnDef.filterSelectOptions,
-      facetedUniqueValues,
-      isMultiSelectFilter,
-      isSelectFilter,
-    ],
+    [columnDef.filterSelectOptions, facetedUniqueValues, isAutocompleteFilter, isMultiSelectFilter, isSelectFilter],
   );
 };

@@ -1,15 +1,11 @@
 import { TableFooter, type TableFooterProps } from '@mui/material';
+import { type CSSObject } from '@mui/material/styles';
 
-import {
-  type MRT_ColumnVirtualizer,
-  type MRT_RowData,
-  type MRT_TableInstance,
-} from '../../types';
+import { type MRT_ColumnVirtualizer, type MRT_RowData, type MRT_TableInstance } from '../../types';
 import { parseFromValuesOrFunc } from '../../utils/utils';
 import { MRT_TableFooterRow } from './MRT_TableFooterRow';
 
-export interface MRT_TableFooterProps<TData extends MRT_RowData>
-  extends TableFooterProps {
+export interface MRT_TableFooterProps<TData extends MRT_RowData> extends TableFooterProps {
   columnVirtualizer?: MRT_ColumnVirtualizer;
   table: MRT_TableInstance<TData>;
 }
@@ -18,7 +14,7 @@ export const MRT_TableFooter = <TData extends MRT_RowData>({
   columnVirtualizer,
   table,
   ...rest
-}: MRT_TableFooterProps<TData>) => {
+}: MRT_TableFooterProps<TData>): JSX.Element | null => {
   const {
     options: { enableStickyFooter, layoutMode, muiTableFooterProps },
     refs: { tableFooterRef },
@@ -32,8 +28,7 @@ export const MRT_TableFooter = <TData extends MRT_RowData>({
     ...rest,
   };
 
-  const stickFooter =
-    (isFullScreen || enableStickyFooter) && enableStickyFooter !== false;
+  const stickFooter = (isFullScreen || enableStickyFooter) && enableStickyFooter !== false;
 
   const footerGroups = table.getFooterGroups();
 
@@ -42,8 +37,7 @@ export const MRT_TableFooter = <TData extends MRT_RowData>({
     !footerGroups.some((footerGroup) =>
       footerGroup.headers?.some(
         (header) =>
-          (typeof header.column.columnDef.footer === 'string' &&
-            !!header.column.columnDef.footer) ||
+          (typeof header.column.columnDef.footer === 'string' && !!header.column.columnDef.footer) ||
           header.column.columnDef.Footer,
       ),
     )
@@ -56,8 +50,7 @@ export const MRT_TableFooter = <TData extends MRT_RowData>({
       {...tableFooterProps}
       ref={(ref: HTMLTableSectionElement) => {
         tableFooterRef.current = ref;
-        if (tableFooterProps?.ref) {
-          // @ts-expect-error
+        if (tableFooterProps?.ref && typeof tableFooterProps.ref === 'object') {
           tableFooterProps.ref.current = ref;
         }
       }}
@@ -72,13 +65,13 @@ export const MRT_TableFooter = <TData extends MRT_RowData>({
           : undefined,
         position: stickFooter ? 'sticky' : 'relative',
         zIndex: stickFooter ? 1 : undefined,
-        ...(parseFromValuesOrFunc(tableFooterProps?.sx, theme) as any),
+        ...(parseFromValuesOrFunc(tableFooterProps?.sx, theme) as CSSObject),
       })}
     >
       {footerGroups.map((footerGroup) => (
         <MRT_TableFooterRow
           columnVirtualizer={columnVirtualizer}
-          footerGroup={footerGroup as any}
+          footerGroup={footerGroup}
           key={footerGroup.id}
           table={table}
         />

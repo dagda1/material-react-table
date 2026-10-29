@@ -1,5 +1,5 @@
 import { Box, type BoxProps, useMediaQuery } from '@mui/material';
-import { alpha } from '@mui/material/styles';
+import { alpha, type CSSObject } from '@mui/material/styles';
 
 import { type MRT_RowData, type MRT_TableInstance } from '../../types';
 import { getCommonToolbarStyles } from '../../utils/style.utils';
@@ -9,15 +9,14 @@ import { MRT_TablePagination } from './MRT_TablePagination';
 import { MRT_ToolbarAlertBanner } from './MRT_ToolbarAlertBanner';
 import { MRT_ToolbarDropZone } from './MRT_ToolbarDropZone';
 
-export interface MRT_BottomToolbarProps<TData extends MRT_RowData>
-  extends BoxProps {
+export interface MRT_BottomToolbarProps<TData extends MRT_RowData> extends BoxProps {
   table: MRT_TableInstance<TData>;
 }
 
 export const MRT_BottomToolbar = <TData extends MRT_RowData>({
   table,
   ...rest
-}: MRT_BottomToolbarProps<TData>) => {
+}: MRT_BottomToolbarProps<TData>): JSX.Element => {
   const {
     options: {
       enablePagination,
@@ -46,8 +45,7 @@ export const MRT_BottomToolbar = <TData extends MRT_RowData>({
       ref={(node: HTMLDivElement) => {
         if (node) {
           bottomToolbarRef.current = node;
-          if (toolbarProps?.ref) {
-            // @ts-expect-error
+          if (toolbarProps?.ref && typeof toolbarProps.ref === 'object') {
             toolbarProps.ref.current = node;
           }
         }
@@ -59,19 +57,14 @@ export const MRT_BottomToolbar = <TData extends MRT_RowData>({
         left: 0,
         position: isFullScreen ? 'fixed' : 'relative',
         right: 0,
-        ...(parseFromValuesOrFunc(toolbarProps?.sx, theme) as any),
+        ...(parseFromValuesOrFunc(toolbarProps?.sx, theme) as CSSObject),
       })}
     >
       <MRT_LinearProgressBar isTopToolbar={false} table={table} />
       {positionToolbarAlertBanner === 'bottom' && (
-        <MRT_ToolbarAlertBanner
-          stackAlertBanner={stackAlertBanner}
-          table={table}
-        />
+        <MRT_ToolbarAlertBanner stackAlertBanner={stackAlertBanner} table={table} />
       )}
-      {['both', 'bottom'].includes(positionToolbarDropZone ?? '') && (
-        <MRT_ToolbarDropZone table={table} />
-      )}
+      {['both', 'bottom'].includes(positionToolbarDropZone ?? '') && <MRT_ToolbarDropZone table={table} />}
       <Box
         sx={{
           alignItems: 'center',
@@ -82,11 +75,7 @@ export const MRT_BottomToolbar = <TData extends MRT_RowData>({
           width: '100%',
         }}
       >
-        {renderBottomToolbarCustomActions ? (
-          renderBottomToolbarCustomActions({ table })
-        ) : (
-          <span />
-        )}
+        {renderBottomToolbarCustomActions ? renderBottomToolbarCustomActions({ table }) : <span />}
         <Box
           sx={{
             display: 'flex',
@@ -96,10 +85,9 @@ export const MRT_BottomToolbar = <TData extends MRT_RowData>({
             top: 0,
           }}
         >
-          {enablePagination &&
-            ['both', 'bottom'].includes(positionPagination ?? '') && (
-              <MRT_TablePagination position="bottom" table={table} />
-            )}
+          {enablePagination && ['both', 'bottom'].includes(positionPagination ?? '') && (
+            <MRT_TablePagination position="bottom" table={table} />
+          )}
         </Box>
       </Box>
     </Box>

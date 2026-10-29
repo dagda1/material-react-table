@@ -54,11 +54,11 @@ const data = [...Array(100)].map(() => ({
   state: faker.location.state(),
 }));
 
-export const ColumnDraggingEnabled = () => (
+export const ColumnDraggingEnabled = (): JSX.Element => (
   <MaterialReactTable columns={columns} data={data} enableColumnDragging />
 );
 
-export const ColumnDraggingDisabledPerColumn = () => (
+export const ColumnDraggingDisabledPerColumn = (): JSX.Element => (
   <MaterialReactTable
     columns={[
       {

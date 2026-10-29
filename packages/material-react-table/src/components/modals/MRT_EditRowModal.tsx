@@ -1,20 +1,11 @@
-import { Dialog, type DialogProps } from '@mui/material';
-import { DialogActions } from '@mui/material';
-import { DialogContent } from '@mui/material';
-import { DialogTitle } from '@mui/material';
-import { Stack } from '@mui/material';
+import { Dialog, DialogActions, DialogContent, type DialogProps, DialogTitle, Stack } from '@mui/material';
 
-import {
-  type MRT_Row,
-  type MRT_RowData,
-  type MRT_TableInstance,
-} from '../../types';
+import { type MRT_Row, type MRT_RowData, type MRT_TableInstance } from '../../types';
 import { parseFromValuesOrFunc } from '../../utils/utils';
 import { MRT_EditActionButtons } from '../buttons/MRT_EditActionButtons';
 import { MRT_EditCellTextField } from '../inputs/MRT_EditCellTextField';
 
-export interface MRT_EditRowModalProps<TData extends MRT_RowData>
-  extends Partial<DialogProps> {
+export interface MRT_EditRowModalProps<TData extends MRT_RowData> extends Partial<DialogProps> {
   open: boolean;
   table: MRT_TableInstance<TData>;
 }
@@ -23,7 +14,7 @@ export const MRT_EditRowModal = <TData extends MRT_RowData>({
   open,
   table,
   ...rest
-}: MRT_EditRowModalProps<TData>) => {
+}: MRT_EditRowModalProps<TData>): JSX.Element => {
   const {
     options: {
       localization,
@@ -42,21 +33,14 @@ export const MRT_EditRowModal = <TData extends MRT_RowData>({
 
   const dialogProps = {
     ...parseFromValuesOrFunc(muiEditRowDialogProps, { row, table }),
-    ...(creatingRow &&
-      parseFromValuesOrFunc(muiCreateRowModalProps, { row, table })),
+    ...(creatingRow && parseFromValuesOrFunc(muiCreateRowModalProps, { row, table })),
     ...rest,
   };
 
   const internalEditComponents = row
     .getAllCells()
     .filter((cell) => cell.column.columnDef.columnDefType === 'data')
-    .map((cell) => (
-      <MRT_EditCellTextField
-        cell={cell as any}
-        key={cell.id}
-        table={table as any}
-      />
-    ));
+    .map((cell) => <MRT_EditCellTextField cell={cell} key={cell.id} table={table} />);
 
   return (
     <Dialog
@@ -70,7 +54,7 @@ export const MRT_EditRowModal = <TData extends MRT_RowData>({
           onEditingRowCancel?.({ row, table });
           setEditingRow(null);
         }
-        row._valuesCache = {} as any; //reset values cache
+        row._valuesCache = {}; //reset values cache
         dialogProps.onClose?.(event, reason);
       }}
       open={open}
@@ -88,9 +72,7 @@ export const MRT_EditRowModal = <TData extends MRT_RowData>({
           table,
         })) ?? (
         <>
-          <DialogTitle sx={{ textAlign: 'center' }}>
-            {localization.edit}
-          </DialogTitle>
+          <DialogTitle sx={{ textAlign: 'center' }}>{localization.edit}</DialogTitle>
           <DialogContent>
             <form onSubmit={(e) => e.preventDefault()}>
               <Stack

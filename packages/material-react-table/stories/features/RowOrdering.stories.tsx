@@ -2,11 +2,7 @@ import { faker } from '@faker-js/faker';
 import { type Meta } from '@storybook/react-vite';
 import { useState } from 'react';
 
-import {
-  MaterialReactTable,
-  type MRT_ColumnDef,
-  type MRT_Row,
-} from '../../src';
+import { MaterialReactTable, type MRT_ColumnDef, type MRT_Row } from '../../src';
 
 const meta: Meta = {
   title: 'Features/Row Ordering Examples',
@@ -65,7 +61,7 @@ const initData = [...Array(100)].map((_, i) => ({
   state: faker.location.state(),
 }));
 
-export const RowOrderingEnabled = () => {
+export const RowOrderingEnabled = (): JSX.Element => {
   const [data, setData] = useState(() => initData);
 
   return (
@@ -79,11 +75,7 @@ export const RowOrderingEnabled = () => {
         onDragEnd: () => {
           const { draggingRow, hoveredRow } = table.state;
           if (hoveredRow && draggingRow) {
-            data.splice(
-              (hoveredRow as MRT_Row<Person>).index,
-              0,
-              data.splice(draggingRow.index, 1)[0],
-            );
+            data.splice((hoveredRow as MRT_Row<Person>).index, 0, data.splice(draggingRow.index, 1)[0]);
             setData([...data]);
           }
         },
@@ -92,12 +84,10 @@ export const RowOrderingEnabled = () => {
   );
 };
 
-export const RowOrderingWithSelect = () => {
+export const RowOrderingWithSelect = (): JSX.Element => {
   const [data, setData] = useState(() => initData);
   const [draggingRow, setDraggingRow] = useState<MRT_Row<Person> | null>(null);
-  const [hoveredRow, setHoveredRow] = useState<null | Partial<MRT_Row<Person>>>(
-    null,
-  );
+  const [hoveredRow, setHoveredRow] = useState<null | Partial<MRT_Row<Person>>>(null);
 
   return (
     <MaterialReactTable
@@ -111,11 +101,7 @@ export const RowOrderingWithSelect = () => {
       muiRowDragHandleProps={{
         onDragEnd: () => {
           if (hoveredRow && draggingRow) {
-            data.splice(
-              hoveredRow?.index ?? 0,
-              0,
-              data.splice(draggingRow.index, 1)[0],
-            );
+            data.splice(hoveredRow?.index ?? 0, 0, data.splice(draggingRow.index, 1)[0]);
             setData([...data]);
           }
         },
@@ -130,12 +116,10 @@ export const RowOrderingWithSelect = () => {
   );
 };
 
-export const RowOrderingWithPinning = () => {
+export const RowOrderingWithPinning = (): JSX.Element => {
   const [data, setData] = useState(() => initData);
   const [draggingRow, setDraggingRow] = useState<MRT_Row<Person> | null>(null);
-  const [hoveredRow, setHoveredRow] = useState<null | Partial<MRT_Row<Person>>>(
-    null,
-  );
+  const [hoveredRow, setHoveredRow] = useState<null | Partial<MRT_Row<Person>>>(null);
 
   return (
     <MaterialReactTable
@@ -148,11 +132,7 @@ export const RowOrderingWithPinning = () => {
       muiRowDragHandleProps={{
         onDragEnd: () => {
           if (hoveredRow && draggingRow) {
-            data.splice(
-              hoveredRow?.index ?? 0,
-              0,
-              data.splice(draggingRow.index, 1)[0],
-            );
+            data.splice(hoveredRow?.index ?? 0, 0, data.splice(draggingRow.index, 1)[0]);
             setData([...data]);
           }
         },
@@ -167,12 +147,10 @@ export const RowOrderingWithPinning = () => {
   );
 };
 
-export const RowAndColumnOrdering = () => {
+export const RowAndColumnOrdering = (): JSX.Element => {
   const [data, setData] = useState(() => initData);
   const [draggingRow, setDraggingRow] = useState<MRT_Row<Person> | null>(null);
-  const [hoveredRow, setHoveredRow] = useState<null | Partial<MRT_Row<Person>>>(
-    null,
-  );
+  const [hoveredRow, setHoveredRow] = useState<null | Partial<MRT_Row<Person>>>(null);
 
   return (
     <MaterialReactTable
@@ -186,11 +164,7 @@ export const RowAndColumnOrdering = () => {
       muiRowDragHandleProps={{
         onDragEnd: () => {
           if (hoveredRow && draggingRow) {
-            data.splice(
-              hoveredRow.index ?? 0,
-              0,
-              data.splice(draggingRow.index, 1)[0],
-            );
+            data.splice(hoveredRow.index ?? 0, 0, data.splice(draggingRow.index, 1)[0]);
             setData([...data]);
           }
         },
@@ -205,7 +179,7 @@ export const RowAndColumnOrdering = () => {
   );
 };
 
-export const RowOrderingWithRowVirtualization = () => {
+export const RowOrderingWithRowVirtualization = (): JSX.Element => {
   const [data, setData] = useState(() => initData);
 
   return (
@@ -221,11 +195,7 @@ export const RowOrderingWithRowVirtualization = () => {
         onDragEnd: () => {
           const { draggingRow, hoveredRow } = table.state;
           if (hoveredRow && draggingRow) {
-            data.splice(
-              (hoveredRow as MRT_Row<Person>).index,
-              0,
-              data.splice(draggingRow.index, 1)[0],
-            );
+            data.splice((hoveredRow as MRT_Row<Person>).index, 0, data.splice(draggingRow.index, 1)[0]);
             setData([...data]);
           }
         },
@@ -242,12 +212,10 @@ const fakeColumns = [...Array(500)].map((_, i) => {
 });
 
 const fakeData = [...Array(500)].map(() => ({
-  ...Object.fromEntries(
-    fakeColumns.map((col) => [col.accessorKey, faker.person.firstName()]),
-  ),
+  ...Object.fromEntries(fakeColumns.map((col) => [col.accessorKey, faker.person.firstName()])),
 }));
 
-export const RowOrderingWithColumnVirtualization = () => {
+export const RowOrderingWithColumnVirtualization = (): JSX.Element => {
   const [data, setData] = useState(() => fakeData);
 
   return (
@@ -270,7 +238,7 @@ export const RowOrderingWithColumnVirtualization = () => {
           const { draggingRow, hoveredRow } = table.state;
           if (hoveredRow && draggingRow) {
             data.splice(
-              (hoveredRow as MRT_Row<any>).index,
+              (hoveredRow as MRT_Row<(typeof fakeData)[number]>).index,
               0,
               data.splice(draggingRow.index, 1)[0],
             );

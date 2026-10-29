@@ -46,34 +46,21 @@ const initData = [...Array(25)].map(() => ({
   state: faker.location.state(),
 }));
 
-export const RowDraggingEnabled = () => {
+export const RowDraggingEnabled = (): JSX.Element => {
+  const [data, _setData] = useState(() => initData);
+
+  return <MaterialReactTable autoResetPageIndex={false} columns={columns} data={data} enableRowDragging />;
+};
+
+export const RowDraggingEnabledGrid = (): JSX.Element => {
   const [data, _setData] = useState(() => initData);
 
   return (
-    <MaterialReactTable
-      autoResetPageIndex={false}
-      columns={columns}
-      data={data}
-      enableRowDragging
-    />
+    <MaterialReactTable autoResetPageIndex={false} columns={columns} data={data} enableRowDragging layoutMode="grid" />
   );
 };
 
-export const RowDraggingEnabledGrid = () => {
-  const [data, _setData] = useState(() => initData);
-
-  return (
-    <MaterialReactTable
-      autoResetPageIndex={false}
-      columns={columns}
-      data={data}
-      enableRowDragging
-      layoutMode="grid"
-    />
-  );
-};
-
-export const RowDraggingEnabledGridNoGrow = () => {
+export const RowDraggingEnabledGridNoGrow = (): JSX.Element => {
   const [data, _setData] = useState(() => initData);
 
   return (

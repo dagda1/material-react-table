@@ -19,37 +19,21 @@ const renderSorted = (columnId: keyof Item, sortFn: string) => {
   const columns: MRT_ColumnDef<Item>[] = [
     { accessorKey: 'code', header: 'Code' },
     { accessorKey: 'count', header: 'Count' },
-  ].map((column) =>
-    column.accessorKey === columnId ? { ...column, sortFn } : column,
-  );
+  ].map((column) => (column.accessorKey === columnId ? { ...column, sortFn } : column));
 
   const { container } = render(
-    <MaterialReactTable
-      columns={columns}
-      data={items}
-      initialState={{ sorting: [{ desc: false, id: columnId }] }}
-    />,
+    <MaterialReactTable columns={columns} data={items} initialState={{ sorting: [{ desc: false, id: columnId }] }} />,
   );
 
-  return Array.from(container.querySelectorAll('tbody tr')).map(
-    (row) => row.querySelector('td')?.textContent,
-  );
+  return Array.from(container.querySelectorAll('tbody tr')).map((row) => row.querySelector('td')?.textContent);
 };
 
 describe('sort fns', () => {
   test('alphanumericCaseSensitive sorts the numbers inside the code', () => {
-    expect(renderSorted('code', 'alphanumericCaseSensitive')).toEqual([
-      'item9',
-      'item10',
-      'item100',
-    ]);
+    expect(renderSorted('code', 'alphanumericCaseSensitive')).toEqual(['item9', 'item10', 'item100']);
   });
 
   test('textCaseSensitive sorts the count as text', () => {
-    expect(renderSorted('count', 'textCaseSensitive')).toEqual([
-      'item100',
-      'item10',
-      'item9',
-    ]);
+    expect(renderSorted('count', 'textCaseSensitive')).toEqual(['item100', 'item10', 'item9']);
   });
 });

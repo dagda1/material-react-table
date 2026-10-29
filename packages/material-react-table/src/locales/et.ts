@@ -45,8 +45,7 @@ export const MRT_Localization_ET: MRT_Localization = {
   filterNotEquals: 'Ei ole võrdne',
   filterStartsWith: 'Algab',
   filterWeakEquals: 'On võrdne',
-  filteringByColumn:
-    'Filtreeritakse veeru {column} järgi - {filterType} {filterValue}',
+  filteringByColumn: 'Filtreeritakse veeru {column} järgi - {filterType} {filterValue}',
   goToFirstPage: 'Mine esimesele lehele',
   goToLastPage: 'Mine viimasele lehele',
   goToNextPage: 'Mine järgmisele lehele',
@@ -74,8 +73,7 @@ export const MRT_Localization_ET: MRT_Localization = {
   rowsPerPage: 'Ridu leheküljel',
   save: 'Salvesta',
   search: 'Otsi',
-  selectedCountOfRowCountRowsSelected:
-    '{selectedCount}/{rowCount} rida valitud',
+  selectedCountOfRowCountRowsSelected: '{selectedCount}/{rowCount} rida valitud',
   select: 'Vali',
   showAll: 'Näita kõiki',
   showAllColumns: 'Näita kõiki veerge',

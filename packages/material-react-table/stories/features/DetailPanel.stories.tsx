@@ -9,7 +9,7 @@ const meta: Meta = {
 
 export default meta;
 
-export const DetailPanelEnabledSemantic = () => (
+export const DetailPanelEnabledSemantic = (): JSX.Element => (
   <MaterialReactTable
     columns={[
       {
@@ -45,7 +45,7 @@ export const DetailPanelEnabledSemantic = () => (
   />
 );
 
-export const DetailPanelEnabledGrid = () => (
+export const DetailPanelEnabledGrid = (): JSX.Element => (
   <MaterialReactTable
     columns={[
       {
@@ -82,7 +82,7 @@ export const DetailPanelEnabledGrid = () => (
   />
 );
 
-export const DetailPanelEnabledGridNoGrow = () => (
+export const DetailPanelEnabledGridNoGrow = (): JSX.Element => (
   <MaterialReactTable
     columns={[
       {
@@ -119,7 +119,7 @@ export const DetailPanelEnabledGridNoGrow = () => (
   />
 );
 
-export const CustomExpandRotation = () => (
+export const CustomExpandRotation = (): JSX.Element => (
   <MaterialReactTable
     columns={[
       {
@@ -162,7 +162,7 @@ export const CustomExpandRotation = () => (
   />
 );
 
-export const DetailPanelEnabledConditional = () => (
+export const DetailPanelEnabledConditional = (): JSX.Element => (
   <MaterialReactTable
     columns={[
       {
@@ -205,7 +205,7 @@ export const DetailPanelEnabledConditional = () => (
   />
 );
 
-export const DetailPanelEnabledConditionalHide = () => (
+export const DetailPanelEnabledConditionalHide = (): JSX.Element => (
   <MaterialReactTable
     columns={[
       {
@@ -255,7 +255,7 @@ export const DetailPanelEnabledConditionalHide = () => (
   />
 );
 
-export const DetailPanelSingleExpand = () => {
+export const DetailPanelSingleExpand = (): JSX.Element => {
   return (
     <MaterialReactTable
       columns={[
@@ -296,7 +296,7 @@ export const DetailPanelSingleExpand = () => {
   );
 };
 
-export const DetailPanelExpandColumnLast = () => (
+export const DetailPanelExpandColumnLast = (): JSX.Element => (
   <MaterialReactTable
     columns={[
       {
@@ -343,7 +343,7 @@ export const DetailPanelExpandColumnLast = () => (
   />
 );
 
-export const DetailPanelExpandedByDefault = () => (
+export const DetailPanelExpandedByDefault = (): JSX.Element => (
   <MaterialReactTable
     columns={[
       {
@@ -380,7 +380,7 @@ export const DetailPanelExpandedByDefault = () => (
   />
 );
 
-export const DetailPanelExpandAllDisabled = () => (
+export const DetailPanelExpandAllDisabled = (): JSX.Element => (
   <MaterialReactTable
     columns={[
       {
@@ -417,7 +417,7 @@ export const DetailPanelExpandAllDisabled = () => (
   />
 );
 
-export const DetailPanelExpandAllDisabledGrid = () => (
+export const DetailPanelExpandAllDisabledGrid = (): JSX.Element => (
   <MaterialReactTable
     columns={[
       {
@@ -455,7 +455,7 @@ export const DetailPanelExpandAllDisabledGrid = () => (
   />
 );
 
-export const DetailPanelExpandAllDisabledGridNoGrow = () => (
+export const DetailPanelExpandAllDisabledGridNoGrow = (): JSX.Element => (
   <MaterialReactTable
     columns={[
       {

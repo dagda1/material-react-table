@@ -48,11 +48,9 @@ const bigData = [...Array(11_111)].map(() => ({
   lastName: faker.person.lastName(),
 }));
 
-export const PaginationEnabledDefault = () => (
-  <MaterialReactTable columns={columns} data={data} />
-);
+export const PaginationEnabledDefault = (): JSX.Element => <MaterialReactTable columns={columns} data={data} />;
 
-export const PaginationEnabledDefaultMoreData = () => (
+export const PaginationEnabledDefaultMoreData = (): JSX.Element => (
   <MaterialReactTable
     columns={columns}
     data={moreData}
@@ -64,7 +62,7 @@ export const PaginationEnabledDefaultMoreData = () => (
   />
 );
 
-export const PaginationEnabledDefaultBigData = () => (
+export const PaginationEnabledDefaultBigData = (): JSX.Element => (
   <MaterialReactTable
     columns={columns}
     data={bigData}
@@ -79,7 +77,7 @@ export const PaginationEnabledDefaultBigData = () => (
   />
 );
 
-export const PaginationEnabledDefaultBigDataLanguage = () => (
+export const PaginationEnabledDefaultBigDataLanguage = (): JSX.Element => (
   <MaterialReactTable
     columns={columns}
     data={bigData}
@@ -98,7 +96,7 @@ export const PaginationEnabledDefaultBigDataLanguage = () => (
   />
 );
 
-export const PaginationEnabledDefaultNoRowsPerPage = () => (
+export const PaginationEnabledDefaultNoRowsPerPage = (): JSX.Element => (
   <MaterialReactTable
     columns={columns}
     data={data}
@@ -108,7 +106,7 @@ export const PaginationEnabledDefaultNoRowsPerPage = () => (
   />
 );
 
-export const PaginationEnabledCustomizeRowsPerPage = () => (
+export const PaginationEnabledCustomizeRowsPerPage = (): JSX.Element => (
   <MaterialReactTable
     columns={columns}
     data={data}
@@ -120,15 +118,11 @@ export const PaginationEnabledCustomizeRowsPerPage = () => (
   />
 );
 
-export const PaginationPagesDisplayMode = () => (
-  <MaterialReactTable
-    columns={columns}
-    data={data}
-    paginationDisplayMode="pages"
-  />
+export const PaginationPagesDisplayMode = (): JSX.Element => (
+  <MaterialReactTable columns={columns} data={data} paginationDisplayMode="pages" />
 );
 
-export const PaginationPagesDisplayModeNoPagesPerRow = () => (
+export const PaginationPagesDisplayModeNoPagesPerRow = (): JSX.Element => (
   <MaterialReactTable
     columns={columns}
     data={data}
@@ -139,7 +133,7 @@ export const PaginationPagesDisplayModeNoPagesPerRow = () => (
   />
 );
 
-export const CustomPaginationPagesDisplayMode = () => (
+export const CustomPaginationPagesDisplayMode = (): JSX.Element => (
   <MaterialReactTable
     columns={columns}
     data={data}
@@ -151,7 +145,7 @@ export const CustomPaginationPagesDisplayMode = () => (
   />
 );
 
-export const CustomPaginationPagesDisplayModeMoreData = () => (
+export const CustomPaginationPagesDisplayModeMoreData = (): JSX.Element => (
   <MaterialReactTable
     columns={columns}
     data={moreData}
@@ -164,36 +158,27 @@ export const CustomPaginationPagesDisplayModeMoreData = () => (
   />
 );
 
-export const PaginationDisabledOrOverriden = () => (
+export const PaginationDisabledOrOverriden = (): JSX.Element => (
   <MaterialReactTable columns={columns} data={data} enablePagination={false} />
 );
 
-export const PaginationPositionBottom = () => (
-  <MaterialReactTable
-    columns={columns}
-    data={data}
-    positionPagination="bottom"
-  />
+export const PaginationPositionBottom = (): JSX.Element => (
+  <MaterialReactTable columns={columns} data={data} positionPagination="bottom" />
 );
 
-export const PaginationPositionTop = () => (
+export const PaginationPositionTop = (): JSX.Element => (
   <MaterialReactTable columns={columns} data={data} positionPagination="top" />
 );
 
-export const PaginationPositionTopAndBottom = () => (
+export const PaginationPositionTopAndBottom = (): JSX.Element => (
   <MaterialReactTable columns={columns} data={data} positionPagination="both" />
 );
 
-export const PaginationPositionTopAndBottomNoInternalActions = () => (
-  <MaterialReactTable
-    columns={columns}
-    data={data}
-    enableToolbarInternalActions={false}
-    positionPagination="both"
-  />
+export const PaginationPositionTopAndBottomNoInternalActions = (): JSX.Element => (
+  <MaterialReactTable columns={columns} data={data} enableToolbarInternalActions={false} positionPagination="both" />
 );
 
-export const CustomizePaginationComponents = () => (
+export const CustomizePaginationComponents = (): JSX.Element => (
   <MaterialReactTable
     columns={columns}
     data={data}
@@ -206,7 +191,7 @@ export const CustomizePaginationComponents = () => (
   />
 );
 
-export const DisabledPaginationComponents = () => (
+export const DisabledPaginationComponents = (): JSX.Element => (
   <MaterialReactTable
     columns={columns}
     data={data}

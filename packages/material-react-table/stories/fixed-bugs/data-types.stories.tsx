@@ -53,14 +53,10 @@ const data = [...Array(66)].map(() => ({
   firstName: Math.random() > 0.5 ? faker.person.firstName() : null,
   lastName: faker.person.lastName(),
   state: faker.location.state(),
-  states: [
-    faker.location.state(),
-    faker.location.state(),
-    faker.location.state(),
-  ],
+  states: [faker.location.state(), faker.location.state(), faker.location.state()],
 }));
 
-export const NullColumn = () => {
+export const NullColumn = (): JSX.Element => {
   return (
     <MaterialReactTable
       columns={columns}

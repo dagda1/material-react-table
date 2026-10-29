@@ -17,24 +17,14 @@ const columns = (): MRT_ColumnDef<Person>[] => [
 ];
 
 const nameColumnSize = (container: HTMLElement) =>
-  (container.querySelector('table') as HTMLElement).style.getPropertyValue(
-    '--header-name-size',
-  );
+  (container.querySelector('table') as HTMLElement).style.getPropertyValue('--header-name-size');
 
 describe('column resizing', () => {
   test('dragging the resize handle widens the column', () => {
-    const { container } = render(
-      <MaterialReactTable
-        columns={columns()}
-        data={data}
-        enableColumnResizing
-      />,
-    );
+    const { container } = render(<MaterialReactTable columns={columns()} data={data} enableColumnResizing />);
 
     const before = nameColumnSize(container);
-    const handle = container.querySelector(
-      'thead .Mui-TableHeadCell-ResizeHandle-Wrapper',
-    ) as HTMLElement;
+    const handle = container.querySelector('thead .Mui-TableHeadCell-ResizeHandle-Wrapper') as HTMLElement;
 
     fireEvent.mouseDown(handle, { clientX: 0 });
     fireEvent.mouseMove(document, { clientX: 120 });

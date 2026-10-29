@@ -48,7 +48,7 @@ const data = [...Array(6)].map(() => ({
   state: faker.location.state(),
 }));
 
-export const CenterAlignInGridLayoutMode = () => {
+export const CenterAlignInGridLayoutMode = (): JSX.Element => {
   return (
     <MaterialReactTable
       columns={columns}
@@ -64,7 +64,7 @@ export const CenterAlignInGridLayoutMode = () => {
   );
 };
 
-export const RightAlignInGridLayoutMode = () => {
+export const RightAlignInGridLayoutMode = (): JSX.Element => {
   return (
     <MaterialReactTable
       columns={columns}

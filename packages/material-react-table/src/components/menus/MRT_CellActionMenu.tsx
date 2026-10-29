@@ -5,15 +5,14 @@ import { openEditingCell } from '../../utils/cell.utils';
 import { parseFromValuesOrFunc } from '../../utils/utils';
 import { MRT_ActionMenuItem } from './MRT_ActionMenuItem';
 
-export interface MRT_CellActionMenuProps<TData extends MRT_RowData>
-  extends Partial<MenuProps> {
+export interface MRT_CellActionMenuProps<TData extends MRT_RowData> extends Partial<MenuProps> {
   table: MRT_TableInstance<TData>;
 }
 
 export const MRT_CellActionMenu = <TData extends MRT_RowData>({
   table,
   ...rest
-}: MRT_CellActionMenuProps<TData>) => {
+}: MRT_CellActionMenuProps<TData>): JSX.Element | false => {
   const {
     options: {
       editDisplayMode,
@@ -32,16 +31,15 @@ export const MRT_CellActionMenu = <TData extends MRT_RowData>({
   const { column } = cell;
   const { columnDef } = column;
 
-  const handleClose = (event?: any) => {
-    event?.stopPropagation();
+  const handleClose = (event?: { stopPropagation?: () => void }) => {
+    event?.stopPropagation?.();
     table.setActionCell(null);
     actionCellRef.current = null;
   };
 
   const internalMenuItems = [
     (parseFromValuesOrFunc(enableClickToCopy, cell) === 'context-menu' ||
-      parseFromValuesOrFunc(columnDef.enableClickToCopy, cell) ===
-        'context-menu') && (
+      parseFromValuesOrFunc(columnDef.enableClickToCopy, cell) === 'context-menu') && (
       <MRT_ActionMenuItem
         icon={<ContentCopy />}
         key={'mrt-copy'}
@@ -78,8 +76,7 @@ export const MRT_CellActionMenu = <TData extends MRT_RowData>({
   };
 
   const menuItems =
-    columnDef.renderCellActionMenuItems?.(renderActionProps) ??
-    renderCellActionMenuItems?.(renderActionProps);
+    columnDef.renderCellActionMenuItems?.(renderActionProps) ?? renderCellActionMenuItems?.(renderActionProps);
 
   return (
     (!!menuItems?.length || !!internalMenuItems?.length) && (

@@ -4,11 +4,7 @@ import MenuItem from '@mui/material/MenuItem';
 import { type Meta } from '@storybook/react-vite';
 import { useState } from 'react';
 
-import {
-  MaterialReactTable,
-  type MRT_Cell,
-  type MRT_TableOptions,
-} from '../../src';
+import { MaterialReactTable, type MRT_Cell, type MRT_TableOptions } from '../../src';
 
 const meta: Meta = {
   title: 'Features/Editing Examples',
@@ -89,14 +85,10 @@ const data: Person[] = [...Array(100)].map(() => ({
   state: faker.location.state(),
 }));
 
-export const EditingEnabledEditModeModalDefault = () => {
+export const EditingEnabledEditModeModalDefault = (): JSX.Element => {
   const [tableData, setTableData] = useState(data);
 
-  const handleSaveRow: MRT_TableOptions<Person>['onEditingRowSave'] = ({
-    exitEditingMode,
-    row,
-    values,
-  }) => {
+  const handleSaveRow: MRT_TableOptions<Person>['onEditingRowSave'] = ({ exitEditingMode, row, values }) => {
     tableData[row.index] = values;
     setTableData([...tableData]);
     exitEditingMode();
@@ -130,22 +122,16 @@ export const EditingEnabledEditModeModalDefault = () => {
       data={tableData}
       enableEditing
       onEditingRowSave={handleSaveRow}
-      renderTopToolbarCustomActions={({ table }) => (
-        <Button onClick={() => table.setCreatingRow(true)}>Add</Button>
-      )}
+      renderTopToolbarCustomActions={({ table }) => <Button onClick={() => table.setCreatingRow(true)}>Add</Button>}
     />
   );
 };
 
-export const EditingFeatureEnabledConditionally = () => {
+export const EditingFeatureEnabledConditionally = (): JSX.Element => {
   const [enabled, setEnabled] = useState(false);
   const [tableData, setTableData] = useState(data);
 
-  const handleSaveRow: MRT_TableOptions<Person>['onEditingRowSave'] = ({
-    exitEditingMode,
-    row,
-    values,
-  }) => {
+  const handleSaveRow: MRT_TableOptions<Person>['onEditingRowSave'] = ({ exitEditingMode, row, values }) => {
     tableData[row.index] = values;
     setTableData([...tableData]);
     exitEditingMode();
@@ -184,21 +170,15 @@ export const EditingFeatureEnabledConditionally = () => {
         columnOrder: ['mrt-row-actions', ...columns.map((c) => c.accessorKey!)],
       }}
       onEditingRowSave={handleSaveRow}
-      renderTopToolbarCustomActions={() => (
-        <Button onClick={() => setEnabled(!enabled)}>Toggle Editing</Button>
-      )}
+      renderTopToolbarCustomActions={() => <Button onClick={() => setEnabled(!enabled)}>Toggle Editing</Button>}
     />
   );
 };
 
-export const EditingEnabledEditModeRow = () => {
+export const EditingEnabledEditModeRow = (): JSX.Element => {
   const [tableData, setTableData] = useState(data);
 
-  const handleSaveRow: MRT_TableOptions<Person>['onEditingRowSave'] = ({
-    exitEditingMode,
-    row,
-    values,
-  }) => {
+  const handleSaveRow: MRT_TableOptions<Person>['onEditingRowSave'] = ({ exitEditingMode, row, values }) => {
     tableData[row.index] = values;
     setTableData([...tableData]);
     exitEditingMode();
@@ -235,21 +215,15 @@ export const EditingEnabledEditModeRow = () => {
       enableEditing
       onCreatingRowSave={() => {}}
       onEditingRowSave={handleSaveRow}
-      renderTopToolbarCustomActions={({ table }) => (
-        <Button onClick={() => table.setCreatingRow(true)}>Add</Button>
-      )}
+      renderTopToolbarCustomActions={({ table }) => <Button onClick={() => table.setCreatingRow(true)}>Add</Button>}
     />
   );
 };
 
-export const EditingEnabledEditModeRowCustomSave = () => {
+export const EditingEnabledEditModeRowCustomSave = (): JSX.Element => {
   const [tableData, setTableData] = useState(data);
 
-  const handleSaveRow: MRT_TableOptions<Person>['onEditingRowSave'] = ({
-    exitEditingMode,
-    row,
-    values,
-  }) => {
+  const handleSaveRow: MRT_TableOptions<Person>['onEditingRowSave'] = ({ exitEditingMode, row, values }) => {
     tableData[row.index] = values;
     setTableData([...tableData]);
     exitEditingMode();
@@ -298,14 +272,10 @@ export const EditingEnabledEditModeRowCustomSave = () => {
   );
 };
 
-export const EditingEnabledEditModeRowVirtualized = () => {
+export const EditingEnabledEditModeRowVirtualized = (): JSX.Element => {
   const [tableData, setTableData] = useState(data);
 
-  const handleSaveRow: MRT_TableOptions<Person>['onEditingRowSave'] = ({
-    exitEditingMode,
-    row,
-    values,
-  }) => {
+  const handleSaveRow: MRT_TableOptions<Person>['onEditingRowSave'] = ({ exitEditingMode, row, values }) => {
     tableData[row.index] = values;
     setTableData([...tableData]);
     exitEditingMode();
@@ -351,19 +321,16 @@ export const EditingEnabledEditModeRowVirtualized = () => {
       muiTableContainerProps={{ sx: { height: 400 } }}
       onCreatingRowSave={() => {}}
       onEditingRowSave={handleSaveRow}
-      renderTopToolbarCustomActions={({ table }) => (
-        <Button onClick={() => table.setCreatingRow(true)}>Add</Button>
-      )}
+      renderTopToolbarCustomActions={({ table }) => <Button onClick={() => table.setCreatingRow(true)}>Add</Button>}
     />
   );
 };
 
-export const EditingEnabledEditModeCell = () => {
+export const EditingEnabledEditModeCell = (): JSX.Element => {
   const [tableData, setTableData] = useState(data);
 
-  const handleSaveCell = (cell: MRT_Cell<Person>, value: any) => {
-    //@ts-expect-error
-    tableData[cell.row.index][cell.column.id] = value;
+  const handleSaveCell = (cell: MRT_Cell<Person>, value: string) => {
+    tableData[cell.row.index] = { ...tableData[cell.row.index], [cell.column.id]: value };
     setTableData([...tableData]);
   };
 
@@ -402,19 +369,16 @@ export const EditingEnabledEditModeCell = () => {
         },
       })}
       onCreatingRowSave={() => {}}
-      renderTopToolbarCustomActions={({ table }) => (
-        <Button onClick={() => table.setCreatingRow(true)}>Add</Button>
-      )}
+      renderTopToolbarCustomActions={({ table }) => <Button onClick={() => table.setCreatingRow(true)}>Add</Button>}
     />
   );
 };
 
-export const EditingEnabledEditModeCellWithRowActions = () => {
+export const EditingEnabledEditModeCellWithRowActions = (): JSX.Element => {
   const [tableData, setTableData] = useState(data);
 
-  const handleSaveCell = (cell: MRT_Cell<Person>, value: any) => {
-    //@ts-expect-error
-    tableData[cell.row.index][cell.column.id] = value;
+  const handleSaveCell = (cell: MRT_Cell<Person>, value: string) => {
+    tableData[cell.row.index] = { ...tableData[cell.row.index], [cell.column.id]: value };
     setTableData([...tableData]);
   };
 
@@ -454,19 +418,16 @@ export const EditingEnabledEditModeCellWithRowActions = () => {
         },
       })}
       onCreatingRowSave={() => {}}
-      renderTopToolbarCustomActions={({ table }) => (
-        <Button onClick={() => table.setCreatingRow(true)}>Add</Button>
-      )}
+      renderTopToolbarCustomActions={({ table }) => <Button onClick={() => table.setCreatingRow(true)}>Add</Button>}
     />
   );
 };
 
-export const EditingEnabledEditModeTable = () => {
+export const EditingEnabledEditModeTable = (): JSX.Element => {
   const [tableData, setTableData] = useState(data);
 
   const handleSaveCell = (cell: MRT_Cell<Person>, value: string) => {
-    //@ts-expect-error
-    tableData[+cell.row.index][cell.column.id] = value;
+    tableData[cell.row.index] = { ...tableData[cell.row.index], [cell.column.id]: value };
     setTableData([...tableData]);
     console.info('saved cell with value: ', value);
   };
@@ -507,13 +468,10 @@ export const EditingEnabledEditModeTable = () => {
   );
 };
 
-export const EditSelectVariant = () => {
+export const EditSelectVariant = (): JSX.Element => {
   const [tableData, setTableData] = useState(data);
 
-  const handleSaveRow: MRT_TableOptions<Person>['onEditingRowSave'] = ({
-    row,
-    values,
-  }) => {
+  const handleSaveRow: MRT_TableOptions<Person>['onEditingRowSave'] = ({ row, values }) => {
     tableData[+row.index] = values;
     setTableData([...tableData]);
   };
@@ -553,13 +511,10 @@ export const EditSelectVariant = () => {
   );
 };
 
-export const EditSelectVariantAlternate = () => {
+export const EditSelectVariantAlternate = (): JSX.Element => {
   const [tableData, setTableData] = useState(data);
 
-  const handleSaveRow: MRT_TableOptions<Person>['onEditingRowSave'] = ({
-    row,
-    values,
-  }) => {
+  const handleSaveRow: MRT_TableOptions<Person>['onEditingRowSave'] = ({ row, values }) => {
     tableData[row.index] = values;
     setTableData([...tableData]);
   };
@@ -645,13 +600,10 @@ export const EditSelectVariantAlternate = () => {
   );
 };
 
-export const EditingCustomizeInput = () => {
+export const EditingCustomizeInput = (): JSX.Element => {
   const [tableData, setTableData] = useState(data);
 
-  const handleSaveRow: MRT_TableOptions<Person>['onEditingRowSave'] = ({
-    row,
-    values,
-  }) => {
+  const handleSaveRow: MRT_TableOptions<Person>['onEditingRowSave'] = ({ row, values }) => {
     tableData[row.index] = values;
     setTableData([...tableData]);
   };
@@ -754,14 +706,11 @@ export const EditingCustomizeInput = () => {
   );
 };
 
-export const EditingEnabledAsync = () => {
+export const EditingEnabledAsync = (): JSX.Element => {
   const [tableData, setTableData] = useState(data);
   const [isSaving, setIsSaving] = useState(false);
 
-  const handleSaveRow: MRT_TableOptions<Person>['onEditingRowSave'] = ({
-    row,
-    values,
-  }) => {
+  const handleSaveRow: MRT_TableOptions<Person>['onEditingRowSave'] = ({ row, values }) => {
     setIsSaving(true);
     setTimeout(() => {
       tableData[row.index] = values;
@@ -815,7 +764,7 @@ const nestedData = [...Array(10)].map(() => ({
   state: faker.location.state(),
 }));
 
-export const EditingNestedData = () => {
+export const EditingNestedData = (): JSX.Element => {
   const [tableData, setTableData] = useState(() => nestedData);
 
   return (
@@ -850,7 +799,7 @@ export const EditingNestedData = () => {
         tableData[row.index] = {
           address: String(row._valuesCache.address),
           name: {
-            firstName: values.firstName,
+            firstName: String(values.firstName),
             lastName: values['name.lastName'],
           },
           phoneNumber: String(row._valuesCache.phoneNumber),
@@ -862,14 +811,10 @@ export const EditingNestedData = () => {
   );
 };
 
-export const EditingEnabledEditModeTableWithGroupedRows = () => {
+export const EditingEnabledEditModeTableWithGroupedRows = (): JSX.Element => {
   const [tableData, setTableData] = useState(data);
 
-  const handleSaveRow: MRT_TableOptions<Person>['onEditingRowSave'] = ({
-    exitEditingMode,
-    row,
-    values,
-  }) => {
+  const handleSaveRow: MRT_TableOptions<Person>['onEditingRowSave'] = ({ exitEditingMode, row, values }) => {
     tableData[row.index] = values;
     setTableData([...tableData]);
     exitEditingMode();
@@ -909,14 +854,10 @@ export const EditingEnabledEditModeTableWithGroupedRows = () => {
   );
 };
 
-export const EnableEditingConditionally = () => {
+export const EnableEditingConditionally = (): JSX.Element => {
   const [tableData, setTableData] = useState(data);
 
-  const handleSaveRow: MRT_TableOptions<Person>['onEditingRowSave'] = ({
-    exitEditingMode,
-    row,
-    values,
-  }) => {
+  const handleSaveRow: MRT_TableOptions<Person>['onEditingRowSave'] = ({ exitEditingMode, row, values }) => {
     tableData[row.index] = values;
     setTableData([...tableData]);
     exitEditingMode();
@@ -955,14 +896,10 @@ export const EnableEditingConditionally = () => {
   );
 };
 
-export const EnableEditingConditionallyCell = () => {
+export const EnableEditingConditionallyCell = (): JSX.Element => {
   const [tableData, setTableData] = useState(data);
 
-  const handleSaveRow: MRT_TableOptions<Person>['onEditingRowSave'] = ({
-    exitEditingMode,
-    row,
-    values,
-  }) => {
+  const handleSaveRow: MRT_TableOptions<Person>['onEditingRowSave'] = ({ exitEditingMode, row, values }) => {
     tableData[row.index] = values;
     setTableData([...tableData]);
     exitEditingMode();
@@ -1001,14 +938,10 @@ export const EnableEditingConditionallyCell = () => {
   );
 };
 
-export const EnableEditingConditionallyTable = () => {
+export const EnableEditingConditionallyTable = (): JSX.Element => {
   const [tableData, setTableData] = useState(data);
 
-  const handleSaveRow: MRT_TableOptions<Person>['onEditingRowSave'] = ({
-    exitEditingMode,
-    row,
-    values,
-  }) => {
+  const handleSaveRow: MRT_TableOptions<Person>['onEditingRowSave'] = ({ exitEditingMode, row, values }) => {
     tableData[row.index] = values;
     setTableData([...tableData]);
     exitEditingMode();
@@ -1047,12 +980,11 @@ export const EnableEditingConditionallyTable = () => {
   );
 };
 
-export const EditingCellManualOnChange = () => {
+export const EditingCellManualOnChange = (): JSX.Element => {
   const [tableData, setTableData] = useState(data);
 
-  const handleSaveCell = (cell: MRT_Cell<Person>, value: any) => {
-    //@ts-expect-error
-    tableData[cell.row.index][cell.column.id] = value;
+  const handleSaveCell = (cell: MRT_Cell<Person>, value: string) => {
+    tableData[cell.row.index] = { ...tableData[cell.row.index], [cell.column.id]: value };
     setTableData([...tableData]);
   };
 
@@ -1078,8 +1010,7 @@ export const EditingCellManualOnChange = () => {
             onBlur: (event) => {
               handleSaveCell(cell, event.target.value);
             },
-            onChange: (event) =>
-              console.log('state col onChange', event.target.value),
+            onChange: (event) => console.log('state col onChange', event.target.value),
           }),
         },
         {
@@ -1095,8 +1026,7 @@ export const EditingCellManualOnChange = () => {
         onBlur: (event) => {
           handleSaveCell(cell, event.target.value);
         },
-        onChange: (event) =>
-          console.log('all col onChange', event.target.value),
+        onChange: (event) => console.log('all col onChange', event.target.value),
       })}
     />
   );

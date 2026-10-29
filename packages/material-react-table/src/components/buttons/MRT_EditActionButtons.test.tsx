@@ -11,9 +11,7 @@ interface Person {
 
 const data: Person[] = [{ name: 'Alice' }];
 
-const columns = (): MRT_ColumnDef<Person>[] => [
-  { accessorKey: 'name', header: 'Name' },
-];
+const columns = (): MRT_ColumnDef<Person>[] => [{ accessorKey: 'name', header: 'Name' }];
 
 describe('creating a row', () => {
   test('calls onCreatingRowSave when save is clicked', async () => {
@@ -41,9 +39,7 @@ describe('creating a row', () => {
 
     expect(container.querySelectorAll('tbody input').length).toBeGreaterThan(0);
 
-    await user.click(
-      container.querySelector('[aria-label="Save"]') as HTMLElement,
-    );
+    await user.click(container.querySelector('[aria-label="Save"]') as HTMLElement);
 
     expect(onCreatingRowSave).toHaveBeenCalled();
   });

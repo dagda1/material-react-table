@@ -73,8 +73,7 @@ export const MRT_Localization_AZ: MRT_Localization = {
   rowsPerPage: 'Səhifə Başına Sətirlər',
   save: 'Yadda Saxla',
   search: 'Axtar',
-  selectedCountOfRowCountRowsSelected:
-    '{rowCount} Sətir Arasında {selectedCount} Ədəd Seçildi',
+  selectedCountOfRowCountRowsSelected: '{rowCount} Sətir Arasında {selectedCount} Ədəd Seçildi',
   select: 'Seç',
   showAll: 'Hamısını Göstər',
   showAllColumns: 'Bütün Sütunları Göstər',

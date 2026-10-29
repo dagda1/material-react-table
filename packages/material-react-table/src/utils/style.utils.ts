@@ -1,4 +1,4 @@
-import { alpha, darken, lighten, type Theme } from '@mui/material/styles';
+import { alpha, type CSSObject, darken, lighten, type Theme } from '@mui/material/styles';
 import { type TableCellProps } from '@mui/material/TableCell';
 import { type TooltipProps } from '@mui/material/Tooltip';
 import { type CSSProperties } from 'react';
@@ -13,7 +13,7 @@ import {
 } from '../types';
 import { parseFromValuesOrFunc } from './utils';
 
-export const parseCSSVarId = (id: string) => id.replace(/[^a-zA-Z0-9]/g, '_');
+export const parseCSSVarId = (id: string): string => id.replace(/[^a-zA-Z0-9]/g, '_');
 
 export const getMRTTheme = <TData extends MRT_RowData>(
   mrtTheme: MRT_TableOptions<TData>['mrtTheme'],
@@ -58,17 +58,14 @@ export const getCommonPinnedCellStyles = <TData extends MRT_RowData>({
   column?: MRT_Column<TData>;
   table: MRT_TableInstance<TData>;
   theme: Theme;
-}) => {
+}): CSSObject => {
   const { baseBackgroundColor } = table.options.mrtTheme;
   const isPinned = column?.getIsPinned();
 
   return {
     '&[data-pinned="true"]': {
       '&:before': {
-        backgroundColor: alpha(
-          darken(baseBackgroundColor, theme.palette.mode === 'dark' ? 0.05 : 0.01),
-          0.97
-        ),
+        backgroundColor: alpha(darken(baseBackgroundColor, theme.palette.mode === 'dark' ? 0.05 : 0.01), 0.97),
         boxShadow: column
           ? isPinned === 'start' && column.getIsLastColumn(isPinned)
             ? `-4px 0 4px -4px ${alpha(theme.palette.grey[700], 0.5)} inset`
@@ -94,7 +91,7 @@ export const getCommonMRTCellStyles = <TData extends MRT_RowData>({
   table: MRT_TableInstance<TData>;
   tableCellProps: TableCellProps;
   theme: Theme;
-}) => {
+}): CSSObject => {
   const {
     options: { enableColumnVirtualization, layoutMode },
   } = table;
@@ -102,25 +99,20 @@ export const getCommonMRTCellStyles = <TData extends MRT_RowData>({
   const { columnDef } = column;
   const { columnDefType } = columnDef;
 
-  const isColumnPinned =
-    columnDef.columnDefType !== 'group' && column.getIsPinned();
+  const isColumnPinned = columnDef.columnDefType !== 'group' && column.getIsPinned();
 
   const widthStyles: CSSProperties = {
     minWidth: `max(calc(var(--${header ? 'header' : 'col'}-${parseCSSVarId(
       header?.id ?? column.id,
     )}-size) * 1px), ${columnDef.minSize ?? 30}px)`,
-    width: `calc(var(--${header ? 'header' : 'col'}-${parseCSSVarId(
-      header?.id ?? column.id,
-    )}-size) * 1px)`,
+    width: `calc(var(--${header ? 'header' : 'col'}-${parseCSSVarId(header?.id ?? column.id)}-size) * 1px)`,
   };
 
   if (layoutMode === 'grid') {
     widthStyles.flex = `${
       [0, false].includes(columnDef.grow!)
         ? 0
-        : `var(--${header ? 'header' : 'col'}-${parseCSSVarId(
-            header?.id ?? column.id,
-          )}-size)`
+        : `var(--${header ? 'header' : 'col'}-${parseCSSVarId(header?.id ?? column.id)}-size)`
     } 0 auto`;
   } else if (layoutMode === 'grid-no-grow') {
     widthStyles.flex = `${+(columnDef.grow || 0)} 0 auto`;
@@ -129,16 +121,10 @@ export const getCommonMRTCellStyles = <TData extends MRT_RowData>({
   const pinnedStyles = isColumnPinned
     ? {
         ...getCommonPinnedCellStyles({ column, table, theme }),
-        left:
-          isColumnPinned === 'start'
-            ? `${column.getStart('start')}px`
-            : undefined,
+        left: isColumnPinned === 'start' ? `${column.getStart('start')}px` : undefined,
         opacity: 0.97,
         position: 'sticky',
-        right:
-          isColumnPinned === 'end'
-            ? `${column.getAfter('end')}px`
-            : undefined,
+        right: isColumnPinned === 'end' ? `${column.getAfter('end')}px` : undefined,
       }
     : {};
 
@@ -151,20 +137,10 @@ export const getCommonMRTCellStyles = <TData extends MRT_RowData>({
     backgroundImage: 'inherit',
     display: layoutMode?.startsWith('grid') ? 'flex' : undefined,
     justifyContent:
-      columnDefType === 'group'
-        ? 'center'
-        : layoutMode?.startsWith('grid')
-          ? tableCellProps.align
-          : undefined,
-    opacity:
-      table.state.draggingColumn?.id === column.id ||
-      table.state.hoveredColumn?.id === column.id
-        ? 0.5
-        : 1,
+      columnDefType === 'group' ? 'center' : layoutMode?.startsWith('grid') ? tableCellProps.align : undefined,
+    opacity: table.state.draggingColumn?.id === column.id || table.state.hoveredColumn?.id === column.id ? 0.5 : 1,
     position: 'relative',
-    transition: enableColumnVirtualization
-      ? 'none'
-      : `padding 150ms ease-in-out`,
+    transition: enableColumnVirtualization ? 'none' : `padding 150ms ease-in-out`,
     zIndex:
       column.getIsResizing() || draggingColumn?.id === column.id
         ? 2
@@ -173,7 +149,7 @@ export const getCommonMRTCellStyles = <TData extends MRT_RowData>({
           : 0,
     ...pinnedStyles,
     ...widthStyles,
-    ...(parseFromValuesOrFunc(tableCellProps?.sx, theme) as any),
+    ...(parseFromValuesOrFunc(tableCellProps?.sx, theme) as CSSObject),
   };
 };
 
@@ -182,7 +158,7 @@ export const getCommonToolbarStyles = <TData extends MRT_RowData>({
 }: {
   table: MRT_TableInstance<TData>;
   theme: Theme;
-}) => ({
+}): CSSObject => ({
   alignItems: 'flex-start',
   backgroundColor: table.options.mrtTheme.baseBackgroundColor,
   display: 'grid',
@@ -194,14 +170,10 @@ export const getCommonToolbarStyles = <TData extends MRT_RowData>({
   zIndex: 1,
 });
 
-export const flipIconStyles = (theme: Theme) =>
-  theme.direction === 'rtl'
-    ? { style: { transform: 'scaleX(-1)' } }
-    : undefined;
+export const flipIconStyles = (theme: Theme): { style: CSSProperties } | undefined =>
+  theme.direction === 'rtl' ? { style: { transform: 'scaleX(-1)' } } : undefined;
 
-export const getCommonTooltipProps = (
-  placement?: TooltipProps['placement'],
-): Partial<TooltipProps> => ({
+export const getCommonTooltipProps = (placement?: TooltipProps['placement']): Partial<TooltipProps> => ({
   disableInteractive: true,
   enterDelay: 1000,
   enterNextDelay: 1000,

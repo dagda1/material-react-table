@@ -69,7 +69,7 @@ const generateData = () =>
     zipCode: faker.location.zipCode(),
   }));
 
-export const NoMemos = () => {
+export const NoMemos = (): JSX.Element => {
   const [tableData, setTableData] = useState([...generateData()]);
 
   const handleRegenerateData = () => setTableData([...generateData()]);
@@ -97,7 +97,7 @@ export const NoMemos = () => {
   );
 };
 
-export const MemoCells = () => {
+export const MemoCells = (): JSX.Element => {
   const [tableData, setTableData] = useState([...generateData()]);
 
   const handleRegenerateData = () => setTableData([...generateData()]);
@@ -126,7 +126,7 @@ export const MemoCells = () => {
   );
 };
 
-export const MemoRows = () => {
+export const MemoRows = (): JSX.Element => {
   const [tableData, setTableData] = useState([...generateData()]);
 
   const handleRegenerateData = () => setTableData([...generateData()]);
@@ -155,7 +155,7 @@ export const MemoRows = () => {
   );
 };
 
-export const MemoTableBody = () => {
+export const MemoTableBody = (): JSX.Element => {
   const [tableData, setTableData] = useState([...generateData()]);
 
   const handleRegenerateData = () => setTableData([...generateData()]);

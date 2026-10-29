@@ -73,8 +73,7 @@ export const MRT_Localization_DA: MRT_Localization = {
   rowsPerPage: 'Rækker per side',
   save: 'Gem',
   search: 'Søg',
-  selectedCountOfRowCountRowsSelected:
-    '{selectedCount} af {rowCount} række(r) valgt',
+  selectedCountOfRowCountRowsSelected: '{selectedCount} af {rowCount} række(r) valgt',
   select: 'Vælg',
   showAll: 'Vis alt',
   showAllColumns: 'Vis alle kolonner',

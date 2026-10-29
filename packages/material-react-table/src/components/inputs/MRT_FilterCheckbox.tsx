@@ -1,17 +1,11 @@
-import { Checkbox, type CheckboxProps } from '@mui/material';
-import { FormControlLabel } from '@mui/material';
-import { Tooltip } from '@mui/material';
+import { Checkbox, type CheckboxProps, FormControlLabel, Tooltip } from '@mui/material';
+import { type CSSObject } from '@mui/material/styles';
 
-import {
-  type MRT_Column,
-  type MRT_RowData,
-  type MRT_TableInstance,
-} from '../../types';
+import { type MRT_Column, type MRT_RowData, type MRT_TableInstance } from '../../types';
 import { getCommonTooltipProps } from '../../utils/style.utils';
 import { parseFromValuesOrFunc } from '../../utils/utils';
 
-export interface MRT_FilterCheckboxProps<TData extends MRT_RowData>
-  extends CheckboxProps {
+export interface MRT_FilterCheckboxProps<TData extends MRT_RowData> extends CheckboxProps {
   column: MRT_Column<TData>;
   table: MRT_TableInstance<TData>;
 }
@@ -20,7 +14,7 @@ export const MRT_FilterCheckbox = <TData extends MRT_RowData>({
   column,
   table,
   ...rest
-}: MRT_FilterCheckboxProps<TData>) => {
+}: MRT_FilterCheckboxProps<TData>): JSX.Element => {
   const {
     options: { localization, muiFilterCheckboxProps },
   } = table;
@@ -39,23 +33,15 @@ export const MRT_FilterCheckbox = <TData extends MRT_RowData>({
     ...rest,
   };
 
-  const filterLabel = localization.filterByColumn?.replace(
-    '{column}',
-    columnDef.header,
-  );
+  const filterLabel = localization.filterByColumn?.replace('{column}', columnDef.header);
 
   return (
-    <Tooltip
-      {...getCommonTooltipProps()}
-      title={checkboxProps?.title ?? filterLabel}
-    >
+    <Tooltip {...getCommonTooltipProps()} title={checkboxProps?.title ?? filterLabel}>
       <FormControlLabel
         control={
           <Checkbox
             checked={column.getFilterValue() === 'true'}
-            color={
-              column.getFilterValue() === undefined ? 'default' : 'primary'
-            }
+            color={column.getFilterValue() === undefined ? 'default' : 'primary'}
             indeterminate={column.getFilterValue() === undefined}
             size={density === 'compact' ? 'small' : 'medium'}
             {...checkboxProps}
@@ -76,7 +62,7 @@ export const MRT_FilterCheckbox = <TData extends MRT_RowData>({
             sx={(theme) => ({
               height: '2.5rem',
               width: '2.5rem',
-              ...(parseFromValuesOrFunc(checkboxProps?.sx, theme) as any),
+              ...(parseFromValuesOrFunc(checkboxProps?.sx, theme) as CSSObject),
             })}
           />
         }

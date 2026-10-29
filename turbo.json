@@ -2,14 +2,8 @@
   "$schema": "https://turbo.build/schema.json",
   "tasks": {
     "build": {
-      "dependsOn": [
-        "^build"
-      ],
-      "outputs": [
-        "dist/**",
-        "locales/**",
-        "storybook/static/**"
-      ]
+      "dependsOn": ["^build"],
+      "outputs": ["dist/**", "locales/**", "storybook/static/**"]
     },
     "dev": {
       "cache": false
@@ -18,20 +12,13 @@
       "outputs": []
     },
     "lib:build": {
-      "outputs": [
-        "dist/**",
-        "locales/**"
-      ]
+      "outputs": ["dist/**", "locales/**"]
     },
     "lib:build-locales": {
-      "outputs": [
-        "locales/**"
-      ]
+      "outputs": ["locales/**"]
     },
     "lib:build-lib": {
-      "outputs": [
-        "dist/**"
-      ]
+      "outputs": ["dist/**"]
     },
     "lib:dev": {
       "cache": false
@@ -43,9 +30,7 @@
       "cache": false
     },
     "storybook:build": {
-      "outputs": [
-        "storybook-static/**"
-      ]
+      "outputs": ["storybook-static/**"]
     },
     "storybook:dev": {
       "cache": false

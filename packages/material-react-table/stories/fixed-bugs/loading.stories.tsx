@@ -19,7 +19,7 @@ type Person = {
   state: string;
 };
 
-export const NestedLoadingDataWithInitialExpanded = () => {
+export const NestedLoadingDataWithInitialExpanded = (): JSX.Element => {
   const columns = useMemo<MRT_ColumnDef<Person>[]>(
     () => [
       //column definitions...
@@ -60,7 +60,7 @@ export const NestedLoadingDataWithInitialExpanded = () => {
   );
 };
 
-export const NestedLoadingDataWithInitialFilter = () => {
+export const NestedLoadingDataWithInitialFilter = (): JSX.Element => {
   const columns = useMemo<MRT_ColumnDef<Person>[]>(
     () => [
       //column definitions...
@@ -101,7 +101,7 @@ export const NestedLoadingDataWithInitialFilter = () => {
   );
 };
 
-export const NestedLoadingDataWithInitialGroup = () => {
+export const NestedLoadingDataWithInitialGroup = (): JSX.Element => {
   const columns = useMemo<MRT_ColumnDef<Person>[]>(
     () => [
       //column definitions...
@@ -142,7 +142,7 @@ export const NestedLoadingDataWithInitialGroup = () => {
   );
 };
 
-export const NestedLoadingDataWithInitialPage = () => {
+export const NestedLoadingDataWithInitialPage = (): JSX.Element => {
   const columns = useMemo<MRT_ColumnDef<Person>[]>(
     () => [
       //column definitions...
@@ -183,7 +183,7 @@ export const NestedLoadingDataWithInitialPage = () => {
   );
 };
 
-export const NestedLoadingDataWithInitialSort = () => {
+export const NestedLoadingDataWithInitialSort = (): JSX.Element => {
   const columns = useMemo<MRT_ColumnDef<Person>[]>(
     () => [
       //column definitions...
@@ -224,13 +224,12 @@ export const NestedLoadingDataWithInitialSort = () => {
   );
 };
 
-export const AccessorKeyWhileLoading = () => {
+export const AccessorKeyWhileLoading = (): JSX.Element => {
   const columns = useMemo<MRT_ColumnDef<Person>[]>(
     //column definitions...
     () => [
       {
-        accessorFn: (row) =>
-          `${row.name.firstName.toUpperCase()} ${row.name.lastName.toUpperCase()}`,
+        accessorFn: (row) => `${row.name.firstName.toUpperCase()} ${row.name.lastName.toUpperCase()}`,
         header: 'Name',
         id: 'name',
       },
@@ -251,11 +250,5 @@ export const AccessorKeyWhileLoading = () => {
     //end
   );
 
-  return (
-    <MaterialReactTable
-      columns={columns}
-      data={[]}
-      state={{ isLoading: true }}
-    />
-  );
+  return <MaterialReactTable columns={columns} data={[]} state={{ isLoading: true }} />;
 };

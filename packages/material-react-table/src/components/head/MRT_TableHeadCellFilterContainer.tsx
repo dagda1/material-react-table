@@ -1,19 +1,13 @@
 import { Collapse, type CollapseProps } from '@mui/material';
 
-import {
-  type MRT_Header,
-  type MRT_RowData,
-  type MRT_TableInstance,
-} from '../../types';
+import { type MRT_Header, type MRT_RowData, type MRT_TableInstance } from '../../types';
 import { getColumnFilterInfo } from '../../utils/column.utils';
 import { MRT_FilterCheckbox } from '../inputs/MRT_FilterCheckbox';
 import { MRT_FilterRangeFields } from '../inputs/MRT_FilterRangeFields';
 import { MRT_FilterRangeSlider } from '../inputs/MRT_FilterRangeSlider';
 import { MRT_FilterTextField } from '../inputs/MRT_FilterTextField';
 
-export interface MRT_TableHeadCellFilterContainerProps<
-  TData extends MRT_RowData,
-> extends CollapseProps {
+export interface MRT_TableHeadCellFilterContainerProps<TData extends MRT_RowData> extends CollapseProps {
   header: MRT_Header<TData>;
   table: MRT_TableInstance<TData>;
 }
@@ -22,7 +16,7 @@ export const MRT_TableHeadCellFilterContainer = <TData extends MRT_RowData>({
   header,
   table,
   ...rest
-}: MRT_TableHeadCellFilterContainerProps<TData>) => {
+}: MRT_TableHeadCellFilterContainerProps<TData>): JSX.Element => {
   const {
     options: { columnFilterDisplayMode },
   } = table;
@@ -32,12 +26,7 @@ export const MRT_TableHeadCellFilterContainer = <TData extends MRT_RowData>({
   const { isRangeFilter } = getColumnFilterInfo({ header, table });
 
   return (
-    <Collapse
-      in={showColumnFilters || columnFilterDisplayMode === 'popover'}
-      mountOnEnter
-      unmountOnExit
-      {...rest}
-    >
+    <Collapse in={showColumnFilters || columnFilterDisplayMode === 'popover'} mountOnEnter unmountOnExit {...rest}>
       {columnDef.filterVariant === 'checkbox' ? (
         <MRT_FilterCheckbox column={column} table={table} />
       ) : columnDef.filterVariant === 'range-slider' ? (

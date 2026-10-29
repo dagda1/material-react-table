@@ -1,16 +1,12 @@
-import { Box } from '@mui/material';
-import { IconButton } from '@mui/material';
-import { ListItemIcon } from '@mui/material';
-import { MenuItem, type MenuItemProps } from '@mui/material';
-import { type ReactNode } from 'react';
+import { Box, IconButton, ListItemIcon, MenuItem, type MenuItemProps } from '@mui/material';
+import { type MouseEventHandler, type ReactNode } from 'react';
 
 import { type MRT_RowData, type MRT_TableInstance } from '../../types';
 
-export interface MRT_ActionMenuItemProps<TData extends MRT_RowData>
-  extends MenuItemProps {
+export interface MRT_ActionMenuItemProps<TData extends MRT_RowData> extends MenuItemProps {
   icon: ReactNode;
   label: string;
-  onOpenSubMenu?: MenuItemProps['onClick'] | MenuItemProps['onMouseEnter'];
+  onOpenSubMenu?: MouseEventHandler<HTMLElement>;
   table: MRT_TableInstance<TData>;
 }
 
@@ -20,7 +16,7 @@ export const MRT_ActionMenuItem = <TData extends MRT_RowData>({
   onOpenSubMenu,
   table,
   ...rest
-}: MRT_ActionMenuItemProps<TData>) => {
+}: MRT_ActionMenuItemProps<TData>): JSX.Element => {
   const {
     options: {
       icons: { ArrowRightIcon },
@@ -49,12 +45,7 @@ export const MRT_ActionMenuItem = <TData extends MRT_RowData>({
         {label}
       </Box>
       {onOpenSubMenu && (
-        <IconButton
-          onClick={onOpenSubMenu as any}
-          onMouseEnter={onOpenSubMenu as any}
-          size="small"
-          sx={{ p: 0 }}
-        >
+        <IconButton onClick={onOpenSubMenu} onMouseEnter={onOpenSubMenu} size="small" sx={{ p: 0 }}>
           <ArrowRightIcon />
         </IconButton>
       )}

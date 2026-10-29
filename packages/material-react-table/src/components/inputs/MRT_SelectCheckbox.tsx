@@ -1,24 +1,13 @@
-import { Checkbox, type CheckboxProps } from '@mui/material';
-import { Radio, type RadioProps } from '@mui/material';
-import { Tooltip } from '@mui/material';
+import { Checkbox, type CheckboxProps, Radio, type RadioProps, Tooltip } from '@mui/material';
 import { type Theme } from '@mui/material/styles';
 import { type MouseEvent } from 'react';
 
-import {
-  type MRT_Row,
-  type MRT_RowData,
-  type MRT_TableInstance,
-} from '../../types';
-import {
-  getIsRowSelected,
-  getMRT_RowSelectionHandler,
-  getMRT_SelectAllHandler,
-} from '../../utils/row.utils';
+import { type MRT_Row, type MRT_RowData, type MRT_TableInstance } from '../../types';
+import { getIsRowSelected, getMRT_RowSelectionHandler, getMRT_SelectAllHandler } from '../../utils/row.utils';
 import { getCommonTooltipProps } from '../../utils/style.utils';
 import { parseFromValuesOrFunc } from '../../utils/utils';
 
-export interface MRT_SelectCheckboxProps<TData extends MRT_RowData>
-  extends CheckboxProps {
+export interface MRT_SelectCheckboxProps<TData extends MRT_RowData> extends CheckboxProps {
   row?: MRT_Row<TData>;
   staticRowIndex?: number;
   table: MRT_TableInstance<TData>;
@@ -29,7 +18,7 @@ export const MRT_SelectCheckbox = <TData extends MRT_RowData>({
   staticRowIndex,
   table,
   ...rest
-}: MRT_SelectCheckboxProps<TData>) => {
+}: MRT_SelectCheckboxProps<TData>): JSX.Element => {
   const {
     options: {
       enableMultiRowSelection,
@@ -49,9 +38,7 @@ export const MRT_SelectCheckbox = <TData extends MRT_RowData>({
       : table.getIsAllRowsSelected()
     : undefined;
 
-  const isChecked = selectAll
-    ? allRowsSelected
-    : getIsRowSelected({ row, table });
+  const isChecked = selectAll ? allRowsSelected : getIsRowSelected({ row, table });
 
   const checkboxProps = {
     ...(selectAll
@@ -75,22 +62,21 @@ export const MRT_SelectCheckbox = <TData extends MRT_RowData>({
   const onSelectAllChange = getMRT_SelectAllHandler({ table });
 
   const commonProps = {
-    'aria-label': selectAll
-      ? localization.toggleSelectAll
-      : localization.toggleSelectRow,
+    'aria-label': selectAll ? localization.toggleSelectAll : localization.toggleSelectRow,
     checked: isChecked,
-    disabled:
-      isLoading || (row && !row.getCanSelect()) || row?.id === 'mrt-row-create',
+    disabled: isLoading || (row && !row.getCanSelect()) || row?.id === 'mrt-row-create',
     onChange: (event) => {
       event.stopPropagation();
-      selectAll ? onSelectAllChange(event) : onSelectionChange!(event);
+      if (selectAll) {
+        onSelectAllChange(event);
+      } else {
+        onSelectionChange!(event);
+      }
     },
     size: (density === 'compact' ? 'small' : 'medium') as 'medium' | 'small',
     slotProps: {
       input: {
-        'aria-label': selectAll
-          ? localization.toggleSelectAll
-          : localization.toggleSelectRow,
+        'aria-label': selectAll ? localization.toggleSelectAll : localization.toggleSelectRow,
       },
     },
     ...checkboxProps,
@@ -106,20 +92,15 @@ export const MRT_SelectCheckbox = <TData extends MRT_RowData>({
       ...parseFromValuesOrFunc(checkboxProps?.sx, theme),
     }),
     title: undefined,
-  } as CheckboxProps | RadioProps;
+  } as CheckboxProps;
 
   return (
     <Tooltip
       {...getCommonTooltipProps()}
-      title={
-        checkboxProps?.title ??
-        (selectAll
-          ? localization.toggleSelectAll
-          : localization.toggleSelectRow)
-      }
+      title={checkboxProps?.title ?? (selectAll ? localization.toggleSelectAll : localization.toggleSelectRow)}
     >
       {enableMultiRowSelection === false ? (
-        <Radio {...(commonProps as any)} />
+        <Radio {...(commonProps as RadioProps)} />
       ) : (
         <Checkbox
           indeterminate={

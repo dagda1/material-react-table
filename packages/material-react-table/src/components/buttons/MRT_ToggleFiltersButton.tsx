@@ -1,17 +1,15 @@
-import { IconButton, type IconButtonProps } from '@mui/material';
-import { Tooltip } from '@mui/material';
+import { IconButton, type IconButtonProps, Tooltip } from '@mui/material';
 
 import { type MRT_RowData, type MRT_TableInstance } from '../../types';
 
-export interface MRT_ToggleFiltersButtonProps<TData extends MRT_RowData>
-  extends IconButtonProps {
+export interface MRT_ToggleFiltersButtonProps<TData extends MRT_RowData> extends IconButtonProps {
   table: MRT_TableInstance<TData>;
 }
 
 export const MRT_ToggleFiltersButton = <TData extends MRT_RowData>({
   table,
   ...rest
-}: MRT_ToggleFiltersButtonProps<TData>) => {
+}: MRT_ToggleFiltersButtonProps<TData>): JSX.Element => {
   const {
     options: {
       icons: { FilterListIcon, FilterListOffIcon },

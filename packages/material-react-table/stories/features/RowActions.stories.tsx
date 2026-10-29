@@ -48,7 +48,7 @@ const data = [...Array(10)].map(() => ({
   state: faker.location.state(),
 }));
 
-export const RowActionsEnabled = () => (
+export const RowActionsEnabled = (): JSX.Element => (
   <MaterialReactTable
     columns={columns}
     data={data}
@@ -85,7 +85,7 @@ export const RowActionsEnabled = () => (
   />
 );
 
-export const RowActionsEnabledConditionally = () => {
+export const RowActionsEnabledConditionally = (): JSX.Element => {
   const [enabled, setEnabled] = useState(false);
   return (
     <MaterialReactTable
@@ -121,14 +121,12 @@ export const RowActionsEnabledConditionally = () => {
           <ShareIcon /> Share
         </MenuItem>,
       ]}
-      renderTopToolbarCustomActions={() => (
-        <Button onClick={() => setEnabled(!enabled)}>Toggle Row Actions</Button>
-      )}
+      renderTopToolbarCustomActions={() => <Button onClick={() => setEnabled(!enabled)}>Toggle Row Actions</Button>}
     />
   );
 };
 
-export const RowActionsEnabledConditionallyPerRow = () => {
+export const RowActionsEnabledConditionallyPerRow = (): JSX.Element => {
   return (
     <MaterialReactTable
       columns={columns}
@@ -171,7 +169,7 @@ export const RowActionsEnabledConditionallyPerRow = () => {
   );
 };
 
-export const RowActionsAndEditingEnabled = () => (
+export const RowActionsAndEditingEnabled = (): JSX.Element => (
   <MaterialReactTable
     columns={columns}
     data={data}
@@ -209,7 +207,7 @@ export const RowActionsAndEditingEnabled = () => (
   />
 );
 
-export const RowActionsAndEditingCellEnabled = () => (
+export const RowActionsAndEditingCellEnabled = (): JSX.Element => (
   <MaterialReactTable
     columns={columns}
     data={data}
@@ -248,7 +246,7 @@ export const RowActionsAndEditingCellEnabled = () => (
   />
 );
 
-export const RowActionsLastColumn = () => (
+export const RowActionsLastColumn = (): JSX.Element => (
   <MaterialReactTable
     columns={columns}
     data={data}
@@ -287,7 +285,7 @@ export const RowActionsLastColumn = () => (
   />
 );
 
-export const CustomRowActionButtons = () => (
+export const CustomRowActionButtons = (): JSX.Element => (
   <MaterialReactTable
     columns={columns}
     data={data}
@@ -317,7 +315,7 @@ export const CustomRowActionButtons = () => (
   />
 );
 
-export const CustomRowActionButtonsLastColumn = () => (
+export const CustomRowActionButtonsLastColumn = (): JSX.Element => (
   <MaterialReactTable
     columns={columns}
     data={data}
@@ -348,7 +346,7 @@ export const CustomRowActionButtonsLastColumn = () => (
   />
 );
 
-export const RowActionsCompleteOverride = () => (
+export const RowActionsCompleteOverride = (): JSX.Element => (
   <MaterialReactTable
     columns={columns}
     data={data}

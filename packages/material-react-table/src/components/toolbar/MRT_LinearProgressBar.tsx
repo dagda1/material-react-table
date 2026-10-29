@@ -1,11 +1,9 @@
-import { Collapse } from '@mui/material';
-import { LinearProgress, type LinearProgressProps } from '@mui/material';
+import { Collapse, LinearProgress, type LinearProgressProps } from '@mui/material';
 
 import { type MRT_RowData, type MRT_TableInstance } from '../../types';
 import { parseFromValuesOrFunc } from '../../utils/utils';
 
-export interface MRT_LinearProgressBarProps<TData extends MRT_RowData>
-  extends LinearProgressProps {
+export interface MRT_LinearProgressBarProps<TData extends MRT_RowData> extends LinearProgressProps {
   isTopToolbar: boolean;
   table: MRT_TableInstance<TData>;
 }
@@ -14,7 +12,7 @@ export const MRT_LinearProgressBar = <TData extends MRT_RowData>({
   isTopToolbar,
   table,
   ...rest
-}: MRT_LinearProgressBarProps<TData>) => {
+}: MRT_LinearProgressBarProps<TData>): JSX.Element => {
   const {
     options: { muiLinearProgressProps },
   } = table;
@@ -40,12 +38,7 @@ export const MRT_LinearProgressBar = <TData extends MRT_RowData>({
       }}
       unmountOnExit
     >
-      <LinearProgress
-        aria-busy="true"
-        aria-label="Loading"
-        sx={{ position: 'relative' }}
-        {...linearProgressProps}
-      />
+      <LinearProgress aria-busy="true" aria-label="Loading" sx={{ position: 'relative' }} {...linearProgressProps} />
     </Collapse>
   );
 };

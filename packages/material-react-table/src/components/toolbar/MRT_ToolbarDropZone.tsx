@@ -1,29 +1,25 @@
-import { Box, type BoxProps } from '@mui/material';
-import { Fade } from '@mui/material';
-import { Typography } from '@mui/material';
-import { alpha } from '@mui/material/styles';
+import { Box, type BoxProps, Fade, Typography } from '@mui/material';
+import { alpha, type CSSObject } from '@mui/material/styles';
 import { type DragEvent, useEffect } from 'react';
 
 import { type MRT_RowData, type MRT_TableInstance } from '../../types';
 import { parseFromValuesOrFunc } from '../../utils/utils';
 
-export interface MRT_ToolbarDropZoneProps<TData extends MRT_RowData>
-  extends BoxProps {
+export interface MRT_ToolbarDropZoneProps<TData extends MRT_RowData> extends BoxProps {
   table: MRT_TableInstance<TData>;
 }
 
 export const MRT_ToolbarDropZone = <TData extends MRT_RowData>({
   table,
   ...rest
-}: MRT_ToolbarDropZoneProps<TData>) => {
+}: MRT_ToolbarDropZoneProps<TData>): JSX.Element => {
   const {
     options: { enableGrouping, localization },
     setHoveredColumn,
     setShowToolbarDropZone,
   } = table;
 
-  const { draggingColumn, grouping, hoveredColumn, showToolbarDropZone } =
-    table.state;
+  const { draggingColumn, grouping, hoveredColumn, showToolbarDropZone } = table.state;
 
   const handleDragEnter = (_event: DragEvent<HTMLDivElement>) => {
     setHoveredColumn({ id: 'drop-zone' });
@@ -33,8 +29,10 @@ export const MRT_ToolbarDropZone = <TData extends MRT_RowData>({
     e.preventDefault();
   };
 
+  const isShowToolbarDropZoneControlled = table.options.state?.showToolbarDropZone !== undefined;
+
   useEffect(() => {
-    if (table.options.state?.showToolbarDropZone !== undefined) {
+    if (isShowToolbarDropZoneControlled) {
       setShowToolbarDropZone(
         !!enableGrouping &&
           !!draggingColumn &&
@@ -42,7 +40,7 @@ export const MRT_ToolbarDropZone = <TData extends MRT_RowData>({
           !grouping.includes(draggingColumn.id),
       );
     }
-  }, [enableGrouping, draggingColumn, grouping]);
+  }, [draggingColumn, enableGrouping, grouping, isShowToolbarDropZoneControlled, setShowToolbarDropZone]);
 
   return (
     <Fade in={showToolbarDropZone}>
@@ -63,16 +61,15 @@ export const MRT_ToolbarDropZone = <TData extends MRT_RowData>({
           position: 'absolute',
           width: '100%',
           zIndex: 4,
-          ...(parseFromValuesOrFunc(rest?.sx, theme) as any),
+          ...(parseFromValuesOrFunc(rest?.sx, theme) as CSSObject),
         })}
       >
-        <Typography sx={{
-          fontStyle: "italic"
-        }}>
-          {localization.dropToGroupBy.replace(
-            '{column}',
-            draggingColumn?.columnDef?.header ?? '',
-          )}
+        <Typography
+          sx={{
+            fontStyle: 'italic',
+          }}
+        >
+          {localization.dropToGroupBy.replace('{column}', draggingColumn?.columnDef?.header ?? '')}
         </Typography>
       </Box>
     </Fade>

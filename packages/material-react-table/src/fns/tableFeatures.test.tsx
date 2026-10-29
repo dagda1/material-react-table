@@ -8,20 +8,12 @@ interface Person {
   name: string;
 }
 
-const data: Person[] = [
-  { name: 'Jonathan' },
-  { name: 'Aaron' },
-  { name: 'Sara' },
-];
+const data: Person[] = [{ name: 'Jonathan' }, { name: 'Aaron' }, { name: 'Sara' }];
 
-const columns: MRT_ColumnDef<Person>[] = [
-  { accessorKey: 'name', header: 'Name' },
-];
+const columns: MRT_ColumnDef<Person>[] = [{ accessorKey: 'name', header: 'Name' }];
 
 const renderedNames = (container: HTMLElement) =>
-  Array.from(container.querySelectorAll('tbody tr')).map(
-    (row) => row.textContent,
-  );
+  Array.from(container.querySelectorAll('tbody tr')).map((row) => row.textContent);
 
 describe('server-side options suppress client-side row models', () => {
   test('manualPagination renders the whole server page, ignoring pageSize', () => {
@@ -40,12 +32,7 @@ describe('server-side options suppress client-side row models', () => {
 
   test('manualFiltering keeps every row when a global filter is set', () => {
     const { container } = render(
-      <MaterialReactTable
-        columns={columns}
-        data={data}
-        manualFiltering
-        state={{ globalFilter: 'zzz' }}
-      />,
+      <MaterialReactTable columns={columns} data={data} manualFiltering state={{ globalFilter: 'zzz' }} />,
     );
 
     expect(renderedNames(container)).toEqual(['Jonathan', 'Aaron', 'Sara']);
@@ -69,24 +56,14 @@ describe('server-side options suppress client-side row models', () => {
 describe('client-side row models stay active by default', () => {
   test('pagination slices to pageSize', () => {
     const { container } = render(
-      <MaterialReactTable
-        columns={columns}
-        data={data}
-        state={{ pagination: { pageIndex: 0, pageSize: 2 } }}
-      />,
+      <MaterialReactTable columns={columns} data={data} state={{ pagination: { pageIndex: 0, pageSize: 2 } }} />,
     );
 
     expect(renderedNames(container)).toEqual(['Jonathan', 'Aaron']);
   });
 
   test('global filter drops non-matching rows', () => {
-    const { container } = render(
-      <MaterialReactTable
-        columns={columns}
-        data={data}
-        state={{ globalFilter: 'zzz' }}
-      />,
-    );
+    const { container } = render(<MaterialReactTable columns={columns} data={data} state={{ globalFilter: 'zzz' }} />);
 
     expect(renderedNames(container)).toEqual(['No results found']);
   });

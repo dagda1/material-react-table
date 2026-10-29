@@ -1,30 +1,22 @@
-import { IconButton, type IconButtonProps } from '@mui/material';
-import { Tooltip } from '@mui/material';
+import { IconButton, type IconButtonProps, Tooltip } from '@mui/material';
+import { type CSSObject } from '@mui/material/styles';
 import { type MouseEvent, useState } from 'react';
 
-import {
-  type MRT_Header,
-  type MRT_RowData,
-  type MRT_TableInstance,
-} from '../../types';
+import { type MRT_Header, type MRT_RowData, type MRT_TableInstance } from '../../types';
 import { getCommonTooltipProps } from '../../utils/style.utils';
 import { parseFromValuesOrFunc } from '../../utils/utils';
 import { MRT_ColumnActionMenu } from '../menus/MRT_ColumnActionMenu';
 
-export interface MRT_TableHeadCellColumnActionsButtonProps<
-  TData extends MRT_RowData,
-> extends IconButtonProps {
+export interface MRT_TableHeadCellColumnActionsButtonProps<TData extends MRT_RowData> extends IconButtonProps {
   header: MRT_Header<TData>;
   table: MRT_TableInstance<TData>;
 }
 
-export const MRT_TableHeadCellColumnActionsButton = <
-  TData extends MRT_RowData,
->({
+export const MRT_TableHeadCellColumnActionsButton = <TData extends MRT_RowData>({
   header,
   table,
   ...rest
-}: MRT_TableHeadCellColumnActionsButtonProps<TData>) => {
+}: MRT_TableHeadCellColumnActionsButtonProps<TData>): JSX.Element => {
   const {
     options: {
       icons: { MoreVertIcon },
@@ -57,10 +49,7 @@ export const MRT_TableHeadCellColumnActionsButton = <
 
   return (
     <>
-      <Tooltip
-        {...getCommonTooltipProps('top')}
-        title={iconButtonProps?.title ?? localization.columnActions}
-      >
+      <Tooltip {...getCommonTooltipProps('top')} title={iconButtonProps?.title ?? localization.columnActions}>
         <IconButton
           aria-label={localization.columnActions}
           onClick={handleClick}
@@ -75,23 +64,14 @@ export const MRT_TableHeadCellColumnActionsButton = <
             opacity: 0.3,
             transition: 'all 150ms',
             width: '2rem',
-            ...(parseFromValuesOrFunc(iconButtonProps?.sx, theme) as any),
+            ...(parseFromValuesOrFunc(iconButtonProps?.sx, theme) as CSSObject),
           })}
           title={undefined}
         >
-          {iconButtonProps?.children ?? (
-            <MoreVertIcon style={{ transform: 'scale(0.9)' }} />
-          )}
+          {iconButtonProps?.children ?? <MoreVertIcon style={{ transform: 'scale(0.9)' }} />}
         </IconButton>
       </Tooltip>
-      {anchorEl && (
-        <MRT_ColumnActionMenu
-          anchorEl={anchorEl}
-          header={header}
-          setAnchorEl={setAnchorEl}
-          table={table}
-        />
-      )}
+      {anchorEl && <MRT_ColumnActionMenu anchorEl={anchorEl} header={header} setAnchorEl={setAnchorEl} table={table} />}
     </>
   );
 };

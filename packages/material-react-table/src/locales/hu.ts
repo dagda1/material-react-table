@@ -73,8 +73,7 @@ export const MRT_Localization_HU: MRT_Localization = {
   rowsPerPage: 'Sorok oldalanként',
   save: 'Mentés',
   search: 'Keresés',
-  selectedCountOfRowCountRowsSelected:
-    '{selectedCount} kiválasztva {rowCount} sorból',
+  selectedCountOfRowCountRowsSelected: '{selectedCount} kiválasztva {rowCount} sorból',
   select: 'Kiválasztás',
   showAll: 'Összes mutatása',
   showAllColumns: 'Összes oszlop mutatása',

@@ -39,8 +39,7 @@ export const MRT_Localization_NO: MRT_Localization = {
   filterGreaterThanOrEqualTo: 'Større eller lik',
   filterIncludesString: 'Inkluderer',
   filterIncludesStringSensitive: 'Inkluderer (følsom)',
-  filteringByColumn:
-    'Filter etter kolonne {column} - {filterType} {filterValue}',
+  filteringByColumn: 'Filter etter kolonne {column} - {filterType} {filterValue}',
   filterInNumberRange: 'I nummerområde',
   filterLessThan: 'Mindre enn',
   filterLessThanOrEqualTo: 'Mindre eller lik',
@@ -94,6 +93,5 @@ export const MRT_Localization_NO: MRT_Localization = {
   unpinAll: 'Løsne alle',
 
   ungroupByColumn: 'Oppgrupper etter {column}',
-  selectedCountOfRowCountRowsSelected:
-    '{selectedCount} av {rowCount} rader valgt',
+  selectedCountOfRowCountRowsSelected: '{selectedCount} av {rowCount} rader valgt',
 };

@@ -73,8 +73,7 @@ export const MRT_Localization_RU: MRT_Localization = {
   rowsPerPage: 'Строк на странице',
   save: 'Сохранить',
   search: 'Найти',
-  selectedCountOfRowCountRowsSelected:
-    '{selectedCount} из {rowCount} строк выбрано',
+  selectedCountOfRowCountRowsSelected: '{selectedCount} из {rowCount} строк выбрано',
   select: 'Выбрать',
   showAll: 'Показать все',
   showAllColumns: 'Показать все колонки',

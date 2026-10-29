@@ -40,27 +40,15 @@ const data = [...Array(100)].map(() => ({
   state: faker.location.state(),
 }));
 
-export const DefaultSemantic = () => (
-  <MaterialReactTable
-    columns={columns}
-    data={data}
-    enableColumnOrdering
-    enableRowSelection
-    layoutMode="semantic"
-  />
+export const DefaultSemantic = (): JSX.Element => (
+  <MaterialReactTable columns={columns} data={data} enableColumnOrdering enableRowSelection layoutMode="semantic" />
 );
 
-export const Grid = () => (
-  <MaterialReactTable
-    columns={columns}
-    data={data}
-    enableColumnOrdering
-    enableRowSelection
-    layoutMode="grid"
-  />
+export const Grid = (): JSX.Element => (
+  <MaterialReactTable columns={columns} data={data} enableColumnOrdering enableRowSelection layoutMode="grid" />
 );
 
-export const GridNoGrow = () => (
+export const GridNoGrow = (): JSX.Element => (
   <MaterialReactTable
     columns={columns.slice(0, 2)}
     data={data}
@@ -70,7 +58,7 @@ export const GridNoGrow = () => (
   />
 );
 
-export const GridWithResizing = () => (
+export const GridWithResizing = (): JSX.Element => (
   <MaterialReactTable
     columns={columns}
     data={data}
@@ -81,7 +69,7 @@ export const GridWithResizing = () => (
   />
 );
 
-export const GridNoGrowWithResizing = () => (
+export const GridNoGrowWithResizing = (): JSX.Element => (
   <MaterialReactTable
     columns={columns.slice(0, 2)}
     data={data}

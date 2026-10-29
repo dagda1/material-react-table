@@ -1,18 +1,12 @@
-import { IconButton, type IconButtonProps } from '@mui/material';
-import { Tooltip } from '@mui/material';
-import { useTheme } from '@mui/material/styles';
+import { IconButton, type IconButtonProps, Tooltip } from '@mui/material';
+import { type CSSObject, useTheme } from '@mui/material/styles';
 import { type MouseEvent } from 'react';
 
-import {
-  type MRT_Row,
-  type MRT_RowData,
-  type MRT_TableInstance,
-} from '../../types';
+import { type MRT_Row, type MRT_RowData, type MRT_TableInstance } from '../../types';
 import { getCommonTooltipProps } from '../../utils/style.utils';
 import { parseFromValuesOrFunc } from '../../utils/utils';
 
-export interface MRT_ExpandButtonProps<TData extends MRT_RowData>
-  extends IconButtonProps {
+export interface MRT_ExpandButtonProps<TData extends MRT_RowData> extends IconButtonProps {
   row: MRT_Row<TData>;
   staticRowIndex?: number;
   table: MRT_TableInstance<TData>;
@@ -22,7 +16,7 @@ export const MRT_ExpandButton = <TData extends MRT_RowData>({
   row,
   staticRowIndex,
   table,
-}: MRT_ExpandButtonProps<TData>) => {
+}: MRT_ExpandButtonProps<TData>): JSX.Element => {
   const theme = useTheme();
   const {
     options: {
@@ -56,10 +50,7 @@ export const MRT_ExpandButton = <TData extends MRT_RowData>({
     <Tooltip
       disableHoverListener={!canExpand && !detailPanel}
       {...getCommonTooltipProps()}
-      title={
-        iconButtonProps?.title ??
-        (isExpanded ? localization.collapse : localization.expand)
-      }
+      title={iconButtonProps?.title ?? (isExpanded ? localization.collapse : localization.expand)}
     >
       <span>
         <IconButton
@@ -70,11 +61,9 @@ export const MRT_ExpandButton = <TData extends MRT_RowData>({
           sx={(theme) => ({
             height: density === 'compact' ? '1.75rem' : '2.25rem',
             opacity: !canExpand && !detailPanel ? 0.3 : 1,
-            [theme.direction === 'rtl' || positionExpandColumn === 'last'
-              ? 'mr'
-              : 'ml']: `${row.depth * 16}px`,
+            [theme.direction === 'rtl' || positionExpandColumn === 'last' ? 'mr' : 'ml']: `${row.depth * 16}px`,
             width: density === 'compact' ? '1.75rem' : '2.25rem',
-            ...(parseFromValuesOrFunc(iconButtonProps?.sx, theme) as any),
+            ...(parseFromValuesOrFunc(iconButtonProps?.sx, theme) as CSSObject),
           })}
           title={undefined}
         >
@@ -83,8 +72,7 @@ export const MRT_ExpandButton = <TData extends MRT_RowData>({
               style={{
                 transform: `rotate(${
                   !canExpand && !renderDetailPanel
-                    ? positionExpandColumn === 'last' ||
-                      theme.direction === 'rtl'
+                    ? positionExpandColumn === 'last' || theme.direction === 'rtl'
                       ? 90
                       : -90
                     : isExpanded

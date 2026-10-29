@@ -1,18 +1,11 @@
 {
-  "include": [
-    "src",
-    "stories"
-  ],
+  "include": ["src", "stories"],
   "compilerOptions": {
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
     "importHelpers": true,
     "jsx": "react-jsx",
-    "lib": [
-      "DOM",
-      "DOM.Iterable",
-      "ESNext"
-    ],
+    "lib": ["DOM", "DOM.Iterable", "ESNext"],
     "module": "esnext",
     "moduleResolution": "bundler",
     "noFallthroughCasesInSwitch": true,
@@ -23,6 +16,7 @@
     "sourceMap": true,
     "strict": true,
     "target": "ES6",
+    "types": ["node", "@cutting/useful-types/jsx"]
   },
   "references": [
     {

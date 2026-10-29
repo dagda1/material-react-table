@@ -1,23 +1,12 @@
-import { MenuItem } from '@mui/material';
-import { TextField } from '@mui/material';
+import { MenuItem, TextField } from '@mui/material';
 import { type TextFieldProps } from '@mui/material/TextField';
-import {
-  type ChangeEvent,
-  type FocusEvent,
-  type KeyboardEvent,
-  useState,
-} from 'react';
+import { type ChangeEvent, type FocusEvent, type KeyboardEvent, useState } from 'react';
 
-import {
-  type MRT_Cell,
-  type MRT_RowData,
-  type MRT_TableInstance,
-} from '../../types';
+import { type MRT_Cell, type MRT_RowData, type MRT_TableInstance } from '../../types';
 import { getTextFieldSlotProps } from '../../utils/slotProps.utils';
 import { getValueAndLabel, parseFromValuesOrFunc } from '../../utils/utils';
 
-export interface MRT_EditCellTextFieldProps<TData extends MRT_RowData>
-  extends TextFieldProps<'standard'> {
+export interface MRT_EditCellTextFieldProps<TData extends MRT_RowData> extends TextFieldProps<'standard'> {
   cell: MRT_Cell<TData>;
   table: MRT_TableInstance<TData>;
 }
@@ -26,7 +15,7 @@ export const MRT_EditCellTextField = <TData extends MRT_RowData>({
   cell,
   table,
   ...rest
-}: MRT_EditCellTextFieldProps<TData>) => {
+}: MRT_EditCellTextFieldProps<TData>): JSX.Element => {
   const {
     options: { createDisplayMode, editDisplayMode, muiEditTextFieldProps },
     refs: { editInputRefs },
@@ -112,27 +101,21 @@ export const MRT_EditCellTextField = <TData extends MRT_RowData>({
       fullWidth
       inputRef={(inputRef) => {
         if (inputRef) {
-          editInputRefs.current![column.id] = isSelectEdit
-            ? inputRef.node
-            : inputRef;
+          editInputRefs.current![column.id] = isSelectEdit ? inputRef.node : inputRef;
           if (textFieldProps.inputRef) {
             textFieldProps.inputRef = inputRef;
           }
         }
       }}
       label={
-        ['custom', 'modal'].includes(
-          (isCreating ? createDisplayMode : editDisplayMode) as string,
-        )
+        ['custom', 'modal'].includes((isCreating ? createDisplayMode : editDisplayMode) as string)
           ? columnDef.header
           : undefined
       }
       margin="none"
       name={column.id}
       placeholder={
-        !['custom', 'modal'].includes(
-          (isCreating ? createDisplayMode : editDisplayMode) as string,
-        )
+        !['custom', 'modal'].includes((isCreating ? createDisplayMode : editDisplayMode) as string)
           ? columnDef.header
           : undefined
       }
@@ -153,9 +136,7 @@ export const MRT_EditCellTextField = <TData extends MRT_RowData>({
       slotProps={{
         htmlInput: { autoComplete: 'off', ...consumerSlots.htmlInput },
         input: {
-          ...(textFieldProps.variant !== 'outlined'
-            ? { disableUnderline: editDisplayMode === 'table' }
-            : {}),
+          ...(textFieldProps.variant !== 'outlined' ? { disableUnderline: editDisplayMode === 'table' } : {}),
           ...consumerSlots.input,
           sx: { mb: 0, ...consumerSlots.input?.sx },
         },

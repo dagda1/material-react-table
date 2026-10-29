@@ -73,8 +73,7 @@ export const MRT_Localization_AR: MRT_Localization = {
   rowsPerPage: 'عدد الصفوف في الصفحة',
   save: 'حفظ',
   search: 'بحث',
-  selectedCountOfRowCountRowsSelected:
-    '{selectedCount} ل {rowCount} row(s) المحدد',
+  selectedCountOfRowCountRowsSelected: '{selectedCount} ل {rowCount} row(s) المحدد',
   select: 'اختيار',
   showAll: 'عرض الكل',
   showAllColumns: 'إظهار كافة الأعمدة',

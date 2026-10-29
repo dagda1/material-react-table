@@ -50,33 +50,21 @@ const data = [...Array(100)].map(() => ({
   zip: faker.location.zipCode(),
 }));
 
-export const ColumnHidingEnabledDefault = () => (
-  <MaterialReactTable columns={columns} data={data} />
-);
+export const ColumnHidingEnabledDefault = (): JSX.Element => <MaterialReactTable columns={columns} data={data} />;
 
-export const ColumnHidingDisabled = () => (
+export const ColumnHidingDisabled = (): JSX.Element => (
   <MaterialReactTable columns={columns} data={data} enableHiding={false} />
 );
 
-export const ColumnHidingDisabledButWithOrdering = () => (
-  <MaterialReactTable
-    columns={columns}
-    data={data}
-    enableColumnOrdering
-    enableHiding={false}
-  />
+export const ColumnHidingDisabledButWithOrdering = (): JSX.Element => (
+  <MaterialReactTable columns={columns} data={data} enableColumnOrdering enableHiding={false} />
 );
 
-export const ColumnHidingDisabledButWithPinning = () => (
-  <MaterialReactTable
-    columns={columns}
-    data={data}
-    enableColumnPinning
-    enableHiding={false}
-  />
+export const ColumnHidingDisabledButWithPinning = (): JSX.Element => (
+  <MaterialReactTable columns={columns} data={data} enableColumnPinning enableHiding={false} />
 );
 
-export const ColumnHidingDisabledPerColumn = () => (
+export const ColumnHidingDisabledPerColumn = (): JSX.Element => (
   <MaterialReactTable
     columns={[
       {
@@ -114,7 +102,7 @@ export const ColumnHidingDisabledPerColumn = () => (
   />
 );
 
-export const ColumnHidingWithHeaderGroups = () => (
+export const ColumnHidingWithHeaderGroups = (): JSX.Element => (
   <MaterialReactTable
     columns={[
       {
@@ -167,7 +155,7 @@ export const ColumnHidingWithHeaderGroups = () => (
     data={data}
   />
 );
-export const ColumnHidingColumnsNotVisibleInShowHide = () => (
+export const ColumnHidingColumnsNotVisibleInShowHide = (): JSX.Element => (
   <MaterialReactTable
     columns={[
       {
@@ -204,7 +192,7 @@ export const ColumnHidingColumnsNotVisibleInShowHide = () => (
     data={data}
   />
 );
-export const ColumnHidingWithColumnsHiddenAndNotVisibleInShowHide = () => (
+export const ColumnHidingWithColumnsHiddenAndNotVisibleInShowHide = (): JSX.Element => (
   <MaterialReactTable
     columns={[
       {

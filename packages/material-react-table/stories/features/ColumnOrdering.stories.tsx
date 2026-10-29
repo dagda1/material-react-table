@@ -2,12 +2,7 @@ import { faker } from '@faker-js/faker';
 import { type Meta } from '@storybook/react-vite';
 import { useState } from 'react';
 
-import {
-  getColumnId,
-  MaterialReactTable,
-  type MRT_ColumnDef,
-  type MRT_ColumnOrderState,
-} from '../../src';
+import { getColumnId, MaterialReactTable, type MRT_ColumnDef, type MRT_ColumnOrderState } from '../../src';
 
 const meta: Meta = {
   title: 'Features/Column Ordering Examples',
@@ -57,11 +52,11 @@ const data = [...Array(100)].map(() => ({
   state: faker.location.state(),
 }));
 
-export const ColumnOrderingEnabled = () => (
+export const ColumnOrderingEnabled = (): JSX.Element => (
   <MaterialReactTable columns={columns} data={data} enableColumnOrdering />
 );
 
-export const DisplayColumnOrderingEnabled = () => (
+export const DisplayColumnOrderingEnabled = (): JSX.Element => (
   <MaterialReactTable
     columns={columns}
     data={data}
@@ -75,7 +70,7 @@ export const DisplayColumnOrderingEnabled = () => (
   />
 );
 
-export const ColumnOrderingDisabledPerColumn = () => (
+export const ColumnOrderingDisabledPerColumn = (): JSX.Element => (
   <MaterialReactTable
     columns={[
       {
@@ -109,34 +104,19 @@ export const ColumnOrderingDisabledPerColumn = () => (
   />
 );
 
-export const ColumnOrderingWithSelect = () => (
-  <MaterialReactTable
-    columns={columns}
-    data={data}
-    enableColumnOrdering
-    enableRowSelection
-  />
+export const ColumnOrderingWithSelect = (): JSX.Element => (
+  <MaterialReactTable columns={columns} data={data} enableColumnOrdering enableRowSelection />
 );
 
-export const ColumnOrderingWithPinning = () => (
-  <MaterialReactTable
-    columns={columns}
-    data={data}
-    enableColumnOrdering
-    enableColumnPinning
-  />
+export const ColumnOrderingWithPinning = (): JSX.Element => (
+  <MaterialReactTable columns={columns} data={data} enableColumnOrdering enableColumnPinning />
 );
 
-export const ColumnOrderingNoDragHandles = () => (
-  <MaterialReactTable
-    columns={columns}
-    data={data}
-    enableColumnDragging={false}
-    enableColumnOrdering
-  />
+export const ColumnOrderingNoDragHandles = (): JSX.Element => (
+  <MaterialReactTable columns={columns} data={data} enableColumnDragging={false} enableColumnOrdering />
 );
 
-export const ColumnOrderingStateManaged = () => {
+export const ColumnOrderingStateManaged = (): JSX.Element => {
   const [columnOrder, setColumnOrder] = useState<MRT_ColumnOrderState>(() =>
     columns.map((column) => getColumnId(column)),
   );
@@ -153,7 +133,7 @@ export const ColumnOrderingStateManaged = () => {
   );
 };
 
-export const ColumnOrderingStateManagedCustom = () => {
+export const ColumnOrderingStateManagedCustom = (): JSX.Element => {
   const [columnOrder, setColumnOrder] = useState<MRT_ColumnOrderState>(() => [
     ...columns.map((column) => getColumnId(column)),
     'mrt-row-select',
@@ -171,7 +151,7 @@ export const ColumnOrderingStateManagedCustom = () => {
   );
 };
 
-export const ColumnOrderingEnabledWithColumnVirtualization = () => (
+export const ColumnOrderingEnabledWithColumnVirtualization = (): JSX.Element => (
   <MaterialReactTable
     columns={columns}
     columnVirtualizerOptions={{

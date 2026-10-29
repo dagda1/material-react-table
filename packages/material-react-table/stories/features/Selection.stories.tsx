@@ -47,45 +47,23 @@ const data = [...Array(15)].map(() => ({
   lastName: faker.person.lastName(),
 }));
 
-export const SelectionEnabled = () => (
-  <MaterialReactTable
-    columns={columns}
-    data={data}
-    enableRowNumbers
-    enableRowSelection
-  />
+export const SelectionEnabled = (): JSX.Element => (
+  <MaterialReactTable columns={columns} data={data} enableRowNumbers enableRowSelection />
 );
 
-export const DisableSelectAll = () => (
-  <MaterialReactTable
-    columns={columns}
-    data={data}
-    enableRowSelection
-    enableSelectAll={false}
-  />
+export const DisableSelectAll = (): JSX.Element => (
+  <MaterialReactTable columns={columns} data={data} enableRowSelection enableSelectAll={false} />
 );
 
-export const SelectionEnabledGrid = () => (
-  <MaterialReactTable
-    columns={columns}
-    data={data}
-    enableRowNumbers
-    enableRowSelection
-    layoutMode="grid"
-  />
+export const SelectionEnabledGrid = (): JSX.Element => (
+  <MaterialReactTable columns={columns} data={data} enableRowNumbers enableRowSelection layoutMode="grid" />
 );
 
-export const SelectionEnabledGridNoGrow = () => (
-  <MaterialReactTable
-    columns={columns}
-    data={data}
-    enableRowNumbers
-    enableRowSelection
-    layoutMode="grid-no-grow"
-  />
+export const SelectionEnabledGridNoGrow = (): JSX.Element => (
+  <MaterialReactTable columns={columns} data={data} enableRowNumbers enableRowSelection layoutMode="grid-no-grow" />
 );
 
-export const BatchSelectionDisabled = () => (
+export const BatchSelectionDisabled = (): JSX.Element => (
   <MaterialReactTable
     columns={columns}
     data={data}
@@ -95,15 +73,11 @@ export const BatchSelectionDisabled = () => (
   />
 );
 
-export const SelectionEnabledConditionally = () => (
-  <MaterialReactTable
-    columns={columns}
-    data={data}
-    enableRowSelection={(row) => row.original.age >= 21}
-  />
+export const SelectionEnabledConditionally = (): JSX.Element => (
+  <MaterialReactTable columns={columns} data={data} enableRowSelection={(row) => row.original.age >= 21} />
 );
 
-export const SelectionEnabledConditionallyWithInitial = () => (
+export const SelectionEnabledConditionallyWithInitial = (): JSX.Element => (
   <MaterialReactTable
     columns={columns}
     data={data}
@@ -121,14 +95,13 @@ export const SelectionEnabledConditionallyWithInitial = () => (
   />
 );
 
-export const SelectionEnabledWithRowClick = () => (
+export const SelectionEnabledWithRowClick = (): JSX.Element => (
   <MaterialReactTable
     columns={columns}
     data={data}
     enableRowSelection
     muiTableBodyRowProps={({ row, staticRowIndex, table }) => ({
-      onClick: (event) =>
-        getMRT_RowSelectionHandler({ row, staticRowIndex, table })(event),
+      onClick: (event) => getMRT_RowSelectionHandler({ row, staticRowIndex, table })(event),
       style: {
         cursor: 'pointer',
         userSelect: 'none',
@@ -137,7 +110,7 @@ export const SelectionEnabledWithRowClick = () => (
   />
 );
 
-export const ManualSelection = () => {
+export const ManualSelection = (): JSX.Element => {
   const [rowSelection, setRowSelection] = useState<MRT_RowSelectionState>({});
 
   console.info(rowSelection);
@@ -148,9 +121,7 @@ export const ManualSelection = () => {
       data={data}
       muiTableBodyRowProps={({ row }) => ({
         onClick: () =>
-          setRowSelection(({ [row.id]: selected, ...rest }) =>
-            selected ? rest : { ...rest, [row.id]: true },
-          ),
+          setRowSelection(({ [row.id]: selected, ...rest }) => (selected ? rest : { ...rest, [row.id]: true })),
         selected: rowSelection[row.id],
         sx: {
           cursor: 'pointer',
@@ -161,16 +132,11 @@ export const ManualSelection = () => {
   );
 };
 
-export const SelectAllModeAll = () => (
-  <MaterialReactTable
-    columns={columns}
-    data={data}
-    enableRowSelection
-    selectAllMode="all"
-  />
+export const SelectAllModeAll = (): JSX.Element => (
+  <MaterialReactTable columns={columns} data={data} enableRowSelection selectAllMode="all" />
 );
 
-export const SelectAllModeAllConditionally = () => (
+export const SelectAllModeAllConditionally = (): JSX.Element => (
   <MaterialReactTable
     columns={columns}
     data={data}
@@ -179,16 +145,11 @@ export const SelectAllModeAllConditionally = () => (
   />
 );
 
-export const SelectAllModePage = () => (
-  <MaterialReactTable
-    columns={columns}
-    data={data}
-    enableRowSelection
-    selectAllMode="page"
-  />
+export const SelectAllModePage = (): JSX.Element => (
+  <MaterialReactTable columns={columns} data={data} enableRowSelection selectAllMode="page" />
 );
 
-export const SelectAllDisabledCustomHeader = () => (
+export const SelectAllDisabledCustomHeader = (): JSX.Element => (
   <MaterialReactTable
     columns={columns}
     data={data}
@@ -200,16 +161,11 @@ export const SelectAllDisabledCustomHeader = () => (
   />
 );
 
-export const SingleSelectionRadio = () => (
-  <MaterialReactTable
-    columns={columns}
-    data={data}
-    enableMultiRowSelection={false}
-    enableRowSelection
-  />
+export const SingleSelectionRadio = (): JSX.Element => (
+  <MaterialReactTable columns={columns} data={data} enableMultiRowSelection={false} enableRowSelection />
 );
 
-export const SingleSelectionRadioWithRowClick = () => (
+export const SingleSelectionRadioWithRowClick = (): JSX.Element => (
   <MaterialReactTable
     columns={columns}
     data={data}
@@ -224,7 +180,7 @@ export const SingleSelectionRadioWithRowClick = () => (
   />
 );
 
-export const SelectCheckboxSecondaryColor = () => (
+export const SelectCheckboxSecondaryColor = (): JSX.Element => (
   <MaterialReactTable
     columns={columns}
     data={data}
@@ -233,25 +189,15 @@ export const SelectCheckboxSecondaryColor = () => (
   />
 );
 
-export const AlertBannerBottom = () => (
-  <MaterialReactTable
-    columns={columns}
-    data={data}
-    enableRowSelection
-    positionToolbarAlertBanner="bottom"
-  />
+export const AlertBannerBottom = (): JSX.Element => (
+  <MaterialReactTable columns={columns} data={data} enableRowSelection positionToolbarAlertBanner="bottom" />
 );
 
-export const AlertBannerHeadOverlay = () => (
-  <MaterialReactTable
-    columns={columns}
-    data={data}
-    enableRowSelection
-    positionToolbarAlertBanner="head-overlay"
-  />
+export const AlertBannerHeadOverlay = (): JSX.Element => (
+  <MaterialReactTable columns={columns} data={data} enableRowSelection positionToolbarAlertBanner="head-overlay" />
 );
 
-export const CustomAlertBannerHeadOverlay = () => (
+export const CustomAlertBannerHeadOverlay = (): JSX.Element => (
   <MaterialReactTable
     columns={columns}
     data={data}
@@ -261,9 +207,7 @@ export const CustomAlertBannerHeadOverlay = () => (
     }}
     positionToolbarAlertBanner="head-overlay"
     renderToolbarAlertBannerContent={({ selectedAlert, table }) => (
-      <Box
-        sx={{ display: 'flex', justifyContent: 'space-between', width: '100%' }}
-      >
+      <Box sx={{ display: 'flex', justifyContent: 'space-between', width: '100%' }}>
         <Box
           sx={{
             alignItems: 'center',
@@ -288,9 +232,8 @@ export const CustomAlertBannerHeadOverlay = () => (
   />
 );
 
-export const MultiSelectRowWithHoldShift = () => {
-  const [prevSelectedStaticRowIndex, setPrevSelectedStaticRowIndex] =
-    useState<number>();
+export const MultiSelectRowWithHoldShift = (): JSX.Element => {
+  const [prevSelectedStaticRowIndex, setPrevSelectedStaticRowIndex] = useState<number>();
 
   //--------------------------------------------------
   const table = useMaterialReactTable({
@@ -335,24 +278,6 @@ export const MultiSelectRowWithHoldShift = () => {
   });
 
   //--------------------------------------------------
-  const handleMultiRowSelectionWithShiftKey = useCallback(
-    (opts: { rowId: string; rowIndex: number }) => {
-      const { rowId, rowIndex } = opts;
-      if (prevSelectedStaticRowIndex === undefined) {
-        table.setRowSelection((updater) => {
-          return { ...updater, [rowId]: true };
-        });
-      } else {
-        const start = Math.min(prevSelectedStaticRowIndex, rowIndex);
-        const end = Math.max(prevSelectedStaticRowIndex, rowIndex);
-        handleMultiRowSelection({ end, start });
-      }
-      setPrevSelectedStaticRowIndex(rowIndex);
-    },
-    [prevSelectedStaticRowIndex],
-  );
-
-  //--------------------------------------------------
   const handleMultiRowSelection = useCallback(
     (opts: { end: number; start: number }) => {
       const { end, start } = opts;
@@ -368,7 +293,25 @@ export const MultiSelectRowWithHoldShift = () => {
         return { ...updater, ...res };
       });
     },
-    [],
+    [table],
+  );
+
+  //--------------------------------------------------
+  const handleMultiRowSelectionWithShiftKey = useCallback(
+    (opts: { rowId: string; rowIndex: number }) => {
+      const { rowId, rowIndex } = opts;
+      if (prevSelectedStaticRowIndex === undefined) {
+        table.setRowSelection((updater) => {
+          return { ...updater, [rowId]: true };
+        });
+      } else {
+        const start = Math.min(prevSelectedStaticRowIndex, rowIndex);
+        const end = Math.max(prevSelectedStaticRowIndex, rowIndex);
+        handleMultiRowSelection({ end, start });
+      }
+      setPrevSelectedStaticRowIndex(rowIndex);
+    },
+    [handleMultiRowSelection, prevSelectedStaticRowIndex, table],
   );
 
   // TODO: Reset prevSelectedStaticRowIndex when sorting changes

@@ -1,12 +1,17 @@
-import { Box, useMediaQuery } from '@mui/material';
-import { IconButton } from '@mui/material';
-import { InputLabel } from '@mui/material';
-import { MenuItem } from '@mui/material';
-import { Pagination, type PaginationProps } from '@mui/material';
-import { PaginationItem } from '@mui/material';
-import { Select, type SelectProps } from '@mui/material';
-import { Tooltip } from '@mui/material';
-import { Typography } from '@mui/material';
+import {
+  Box,
+  IconButton,
+  InputLabel,
+  MenuItem,
+  Pagination,
+  PaginationItem,
+  type PaginationProps,
+  Select,
+  type SelectProps,
+  Tooltip,
+  Typography,
+  useMediaQuery,
+} from '@mui/material';
 import { useTheme } from '@mui/material/styles';
 
 import { type MRT_RowData, type MRT_TableInstance } from '../../types';
@@ -15,15 +20,14 @@ import { parseFromValuesOrFunc } from '../../utils/utils';
 
 const defaultRowsPerPage = [5, 10, 15, 20, 25, 30, 50, 100];
 
-export interface MRT_TablePaginationProps<TData extends MRT_RowData>
-  extends Partial<
-    PaginationProps & {
-      disabled?: boolean;
-      rowsPerPageOptions?: number[] | { label: string; value: number }[];
-      SelectProps?: Partial<SelectProps>;
-      showRowsPerPage?: boolean;
-    }
-  > {
+export interface MRT_TablePaginationProps<TData extends MRT_RowData> extends Partial<
+  PaginationProps & {
+    disabled?: boolean;
+    rowsPerPageOptions?: number[] | { label: string; value: number }[];
+    SelectProps?: Partial<SelectProps>;
+    showRowsPerPage?: boolean;
+  }
+> {
   position?: 'bottom' | 'top';
   table: MRT_TableInstance<TData>;
 }
@@ -32,7 +36,7 @@ export const MRT_TablePagination = <TData extends MRT_RowData>({
   position = 'bottom',
   table,
   ...rest
-}: MRT_TablePaginationProps<TData>) => {
+}: MRT_TablePaginationProps<TData>): JSX.Element => {
   const theme = useTheme();
   const isMobile = useMediaQuery('(max-width: 720px)');
 
@@ -92,10 +96,7 @@ export const MRT_TablePagination = <TData extends MRT_RowData>({
         gap: '8px',
         justifyContent: { md: 'space-between', sm: 'center' },
         justifySelf: 'flex-end',
-        mt:
-          position === 'top' && enableToolbarInternalActions
-            ? '3rem'
-            : undefined,
+        mt: position === 'top' && enableToolbarInternalActions ? '3rem' : undefined,
         position: 'relative',
         px: '8px',
         py: '12px',
@@ -116,9 +117,7 @@ export const MRT_TablePagination = <TData extends MRT_RowData>({
             }}
             label={localization.rowsPerPage}
             MenuProps={{ disableScrollLock: true }}
-            onChange={(event) =>
-              table.setPageSize(+(event.target.value as any))
-            }
+            onChange={(event) => table.setPageSize(Number(event.target.value))}
             sx={{ mb: 0 }}
             value={pageSize}
             variant="standard"
@@ -126,8 +125,7 @@ export const MRT_TablePagination = <TData extends MRT_RowData>({
           >
             {rowsPerPageOptions.map((option) => {
               const value = typeof option !== 'number' ? option.value : option;
-              const label =
-                typeof option !== 'number' ? option.label : `${option}`;
+              const label = typeof option !== 'number' ? option.label : `${option}`;
               return (
                 SelectProps?.children ??
                 (SelectProps?.native ? (
@@ -167,21 +165,16 @@ export const MRT_TablePagination = <TData extends MRT_RowData>({
         />
       ) : paginationDisplayMode === 'default' ? (
         <>
-          <Typography
-            align="center"
-            component="span"
-            sx={{ m: '0 4px', minWidth: '8ch' }}
-            variant="body2"
-          >{`${
-            lastRowIndex === 0
-              ? 0
-              : (firstRowIndex + 1).toLocaleString(localization.language)
+          <Typography align="center" component="span" sx={{ m: '0 4px', minWidth: '8ch' }} variant="body2">{`${
+            lastRowIndex === 0 ? 0 : (firstRowIndex + 1).toLocaleString(localization.language)
           }-${lastRowIndex.toLocaleString(localization.language)} ${
             localization.of
           } ${totalRowCount.toLocaleString(localization.language)}`}</Typography>
-          <Box sx={{
-            gap: "xs"
-          }}>
+          <Box
+            sx={{
+              gap: 'xs',
+            }}
+          >
             {showFirstButton && (
               <Tooltip {...tooltipProps} title={localization.goToFirstPage}>
                 <span>

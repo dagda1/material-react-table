@@ -45,11 +45,11 @@ const data = [...Array(100)].map(() => ({
   state: faker.location.state(),
 }));
 
-export const ColumnPinningEnabled = () => (
+export const ColumnPinningEnabled = (): JSX.Element => (
   <MaterialReactTable columns={columns} data={data} enableColumnPinning />
 );
 
-export const ColumnPinningInitial = () => (
+export const ColumnPinningInitial = (): JSX.Element => (
   <MaterialReactTable
     columns={columns}
     data={data}
@@ -58,7 +58,7 @@ export const ColumnPinningInitial = () => (
   />
 );
 
-export const ColumnPinningDisabledPerColumn = () => (
+export const ColumnPinningDisabledPerColumn = (): JSX.Element => (
   <MaterialReactTable
     columns={[
       {
@@ -92,16 +92,11 @@ export const ColumnPinningDisabledPerColumn = () => (
   />
 );
 
-export const ColumnPinningWithSelect = () => (
-  <MaterialReactTable
-    columns={columns}
-    data={data}
-    enableColumnPinning
-    enableRowSelection
-  />
+export const ColumnPinningWithSelect = (): JSX.Element => (
+  <MaterialReactTable columns={columns} data={data} enableColumnPinning enableRowSelection />
 );
 
-export const ColumnPinningWithDetailPanel = () => (
+export const ColumnPinningWithDetailPanel = (): JSX.Element => (
   <MaterialReactTable
     columns={columns}
     data={data}

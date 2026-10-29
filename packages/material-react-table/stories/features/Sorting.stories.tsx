@@ -2,11 +2,7 @@ import { faker } from '@faker-js/faker';
 import { type Meta } from '@storybook/react-vite';
 import { useState } from 'react';
 
-import {
-  MaterialReactTable,
-  type MRT_ColumnDef,
-  type MRT_SortingState,
-} from '../../src';
+import { MaterialReactTable, type MRT_ColumnDef, type MRT_SortingState } from '../../src';
 
 const meta: Meta = {
   title: 'Features/Sorting Examples',
@@ -45,15 +41,13 @@ const data = [...Array(100)].map(() => ({
   state: faker.location.state(),
 }));
 
-export const SortingEnabledDefault = () => (
-  <MaterialReactTable columns={columns} data={data} />
-);
+export const SortingEnabledDefault = (): JSX.Element => <MaterialReactTable columns={columns} data={data} />;
 
-export const DisableSorting = () => (
+export const DisableSorting = (): JSX.Element => (
   <MaterialReactTable columns={columns} data={data} enableSorting={false} />
 );
 
-export const DisableSortingForSpecificColumns = () => (
+export const DisableSortingForSpecificColumns = (): JSX.Element => (
   <MaterialReactTable
     columns={[
       {
@@ -83,19 +77,15 @@ export const DisableSortingForSpecificColumns = () => (
   />
 );
 
-export const DisableMultiSorting = () => (
+export const DisableMultiSorting = (): JSX.Element => (
   <MaterialReactTable columns={columns} data={data} enableMultiSort={false} />
 );
 
-export const DisableSortingRemoval = () => (
-  <MaterialReactTable
-    columns={columns}
-    data={data}
-    enableSortingRemoval={false}
-  />
+export const DisableSortingRemoval = (): JSX.Element => (
+  <MaterialReactTable columns={columns} data={data} enableSortingRemoval={false} />
 );
 
-export const SortRanking = () => (
+export const SortRanking = (): JSX.Element => (
   <MaterialReactTable
     columns={[
       {
@@ -126,14 +116,7 @@ export const SortRanking = () => (
   />
 );
 
-export const SortingStateManaged = () => {
+export const SortingStateManaged = (): JSX.Element => {
   const [sorting, setSorting] = useState<MRT_SortingState>([]);
-  return (
-    <MaterialReactTable
-      columns={columns}
-      data={data}
-      onSortingChange={setSorting}
-      state={{ sorting }}
-    />
-  );
+  return <MaterialReactTable columns={columns} data={data} onSortingChange={setSorting} state={{ sorting }} />;
 };

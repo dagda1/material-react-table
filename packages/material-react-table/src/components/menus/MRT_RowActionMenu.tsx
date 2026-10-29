@@ -1,16 +1,11 @@
 import { Menu, type MenuProps } from '@mui/material';
 import { type MouseEvent, type ReactNode, useMemo } from 'react';
 
-import {
-  type MRT_Row,
-  type MRT_RowData,
-  type MRT_TableInstance,
-} from '../../types';
+import { type MRT_Row, type MRT_RowData, type MRT_TableInstance } from '../../types';
 import { parseFromValuesOrFunc } from '../../utils/utils';
 import { MRT_ActionMenuItem } from './MRT_ActionMenuItem';
 
-export interface MRT_RowActionMenuProps<TData extends MRT_RowData>
-  extends Partial<MenuProps> {
+export interface MRT_RowActionMenuProps<TData extends MRT_RowData> extends Partial<MenuProps> {
   anchorEl: HTMLElement | null;
   handleEdit: (event: MouseEvent) => void;
   row: MRT_Row<TData>;
@@ -27,7 +22,7 @@ export const MRT_RowActionMenu = <TData extends MRT_RowData>({
   staticRowIndex,
   table,
   ...rest
-}: MRT_RowActionMenuProps<TData>) => {
+}: MRT_RowActionMenuProps<TData>): JSX.Element | null => {
   const {
     options: {
       editDisplayMode,
@@ -42,28 +37,44 @@ export const MRT_RowActionMenu = <TData extends MRT_RowData>({
 
   const menuItems = useMemo(() => {
     const items: ReactNode[] = [];
-    const editItem = parseFromValuesOrFunc(enableEditing, row) &&
-      ['modal', 'row'].includes(editDisplayMode!) && (
-        <MRT_ActionMenuItem
-          icon={<EditIcon />}
-          key={'edit'}
-          label={localization.edit}
-          onClick={handleEdit}
-          table={table}
-        />
-      );
-    if (editItem) items.push(editItem);
+    const editItem = parseFromValuesOrFunc(enableEditing, row) && ['modal', 'row'].includes(editDisplayMode!) && (
+      <MRT_ActionMenuItem
+        icon={<EditIcon />}
+        key={'edit'}
+        label={localization.edit}
+        onClick={handleEdit}
+        table={table}
+      />
+    );
+    if (editItem) {
+      items.push(editItem);
+    }
     const rowActionMenuItems = renderRowActionMenuItems?.({
       closeMenu: () => setAnchorEl(null),
       row,
       staticRowIndex,
       table,
     });
-    if (rowActionMenuItems?.length) items.push(...rowActionMenuItems);
+    if (rowActionMenuItems?.length) {
+      items.push(...rowActionMenuItems);
+    }
     return items;
-  }, [renderRowActionMenuItems, row, staticRowIndex, table]);
+  }, [
+    EditIcon,
+    editDisplayMode,
+    enableEditing,
+    handleEdit,
+    localization.edit,
+    renderRowActionMenuItems,
+    row,
+    setAnchorEl,
+    staticRowIndex,
+    table,
+  ]);
 
-  if (!menuItems.length) return null;
+  if (!menuItems.length) {
+    return null;
+  }
 
   return (
     <Menu

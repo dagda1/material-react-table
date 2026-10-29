@@ -3,11 +3,7 @@ import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
 import { type Meta } from '@storybook/react-vite';
 
-import {
-  MaterialReactTable,
-  MRT_AggregationFns,
-  type MRT_ColumnDef,
-} from '../../src';
+import { MaterialReactTable, MRT_AggregationFns, type MRT_ColumnDef } from '../../src';
 
 const meta: Meta = {
   title: 'Features/Aggregation Examples',
@@ -24,8 +20,7 @@ const data = [...Array(2000)].map(() => ({
   state: faker.location.state(),
 }));
 
-const averageSalary =
-  data.reduce((acc, curr) => acc + curr.salary, 0) / data.length;
+const averageSalary = data.reduce((acc, curr) => acc + curr.salary, 0) / data.length;
 
 const averageAge = data.reduce((acc, curr) => acc + curr.age, 0) / data.length;
 
@@ -46,11 +41,8 @@ const columns = [
     accessorKey: 'age',
     AggregatedCell: ({ cell, table }) => (
       <>
-        Max by{' '}
-        {table.getColumn(cell.row.groupingColumnId ?? '')?.columnDef.header}:{' '}
-        <Box sx={{ color: 'success.main', fontWeight: 'bold' }}>
-          {cell.getValue<number>()}
-        </Box>
+        Max by {table.getColumn(cell.row.groupingColumnId ?? '')?.columnDef.header}:{' '}
+        <Box sx={{ color: 'success.main', fontWeight: 'bold' }}>{cell.getValue<number>()}</Box>
       </>
     ),
     aggregationFn: 'max',
@@ -64,9 +56,7 @@ const columns = [
   },
   {
     accessorKey: 'gender',
-    GroupedCell: ({ cell }) => (
-      <Box sx={{ color: 'primary.main' }}>{cell.getValue<string>()}</Box>
-    ),
+    GroupedCell: ({ cell }) => <Box sx={{ color: 'primary.main' }}>{cell.getValue<string>()}</Box>,
     header: 'Gender',
   },
   {
@@ -77,8 +67,7 @@ const columns = [
     accessorKey: 'salary',
     AggregatedCell: ({ cell, table }) => (
       <>
-        Average by{' '}
-        {table.getColumn(cell.row.groupingColumnId ?? '')?.columnDef.header}:{' '}
+        Average by {table.getColumn(cell.row.groupingColumnId ?? '')?.columnDef.header}:{' '}
         <Box sx={{ color: 'success.main', fontWeight: 'bold' }}>
           {cell.getValue<number>()?.toLocaleString?.('en-US', {
             currency: 'USD',
@@ -118,29 +107,17 @@ const columns = [
   },
 ] as MRT_ColumnDef<(typeof data)[0]>[];
 
-export const Aggregation = () => (
-  <MaterialReactTable columns={columns} data={data} enableGrouping />
+export const Aggregation = (): JSX.Element => <MaterialReactTable columns={columns} data={data} enableGrouping />;
+
+export const AggregationWithSelection = (): JSX.Element => (
+  <MaterialReactTable columns={columns} data={data} enableGrouping enableRowSelection />
 );
 
-export const AggregationWithSelection = () => (
-  <MaterialReactTable
-    columns={columns}
-    data={data}
-    enableGrouping
-    enableRowSelection
-  />
+export const AggregationExpandedDefault = (): JSX.Element => (
+  <MaterialReactTable columns={columns} data={data} enableGrouping initialState={{ expanded: true }} />
 );
 
-export const AggregationExpandedDefault = () => (
-  <MaterialReactTable
-    columns={columns}
-    data={data}
-    enableGrouping
-    initialState={{ expanded: true }}
-  />
-);
-
-export const AggregationRemoveMode = () => (
+export const AggregationRemoveMode = (): JSX.Element => (
   <MaterialReactTable
     columns={columns}
     data={data}
@@ -150,7 +127,7 @@ export const AggregationRemoveMode = () => (
   />
 );
 
-export const AggregationFalseMode = () => (
+export const AggregationFalseMode = (): JSX.Element => (
   <MaterialReactTable
     columns={columns}
     data={data}
@@ -160,7 +137,7 @@ export const AggregationFalseMode = () => (
   />
 );
 
-export const AggregationRemoveModeCustomGroupedCell = () => (
+export const AggregationRemoveModeCustomGroupedCell = (): JSX.Element => (
   <MaterialReactTable
     columns={columns}
     data={data}
@@ -179,7 +156,7 @@ export const AggregationRemoveModeCustomGroupedCell = () => (
   />
 );
 
-export const AggregationGroupedAndExpandedDefault = () => (
+export const AggregationGroupedAndExpandedDefault = (): JSX.Element => (
   <MaterialReactTable
     columns={columns}
     data={data}
@@ -193,7 +170,7 @@ export const AggregationGroupedAndExpandedDefault = () => (
   />
 );
 
-export const MultiAggregationPerColumn = () => (
+export const MultiAggregationPerColumn = (): JSX.Element => (
   <MaterialReactTable
     columns={[
       {
@@ -210,19 +187,11 @@ export const MultiAggregationPerColumn = () => (
         accessorKey: 'age',
         AggregatedCell: ({ cell, table }) => (
           <>
-            Min by{' '}
-            {table.getColumn(cell.row.groupingColumnId ?? '')?.columnDef.header}:{' '}
-            <Box sx={{ color: 'success.main', fontWeight: 'bold' }}>
-              {cell.getValue<[number, number]>()[0]}
-            </Box>
+            Min by {table.getColumn(cell.row.groupingColumnId ?? '')?.columnDef.header}:{' '}
+            <Box sx={{ color: 'success.main', fontWeight: 'bold' }}>{cell.getValue<[number, number]>()[0]}</Box>
             <br />
-            Max by{' '}
-            {
-              table.getColumn(cell.row.groupingColumnId ?? '')?.columnDef.header
-            }:{' '}
-            <Box sx={{ color: 'success.main', fontWeight: 'bold' }}>
-              {cell.getValue<[number, number]>()[1]}
-            </Box>
+            Max by {table.getColumn(cell.row.groupingColumnId ?? '')?.columnDef.header}:{' '}
+            <Box sx={{ color: 'success.main', fontWeight: 'bold' }}>{cell.getValue<[number, number]>()[1]}</Box>
           </>
         ),
         //manually set multiple aggregation functions
@@ -242,9 +211,7 @@ export const MultiAggregationPerColumn = () => (
       },
       {
         accessorKey: 'gender',
-        GroupedCell: ({ cell }) => (
-          <Box sx={{ color: 'primary.main' }}>{cell.getValue<string>()}</Box>
-        ),
+        GroupedCell: ({ cell }) => <Box sx={{ color: 'primary.main' }}>{cell.getValue<string>()}</Box>,
         header: 'Gender',
       },
       {
@@ -256,23 +223,16 @@ export const MultiAggregationPerColumn = () => (
         AggregatedCell: ({ cell, table }) => (
           <>
             Count:{' '}
-            <Box sx={{ color: 'success.main', fontWeight: 'bold' }}>
-              {cell.getValue<[number, number]>()?.[0]}
-            </Box>
+            <Box sx={{ color: 'success.main', fontWeight: 'bold' }}>{cell.getValue<[number, number]>()?.[0]}</Box>
             <br />
-            Average by{' '}
-            {
-              table.getColumn(cell.row.groupingColumnId ?? '')?.columnDef.header
-            }:{' '}
+            Average by {table.getColumn(cell.row.groupingColumnId ?? '')?.columnDef.header}:{' '}
             <Box sx={{ color: 'success.main', fontWeight: 'bold' }}>
-              {cell
-                .getValue<[number, number]>()?.[1]
-                ?.toLocaleString?.('en-US', {
-                  currency: 'USD',
-                  maximumFractionDigits: 0,
-                  minimumFractionDigits: 0,
-                  style: 'currency',
-                })}
+              {cell.getValue<[number, number]>()?.[1]?.toLocaleString?.('en-US', {
+                currency: 'USD',
+                maximumFractionDigits: 0,
+                minimumFractionDigits: 0,
+                style: 'currency',
+              })}
             </Box>
           </>
         ),

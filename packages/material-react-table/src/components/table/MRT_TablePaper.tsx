@@ -1,5 +1,5 @@
 import { Paper, type PaperProps } from '@mui/material';
-import { useTheme } from '@mui/material/styles';
+import { type CSSObject, useTheme } from '@mui/material/styles';
 
 import { type MRT_RowData, type MRT_TableInstance } from '../../types';
 import { parseFromValuesOrFunc } from '../../utils/utils';
@@ -7,15 +7,14 @@ import { MRT_BottomToolbar } from '../toolbar/MRT_BottomToolbar';
 import { MRT_TopToolbar } from '../toolbar/MRT_TopToolbar';
 import { MRT_TableContainer } from './MRT_TableContainer';
 
-export interface MRT_TablePaperProps<TData extends MRT_RowData>
-  extends PaperProps {
+export interface MRT_TablePaperProps<TData extends MRT_RowData> extends PaperProps {
   table: MRT_TableInstance<TData>;
 }
 
 export const MRT_TablePaper = <TData extends MRT_RowData>({
   table,
   ...rest
-}: MRT_TablePaperProps<TData>) => {
+}: MRT_TablePaperProps<TData>): JSX.Element => {
   const {
     options: {
       enableBottomToolbar,
@@ -43,8 +42,7 @@ export const MRT_TablePaper = <TData extends MRT_RowData>({
       {...paperProps}
       ref={(ref: HTMLDivElement) => {
         tablePaperRef.current = ref;
-        if (paperProps?.ref) {
-          //@ts-expect-error
+        if (paperProps?.ref && typeof paperProps.ref === 'object') {
           paperProps.ref.current = ref;
         }
       }}
@@ -72,18 +70,13 @@ export const MRT_TablePaper = <TData extends MRT_RowData>({
         backgroundImage: 'unset',
         overflow: 'hidden',
         transition: 'all 100ms ease-in-out',
-        ...(parseFromValuesOrFunc(paperProps?.sx, theme) as any),
+        ...(parseFromValuesOrFunc(paperProps?.sx, theme) as CSSObject),
       })}
     >
-      {enableTopToolbar &&
-        (parseFromValuesOrFunc(renderTopToolbar, { table }) ?? (
-          <MRT_TopToolbar table={table} />
-        ))}
+      {enableTopToolbar && (parseFromValuesOrFunc(renderTopToolbar, { table }) ?? <MRT_TopToolbar table={table} />)}
       <MRT_TableContainer table={table} />
       {enableBottomToolbar &&
-        (parseFromValuesOrFunc(renderBottomToolbar, { table }) ?? (
-          <MRT_BottomToolbar table={table} />
-        ))}
+        (parseFromValuesOrFunc(renderBottomToolbar, { table }) ?? <MRT_BottomToolbar table={table} />)}
     </Paper>
   );
 };

@@ -1,11 +1,7 @@
 import { Box } from '@mui/material';
 import { type ReactNode, type RefObject } from 'react';
 
-import {
-  type MRT_Cell,
-  type MRT_RowData,
-  type MRT_TableInstance,
-} from '../../types';
+import { type MRT_Cell, type MRT_RowData, type MRT_TableInstance } from '../../types';
 import { highlightWords } from '../../utils/highlight.utils';
 
 const allowedTypes = ['string', 'number'];
@@ -24,7 +20,7 @@ export const MRT_TableBodyCellValue = <TData extends MRT_RowData>({
   staticColumnIndex,
   staticRowIndex,
   table,
-}: MRT_TableBodyCellValueProps<TData>) => {
+}: MRT_TableBodyCellValueProps<TData>): ReactNode => {
   const {
     options: {
       enableFilterMatchHighlighting,
@@ -73,13 +69,10 @@ export const MRT_TableBodyCellValue = <TData extends MRT_RowData>({
     ((filterValue &&
       allowedTypes.includes(typeof filterValue) &&
       ['autocomplete', 'text'].includes(columnDef.filterVariant!)) ||
-      (globalFilter &&
-        allowedTypes.includes(typeof globalFilter) &&
-        column.getCanGlobalFilter()))
+      (globalFilter && allowedTypes.includes(typeof globalFilter) && column.getCanGlobalFilter()))
   ) {
     const chunks = highlightWords({
-      matchExactly:
-        (filterValue ? columnDef._filterFn : globalFilterFn) !== 'fuzzy',
+      matchExactly: (filterValue ? columnDef._filterFn : globalFilterFn) !== 'fuzzy',
       query: (filterValue ?? globalFilter ?? '').toString(),
       text: renderedCellValue?.toString() as string,
     });
@@ -97,9 +90,7 @@ export const MRT_TableBodyCellValue = <TData extends MRT_RowData>({
                       backgroundColor: matchHighlightColor,
                       borderRadius: '2px',
                       color: (theme) =>
-                        theme.palette.mode === 'dark'
-                          ? theme.palette.common.white
-                          : theme.palette.common.black,
+                        theme.palette.mode === 'dark' ? theme.palette.common.white : theme.palette.common.black,
                       padding: '2px 1px',
                     }
                   : undefined

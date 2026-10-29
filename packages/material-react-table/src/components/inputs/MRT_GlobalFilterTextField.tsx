@@ -1,32 +1,20 @@
-import { Collapse } from '@mui/material';
-import { IconButton } from '@mui/material';
-import { InputAdornment } from '@mui/material';
-import { TextField, type TextFieldProps } from '@mui/material';
-import { Tooltip } from '@mui/material';
+import { Collapse, IconButton, InputAdornment, TextField, type TextFieldProps, Tooltip } from '@mui/material';
 import { debounce } from '@mui/material/utils';
-import {
-  type ChangeEvent,
-  type MouseEvent,
-  useCallback,
-  useEffect,
-  useRef,
-  useState,
-} from 'react';
+import { type ChangeEvent, type MouseEvent, useEffect, useRef, useState } from 'react';
 
 import { type MRT_RowData, type MRT_TableInstance } from '../../types';
 import { getTextFieldSlotProps } from '../../utils/slotProps.utils';
 import { parseFromValuesOrFunc } from '../../utils/utils';
 import { MRT_FilterOptionMenu } from '../menus/MRT_FilterOptionMenu';
 
-export interface MRT_GlobalFilterTextFieldProps<TData extends MRT_RowData>
-  extends TextFieldProps<'standard'> {
+export interface MRT_GlobalFilterTextFieldProps<TData extends MRT_RowData> extends TextFieldProps<'standard'> {
   table: MRT_TableInstance<TData>;
 }
 
 export const MRT_GlobalFilterTextField = <TData extends MRT_RowData>({
   table,
   ...rest
-}: MRT_GlobalFilterTextFieldProps<TData>) => {
+}: MRT_GlobalFilterTextFieldProps<TData>): JSX.Element => {
   const {
     options: {
       enableGlobalFilterModes,
@@ -51,14 +39,13 @@ export const MRT_GlobalFilterTextField = <TData extends MRT_RowData>({
   const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
   const [searchValue, setSearchValue] = useState(globalFilter ?? '');
 
-  const handleChangeDebounced = useCallback(
+  const [handleChangeDebounced] = useState(() =>
     debounce(
       (event: ChangeEvent<HTMLInputElement>) => {
         setGlobalFilter(event.target.value ?? undefined);
       },
       manualFiltering ? 500 : 250,
     ),
-    [],
   );
 
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
@@ -78,23 +65,19 @@ export const MRT_GlobalFilterTextField = <TData extends MRT_RowData>({
   useEffect(() => {
     if (isMounted.current) {
       if (globalFilter === undefined) {
-        handleClear();
+        setSearchValue('');
+        setGlobalFilter(undefined);
       } else {
         setSearchValue(globalFilter);
       }
     }
     isMounted.current = true;
-  }, [globalFilter]);
+  }, [globalFilter, setGlobalFilter]);
 
   const consumerSlots = getTextFieldSlotProps(textFieldProps.slotProps);
 
   return (
-    <Collapse
-      in={showGlobalFilter}
-      mountOnEnter
-      orientation="horizontal"
-      unmountOnExit
-    >
+    <Collapse in={showGlobalFilter} mountOnEnter orientation="horizontal" unmountOnExit>
       <TextField
         onChange={handleChange}
         placeholder={localization.search}
@@ -148,12 +131,7 @@ export const MRT_GlobalFilterTextField = <TData extends MRT_RowData>({
           },
         }}
       />
-      <MRT_FilterOptionMenu
-        anchorEl={anchorEl}
-        onSelect={handleClear}
-        setAnchorEl={setAnchorEl}
-        table={table}
-      />
+      <MRT_FilterOptionMenu anchorEl={anchorEl} onSelect={handleClear} setAnchorEl={setAnchorEl} table={table} />
     </Collapse>
   );
 };

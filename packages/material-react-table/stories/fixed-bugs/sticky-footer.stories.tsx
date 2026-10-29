@@ -1,6 +1,6 @@
 import { type Meta } from '@storybook/react-vite';
 
-import { MaterialReactTable } from '../../src';
+import { MaterialReactTable, type MRT_ColumnDef } from '../../src';
 
 const meta: Meta = {
   title: 'Fixed Bugs/sticky-footer',
@@ -8,7 +8,17 @@ const meta: Meta = {
 
 export default meta;
 
-const mockData: any = [
+interface Player {
+  firstName: string;
+  lastName: string;
+  middleName: string;
+  name: string;
+  no: number;
+  salary: number;
+  total: number;
+}
+
+const mockData: Player[] = [
   {
     firstName: 'Michael',
     lastName: 'Jordan',
@@ -92,7 +102,7 @@ const mockData: any = [
   },
 ];
 
-const mockColumns: any = [
+const mockColumns: MRT_ColumnDef<Player>[] = [
   {
     accessorKey: 'no',
     filterVariant: 'multi-select',
@@ -130,7 +140,7 @@ const mockColumns: any = [
   },
 ];
 
-export const PinnedColumnsWithStickyFooter = () => {
+export const PinnedColumnsWithStickyFooter = (): JSX.Element => {
   return (
     <MaterialReactTable
       columns={mockColumns}

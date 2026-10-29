@@ -73,8 +73,7 @@ export const MRT_Localization_TR: MRT_Localization = {
   rowsPerPage: 'Sayfa Başına Satır',
   save: 'Kaydet',
   search: 'Ara',
-  selectedCountOfRowCountRowsSelected:
-    '{rowCount} Satır Arasından {selectedCount} Adet Seçildi',
+  selectedCountOfRowCountRowsSelected: '{rowCount} Satır Arasından {selectedCount} Adet Seçildi',
   select: 'Seç',
   showAll: 'Tümünü Göster',
   showAllColumns: 'Bütün Sütunları Göster',

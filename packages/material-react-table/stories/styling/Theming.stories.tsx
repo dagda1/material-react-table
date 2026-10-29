@@ -36,11 +36,9 @@ const data = [...Array(21)].map(() => ({
   lastName: faker.person.lastName(),
 }));
 
-export const DefaultTheme = () => (
-  <MaterialReactTable columns={columns} data={data} enableRowSelection />
-);
+export const DefaultTheme = (): JSX.Element => <MaterialReactTable columns={columns} data={data} enableRowSelection />;
 
-export const CustomLightTheme = () => {
+export const CustomLightTheme = (): JSX.Element => {
   const theme = createTheme({
     palette: {
       background: {
@@ -61,7 +59,7 @@ export const CustomLightTheme = () => {
   );
 };
 
-export const CustomDarkTheme = () => {
+export const CustomDarkTheme = (): JSX.Element => {
   const theme = createTheme({
     palette: {
       mode: 'dark',

@@ -18,7 +18,7 @@ const data = [...Array(120)].map(() => ({
   startTime: faker.date.recent(),
 }));
 
-export const MobileDateTimePickers = () => (
+export const MobileDateTimePickers = (): JSX.Element => (
   <MaterialReactTable
     columns={[
       {

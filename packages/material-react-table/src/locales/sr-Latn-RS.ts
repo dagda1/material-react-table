@@ -73,8 +73,7 @@ export const MRT_Localization_SR_LATN_RS: MRT_Localization = {
   rowsPerPage: 'Redova po stranici',
   save: 'Snimi',
   search: 'Pretraži',
-  selectedCountOfRowCountRowsSelected:
-    '{selectedCount} od {rowCount} redova označeno',
+  selectedCountOfRowCountRowsSelected: '{selectedCount} od {rowCount} redova označeno',
   select: 'Označi',
   showAll: 'Prikaži sve',
   showAllColumns: 'Prikaži sve kolone',

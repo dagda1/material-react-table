@@ -34,11 +34,9 @@ const data = [...Array(21)].map(() => ({
   lastName: faker.person.lastName(),
 }));
 
-export const DefaultTableBodyRowStyles = () => (
-  <MaterialReactTable columns={columns} data={data} />
-);
+export const DefaultTableBodyRowStyles = (): JSX.Element => <MaterialReactTable columns={columns} data={data} />;
 
-export const DisableRowHoverEffect = () => (
+export const DisableRowHoverEffect = (): JSX.Element => (
   <MaterialReactTable
     columns={columns}
     data={data}
@@ -48,7 +46,7 @@ export const DisableRowHoverEffect = () => (
   />
 );
 
-export const StyleMuiTableBodyRow = () => (
+export const StyleMuiTableBodyRow = (): JSX.Element => (
   <MaterialReactTable
     columns={columns}
     data={data}
@@ -61,7 +59,7 @@ export const StyleMuiTableBodyRow = () => (
   />
 );
 
-export const StyleCustomStripedRows = () => (
+export const StyleCustomStripedRows = (): JSX.Element => (
   <MaterialReactTable
     columns={columns}
     data={data}
@@ -76,7 +74,7 @@ export const StyleCustomStripedRows = () => (
   />
 );
 
-export const StyleCustomStripedRowsDetailPanel = () => (
+export const StyleCustomStripedRowsDetailPanel = (): JSX.Element => (
   <MaterialReactTable
     columns={columns}
     data={data}
@@ -92,14 +90,13 @@ export const StyleCustomStripedRowsDetailPanel = () => (
   />
 );
 
-export const ConditionallyStyleMuiTableRow = () => (
+export const ConditionallyStyleMuiTableRow = (): JSX.Element => (
   <MaterialReactTable
     columns={columns}
     data={data}
     muiTableBodyRowProps={({ row }) => ({
       sx: {
-        backgroundColor:
-          row.getValue<number>('age') > 50 ? 'rgba(255, 54, 33, 0.18)' : '',
+        backgroundColor: row.getValue<number>('age') > 50 ? 'rgba(255, 54, 33, 0.18)' : '',
         fontStyle: 'italic',
       },
     })}

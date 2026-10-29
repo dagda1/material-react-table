@@ -40,7 +40,7 @@ const data = [...Array(25)].map(() => ({
   state: faker.location.state(),
 }));
 
-export const NoBoxShadow = () => (
+export const NoBoxShadow = (): JSX.Element => (
   <MaterialReactTable
     columns={columns}
     data={data}

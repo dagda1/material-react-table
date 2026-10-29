@@ -8,11 +8,7 @@ import Tooltip from '@mui/material/Tooltip';
 import Typography from '@mui/material/Typography';
 import { type Meta } from '@storybook/react-vite';
 
-import {
-  MaterialReactTable,
-  type MRT_ColumnDef,
-  MRT_ToggleFullScreenButton,
-} from '../../src';
+import { MaterialReactTable, type MRT_ColumnDef, MRT_ToggleFullScreenButton } from '../../src';
 
 const meta: Meta = {
   title: 'Features/Toolbar Examples',
@@ -51,29 +47,19 @@ const data = [...Array(5)].map(() => ({
   phoneNumber: faker.phone.number(),
 }));
 
-export const ToolbarEnabledDefault = () => (
+export const ToolbarEnabledDefault = (): JSX.Element => (
   <MaterialReactTable columns={columns} data={data} enableRowSelection />
 );
 
-export const TopToolbarHidden = () => (
-  <MaterialReactTable
-    columns={columns}
-    data={data}
-    enableRowSelection
-    enableTopToolbar={false}
-  />
+export const TopToolbarHidden = (): JSX.Element => (
+  <MaterialReactTable columns={columns} data={data} enableRowSelection enableTopToolbar={false} />
 );
 
-export const BottomToolbarHidden = () => (
-  <MaterialReactTable
-    columns={columns}
-    data={data}
-    enableBottomToolbar={false}
-    enableRowSelection
-  />
+export const BottomToolbarHidden = (): JSX.Element => (
+  <MaterialReactTable columns={columns} data={data} enableBottomToolbar={false} enableRowSelection />
 );
 
-export const NoToolbars = () => (
+export const NoToolbars = (): JSX.Element => (
   <MaterialReactTable
     columns={columns}
     data={data}
@@ -83,16 +69,11 @@ export const NoToolbars = () => (
   />
 );
 
-export const HideToolbarInternalActions = () => (
-  <MaterialReactTable
-    columns={columns}
-    data={data}
-    enableRowSelection
-    enableToolbarInternalActions={false}
-  />
+export const HideToolbarInternalActions = (): JSX.Element => (
+  <MaterialReactTable columns={columns} data={data} enableRowSelection enableToolbarInternalActions={false} />
 );
 
-export const CustomToolbarInternalActions = () => (
+export const CustomToolbarInternalActions = (): JSX.Element => (
   <MaterialReactTable
     columns={columns}
     data={data}
@@ -108,7 +89,7 @@ export const CustomToolbarInternalActions = () => (
   />
 );
 
-export const TableTitle = () => (
+export const TableTitle = (): JSX.Element => (
   <MaterialReactTable
     columns={columns}
     data={data}
@@ -119,7 +100,7 @@ export const TableTitle = () => (
   />
 );
 
-export const CustomTopToolbarActions = () => (
+export const CustomTopToolbarActions = (): JSX.Element => (
   <MaterialReactTable
     columns={columns}
     data={data}
@@ -142,7 +123,7 @@ export const CustomTopToolbarActions = () => (
   />
 );
 
-export const CustomBottomToolbarActions = () => (
+export const CustomBottomToolbarActions = (): JSX.Element => (
   <MaterialReactTable
     columns={columns}
     data={data}
@@ -165,7 +146,7 @@ export const CustomBottomToolbarActions = () => (
   />
 );
 
-export const CustomTopToolbarSelectionActions = () => (
+export const CustomTopToolbarSelectionActions = (): JSX.Element => (
   <MaterialReactTable
     columns={columns}
     data={data}
@@ -221,7 +202,7 @@ export const CustomTopToolbarSelectionActions = () => (
   />
 );
 
-export const CustomBottomToolbarSelectionActions = () => (
+export const CustomBottomToolbarSelectionActions = (): JSX.Element => (
   <MaterialReactTable
     columns={columns}
     data={data}
@@ -277,7 +258,7 @@ export const CustomBottomToolbarSelectionActions = () => (
   />
 );
 
-export const ToolbarAlertBannerBottom = () => (
+export const ToolbarAlertBannerBottom = (): JSX.Element => (
   <MaterialReactTable
     columns={columns}
     data={data}
@@ -300,10 +281,7 @@ export const ToolbarAlertBannerBottom = () => (
           </Tooltip>
           <Tooltip title="Remove Users">
             <span>
-              <IconButton
-                disabled={table.getSelectedRowModel().flatRows.length === 0}
-                onClick={handleRemoveUsers}
-              >
+              <IconButton disabled={table.getSelectedRowModel().flatRows.length === 0} onClick={handleRemoveUsers}>
                 <DeleteIcon />
               </IconButton>
             </span>
@@ -314,7 +292,7 @@ export const ToolbarAlertBannerBottom = () => (
   />
 );
 
-export const ToolbarAlertBannerBottomWithActionsAlsoBottom = () => (
+export const ToolbarAlertBannerBottomWithActionsAlsoBottom = (): JSX.Element => (
   <MaterialReactTable
     columns={columns}
     data={data}
@@ -337,10 +315,7 @@ export const ToolbarAlertBannerBottomWithActionsAlsoBottom = () => (
           </Tooltip>
           <Tooltip title="Remove Users">
             <span>
-              <IconButton
-                disabled={table.getSelectedRowModel().flatRows.length === 0}
-                onClick={handleRemoveUsers}
-              >
+              <IconButton disabled={table.getSelectedRowModel().flatRows.length === 0} onClick={handleRemoveUsers}>
                 <DeleteIcon />
               </IconButton>
             </span>
@@ -351,7 +326,7 @@ export const ToolbarAlertBannerBottomWithActionsAlsoBottom = () => (
   />
 );
 
-export const renderCustomTopToolbar = () => (
+export const renderCustomTopToolbar = (): JSX.Element => (
   <MaterialReactTable
     columns={columns}
     data={data}
@@ -359,12 +334,10 @@ export const renderCustomTopToolbar = () => (
   />
 );
 
-export const renderCustomBottomToolbar = () => (
+export const renderCustomBottomToolbar = (): JSX.Element => (
   <MaterialReactTable
     columns={columns}
     data={data}
-    renderBottomToolbar={() => (
-      <Box sx={{ p: '2rem' }}>Custom Bottom Toolbar</Box>
-    )}
+    renderBottomToolbar={() => <Box sx={{ p: '2rem' }}>Custom Bottom Toolbar</Box>}
   />
 );

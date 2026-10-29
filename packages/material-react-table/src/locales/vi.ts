@@ -73,8 +73,7 @@ export const MRT_Localization_VI: MRT_Localization = {
   rowsPerPage: 'Số hàng/trang',
   save: 'Lưu',
   search: 'Tìm kiếm',
-  selectedCountOfRowCountRowsSelected:
-    '{selectedCount}/{rowCount} dòng đang được chọn',
+  selectedCountOfRowCountRowsSelected: '{selectedCount}/{rowCount} dòng đang được chọn',
   select: 'Chọn',
   showAll: 'Hiển thị tất cả',
   showAllColumns: 'Hiện tất cả các cột',

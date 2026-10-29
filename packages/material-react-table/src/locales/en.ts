@@ -73,8 +73,7 @@ export const MRT_Localization_EN: MRT_Localization = {
   rowsPerPage: 'Rows per page',
   save: 'Save',
   search: 'Search',
-  selectedCountOfRowCountRowsSelected:
-    '{selectedCount} of {rowCount} row(s) selected',
+  selectedCountOfRowCountRowsSelected: '{selectedCount} of {rowCount} row(s) selected',
   select: 'Select',
   showAll: 'Show all',
   showAllColumns: 'Show all columns',

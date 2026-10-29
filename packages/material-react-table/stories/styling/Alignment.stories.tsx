@@ -51,15 +51,13 @@ const data = [...Array(25)].map(() => ({
   state: faker.location.state(),
 }));
 
-export const DefaultLeft = () => (
-  <MaterialReactTable columns={columns} data={data} />
-);
+export const DefaultLeft = (): JSX.Element => <MaterialReactTable columns={columns} data={data} />;
 
-export const DefaultLeftGrid = () => (
+export const DefaultLeftGrid = (): JSX.Element => (
   <MaterialReactTable columns={columns} data={data} layoutMode="grid" />
 );
 
-export const RightCells = () => (
+export const RightCells = (): JSX.Element => (
   <MaterialReactTable
     columns={columns}
     data={data}
@@ -77,7 +75,7 @@ export const RightCells = () => (
   />
 );
 
-export const RightCellsGrid = () => (
+export const RightCellsGrid = (): JSX.Element => (
   <MaterialReactTable
     columns={columns}
     data={data}
@@ -96,7 +94,7 @@ export const RightCellsGrid = () => (
   />
 );
 
-export const CenterCells = () => (
+export const CenterCells = (): JSX.Element => (
   <MaterialReactTable
     columns={columns}
     data={data}
@@ -114,7 +112,7 @@ export const CenterCells = () => (
   />
 );
 
-export const CenterCellsGrid = () => (
+export const CenterCellsGrid = (): JSX.Element => (
   <MaterialReactTable
     columns={columns}
     data={data}
@@ -133,7 +131,7 @@ export const CenterCellsGrid = () => (
   />
 );
 
-export const CenterCellsWithGrabHandle = () => (
+export const CenterCellsWithGrabHandle = (): JSX.Element => (
   <MaterialReactTable
     columns={columns}
     data={data}
@@ -152,7 +150,7 @@ export const CenterCellsWithGrabHandle = () => (
   />
 );
 
-export const CenterCellsWithGrabHandleNoSorting = () => (
+export const CenterCellsWithGrabHandleNoSorting = (): JSX.Element => (
   <MaterialReactTable
     columns={columns}
     data={data}
@@ -172,7 +170,7 @@ export const CenterCellsWithGrabHandleNoSorting = () => (
   />
 );
 
-export const CenterCellsNoColumnActions = () => (
+export const CenterCellsNoColumnActions = (): JSX.Element => (
   <MaterialReactTable
     columns={columns}
     data={data}
@@ -191,7 +189,7 @@ export const CenterCellsNoColumnActions = () => (
   />
 );
 
-export const RightAlignNumberColumn = () => (
+export const RightAlignNumberColumn = (): JSX.Element => (
   <MaterialReactTable
     columns={[
       {

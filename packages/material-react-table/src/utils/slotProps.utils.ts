@@ -13,13 +13,10 @@ export type TextFieldSlotProps = {
   select?: Partial<SelectProps>;
 };
 
-export const getTextFieldSlotProps = (
-  slotProps: TextFieldProps['slotProps'],
-): TextFieldSlotProps => ({
+export const getTextFieldSlotProps = (slotProps: TextFieldProps['slotProps']): TextFieldSlotProps => ({
   formHelperText: slotProps?.formHelperText as Partial<FormHelperTextProps>,
   htmlInput: slotProps?.htmlInput as InputBaseComponentProps,
   input: slotProps?.input as Partial<InputProps>,
   inputLabel: slotProps?.inputLabel as Partial<InputLabelProps>,
   select: slotProps?.select as Partial<SelectProps>,
 });
-

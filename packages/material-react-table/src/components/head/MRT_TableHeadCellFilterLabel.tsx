@@ -1,33 +1,22 @@
-import { Box } from '@mui/material';
-import { Grow } from '@mui/material';
-import { IconButton, type IconButtonProps } from '@mui/material';
-import { Popover } from '@mui/material';
-import { Tooltip } from '@mui/material';
+import { Box, Grow, IconButton, type IconButtonProps, Popover, Tooltip } from '@mui/material';
+import { type CSSObject } from '@mui/material/styles';
 import { type MouseEvent, useState } from 'react';
 
-import {
-  type MRT_Header,
-  type MRT_RowData,
-  type MRT_TableInstance,
-} from '../../types';
-import {
-  getColumnFilterInfo,
-  useDropdownOptions,
-} from '../../utils/column.utils';
+import { type MRT_Header, type MRT_RowData, type MRT_TableInstance } from '../../types';
+import { getColumnFilterInfo, useDropdownOptions } from '../../utils/column.utils';
 import { getValueAndLabel, parseFromValuesOrFunc } from '../../utils/utils';
 import { MRT_TableHeadCellFilterContainer } from './MRT_TableHeadCellFilterContainer';
 
-export interface MRT_TableHeadCellFilterLabelProps<TData extends MRT_RowData>
-  extends IconButtonProps {
+export interface MRT_TableHeadCellFilterLabelProps<TData extends MRT_RowData> extends IconButtonProps {
   header: MRT_Header<TData>;
   table: MRT_TableInstance<TData>;
 }
 
-export const MRT_TableHeadCellFilterLabel = <TData extends MRT_RowData = {}>({
+export const MRT_TableHeadCellFilterLabel = <TData extends MRT_RowData = MRT_RowData>({
   header,
   table,
   ...rest
-}: MRT_TableHeadCellFilterLabelProps<TData>) => {
+}: MRT_TableHeadCellFilterLabelProps<TData>): JSX.Element => {
   const {
     options: {
       columnFilterDisplayMode,
@@ -44,34 +33,26 @@ export const MRT_TableHeadCellFilterLabel = <TData extends MRT_RowData = {}>({
 
   const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
 
-  const {
-    currentFilterOption,
-    isMultiSelectFilter,
-    isRangeFilter,
-    isSelectFilter,
-  } = getColumnFilterInfo({ header, table });
+  const { currentFilterOption, isMultiSelectFilter, isRangeFilter, isSelectFilter } = getColumnFilterInfo({
+    header,
+    table,
+  });
 
   const dropdownOptions = useDropdownOptions({ header, table });
 
   const getSelectLabel = (index?: number) =>
     getValueAndLabel(
       dropdownOptions?.find(
-        (option) =>
-          getValueAndLabel(option).value ===
-          (index !== undefined ? filterValue[index] : filterValue),
+        (option) => getValueAndLabel(option).value === (index !== undefined ? filterValue[index] : filterValue),
       ),
     ).label;
 
   const isFilterActive =
-    (Array.isArray(filterValue) && filterValue.some(Boolean)) ||
-    (!!filterValue && !Array.isArray(filterValue));
+    (Array.isArray(filterValue) && filterValue.some(Boolean)) || (!!filterValue && !Array.isArray(filterValue));
 
   const filterTooltip =
     columnFilterDisplayMode === 'popover' && !isFilterActive
-      ? localization.filterByColumn?.replace(
-          '{column}',
-          String(columnDef.header),
-        )
+      ? localization.filterByColumn?.replace('{column}', String(columnDef.header))
       : localization.filteringByColumn
           .replace('{column}', String(columnDef.header))
           .replace(
@@ -79,8 +60,7 @@ export const MRT_TableHeadCellFilterLabel = <TData extends MRT_RowData = {}>({
             currentFilterOption
               ? localization[
                   `filter${
-                    currentFilterOption.charAt(0).toUpperCase() +
-                    currentFilterOption.slice(1)
+                    currentFilterOption.charAt(0).toUpperCase() + currentFilterOption.slice(1)
                   }` as keyof typeof localization
                 ]
               : '',
@@ -90,12 +70,8 @@ export const MRT_TableHeadCellFilterLabel = <TData extends MRT_RowData = {}>({
             `"${
               Array.isArray(filterValue)
                 ? (filterValue as [string, string])
-                    .map((value, index) =>
-                      isMultiSelectFilter ? getSelectLabel(index) : value,
-                    )
-                    .join(
-                      `" ${isRangeFilter ? localization.and : localization.or} "`,
-                    )
+                    .map((value, index) => (isMultiSelectFilter ? getSelectLabel(index) : value))
+                    .join(`" ${isRangeFilter ? localization.and : localization.or} "`)
                 : isSelectFilter
                   ? getSelectLabel()
                   : (filterValue as string)
@@ -139,7 +115,7 @@ export const MRT_TableHeadCellFilterLabel = <TData extends MRT_RowData = {}>({
                 transform: 'scale(0.75)',
                 transition: 'all 150ms ease-in-out',
                 width: '16px',
-                ...(parseFromValuesOrFunc(rest?.sx, theme) as any),
+                ...(parseFromValuesOrFunc(rest?.sx, theme) as CSSObject),
               })}
             >
               <FilterAltIcon />
@@ -156,9 +132,8 @@ export const MRT_TableHeadCellFilterLabel = <TData extends MRT_RowData = {}>({
           }}
           disableScrollLock
           onClick={(event) => event.stopPropagation()}
-          onClose={(event) => {
-            //@ts-expect-error
-            event.stopPropagation();
+          onClose={(event: { stopPropagation?: () => void }) => {
+            event.stopPropagation?.();
             setAnchorEl(null);
           }}
           onKeyDown={(event) => event.key === 'Enter' && setAnchorEl(null)}

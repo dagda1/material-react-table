@@ -12,7 +12,7 @@ const meta: Meta = {
 
 export default meta;
 
-const longColumns: MRT_ColumnDef<any>[] = [
+const longColumns: MRT_ColumnDef<(typeof longData)[number]>[] = [
   {
     accessorKey: 'firstName',
     header: 'First Name',
@@ -91,7 +91,7 @@ const longData = [...Array(5000)].map(() => ({
   zipCode: faker.location.zipCode(),
 }));
 
-export const EnableRowVirtualizationDense = () => (
+export const EnableRowVirtualizationDense = (): JSX.Element => (
   <MaterialReactTable
     columns={longColumns}
     data={longData}
@@ -102,7 +102,7 @@ export const EnableRowVirtualizationDense = () => (
   />
 );
 
-export const EnableRowVirtualizationComfortable = () => (
+export const EnableRowVirtualizationComfortable = (): JSX.Element => (
   <MaterialReactTable
     columns={longColumns}
     data={longData}
@@ -112,7 +112,7 @@ export const EnableRowVirtualizationComfortable = () => (
   />
 );
 
-export const EnableRowVirtualizationSpacious = () => (
+export const EnableRowVirtualizationSpacious = (): JSX.Element => (
   <MaterialReactTable
     columns={longColumns}
     data={longData}
@@ -123,7 +123,7 @@ export const EnableRowVirtualizationSpacious = () => (
   />
 );
 
-export const EnableRowVirtualizationTallContent = () => (
+export const EnableRowVirtualizationTallContent = (): JSX.Element => (
   <MaterialReactTable
     columns={longColumns}
     data={longData}
@@ -135,7 +135,7 @@ export const EnableRowVirtualizationTallContent = () => (
   />
 );
 
-export const VirtualizationConditionallyWontToggle = () => {
+export const VirtualizationConditionallyWontToggle = (): JSX.Element => {
   const [enabled, setEnabled] = useState(true);
   return (
     <MaterialReactTable
@@ -149,17 +149,15 @@ export const VirtualizationConditionallyWontToggle = () => {
       initialState={{ density: 'compact' }}
       renderTopToolbarCustomActions={() => (
         <Stack direction="row" sx={{ alignItems: 'center' }}>
-          <Button onClick={() => setEnabled(!enabled)}>
-            Toggle Virtualization
-          </Button>
-          * Virtualization features cannot be toggled
+          <Button onClick={() => setEnabled(!enabled)}>Toggle Virtualization</Button>* Virtualization features cannot be
+          toggled
         </Stack>
       )}
     />
   );
 };
 
-export const EnableRowVirtualizationWithColumnResizing = () => (
+export const EnableRowVirtualizationWithColumnResizing = (): JSX.Element => (
   <MaterialReactTable
     columns={longColumns}
     data={longData}
@@ -171,7 +169,7 @@ export const EnableRowVirtualizationWithColumnResizing = () => (
   />
 );
 
-export const EnableRowVirtualizationWithDetailPanel = () => (
+export const EnableRowVirtualizationWithDetailPanel = (): JSX.Element => (
   <MaterialReactTable
     columns={longColumns}
     data={longData}
@@ -183,7 +181,7 @@ export const EnableRowVirtualizationWithDetailPanel = () => (
   />
 );
 
-export const EnableRowVirtualizationWithMemoizedCells = () => (
+export const EnableRowVirtualizationWithMemoizedCells = (): JSX.Element => (
   <MaterialReactTable
     columns={longColumns}
     data={longData}
@@ -197,7 +195,7 @@ export const EnableRowVirtualizationWithMemoizedCells = () => (
   />
 );
 
-export const EnableRowVirtualizationWithMemoizedRows = () => (
+export const EnableRowVirtualizationWithMemoizedRows = (): JSX.Element => (
   <MaterialReactTable
     columns={longColumns}
     data={longData}
@@ -211,7 +209,7 @@ export const EnableRowVirtualizationWithMemoizedRows = () => (
   />
 );
 
-export const EnableRowVirtualizationStickyFooter = () => (
+export const EnableRowVirtualizationStickyFooter = (): JSX.Element => (
   <MaterialReactTable
     columns={[
       {
@@ -239,16 +237,11 @@ export const EnableRowVirtualizationStickyFooter = () => (
   />
 );
 
-export const EnableColumnVirtualization = () => (
-  <MaterialReactTable
-    columns={longColumns}
-    data={longData.slice(0, 10)}
-    enableColumnVirtualization
-    enableRowNumbers
-  />
+export const EnableColumnVirtualization = (): JSX.Element => (
+  <MaterialReactTable columns={longColumns} data={longData.slice(0, 10)} enableColumnVirtualization enableRowNumbers />
 );
 
-export const EnableColumnVirtualizationWithPinning = () => (
+export const EnableColumnVirtualizationWithPinning = (): JSX.Element => (
   <MaterialReactTable
     columns={longColumns}
     data={longData.slice(0, 10)}
@@ -258,7 +251,7 @@ export const EnableColumnVirtualizationWithPinning = () => (
   />
 );
 
-export const EnableColumnVirtualizationShortColumns = () => (
+export const EnableColumnVirtualizationShortColumns = (): JSX.Element => (
   <MaterialReactTable
     columns={longColumns.slice(0, 3)}
     data={longData.slice(0, 10)}
@@ -267,7 +260,7 @@ export const EnableColumnVirtualizationShortColumns = () => (
   />
 );
 
-export const EnableColumnVirtualizationWithFooter = () => (
+export const EnableColumnVirtualizationWithFooter = (): JSX.Element => (
   <MaterialReactTable
     columns={[
       {
@@ -292,7 +285,7 @@ export const EnableColumnVirtualizationWithFooter = () => (
   />
 );
 
-export const EnableColumnVirtualizationStickyFooter = () => (
+export const EnableColumnVirtualizationStickyFooter = (): JSX.Element => (
   <MaterialReactTable
     columns={[
       {
@@ -318,7 +311,7 @@ export const EnableColumnVirtualizationStickyFooter = () => (
   />
 );
 
-export const RowAndColumnVirtualization = () => (
+export const RowAndColumnVirtualization = (): JSX.Element => (
   <MaterialReactTable
     columns={longColumns}
     data={longData}
@@ -330,7 +323,7 @@ export const RowAndColumnVirtualization = () => (
   />
 );
 
-export const RowAndColumnVirtualizationWithFeatures = () => (
+export const RowAndColumnVirtualizationWithFeatures = (): JSX.Element => (
   <MaterialReactTable
     columns={longColumns}
     data={longData}
@@ -354,12 +347,10 @@ const fakeColumns = [...Array(500)].map((_, i) => {
 });
 
 const fakeData = [...Array(500)].map(() => ({
-  ...Object.fromEntries(
-    fakeColumns.map((col) => [col.accessorKey, faker.person.firstName()]),
-  ),
+  ...Object.fromEntries(fakeColumns.map((col) => [col.accessorKey, faker.person.firstName()])),
 }));
 
-export const MaxVirtualization = () => (
+export const MaxVirtualization = (): JSX.Element => (
   <MaterialReactTable
     columns={fakeColumns}
     data={fakeData}
@@ -375,7 +366,7 @@ export const MaxVirtualization = () => (
   />
 );
 
-export const EmptyDataVirtualization = () => (
+export const EmptyDataVirtualization = (): JSX.Element => (
   <MaterialReactTable
     columns={fakeColumns}
     data={[]}

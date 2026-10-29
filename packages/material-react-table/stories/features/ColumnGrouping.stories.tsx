@@ -2,11 +2,7 @@ import { faker } from '@faker-js/faker';
 import { type Meta } from '@storybook/react-vite';
 import { useEffect, useMemo, useState } from 'react';
 
-import {
-  MaterialReactTable,
-  type MRT_Column,
-  type MRT_ColumnDef,
-} from '../../src';
+import { MaterialReactTable, type MRT_Column, type MRT_ColumnDef } from '../../src';
 
 const meta: Meta = {
   title: 'Features/Column Grouping Examples',
@@ -53,16 +49,11 @@ const data = [...Array(300)].map(() => ({
   state: faker.location.state(),
 }));
 
-export const ColumnGroupingEnabled = () => (
-  <MaterialReactTable
-    columns={columns}
-    data={data}
-    enableGrouping
-    enableRowSelection
-  />
+export const ColumnGroupingEnabled = (): JSX.Element => (
+  <MaterialReactTable columns={columns} data={data} enableGrouping enableRowSelection />
 );
 
-export const ColumnGroupingEnabledReorder = () => (
+export const ColumnGroupingEnabledReorder = (): JSX.Element => (
   <MaterialReactTable
     columns={columns}
     data={data}
@@ -72,7 +63,7 @@ export const ColumnGroupingEnabledReorder = () => (
   />
 );
 
-export const GroupingColumnModeRemove = () => (
+export const GroupingColumnModeRemove = (): JSX.Element => (
   <MaterialReactTable
     columns={columns}
     data={data}
@@ -82,7 +73,7 @@ export const GroupingColumnModeRemove = () => (
   />
 );
 
-export const GroupingColumnModeFalse = () => (
+export const GroupingColumnModeFalse = (): JSX.Element => (
   <MaterialReactTable
     columns={columns}
     data={data}
@@ -92,7 +83,7 @@ export const GroupingColumnModeFalse = () => (
   />
 );
 
-export const GroupingColumnModeRemoveCustomHeader = () => (
+export const GroupingColumnModeRemoveCustomHeader = (): JSX.Element => (
   <MaterialReactTable
     columns={columns}
     data={data}
@@ -107,7 +98,7 @@ export const GroupingColumnModeRemoveCustomHeader = () => (
   />
 );
 
-export const GroupingColumnModeRemovePaginatePreExpand = () => (
+export const GroupingColumnModeRemovePaginatePreExpand = (): JSX.Element => (
   <MaterialReactTable
     columns={columns}
     data={data}
@@ -118,7 +109,7 @@ export const GroupingColumnModeRemovePaginatePreExpand = () => (
   />
 );
 
-export const GroupingColumnModeRemoveCustomGroupedCell = () => (
+export const GroupingColumnModeRemoveCustomGroupedCell = (): JSX.Element => (
   <MaterialReactTable
     columns={columns}
     data={data}
@@ -137,7 +128,7 @@ export const GroupingColumnModeRemoveCustomGroupedCell = () => (
   />
 );
 
-export const ColumnGroupingEnabledWithSelection = () => (
+export const ColumnGroupingEnabledWithSelection = (): JSX.Element => (
   <MaterialReactTable
     columns={columns}
     data={data}
@@ -147,7 +138,7 @@ export const ColumnGroupingEnabledWithSelection = () => (
   />
 );
 
-export const ColumnGroupingEnabledWithSelectionRemove = () => (
+export const ColumnGroupingEnabledWithSelectionRemove = (): JSX.Element => (
   <MaterialReactTable
     columns={columns}
     data={data}
@@ -158,25 +149,15 @@ export const ColumnGroupingEnabledWithSelectionRemove = () => (
   />
 );
 
-export const ColumnGroupingNoDragHandles = () => (
-  <MaterialReactTable
-    columns={columns}
-    data={data}
-    enableColumnDragging={false}
-    enableGrouping
-  />
+export const ColumnGroupingNoDragHandles = (): JSX.Element => (
+  <MaterialReactTable columns={columns} data={data} enableColumnDragging={false} enableGrouping />
 );
 
-export const ColumnGroupingEnabledDropZoneBottom = () => (
-  <MaterialReactTable
-    columns={columns}
-    data={data}
-    enableGrouping
-    positionToolbarDropZone="bottom"
-  />
+export const ColumnGroupingEnabledDropZoneBottom = (): JSX.Element => (
+  <MaterialReactTable columns={columns} data={data} enableGrouping positionToolbarDropZone="bottom" />
 );
 
-export const ColumnGroupingEnabledCustomAggregate = () => (
+export const ColumnGroupingEnabledCustomAggregate = (): JSX.Element => (
   <MaterialReactTable
     columns={[
       {
@@ -189,9 +170,7 @@ export const ColumnGroupingEnabledCustomAggregate = () => (
       },
       {
         accessorKey: 'gender',
-        AggregatedCell: ({ cell }) => (
-          <div style={{ color: 'red' }}>{cell.renderValue() as string}</div>
-        ),
+        AggregatedCell: ({ cell }) => <div style={{ color: 'red' }}>{cell.renderValue() as string}</div>,
         header: 'Gender',
       },
       {
@@ -208,18 +187,23 @@ export const ColumnGroupingEnabledCustomAggregate = () => (
   />
 );
 
-export const ColumnGroupingBannerOnBottom = () => (
-  <MaterialReactTable
-    columns={columns}
-    data={data}
-    enableGrouping
-    positionToolbarAlertBanner="bottom"
-  />
+export const ColumnGroupingBannerOnBottom = (): JSX.Element => (
+  <MaterialReactTable columns={columns} data={data} enableGrouping positionToolbarAlertBanner="bottom" />
 );
 
-export const GroupingColumnsSetState = () => {
-  const [columns, setColumns] = useState<MRT_ColumnDef<any>[]>([]);
-  const [data, setData] = useState<any>([]);
+interface NestedPerson {
+  address: string;
+  city: string;
+  name: {
+    firstName: string;
+    lastName: string;
+  };
+  state: string;
+}
+
+export const GroupingColumnsSetState = (): JSX.Element => {
+  const [columns, setColumns] = useState<MRT_ColumnDef<NestedPerson>[]>([]);
+  const [data, setData] = useState<NestedPerson[]>([]);
 
   useEffect(() => {
     // Do something and set columns and data
@@ -299,20 +283,15 @@ export const GroupingColumnsSetState = () => {
   return <MaterialReactTable columns={columns} data={data} enableGrouping />;
 };
 
-export const ColumnGroupingDropZoneAlwaysVisible = () => {
-  const [draggingColumn, setDraggingColumn] =
-    useState<MRT_Column<Person> | null>(null);
+export const ColumnGroupingDropZoneAlwaysVisible = (): JSX.Element => {
+  const [draggingColumn, setDraggingColumn] = useState<MRT_Column<Person> | null>(null);
 
   return (
     <MaterialReactTable
       columns={columns}
       data={data}
       enableGrouping
-      localization={
-        !draggingColumn
-          ? { dropToGroupBy: 'Drag a column here to group by it' }
-          : undefined
-      }
+      localization={!draggingColumn ? { dropToGroupBy: 'Drag a column here to group by it' } : undefined}
       muiTopToolbarProps={{
         sx: {
           '& .Mui-ToolbarDropZone': {
@@ -328,7 +307,7 @@ export const ColumnGroupingDropZoneAlwaysVisible = () => {
   );
 };
 
-export const GroupingStateManaged = () => {
+export const GroupingStateManaged = (): JSX.Element => {
   const [grouping, setGrouping] = useState<string[]>([]);
   return (
     <MaterialReactTable
@@ -341,7 +320,7 @@ export const GroupingStateManaged = () => {
   );
 };
 
-export const GroupingAndDraggingWithSomeDisabledGrouping = () => {
+export const GroupingAndDraggingWithSomeDisabledGrouping = (): JSX.Element => {
   const _columns = useMemo<MRT_ColumnDef<Person>[]>(
     () => [
       {
@@ -357,12 +336,5 @@ export const GroupingAndDraggingWithSomeDisabledGrouping = () => {
     [],
   );
 
-  return (
-    <MaterialReactTable
-      columns={_columns}
-      data={data}
-      enableColumnDragging
-      enableGrouping
-    />
-  );
+  return <MaterialReactTable columns={_columns} data={data} enableColumnDragging enableGrouping />;
 };

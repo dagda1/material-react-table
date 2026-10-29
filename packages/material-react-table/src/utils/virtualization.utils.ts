@@ -5,16 +5,12 @@ import { defaultRangeExtractor, type Range } from '@tanstack/react-virtual';
  * then, the `dragEnd` event on `MRT_TableBodyRowGrabHandle` or `MRT_TableHeadCellGrabHandle` will not fire.
  * We should keep the `draggingRow` or `draggingColumn` in `getVirtualItems()` to avoid this thing.
  */
-export const extraIndexRangeExtractor = (
-  range: Range,
-  draggingIndex?: number,
-) => {
+export const extraIndexRangeExtractor = (range: Range, draggingIndex?: number): number[] => {
   const newIndexes = defaultRangeExtractor(range);
-  if (draggingIndex === undefined) return newIndexes;
-  if (
-    draggingIndex >= 0 &&
-    draggingIndex < Math.max(range.startIndex - range.overscan, 0)
-  ) {
+  if (draggingIndex === undefined) {
+    return newIndexes;
+  }
+  if (draggingIndex >= 0 && draggingIndex < Math.max(range.startIndex - range.overscan, 0)) {
     newIndexes.unshift(draggingIndex);
   }
   if (draggingIndex >= 0 && draggingIndex > range.endIndex + range.overscan) {

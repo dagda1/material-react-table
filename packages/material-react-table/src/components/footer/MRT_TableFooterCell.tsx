@@ -1,17 +1,12 @@
 import { TableCell, type TableCellProps } from '@mui/material';
-import { useTheme } from '@mui/material/styles';
+import { type CSSObject, useTheme } from '@mui/material/styles';
 
-import {
-  type MRT_Header,
-  type MRT_RowData,
-  type MRT_TableInstance,
-} from '../../types';
+import { type MRT_Header, type MRT_RowData, type MRT_TableInstance } from '../../types';
 import { cellKeyboardShortcuts } from '../../utils/cell.utils';
 import { getCommonMRTCellStyles } from '../../utils/style.utils';
 import { parseFromValuesOrFunc } from '../../utils/utils';
 
-export interface MRT_TableFooterCellProps<TData extends MRT_RowData>
-  extends TableCellProps {
+export interface MRT_TableFooterCellProps<TData extends MRT_RowData> extends TableCellProps {
   footer: MRT_Header<TData>;
   staticColumnIndex?: number;
   table: MRT_TableInstance<TData>;
@@ -22,24 +17,17 @@ export const MRT_TableFooterCell = <TData extends MRT_RowData>({
   staticColumnIndex,
   table,
   ...rest
-}: MRT_TableFooterCellProps<TData>) => {
+}: MRT_TableFooterCellProps<TData>): JSX.Element => {
   const theme = useTheme();
   const {
-    options: {
-      enableColumnPinning,
-      enableKeyboardShortcuts,
-      muiTableFooterCellProps,
-    },
+    options: { enableColumnPinning, enableKeyboardShortcuts, muiTableFooterCellProps },
   } = table;
   const { density } = table.state;
   const { column } = footer;
   const { columnDef } = column;
   const { columnDefType } = columnDef;
 
-  const isColumnPinned =
-    enableColumnPinning &&
-    columnDef.columnDefType !== 'group' &&
-    column.getIsPinned();
+  const isColumnPinned = enableColumnPinning && columnDef.columnDefType !== 'group' && column.getIsPinned();
 
   const args = { column, table };
   const tableCellProps = {
@@ -59,13 +47,7 @@ export const MRT_TableFooterCell = <TData extends MRT_RowData>({
 
   return (
     <TableCell
-      align={
-        columnDefType === 'group'
-          ? 'center'
-          : theme.direction === 'rtl'
-            ? 'right'
-            : 'left'
-      }
+      align={columnDefType === 'group' ? 'center' : theme.direction === 'rtl' ? 'right' : 'left'}
       colSpan={footer.colSpan}
       data-index={staticColumnIndex}
       data-pinned={!!isColumnPinned || undefined}
@@ -75,12 +57,7 @@ export const MRT_TableFooterCell = <TData extends MRT_RowData>({
       onKeyDown={handleKeyDown}
       sx={(theme) => ({
         fontWeight: 'bold',
-        p:
-          density === 'compact'
-            ? '0.5rem'
-            : density === 'comfortable'
-              ? '1rem'
-              : '1.5rem',
+        p: density === 'compact' ? '0.5rem' : density === 'comfortable' ? '1rem' : '1.5rem',
         verticalAlign: 'top',
         ...getCommonMRTCellStyles({
           column,
@@ -89,7 +66,7 @@ export const MRT_TableFooterCell = <TData extends MRT_RowData>({
           tableCellProps,
           theme,
         }),
-        ...(parseFromValuesOrFunc(tableCellProps?.sx, theme) as any),
+        ...(parseFromValuesOrFunc(tableCellProps?.sx, theme) as CSSObject),
       })}
     >
       {tableCellProps.children ??

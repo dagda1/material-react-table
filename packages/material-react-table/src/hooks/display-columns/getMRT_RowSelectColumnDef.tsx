@@ -1,9 +1,5 @@
 import { MRT_SelectCheckbox } from '../../components/inputs/MRT_SelectCheckbox';
-import {
-  type MRT_ColumnDef,
-  type MRT_RowData,
-  type MRT_StatefulTableOptions,
-} from '../../types';
+import { type MRT_ColumnDef, type MRT_RowData, type MRT_StatefulTableOptions } from '../../types';
 import { defaultDisplayColumnProps } from '../../utils/displayColumn.utils';
 
 export const getMRT_RowSelectColumnDef = <TData extends MRT_RowData>(
@@ -13,17 +9,11 @@ export const getMRT_RowSelectColumnDef = <TData extends MRT_RowData>(
 
   return {
     Cell: ({ row, staticRowIndex, table }) => (
-      <MRT_SelectCheckbox
-        row={row}
-        staticRowIndex={staticRowIndex}
-        table={table}
-      />
+      <MRT_SelectCheckbox row={row} staticRowIndex={staticRowIndex} table={table} />
     ),
     grow: false,
     Header:
-      enableSelectAll && enableMultiRowSelection
-        ? ({ table }) => <MRT_SelectCheckbox table={table} />
-        : undefined,
+      enableSelectAll && enableMultiRowSelection ? ({ table }) => <MRT_SelectCheckbox table={table} /> : undefined,
     ...defaultDisplayColumnProps({
       header: 'select',
       id: 'mrt-row-select',
