@@ -60,9 +60,9 @@
     "test": "vitest run",
     "test:watch": "vitest",
     "prepublishOnly": "pnpm lib:build && pnpm test",
-    "storybook": "storybook dev -p 6006",
+    "storybook": "storybook dev -p 6006 --host 127.0.0.1",
     "storybook:build": "storybook build",
-    "storybook:dev": "storybook dev -p 6006",
+    "storybook:dev": "storybook dev -p 6006 --host 127.0.0.1",
     "build-storybook": "storybook build"
   },
   "devDependencies": {
