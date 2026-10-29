@@ -21,7 +21,11 @@
     "release": "pnpm --filter @cutting/material-react-table publish --no-git-checks"
   },
   "devDependencies": {
+    "@cutting/oxc-config": "1.0.0",
+    "eslint-plugin-simple-import-sort": "14.0.0",
     "jscpd": "^5.4.2",
+    "oxfmt": "0.74.0",
+    "oxlint": "1.89.0",
     "prettier": "^3.9.10",
     "turbo": "2.11.10"
   },
