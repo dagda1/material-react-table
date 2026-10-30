@@ -14,26 +14,44 @@ const columns: MRT_ColumnDef<Person>[] = [{ accessorKey: 'name', header: 'Name' 
 
 const toolbarHeight = 50;
 
-const resizeObserverCallbacks: ResizeObserverCallback[] = [];
+const toolbarHeights: Record<string, number> = {};
+
+const resizeObservers: FakeResizeObserver[] = [];
 
 class FakeResizeObserver {
   callback: ResizeObserverCallback;
 
+  targets = new Set<Element>();
+
   constructor(callback: ResizeObserverCallback) {
     this.callback = callback;
-    resizeObserverCallbacks.push(callback);
+    resizeObservers.push(this);
   }
 
-  disconnect() {}
+  disconnect() {
+    this.targets.clear();
+  }
 
-  observe() {}
+  observe(target: Element) {
+    this.targets.add(target);
+  }
 
-  unobserve() {}
+  unobserve(target: Element) {
+    this.targets.delete(target);
+  }
 }
 
 const notifyResizeObservers = () => {
-  for (const callback of [...resizeObserverCallbacks]) {
-    callback([], {} as ResizeObserver);
+  for (const resizeObserver of [...resizeObservers]) {
+    resizeObserver.callback([], {} as ResizeObserver);
+  }
+};
+
+const notifyResizeObserversOf = (target: Element) => {
+  for (const resizeObserver of [...resizeObservers]) {
+    if (resizeObserver.targets.has(target)) {
+      resizeObserver.callback([], {} as ResizeObserver);
+    }
   }
 };
 
@@ -41,12 +59,15 @@ describe('table container max height', () => {
   beforeEach(() => {
     vi.stubGlobal('ResizeObserver', FakeResizeObserver);
     vi.spyOn(HTMLElement.prototype, 'offsetHeight', 'get').mockImplementation(function (this: HTMLElement) {
-      return this.dataset.toolbar ? toolbarHeight : 0;
+      return this.dataset.toolbar ? (toolbarHeights[this.dataset.toolbar] ?? toolbarHeight) : 0;
     });
   });
 
   afterEach(() => {
-    resizeObserverCallbacks.length = 0;
+    resizeObservers.length = 0;
+    for (const toolbar of Object.keys(toolbarHeights)) {
+      delete toolbarHeights[toolbar];
+    }
     vi.unstubAllGlobals();
     vi.restoreAllMocks();
   });
@@ -94,5 +115,33 @@ describe('table container max height', () => {
     const tableContainer = container.querySelector('[data-testid="table-container"]') as HTMLElement;
 
     expect(getComputedStyle(tableContainer).maxHeight).toBe(`${window.innerHeight - toolbarHeight * 2}px`);
+  });
+
+  test('re-measures a toolbar when its height changes', () => {
+    const { container } = render(
+      <MaterialReactTable
+        columns={columns}
+        data={data}
+        enableStickyHeader
+        muiBottomToolbarProps={{ 'data-toolbar': 'bottom' } as object}
+        muiTableContainerProps={{ 'data-testid': 'table-container' } as object}
+        muiTopToolbarProps={{ 'data-toolbar': 'top' } as object}
+      />,
+    );
+
+    act(() => {
+      notifyResizeObservers();
+    });
+
+    const topToolbar = container.querySelector('[data-toolbar="top"]') as HTMLElement;
+    toolbarHeights.top = 80;
+
+    act(() => {
+      notifyResizeObserversOf(topToolbar);
+    });
+
+    const tableContainer = container.querySelector('[data-testid="table-container"]') as HTMLElement;
+
+    expect(getComputedStyle(tableContainer).maxHeight).toBe(`${window.innerHeight - 80 - toolbarHeight}px`);
   });
 });
