@@ -83,10 +83,6 @@ export type MRT_EditValues<TData extends MRT_RowData> = Record<LiteralUnion<Deep
 
 export type LiteralUnion<T extends U, U = string> = (Record<never, never> & U) | T;
 
-/**
- * v9 replaced the callable `AggregationFn` with `AggregationFnDef`, an object
- * with an `aggregate` method that takes a single context argument.
- */
 export type MRT_AggregationFn<TData extends MRT_RowData> =
   | CustomAggregationFns<MRT_TableFeatures, TData>[string]
   | MRT_AggregationOption;
@@ -660,10 +656,6 @@ export interface MRT_TableOptions<TData extends MRT_RowData> extends Omit<
   | 'onStateChange'
   | 'state'
 > {
-  /**
-   * Custom aggregation functions, registered by name so column defs can select
-   * them with `aggregationFn: 'myFn'`.
-   */
   aggregationFns?: CustomAggregationFns<MRT_TableFeatures, TData>;
   columnFilterDisplayMode?: 'custom' | 'popover' | 'subheader';
   columnFilterModeOptions?: Array<LiteralUnion<MRT_FilterOption & string>> | null;
@@ -738,10 +730,6 @@ export interface MRT_TableOptions<TData extends MRT_RowData> extends Omit<
   enableToolbarInternalActions?: boolean;
   enableTopToolbar?: boolean;
   expandRowsFn?: (dataRow: TData) => TData[];
-  /**
-   * Custom filter functions, registered by name so column defs can select them
-   * with `filterFn: 'myFn'` and `globalFilterFn` can name one.
-   */
   filterFns?: Record<string, FilterFn<MRT_TableFeatures, TData>>;
   getRowId?: (originalRow: TData, index: number, parentRow?: MRT_Row<TData>) => string;
   globalFilterFn?: MRT_FilterOption;
@@ -1035,10 +1023,6 @@ export interface MRT_TableOptions<TData extends MRT_RowData> extends Omit<
     | ((props: { table: MRT_TableInstance<TData> }) => Partial<VirtualizerOptions<HTMLDivElement, HTMLTableRowElement>>)
     | Partial<VirtualizerOptions<HTMLDivElement, HTMLTableRowElement>>;
   selectAllMode?: 'all' | 'page';
-  /**
-   * Custom sort functions, registered by name so column defs can select them
-   * with `sortFn: 'myFn'`.
-   */
   sortFns?: Record<string, SortFn<MRT_TableFeatures, TData>>;
   /**
    * Manage state externally any way you want, then pass it back into MRT.

@@ -55,7 +55,6 @@ export const MRT_TableContainer = <TData extends MRT_RowData>({
       return;
     }
 
-    //the bottom toolbar renders after this container, so its ref is only set when the observer first fires
     const resizeObserver = new ResizeObserver(() => {
       for (const toolbar of [topToolbarRef.current, bottomToolbarRef.current]) {
         if (toolbar) {

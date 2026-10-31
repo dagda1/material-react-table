@@ -19,7 +19,6 @@ export const useMRT_Effects = <TData extends MRT_RowData>(table: MRT_TableInstan
   const initialBodyHeight = useRef<string>(null);
   const previousTop = useRef<number>(null);
 
-  //values the effects below read without re-running when they change
   const effectValues = useRef({ columnOrder, enableRowPinning, pagination, table, tableOptions: table.options });
   useEffect(() => {
     effectValues.current = { columnOrder, enableRowPinning, pagination, table, tableOptions: table.options };
