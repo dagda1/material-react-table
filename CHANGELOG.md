@@ -79,17 +79,6 @@ Handle the `undefined` case.
 + table.getColumn('name')?.toggleVisibility();
 ```
 
-## Edit `values` are `unknown`
-
-`values` in `onCreatingRowSave` and `onEditingRowSave` is `MRT_EditValues<TData>`.
-Each value is `unknown`, not `any`, and each key is optional. Convert the values
-before you use them.
-
-```diff
-- const person: Person = values;
-+ const person: Person = { name: String(values.name) };
-```
-
 ## `DropdownOption.value` is `number | string`
 
 The `value` of an object option is `number | string`, not `any`.

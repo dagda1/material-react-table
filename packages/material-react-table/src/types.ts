@@ -78,9 +78,8 @@ export type DropdownOption =
 
 export type MRT_FilterAutocompleteProps = Partial<AutocompleteProps<DropdownOption, false, false, true>>;
 
-export type MRT_EditValues<TData extends MRT_RowData> = Partial<
-  Record<LiteralUnion<DeepKeys<TData> & string>, unknown>
->;
+// oxlint-disable-next-line typescript/no-explicit-any
+export type MRT_EditValues<TData extends MRT_RowData> = Record<LiteralUnion<DeepKeys<TData> & string>, any>;
 
 export type LiteralUnion<T extends U, U = string> = (Record<never, never> & U) | T;
 
@@ -678,7 +677,6 @@ export interface MRT_TableOptions<TData extends MRT_RowData> extends Omit<
    * See all Columns Options on the official docs site:
    * @link https://www.material-react-table.com/docs/api/column-options
    */
-  //each column has its own value type, and ColumnDef uses it in both directions, so only `any` accepts them all
   // oxlint-disable-next-line typescript/no-explicit-any
   columns: ReadonlyArray<MRT_ColumnDef<TData, any>>;
   columnVirtualizerInstanceRef?: RefObject<MRT_ColumnVirtualizer | null>;
