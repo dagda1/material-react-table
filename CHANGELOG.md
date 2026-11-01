@@ -80,10 +80,6 @@ Handle the `undefined` case.
 + table.getColumn('name')?.toggleVisibility();
 ```
 
-## `DropdownOption.value` is `number | string`
-
-The `value` of an object option is `number | string`, not `any`.
-
 ## ESM only
 
 The CJS build is gone. `require('@cutting/material-react-table')` no longer

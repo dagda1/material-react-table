@@ -108,7 +108,8 @@ export interface MRT_FilterOptionMenuProps<TData extends MRT_RowData> extends Pa
   header?: MRT_Header<TData>;
   onSelect?: () => void;
   setAnchorEl: (anchorEl: HTMLElement | null) => void;
-  setFilterValue?: (filterValue: string | string[]) => void;
+  // oxlint-disable-next-line typescript/no-explicit-any
+  setFilterValue?: (filterValue: any) => void;
   table: MRT_TableInstance<TData>;
 }
 

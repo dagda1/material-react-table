@@ -34,8 +34,6 @@ import {
   ViewColumn as ViewColumnIcon,
   VisibilityOff as VisibilityOffIcon,
 } from '@mui/icons-material';
-import { type SvgIconProps } from '@mui/material';
-import { type ComponentType } from 'react';
 
 export const MRT_Default_Icons = {
   ArrowDownwardIcon,
@@ -74,4 +72,5 @@ export const MRT_Default_Icons = {
   VisibilityOffIcon,
 } as const;
 
-export type MRT_Icons = Record<keyof typeof MRT_Default_Icons, ComponentType<SvgIconProps>>;
+// oxlint-disable-next-line typescript/no-explicit-any
+export type MRT_Icons = Record<keyof typeof MRT_Default_Icons, any>;

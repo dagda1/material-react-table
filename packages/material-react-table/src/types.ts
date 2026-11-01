@@ -73,10 +73,12 @@ export type DropdownOption =
   | string
   | {
       label?: string;
-      value: number | string;
+      // oxlint-disable-next-line typescript/no-explicit-any
+      value: any;
     };
 
-export type MRT_FilterAutocompleteProps = Partial<AutocompleteProps<DropdownOption, false, false, true>>;
+// oxlint-disable-next-line typescript/no-explicit-any
+export type MRT_FilterAutocompleteProps = Partial<AutocompleteProps<any, any, any, any>>;
 
 // oxlint-disable-next-line typescript/no-explicit-any
 export type MRT_EditValues<TData extends MRT_RowData> = Record<LiteralUnion<DeepKeys<TData> & string>, any>;
@@ -501,7 +503,8 @@ export type MRT_PaginationState = PaginationState;
 
 export type MRT_Row<TData extends MRT_RowData> = Row<MRT_TableFeatures, TData>;
 
-export type MRT_RowData = object;
+// oxlint-disable-next-line typescript/no-explicit-any
+export type MRT_RowData = Record<string, any>;
 
 export interface MRT_RowModel<TData extends MRT_RowData> {
   flatRows: MRT_Row<TData>[];
