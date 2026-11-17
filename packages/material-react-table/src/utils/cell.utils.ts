@@ -135,7 +135,6 @@ export const cellKeyboardShortcuts = <TData extends MRT_RowData = MRT_RowData>({
     const currentIndex = parseInt(currentCell.getAttribute('data-index') || '0');
     let nextCell: HTMLElement | undefined = undefined;
 
-    //home/end first or last cell in row
     const findEdgeCell = (rowIndex: 'c' | 'f' | 'l', edge: 'f' | 'l') => {
       const row =
         rowIndex === 'c'
@@ -148,7 +147,6 @@ export const cellKeyboardShortcuts = <TData extends MRT_RowData = MRT_RowData>({
       return targetCell as HTMLElement;
     };
 
-    //page up/down first or last cell in column
     const findBottomTopCell = (columnIndex: number, edge: 'b' | 't') => {
       const row = edge === 't' ? tableElement?.querySelector('tr') : tableElement?.lastElementChild?.lastElementChild;
       const rowCells = Array.from(row?.children || []);

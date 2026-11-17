@@ -42,11 +42,10 @@ export const MRT_EditActionButtons = <TData extends MRT_RowData>({
       onEditingRowCancel?.({ row, table });
       setEditingRow(null);
     }
-    row._valuesCache = {}; //reset values cache
+    row._valuesCache = {};
   };
 
   const handleSubmitRow = () => {
-    //look for auto-filled input values
     Object.values(editInputRefs.current ?? {})
       .filter((inputRef) => row.id === inputRef?.name?.split('_')?.[0])
       ?.forEach((input) => {

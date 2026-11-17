@@ -143,7 +143,6 @@ export const AggregationRemoveModeCustomGroupedCell = (): JSX.Element => (
     data={data}
     displayColumnDefOptions={{
       'mrt-row-expand': {
-        //last item in array of grouping state
         GroupedCell: ({ row, table }) => {
           const { grouping } = table.state;
           return row.getValue(grouping[grouping.length - 1]);
@@ -194,7 +193,6 @@ export const MultiAggregationPerColumn = (): JSX.Element => (
             <Box sx={{ color: 'success.main', fontWeight: 'bold' }}>{cell.getValue<[number, number]>()[1]}</Box>
           </>
         ),
-        //manually set multiple aggregation functions
         aggregationFn: {
           aggregate: (context) => [
             MRT_AggregationFns.min.aggregate(context),
@@ -236,7 +234,7 @@ export const MultiAggregationPerColumn = (): JSX.Element => (
             </Box>
           </>
         ),
-        aggregationFn: ['count', 'mean'], //multiple aggregation functions
+        aggregationFn: ['count', 'mean'],
         Cell: ({ cell }) => (
           <>
             {cell.getValue<number>()?.toLocaleString?.('en-US', {

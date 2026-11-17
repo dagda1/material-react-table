@@ -34,7 +34,6 @@ export const MRT_TableFooterRow = <TData extends MRT_RowData>({
 
   const { virtualColumns, virtualPaddingLeft, virtualPaddingRight } = columnVirtualizer ?? {};
 
-  // if no content in row, skip row
   if (
     !footerGroup.headers?.some(
       (header) =>

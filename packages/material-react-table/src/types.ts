@@ -132,14 +132,6 @@ export interface MRT_ColumnDefExtras<TData extends MRT_RowData, TValue = unknown
     staticRowIndex?: number;
     table: MRT_TableInstance<TData>;
   }) => ReactNode;
-  /**
-   * Specify what type of column this is. Either `data`, `display`, or `group`. Defaults to `data`.
-   * Leave this blank if you are just creating a normal data column.
-   *
-   * @default 'data'
-   *
-   * @example columnDefType: 'display'
-   */
   columnDefType?: 'data' | 'display' | 'group';
   columnFilterModeOptions?: Array<LiteralUnion<MRT_FilterOption & string>> | null;
   Edit?: (props: {
@@ -201,9 +193,6 @@ export interface MRT_ColumnDefExtras<TData extends MRT_RowData, TValue = unknown
     staticRowIndex?: number;
     table: MRT_TableInstance<TData>;
   }) => ReactNode;
-  /**
-   * If `layoutMode` is `'grid'` or `'grid-no-grow'`, you can specify the flex grow value for individual columns to still grow and take up remaining space, or set to `false`/0 to not grow.
-   */
   grow?: boolean | number;
   header: string;
   Header?:
@@ -457,7 +446,6 @@ export interface MRT_Localization {
   groupedBy: string;
   hideAll: string;
   hideColumn: string;
-  // language of the localization as BCP 47 language tag for number formatting
   language: string;
   max: string;
   min: string;
@@ -634,15 +622,6 @@ export type MRT_TableInstance<TData extends MRT_RowData> = Omit<
   setShowToolbarDropZone: Dispatch<SetStateAction<boolean>>;
 };
 
-/**
- * `columns` and `data` props are the only required props, but there are over 170 other optional props.
- *
- * See more info on creating columns and data on the official docs site:
- * @link https://www.material-react-table.com/docs/getting-started/usage
- *
- * See the full props list on the official docs site:
- * @link https://www.material-react-table.com/docs/api/props
- */
 export interface MRT_TableOptions<TData extends MRT_RowData> extends Omit<
   Partial<Omit<TableOptions<MRT_TableFeatures, TData>, 'features'>>,
   | 'columns'
@@ -662,16 +641,6 @@ export interface MRT_TableOptions<TData extends MRT_RowData> extends Omit<
   aggregationFns?: CustomAggregationFns<MRT_TableFeatures, TData>;
   columnFilterDisplayMode?: 'custom' | 'popover' | 'subheader';
   columnFilterModeOptions?: Array<LiteralUnion<MRT_FilterOption & string>> | null;
-  /**
-   * The columns to display in the table. `accessorKey`s or `accessorFn`s must match keys in the `data` table option.
-   *
-   * See more info on creating columns on the official docs site:
-   * @link https://www.material-react-table.com/docs/guides/data-columns
-   * @link https://www.material-react-table.com/docs/guides/display-columns
-   *
-   * See all Columns Options on the official docs site:
-   * @link https://www.material-react-table.com/docs/api/column-options
-   */
   // oxlint-disable-next-line typescript/no-explicit-any
   columns: ReadonlyArray<MRT_ColumnDef<TData, any>>;
   columnVirtualizerInstanceRef?: RefObject<MRT_ColumnVirtualizer | null>;
@@ -681,20 +650,8 @@ export interface MRT_TableOptions<TData extends MRT_RowData> extends Omit<
       }) => Partial<VirtualizerOptions<HTMLDivElement, HTMLTableCellElement>>)
     | Partial<VirtualizerOptions<HTMLDivElement, HTMLTableCellElement>>;
   createDisplayMode?: 'custom' | 'modal' | 'row';
-  /**
-   * Pass your data as an array of objects. Objects can theoretically be any shape, but it's best to keep them consistent.
-   *
-   * See the usage guide for more info on creating columns and data:
-   * @link https://www.material-react-table.com/docs/getting-started/usage
-   */
   data: readonly TData[];
-  /**
-   * Instead of specifying a bunch of the same options for each column, you can just change an option in the `defaultColumn` table option to change a default option for all columns.
-   */
   defaultColumn?: Partial<MRT_ColumnDef<TData>>;
-  /**
-   * Change the default options for display columns.
-   */
   defaultDisplayColumn?: Partial<MRT_DisplayColumnDef<TData>>;
   displayColumnDefOptions?: Partial<{
     [key in MRT_DisplayColumnIds]: Partial<MRT_DisplayColumnDef<TData>>;
@@ -740,23 +697,8 @@ export interface MRT_TableOptions<TData extends MRT_RowData> extends Omit<
   icons?: Partial<MRT_Icons>;
   id?: string;
   initialState?: Partial<MRT_TableState<TData>>;
-  /**
-   * Changes which kind of CSS layout is used to render the table. `semantic` uses default semantic HTML elements, while `grid` adds CSS grid and flexbox styles
-   */
   layoutMode?: 'grid' | 'grid-no-grow' | 'semantic';
-  /**
-   * Pass in either a locale imported from `material-react-table/locales/*` or a custom locale object.
-   *
-   * See the localization (i18n) guide for more info:
-   * @link https://www.material-react-table.com/docs/guides/localization
-   */
   localization?: Partial<MRT_Localization>;
-  /**
-   * Memoize cells, rows, or the entire table body to potentially improve render performance.
-   *
-   * @warning This will break some dynamic rendering features. See the memoization guide for more info:
-   * @link https://www.material-react-table.com/docs/guides/memoize-components
-   */
   memoMode?: 'cells' | 'rows' | 'table-body';
   mrtTheme?: ((theme: Theme) => Partial<MRT_Theme>) | Partial<MRT_Theme>;
   muiBottomToolbarProps?: ((props: { table: MRT_TableInstance<TData> }) => BoxProps) | BoxProps;
@@ -1027,9 +969,6 @@ export interface MRT_TableOptions<TData extends MRT_RowData> extends Omit<
     | Partial<VirtualizerOptions<HTMLDivElement, HTMLTableRowElement>>;
   selectAllMode?: 'all' | 'page';
   sortFns?: Record<string, SortFn<MRT_TableFeatures, TData>>;
-  /**
-   * Manage state externally any way you want, then pass it back into MRT.
-   */
   state?: Partial<MRT_TableState<TData>>;
 }
 

@@ -115,7 +115,6 @@ export const GroupingColumnModeRemoveCustomGroupedCell = (): JSX.Element => (
     data={data}
     displayColumnDefOptions={{
       'mrt-row-expand': {
-        //last item in array of grouping state
         GroupedCell: ({ row, table }) => {
           const { grouping } = table.state;
           return row.getValue(grouping[grouping.length - 1]);
@@ -206,11 +205,9 @@ export const GroupingColumnsSetState = (): JSX.Element => {
   const [data, setData] = useState<NestedPerson[]>([]);
 
   useEffect(() => {
-    // Do something and set columns and data
-
     setColumns([
       {
-        accessorKey: 'name.firstName', //access nested data with dot notation
+        accessorKey: 'name.firstName',
         header: 'First Name',
       },
       {
@@ -218,7 +215,7 @@ export const GroupingColumnsSetState = (): JSX.Element => {
         header: 'Last Name',
       },
       {
-        accessorKey: 'address', //normal accessorKey
+        accessorKey: 'address',
         header: 'Address',
       },
       {

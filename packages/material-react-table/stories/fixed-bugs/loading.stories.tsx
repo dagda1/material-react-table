@@ -22,7 +22,6 @@ type Person = {
 export const NestedLoadingDataWithInitialExpanded = (): JSX.Element => {
   const columns = useMemo<MRT_ColumnDef<Person>[]>(
     () => [
-      //column definitions...
       {
         accessorKey: 'name.firstName',
         header: 'First Name',
@@ -43,7 +42,6 @@ export const NestedLoadingDataWithInitialExpanded = (): JSX.Element => {
         accessorKey: 'state',
         header: 'State',
       },
-      //end
     ],
     [],
   );
@@ -63,7 +61,6 @@ export const NestedLoadingDataWithInitialExpanded = (): JSX.Element => {
 export const NestedLoadingDataWithInitialFilter = (): JSX.Element => {
   const columns = useMemo<MRT_ColumnDef<Person>[]>(
     () => [
-      //column definitions...
       {
         accessorKey: 'name.firstName',
         header: 'First Name',
@@ -84,7 +81,6 @@ export const NestedLoadingDataWithInitialFilter = (): JSX.Element => {
         accessorKey: 'state',
         header: 'State',
       },
-      //end
     ],
     [],
   );
@@ -104,7 +100,6 @@ export const NestedLoadingDataWithInitialFilter = (): JSX.Element => {
 export const NestedLoadingDataWithInitialGroup = (): JSX.Element => {
   const columns = useMemo<MRT_ColumnDef<Person>[]>(
     () => [
-      //column definitions...
       {
         accessorKey: 'name.firstName',
         header: 'First Name',
@@ -125,7 +120,6 @@ export const NestedLoadingDataWithInitialGroup = (): JSX.Element => {
         accessorKey: 'state',
         header: 'State',
       },
-      //end
     ],
     [],
   );
@@ -145,7 +139,6 @@ export const NestedLoadingDataWithInitialGroup = (): JSX.Element => {
 export const NestedLoadingDataWithInitialPage = (): JSX.Element => {
   const columns = useMemo<MRT_ColumnDef<Person>[]>(
     () => [
-      //column definitions...
       {
         accessorKey: 'name.firstName',
         header: 'First Name',
@@ -166,7 +159,6 @@ export const NestedLoadingDataWithInitialPage = (): JSX.Element => {
         accessorKey: 'state',
         header: 'State',
       },
-      //end
     ],
     [],
   );
@@ -186,7 +178,6 @@ export const NestedLoadingDataWithInitialPage = (): JSX.Element => {
 export const NestedLoadingDataWithInitialSort = (): JSX.Element => {
   const columns = useMemo<MRT_ColumnDef<Person>[]>(
     () => [
-      //column definitions...
       {
         accessorKey: 'name.firstName',
         header: 'First Name',
@@ -207,7 +198,6 @@ export const NestedLoadingDataWithInitialSort = (): JSX.Element => {
         accessorKey: 'state',
         header: 'State',
       },
-      //end
     ],
     [],
   );
@@ -226,7 +216,6 @@ export const NestedLoadingDataWithInitialSort = (): JSX.Element => {
 
 export const AccessorKeyWhileLoading = (): JSX.Element => {
   const columns = useMemo<MRT_ColumnDef<Person>[]>(
-    //column definitions...
     () => [
       {
         accessorFn: (row) => `${row.name.firstName.toUpperCase()} ${row.name.lastName.toUpperCase()}`,
@@ -247,7 +236,6 @@ export const AccessorKeyWhileLoading = (): JSX.Element => {
       },
     ],
     [],
-    //end
   );
 
   return <MaterialReactTable columns={columns} data={[]} state={{ isLoading: true }} />;

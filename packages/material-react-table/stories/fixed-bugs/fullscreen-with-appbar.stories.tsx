@@ -12,7 +12,6 @@ const meta: Meta = {
 
 export default meta;
 
-//example data type
 type Person = {
   address: string;
   city: string;
@@ -23,7 +22,6 @@ type Person = {
   state: string;
 };
 
-//nested data is ok, see accessorKeys in ColumnDef below
 const data: Person[] = [
   {
     address: '261 Erdman Ford',
@@ -74,7 +72,7 @@ const data: Person[] = [
 
 const columns: MRT_ColumnDef<Person>[] = [
   {
-    accessorKey: 'name.firstName', //access nested data with dot notation
+    accessorKey: 'name.firstName',
     header: 'First Name',
     size: 150,
   },
@@ -84,7 +82,7 @@ const columns: MRT_ColumnDef<Person>[] = [
     size: 150,
   },
   {
-    accessorKey: 'address', //normal accessorKey
+    accessorKey: 'address',
     header: 'Address',
     size: 200,
   },
@@ -103,7 +101,7 @@ const columns: MRT_ColumnDef<Person>[] = [
 export const FullscreenIsAboveAppbar = (): JSX.Element => {
   const table = useMaterialReactTable({
     columns,
-    data, //data must be memoized or stable (useState, useMemo, defined outside of this component, etc.)
+    data,
   });
 
   return (

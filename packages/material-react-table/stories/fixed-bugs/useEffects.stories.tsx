@@ -284,7 +284,7 @@ export const DelayedFacetedValues = (): JSX.Element => {
       columns={[
         {
           accessorKey: 'firstName',
-          filterFn: 'fuzzy', // default
+          filterFn: 'fuzzy',
           header: 'First Name',
         },
         {

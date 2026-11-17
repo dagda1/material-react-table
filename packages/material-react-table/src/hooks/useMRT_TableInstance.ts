@@ -42,11 +42,6 @@ import { getMRT_RowSelectColumnDef } from './display-columns/getMRT_RowSelectCol
 import { getMRT_RowSpacerColumnDef } from './display-columns/getMRT_RowSpacerColumnDef';
 import { useMRT_Effects } from './useMRT_Effects';
 
-/**
- * The MRT hook that wraps the TanStack useReactTable hook and adds additional functionality
- * @param definedTableOptions - table options with proper defaults set
- * @returns the MRT table instance
- */
 export const useMRT_TableInstance = <TData extends MRT_RowData>(
   definedTableOptions: MRT_DefinedTableOptions<TData>,
 ): MRT_TableInstance<TData> => {
@@ -63,7 +58,6 @@ export const useMRT_TableInstance = <TData extends MRT_RowData>(
   const tableHeadRef = useRef<HTMLTableSectionElement>(null);
   const tableFooterRef = useRef<HTMLTableSectionElement>(null);
 
-  //transform initial state with proper column order
   const [initialState] = useState<Partial<MRT_TableState<TData>>>(() => {
     const initState = definedTableOptions.initialState ?? {};
     initState.columnOrder =
@@ -142,10 +136,8 @@ export const useMRT_TableInstance = <TData extends MRT_RowData>(
     ...definedTableOptions.state,
   };
 
-  //The table options now include all state needed to help determine column visibility and order logic
   const statefulTableOptions = definedTableOptions as MRT_StatefulTableOptions<TData>;
 
-  //don't recompute columnDefs while resizing column or dragging column/row
   const columnDefsRef = useRef<ReadonlyArray<MRT_ColumnDef<TData>>>([]);
   statefulTableOptions.columns =
     statefulTableOptions.state.columnResizing.isResizingColumn ||
@@ -171,7 +163,6 @@ export const useMRT_TableInstance = <TData extends MRT_RowData>(
         });
   columnDefsRef.current = statefulTableOptions.columns;
 
-  //if loading, generate blank rows to show skeleton loaders
   statefulTableOptions.data = useMemo(
     () =>
       (statefulTableOptions.state.isLoading || statefulTableOptions.state.showSkeletons) &&

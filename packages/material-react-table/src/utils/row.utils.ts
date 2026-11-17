@@ -35,24 +35,20 @@ export const getMRT_Rows = <TData extends MRT_RowData>(
           : getRowModel().rows
         : getCenterRows();
   } else {
-    // fuzzy ranking adjustments
     rows = getPrePaginatedRowModel().rows.sort((a, b) => rankGlobalFuzzy(a, b));
     if (enablePagination && !manualPagination && !all) {
       const start = pagination.pageIndex * pagination.pageSize;
       rows = rows.slice(start, start + pagination.pageSize);
     }
     if (enableRowPinning && !rowPinningDisplayMode?.includes('sticky')) {
-      // "re-center-ize" the rows (no top or bottom pinned rows unless sticky)
       rows = rows.filter((row) => !row.getIsPinned());
     }
   }
-  // row pinning adjustments
   if (enableRowPinning && rowPinningDisplayMode?.includes('sticky')) {
     const centerPinnedRowIds = rows.filter((row) => row.getIsPinned()).map((r) => r.id);
 
     rows = [...getTopRows().filter((row) => !centerPinnedRowIds.includes(row.id)), ...rows];
   }
-  // blank inserted creating row adjustments
   if (positionCreatingRow !== undefined && creatingRow && createDisplayMode === 'row') {
     const creatingRowIndex = !isNaN(+positionCreatingRow)
       ? +positionCreatingRow
@@ -141,12 +137,10 @@ export const getMRT_RowSelectionHandler =
 
     const wasCurrentRowChecked = getIsRowSelected({ row, table });
 
-    // toggle selection of this row
     row.toggleSelected(value ?? !wasCurrentRowChecked);
 
     const changedRowIds = new Set<string>([row.id]);
 
-    // if shift key is pressed, select all rows between last selected and this one
     if (
       enableBatchRowSelection &&
       enableMultiRowSelection &&
@@ -167,8 +161,6 @@ export const getMRT_RowSelectionHandler =
         const currentIndex = staticRowIndex + paginationOffset;
         const [start, end] = lastIndex < currentIndex ? [lastIndex, currentIndex] : [currentIndex, lastIndex];
 
-        // toggle selection of all rows between last selected and this one
-        // but only if the last selected row is not the same as the current one
         if (wasCurrentRowChecked !== isLastIndexChecked) {
           for (let i = start; i <= end; i++) {
             rows[i].toggleSelected(!wasCurrentRowChecked);
@@ -178,10 +170,8 @@ export const getMRT_RowSelectionHandler =
       }
     }
 
-    // record the last selected row id
     lastSelectedRowId.current = row.id;
 
-    // if all sub rows were selected, unselect them
     if (row.getCanSelectSubRows() && row.getIsAllSubRowsSelected()) {
       row.subRows?.forEach((r) => r.toggleSelected(false));
     }
@@ -190,11 +180,7 @@ export const getMRT_RowSelectionHandler =
       changedRowIds.forEach((rowId) => {
         const rowToTogglePin = table.getRow(rowId);
         rowToTogglePin.pin(
-          !wasCurrentRowChecked //was not previously pinned or selected
-            ? rowPinningDisplayMode?.includes('bottom')
-              ? 'bottom'
-              : 'top'
-            : false,
+          !wasCurrentRowChecked ? (rowPinningDisplayMode?.includes('bottom') ? 'bottom' : 'top') : false,
         );
       });
     }

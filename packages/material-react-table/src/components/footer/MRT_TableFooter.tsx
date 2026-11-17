@@ -32,7 +32,6 @@ export const MRT_TableFooter = <TData extends MRT_RowData>({
 
   const footerGroups = table.getFooterGroups();
 
-  //if no footer cells at all, skip footer
   if (
     !footerGroups.some((footerGroup) =>
       footerGroup.headers?.some(

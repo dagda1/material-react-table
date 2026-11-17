@@ -38,7 +38,6 @@ export const MRT_FilterRangeSlider = <TData extends MRT_RowData>({
       ? [sliderProps.min, sliderProps.max]
       : (column.getFacetedMinMaxValues() ?? [0, 1]);
 
-  //fix potential TanStack Table bugs where min or max is an array
   if (Array.isArray(min)) {
     min = min[0];
   }
@@ -57,7 +56,6 @@ export const MRT_FilterRangeSlider = <TData extends MRT_RowData>({
 
   const isMounted = useRef(false);
 
-  // prevent moving the focus to the next/prev cell when using the arrow keys
   const handleKeyDown = (event: React.KeyboardEvent) => {
     if (event.key === 'ArrowLeft' || event.key === 'ArrowRight') {
       event.stopPropagation();
@@ -87,7 +85,6 @@ export const MRT_FilterRangeSlider = <TData extends MRT_RowData>({
         onChangeCommitted={(_event, value) => {
           if (Array.isArray(value)) {
             if (value[0] <= min && value[1] >= max) {
-              //if the user has selected the entire range, remove the filter
               column.setFilterValue(undefined);
             } else {
               column.setFilterValue(value as [number, number]);

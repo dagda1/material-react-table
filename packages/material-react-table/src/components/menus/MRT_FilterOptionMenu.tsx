@@ -159,33 +159,27 @@ export const MRT_FilterOptionMenu = <TData extends MRT_RowData>({
   const handleSelectFilterMode = (option: MRT_FilterOption) => {
     const prevFilterMode = columnDef?._filterFn ?? '';
     if (!header || !column) {
-      // global filter mode
       setGlobalFilterFn(option);
     } else if (option !== prevFilterMode) {
-      // column filter mode
       setColumnFilterFns((prev) => ({
         ...prev,
         [header.id]: option,
       }));
 
-      // reset filter value and/or perform new filter render
       if (emptyModes.includes(option)) {
-        // will now be empty/notEmpty filter mode
         if (currentFilterValue !== ' ' && !emptyModes.includes(prevFilterMode)) {
           column.setFilterValue(' ');
         } else if (currentFilterValue) {
-          column.setFilterValue(currentFilterValue); // perform new filter render
+          column.setFilterValue(currentFilterValue);
         }
       } else if (columnDef?.filterVariant === 'multi-select' || arrModes.includes(option as string)) {
-        // will now be array filter mode
         if (currentFilterValue instanceof String || (currentFilterValue as Array<unknown>)?.length) {
           column.setFilterValue([]);
           setFilterValue?.([]);
         } else if (currentFilterValue) {
-          column.setFilterValue(currentFilterValue); // perform new filter render
+          column.setFilterValue(currentFilterValue);
         }
       } else if (columnDef?.filterVariant?.includes('range') || rangeModes.includes(option as MRT_FilterOption)) {
-        // will now be range filter mode
         if (
           !Array.isArray(currentFilterValue) ||
           (!(currentFilterValue as Array<unknown>)?.every((v) => v === '') && !rangeModes.includes(prevFilterMode))
@@ -193,17 +187,16 @@ export const MRT_FilterOptionMenu = <TData extends MRT_RowData>({
           column.setFilterValue(['', '']);
           setFilterValue?.('');
         } else {
-          column.setFilterValue(currentFilterValue); // perform new filter render
+          column.setFilterValue(currentFilterValue);
         }
       } else {
-        // will now be single value filter mode
         if (Array.isArray(currentFilterValue)) {
           column.setFilterValue('');
           setFilterValue?.('');
         } else if (currentFilterValue === ' ' && emptyModes.includes(prevFilterMode)) {
           column.setFilterValue(undefined);
         } else {
-          column.setFilterValue(currentFilterValue); // perform new filter render
+          column.setFilterValue(currentFilterValue);
         }
       }
     }

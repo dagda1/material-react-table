@@ -35,8 +35,8 @@ const columns: MRT_ColumnDef<(typeof data)[0]>[] = [
     header: 'Age',
   },
   {
-    accessorFn: (row) => new Date(row.birthDate), //transform data before processing so sorting works
-    Cell: ({ cell }) => cell.getValue<Date>().toLocaleDateString(), //transform data to readable format for cell render
+    accessorFn: (row) => new Date(row.birthDate),
+    Cell: ({ cell }) => cell.getValue<Date>().toLocaleDateString(),
     filterFn: 'lessThan',
     filterVariant: 'date',
     header: 'Birth Date',
@@ -115,7 +115,7 @@ export const FilterFnAndFilterVariants = (): JSX.Element => (
       },
       {
         accessorKey: 'firstName',
-        filterFn: 'fuzzy', // default
+        filterFn: 'fuzzy',
         header: 'First Name',
       },
       {
@@ -129,30 +129,30 @@ export const FilterFnAndFilterVariants = (): JSX.Element => (
         header: 'Age',
       },
       {
-        accessorFn: (row) => new Date(row.birthDate), //transform data before processing so sorting works
-        Cell: ({ cell }) => cell.getValue<Date>().toLocaleDateString(), //transform data to readable format for cell render
+        accessorFn: (row) => new Date(row.birthDate),
+        Cell: ({ cell }) => cell.getValue<Date>().toLocaleDateString(),
         filterFn: 'lessThan',
         filterVariant: 'date',
         header: 'Birth Date',
         id: 'birthDate',
       },
       {
-        accessorFn: (row) => new Date(row.hireDate), //transform data before processing so sorting works
-        Cell: ({ cell }) => cell.getValue<Date>().toLocaleDateString(), //transform data to readable format for cell render
+        accessorFn: (row) => new Date(row.hireDate),
+        Cell: ({ cell }) => cell.getValue<Date>().toLocaleDateString(),
         filterVariant: 'date-range',
         header: 'Hire Date',
         id: 'hireDate',
       },
       {
-        accessorFn: (row) => new Date(row.arrivalTime), //transform data before processing so sorting works
-        Cell: ({ cell }) => cell.getValue<Date>().toLocaleString(), //transform data to readable format for cell render
+        accessorFn: (row) => new Date(row.arrivalTime),
+        Cell: ({ cell }) => cell.getValue<Date>().toLocaleString(),
         filterVariant: 'datetime-range',
         header: 'Arrival time',
         id: 'arrivalTime',
       },
       {
-        accessorFn: (row) => new Date(row.departureTime), //transform data before processing so sorting works
-        Cell: ({ cell }) => cell.getValue<Date>().toLocaleString(), //transform data to readable format for cell render
+        accessorFn: (row) => new Date(row.departureTime),
+        Cell: ({ cell }) => cell.getValue<Date>().toLocaleString(),
         filterVariant: 'time-range',
         header: 'Departure Time',
         id: 'departureTime',
@@ -196,13 +196,13 @@ export const FilterFnAndFilterVariantsFaceted = (): JSX.Element => (
         filterSelectOptions: data.map((row) => ({
           label: row.firstName.toUpperCase().split('').reverse().join(''),
           value: row.firstName,
-        })), //hard coded
+        })),
         filterVariant: 'autocomplete',
         header: 'First Name',
       },
       {
         accessorKey: 'lastName',
-        filterVariant: 'autocomplete', //faceted auto generated select options
+        filterVariant: 'autocomplete',
         header: 'Last Name',
       },
       {
@@ -244,8 +244,8 @@ export const FilteringChangeModeEnabled = (): JSX.Element => (
         header: 'Age',
       },
       {
-        accessorFn: (row) => new Date(row.birthDate), //transform data before processing so sorting works
-        Cell: ({ cell }) => cell.getValue<Date>().toLocaleDateString(), //transform data to readable format for cell render
+        accessorFn: (row) => new Date(row.birthDate),
+        Cell: ({ cell }) => cell.getValue<Date>().toLocaleDateString(),
         filterVariant: 'date',
         header: 'Birth Date',
         id: 'birthDate',
@@ -275,7 +275,7 @@ export const FilteringChangeModeEnabledFaceted = (): JSX.Element => (
     columns={[
       {
         accessorKey: 'firstName',
-        filterFn: 'fuzzy', // default
+        filterFn: 'fuzzy',
         header: 'First Name',
       },
       {
@@ -583,7 +583,6 @@ export const ManualFiltering = (): JSX.Element => {
   const [rows, setRows] = useState(() => [...data]);
   const [columnFilters, setColumnFilters] = useState<MRT_ColumnFiltersState>([]);
 
-  //this kind of logic would actually live on a server, not client-side
   useEffect(() => {
     if (columnFilters?.length) {
       let filteredRows = [...data];

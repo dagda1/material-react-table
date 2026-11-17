@@ -54,7 +54,7 @@ export const MRT_EditRowModal = <TData extends MRT_RowData>({
           onEditingRowCancel?.({ row, table });
           setEditingRow(null);
         }
-        row._valuesCache = {}; //reset values cache
+        row._valuesCache = {};
         dialogProps.onClose?.(event, reason);
       }}
       open={open}

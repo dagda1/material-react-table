@@ -235,7 +235,6 @@ export const CustomAlertBannerHeadOverlay = (): JSX.Element => (
 export const MultiSelectRowWithHoldShift = (): JSX.Element => {
   const [prevSelectedStaticRowIndex, setPrevSelectedStaticRowIndex] = useState<number>();
 
-  //--------------------------------------------------
   const table = useMaterialReactTable({
     columns,
     data,
@@ -277,7 +276,6 @@ export const MultiSelectRowWithHoldShift = (): JSX.Element => {
     muiTableContainerProps: { sx: { height: '600px' } },
   });
 
-  //--------------------------------------------------
   const handleMultiRowSelection = useCallback(
     (opts: { end: number; start: number }) => {
       const { end, start } = opts;
@@ -296,7 +294,6 @@ export const MultiSelectRowWithHoldShift = (): JSX.Element => {
     [table],
   );
 
-  //--------------------------------------------------
   const handleMultiRowSelectionWithShiftKey = useCallback(
     (opts: { rowId: string; rowIndex: number }) => {
       const { rowId, rowIndex } = opts;
@@ -314,7 +311,6 @@ export const MultiSelectRowWithHoldShift = (): JSX.Element => {
     [handleMultiRowSelection, prevSelectedStaticRowIndex, table],
   );
 
-  // TODO: Reset prevSelectedStaticRowIndex when sorting changes
   useEffect(() => {
     setPrevSelectedStaticRowIndex(undefined);
   }, [table.state.sorting]);

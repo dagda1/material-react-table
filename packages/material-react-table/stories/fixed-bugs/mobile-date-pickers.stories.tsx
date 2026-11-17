@@ -22,44 +22,44 @@ export const MobileDateTimePickers = (): JSX.Element => (
   <MaterialReactTable
     columns={[
       {
-        accessorFn: (row) => new Date(row.birthDate), //transform data before processing so sorting works
-        Cell: ({ cell }) => cell.getValue<Date>().toLocaleDateString(), //transform data to readable format for cell render
+        accessorFn: (row) => new Date(row.birthDate),
+        Cell: ({ cell }) => cell.getValue<Date>().toLocaleDateString(),
         filterFn: 'lessThan',
         filterVariant: 'date',
         header: 'Birth Date',
         id: 'birthDate',
       },
       {
-        accessorFn: (row) => new Date(row.hireDate), //transform data before processing so sorting works
-        Cell: ({ cell }) => cell.getValue<Date>().toLocaleDateString(), //transform data to readable format for cell render
+        accessorFn: (row) => new Date(row.hireDate),
+        Cell: ({ cell }) => cell.getValue<Date>().toLocaleDateString(),
         filterVariant: 'date-range',
         header: 'Hire Date',
         id: 'hireDate',
       },
       {
-        accessorFn: (row) => new Date(row.departureTime), //transform data before processing so sorting works
-        Cell: ({ cell }) => cell.getValue<Date>().toLocaleString(), //transform data to readable format for cell render
+        accessorFn: (row) => new Date(row.departureTime),
+        Cell: ({ cell }) => cell.getValue<Date>().toLocaleString(),
         filterVariant: 'datetime',
         header: 'Departure',
         id: 'departureTime',
       },
       {
-        accessorFn: (row) => new Date(row.arrivalTime), //transform data before processing so sorting works
-        Cell: ({ cell }) => cell.getValue<Date>().toLocaleString(), //transform data to readable format for cell render
+        accessorFn: (row) => new Date(row.arrivalTime),
+        Cell: ({ cell }) => cell.getValue<Date>().toLocaleString(),
         filterVariant: 'datetime-range',
         header: 'Arrival time',
         id: 'arrivalTime',
       },
       {
-        accessorFn: (row) => new Date(row.startTime), //transform data before processing so sorting works
-        Cell: ({ cell }) => cell.getValue<Date>().toLocaleString(), //transform data to readable format for cell render
+        accessorFn: (row) => new Date(row.startTime),
+        Cell: ({ cell }) => cell.getValue<Date>().toLocaleString(),
         filterVariant: 'time',
         header: 'Start Time',
         id: 'startTime',
       },
       {
-        accessorFn: (row) => new Date(row.deliverySlot), //transform data before processing so sorting works
-        Cell: ({ cell }) => cell.getValue<Date>().toLocaleString(), //transform data to readable format for cell render
+        accessorFn: (row) => new Date(row.deliverySlot),
+        Cell: ({ cell }) => cell.getValue<Date>().toLocaleString(),
         filterVariant: 'time-range',
         header: 'Delivery Slot',
         id: 'deliverySlot',

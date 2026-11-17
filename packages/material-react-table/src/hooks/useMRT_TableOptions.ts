@@ -111,7 +111,6 @@ export const useMRT_TableOptions: <TData extends MRT_RowData>(
     [localization],
   );
   mrtTheme = useMemo(() => getMRTTheme(mrtTheme, theme), [mrtTheme, theme]);
-  //cannot be changed after initialization
   [aggregationFns] = useState(() => ({ ...MRT_AggregationFns, ...aggregationFns }));
   [filterFns] = useState(() => ({ ...MRT_FilterFns, ...filterFns }));
   [sortFns] = useState(() => ({ ...MRT_SortingFns, ...sortFns }));
@@ -123,7 +122,6 @@ export const useMRT_TableOptions: <TData extends MRT_RowData>(
     }),
     [defaultDisplayColumn],
   );
-  //cannot be changed after initialization
   [[enableColumnVirtualization, enableRowVirtualization]] = useState(() => [
     enableColumnVirtualization,
     enableRowVirtualization,

@@ -1,3 +1,13 @@
+# 5.1.1
+
+Imports each default icon from its own path, such as
+`@mui/icons-material/ArrowDownward`, instead of the `@mui/icons-material`
+barrel. Test runners no longer load every icon module when they import this
+package.
+
+Upgrades TanStack Virtual 3.14.24 → 3.14.26 and highlight-words 2.0.0 → 2.1.1.
+Removes the JSDoc comments from the exported types. Nothing breaks.
+
 # 5.1.0
 
 Upgrades TanStack Virtual 3.14.21 → 3.14.24. Nothing breaks.

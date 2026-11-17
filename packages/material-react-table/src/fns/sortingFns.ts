@@ -24,7 +24,6 @@ const fuzzy = <TFeatures extends MRT_TableFeatures, TData extends MRT_RowData>(
       rowB.columnFiltersMeta[columnId] as RankingInfo,
     );
   }
-  // Provide a fallback for when the item ranks are equal
   return dir === 0 ? sortFn_alphanumeric(rowA, rowB, columnId) : dir;
 };
 

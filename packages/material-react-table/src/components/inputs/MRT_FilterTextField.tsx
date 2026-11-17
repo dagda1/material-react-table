@@ -196,9 +196,6 @@ export const MRT_FilterTextField = <TData extends MRT_RowData>({
     } else if (isAutocompleteFilter) {
       setAutocompleteValue(null);
       setFilterValue('');
-      // when using 'autocomplete' this function is called only inside effect and only if the filterValue === undefined
-      // so the following call is excessive; should be uncommented if the handleClear becomes part of the Autocomplete component callbacks
-      // column.setFilterValue(undefined)
     } else {
       setFilterValue('');
       column.setFilterValue(undefined);
@@ -336,7 +333,7 @@ export const MRT_FilterTextField = <TData extends MRT_RowData>({
         title: filterPlaceholder,
         ...textFieldProps.slotProps?.htmlInput,
       },
-      input: endAdornment //hack because mui looks for presence of endAdornment key instead of undefined
+      input: endAdornment
         ? { endAdornment, startAdornment, ...textFieldProps.slotProps?.input }
         : { startAdornment, ...textFieldProps.slotProps?.input },
     },

@@ -72,9 +72,7 @@ export const SubRowTreeLayoutGrid = (): JSX.Element => (
     columns={columns}
     data={data}
     displayColumnDefOptions={{
-      'mrt-row-expand': {
-        // size: 100,
-      },
+      'mrt-row-expand': {},
     }}
     enableExpanding
     initialState={{ expanded: true }}
@@ -87,9 +85,7 @@ export const SubRowTreeLayoutGridNoGrow = (): JSX.Element => (
     columns={columns}
     data={data}
     displayColumnDefOptions={{
-      'mrt-row-expand': {
-        // size: 100,
-      },
+      'mrt-row-expand': {},
     }}
     enableExpanding
     initialState={{ expanded: true }}

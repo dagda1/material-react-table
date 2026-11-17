@@ -30,18 +30,16 @@ export const useMRT_Effects = <TData extends MRT_RowData>(table: MRT_TableInstan
     }
   }, []);
 
-  //hide scrollbars when table is in full screen mode, preserve body scroll position after full screen exit
   useEffect(() => {
     if (typeof window !== 'undefined') {
       if (isFullScreen) {
-        previousTop.current = document.body.getBoundingClientRect().top; //save scroll position
-        document.body.style.height = '100dvh'; //hide page scrollbars when table is in full screen mode
+        previousTop.current = document.body.getBoundingClientRect().top;
+        document.body.style.height = '100dvh';
       } else {
         document.body.style.height = initialBodyHeight.current as string;
         if (!previousTop.current) {
           return;
         }
-        //restore scroll position
         window.scrollTo({
           behavior: 'instant',
           top: -1 * (previousTop.current as number),
@@ -50,7 +48,6 @@ export const useMRT_Effects = <TData extends MRT_RowData>(table: MRT_TableInstan
     }
   }, [isFullScreen]);
 
-  //recalculate column order when columns change or features are toggled on/off
   useEffect(() => {
     const { columnOrder, table, tableOptions } = effectValues.current;
     if (totalColumnCount !== columnOrder.length) {
@@ -58,7 +55,6 @@ export const useMRT_Effects = <TData extends MRT_RowData>(table: MRT_TableInstan
     }
   }, [totalColumnCount]);
 
-  //if page index is out of bounds, set it to the last page
   useEffect(() => {
     if (!enablePagination || isLoading || showSkeletons) {
       return;
@@ -73,7 +69,6 @@ export const useMRT_Effects = <TData extends MRT_RowData>(table: MRT_TableInstan
     }
   }, [totalRowCount, enablePagination, isLoading, showSkeletons]);
 
-  //turn off sort when global filter is looking for ranked results
   const appliedSort = useRef<MRT_SortingState>(sorting);
   useEffect(() => {
     if (sorting.length) {
@@ -93,7 +88,6 @@ export const useMRT_Effects = <TData extends MRT_RowData>(table: MRT_TableInstan
     }
   }, [globalFilter]);
 
-  //fix pinned row top style when density changes
   useEffect(() => {
     const { enableRowPinning, table } = effectValues.current;
     if (enableRowPinning && table.getIsSomeRowsPinned()) {

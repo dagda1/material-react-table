@@ -27,9 +27,6 @@ export const useMRT_RowVirtualizer = <
     : undefined;
 
   const realRows = rows ?? getRowModel().rows;
-  /**
-   * when filtering, should find the correct index in filtered rows
-   */
   const draggingRowIndex = useMemo(
     () => (draggingRow?.id ? realRows.findIndex((r) => r.id === draggingRow?.id) : undefined),
     [realRows, draggingRow?.id],
